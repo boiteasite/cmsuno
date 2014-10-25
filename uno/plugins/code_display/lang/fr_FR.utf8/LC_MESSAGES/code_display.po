@@ -1,0 +1,36 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: CmsUno\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-10-17 15:33+0100\n"
+"PO-Revision-Date: 2014-10-17 15:33+0100\n"
+"Last-Translator: jacques Malgrange <contacter@boiteasite.fr>\n"
+"Language-Team: Jacques Malgrange <contacter@boiteasite.fr>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Report-\tmsgstr-Bugs-To: \n"
+"Report-\t\tmsgstr-Bugs-To: \n"
+"X-Poedit-KeywordsList: _\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Country: FRANCE\n"
+"X-Poedit-SourceCharset: iso-8859-1\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-SearchPath-0: ../../..\n"
+
+#: ../../../code_display.php:13
+msgid "Code Display"
+msgstr "Code Display"
+
+#: ../../../code_display.php:14
+msgid "This plugin allows you to insert code (PHP, HTML, JS, CSS) with syntax highlighting in the content of the page."
+msgstr "Ce plugin permet d'ins&eacute;rer du code (PHP, HTML, JS, CSS) avec coloration syntaxique dans le contenu de la page."
+
+#: ../../../code_display.php:15
+msgid "It is used with the button"
+msgstr "Il s'utilise avec le bouton"
+
+#: ../../../code_display.php:15
+msgid "added to the text editor when the plugin is active."
+msgstr "ajout&eacute; &agrave; l'&eacute;diteur de texte lorsque le plugin est actif."

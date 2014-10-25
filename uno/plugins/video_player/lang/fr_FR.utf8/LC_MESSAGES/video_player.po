@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: CmsUno\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-10-18 13:38+0100\n"
+"PO-Revision-Date: 2014-10-18 13:38+0100\n"
+"Last-Translator: jacques Malgrange <contacter@boiteasite.fr>\n"
+"Language-Team: Jacques Malgrange <contacter@boiteasite.fr>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Report-\tmsgstr-Bugs-To: \n"
+"Report-\t\tmsgstr-Bugs-To: \n"
+"X-Poedit-KeywordsList: _\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Country: FRANCE\n"
+"X-Poedit-SourceCharset: iso-8859-1\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-SearchPath-0: ../../..\n"
+
+#: ../../../video_player.php:15
+msgid "Video Player"
+msgstr "Video Player"
+
+#: ../../../video_player.php:16
+msgid "This plugin allows you to insert a video into the content's page. The video should be accessible from the File manager."
+msgstr "Ce plugin permet d'ins&eacute;rer une vid&eacute;o dans le contenu de la page. La vid&eacute;o doit &ecirc;tre accessible depuis le Finder."
+
+#: ../../../video_player.php:17
+msgid "It is used with the button"
+msgstr "Il s'utilise avec le bouton"
+
+#: ../../../video_player.php:17
+msgid "added to the text editor when the plugin is enable."
+msgstr "ajout&eacute; &agrave; l'&eacute;diteur de texte lorsque le plugin est actif."
+
+#: ../../../video_player.php:18
+msgid "To work in all media, the video should be available in mp4 and .webm."
+msgstr "Pour fonctionner sur tous les supports, la vid&eacute;o doit &ecirc;tre disponible en .mp4 et .webm."
+
+#: ../../../video_player.php:19
+msgid "The .mp4 must be encoded in H.264 for video and AAC for audio."
+msgstr "Le .mp4 doit &ecirc;tre encod&eacute; en H.264 pour la vid&eacute;o et AAC pour l'audio."
+

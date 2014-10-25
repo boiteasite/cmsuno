@@ -1,0 +1,65 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: CmsUno\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-10-19 12:52+0100\n"
+"PO-Revision-Date: 2014-10-19 12:52+0100\n"
+"Last-Translator: jacques Malgrange <contacter@boiteasite.fr>\n"
+"Language-Team: Jacques Malgrange <contacter@boiteasite.fr>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Report-\tmsgstr-Bugs-To: \n"
+"Report-\t\tmsgstr-Bugs-To: \n"
+"X-Poedit-KeywordsList: _\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Country: FRANCE\n"
+"X-Poedit-SourceCharset: iso-8859-1\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-SearchPath-0: ../../..\n"
+
+#: ../../../unocss.php:15
+msgid "Uno CSS"
+msgstr "Uno CSS"
+
+#: ../../../unocss.php:16
+msgid "This plugin allows you to add custom CSS to the website without having to modify the template."
+msgstr "Ce plugin permet d'ajouter du style CSS personnalis&eacute; au site web sans avoir &agrave; modifier le template."
+
+#: ../../../unocss.php:17
+msgid "The code will be installed at the top of the page, in the /head/."
+msgstr "Le code sera install&eacute; en d&eacute;but de page, dans la partie /head/."
+
+#: ../../../unocss.php:20
+msgid "CSS Styles"
+msgstr "Styles CSS"
+
+#: ../../../unocss.php:22
+msgid "Write CSS"
+msgstr "Ecrire les styles CSS"
+
+#: ../../../unocss.php:22
+msgid "without"
+msgstr "sans"
+
+#: ../../../unocss.php:22
+msgid "the two opening and closing styles tags."
+msgstr "les deux balises style d'ouverture et de fermeture."
+
+#: ../../../unocss.php:25
+msgid "Saves settings"
+msgstr "Enregistre les param&egrave;tres"
+
+#: ../../../unocss.php:25
+msgid "Save"
+msgstr "Enregistrer"
+
+#: ../../../unocss.php:34
+msgid "Backup performed"
+msgstr "Sauvegarde effectu&eacute;e"
+
+#: ../../../unocss.php:35
+msgid "Impossible backup"
+msgstr "Sauvegarde impossible"
+
