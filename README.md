@@ -7,7 +7,7 @@ An easy and clever content manager system to create one-page websites
 Support
 -------
 
- * [CMSUno](http://www.boiteasite.fr/fiches/cmsuno.html)
+More details in French [here](http://www.boiteasite.fr/fiches/cmsuno.html).
 
 
 License
