@@ -3,12 +3,55 @@ cmsuno
 
 An easy and clever content manager system to create one-page websites
 
+<pre>
+ uuuu      uuuu        nnnnnn           ooooooooo
+u::::u    u::::u    nn::::::::nn     oo:::::::::::oo
+u::::u    u::::u   nn::::::::::nn   o:::::::::::::::o
+u::::u    u::::u  n::::::::::::::n  o:::::ooooo:::::o
+u::::u    u::::u  n:::::nnnn:::::n  o::::o     o::::o
+u::::u    u::::u  n::::n    n::::n  o::::o     o::::o
+u::::u    u::::u  n::::n    n::::n  o::::o     o::::o
+u:::::uuuu:::::u  n::::n    n::::n  o::::o     o::::o
+u::::::::::::::u  n::::n    n::::n  o:::::ooooo:::::o
+ u::::::::::::u   n::::n    n::::n  o:::::::::::::::o
+  uu::::::::uu    n::::n    n::::n   oo:::::::::::oo
+     uuuuuu        nnnn      nnnn       ooooooooo
+        ___                                __
+       / __\            /\/\              / _\
+      / /              /    \             \ \
+     / /___           / /\/\ \            _\ \
+     \____/           \/    \/            \__/
+</pre>
 
-Support
--------
+Presentation
+------------
+
+CMS Uno is a free tool to create one-page websites.
+It was designed to be easy to use, comprehensive and particularly rapid in terms of navigation.
+This is a great tool to use jQuery plugins available on the web.
+
+In a few words:
+
+* No page creation in PHP. The site consists of an HTML page that is created when the redactor has finished its work.
+The server has nothing to build, the page displays faster than any other CMS.
+* No SQL database. Data are stored in JSON. Easier to install, faster to use, very suitable for Ajax transfer.
+* Use of effective tools, tested and monitored as CKEditor and ELFinder.
+* Realization of plugins very easy and very effective.
+Several plugins are already integrated in CMS: contact form, carousel images, videos, sliding menu page, insertion of code with syntax highlighting...
+* Adaptation of open source CSS template fast and easy.
 
 More details in French [here](http://www.boiteasite.fr/fiches/cmsuno.html).
 
+Installation
+------------
+
+1. Download ZIP CMS Uno.
+2. Unzip the file.
+3. Upload the content (uno.php and uno/) to your website directory via FTP.
+4. Chmod 0755 recursively the uno folder.
+5. In your browser, open www.yoursite/uno.php.
+
+Initial login & password : jack & 654321
 
 License
 -------
