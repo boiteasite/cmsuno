@@ -113,7 +113,8 @@ It is used to display the PLUGIN tab in Dashboard. It's done with `$_POST["actio
 
 This file should look like this :
 
-`<?php
+```
+<?php
 if(!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH'])!='xmlhttprequest') {sleep(2);exit;}
 include('../../password.php'); $user=0; $pass=0; // Lang
 include('lang/lang.php');
@@ -147,7 +148,8 @@ if (isset($_POST['action']))
 	clearstatcache();
 	exit;
 	}
-?>`
+?>
+```
 
 ### fooMake.php ###
 
@@ -157,11 +159,13 @@ This file is called with an include statement when the user pushed "publish" in 
 The goal is to complete the variables that replace Shortcodes.
 If your plugin works with a Shortcode [[foo]] in the content of the page, there must be this :
 
-`<?php if (!isset($_SESSION['cmsuno'])) exit(); ?>
+```
+<?php if (!isset($_SESSION['cmsuno'])) exit(); ?>
 <?php
 	$my_var = "<div>Hello. I'm the plugin</div>";
 	$content = str_replace('[[foo]]',$my_var,$content);
-?>`
+?>
+```
 
 Variables usable all have almost the same name as the shortcodes. Here is a non-exhaustive list :
 
@@ -182,7 +186,8 @@ This file is __not required__.
 If it exists, this file is loaded at the same time as foo.php.
 It is useful for example to load or save JSON data in AJAX :
 
-`function f_save_foo(){
+```
+function f_save_foo(){
 	jQuery(document).ready(function(){
 		var lol=document.getElementById("fooLol").value;
 		var yeswecan=document.getElementById("fooYes").options[document.getElementById("fooYes").selectedIndex].value;
@@ -202,7 +207,8 @@ function f_load_foo(){
 			}
 		});
 	});
-}`
+}
+```
 
 ### fooCkeditor.js ###
 
@@ -213,14 +219,16 @@ This file is used to customize CKeditor. It's very interesting.
 In CKEditor, configuration files work in cascade as Matryoshka doll. Every configuration file calls the following one.
 It is thus necessary to respect a specific format to not break the chain. Example with your CKEditor plugin ckfoo :
 
-`configNum++;
+```
+configNum++;
 CKEDITOR.plugins.addExternal('ckfoo', '../../plugins/foo/ckfoo/');
 CKEDITOR.editorConfig = function(config)
 	{
 	config.extraPlugins += ',ckfoo';
 	config.toolbarGroups.push('ckfoo');
 	if(configFile.length>configNum)config.customConfig=configFile[configNum];   
-	};`
+	};
+```
 
 License 
 -------
