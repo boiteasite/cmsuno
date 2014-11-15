@@ -171,12 +171,12 @@ Variables usable all have almost the same name as the shortcodes. Here is a non-
 
 * __$html__ (no shortcode) : The template content. Used to replace a shortcode directly into the template.
 * __$content__ : The content of the pages. Used to replace a shortcode added in the page with CKEditor.
-* __$head__ : At the end of the block <head>. Used to add a script or a CSS file.
-* __$style__ : CSS content added at the end of the block <head> in a <style> container.
-* __$foot__ : At the end of the block <body>. Used to add a script.
-* __$menu__ : Page list according to <ul class="maClasse"><li><a href="#...">MyPage</a></li>...</ul>.
-* __$title__ : Website Title. (Used in template : <title>[[title]]</title>).
-* __$description__ : Website Description (<meta name="description" content="[[description]]">).
+* __$head__ : At the end of the block `<head>`. Used to add a script or a CSS file.
+* __$style__ : CSS content added at the end of the block `<head>` in a `<style>` container.
+* __$foot__ : At the end of the block `<body>`. Used to add a script.
+* __$menu__ : Page list according to `<ul class="maClasse"><li><a href="#...">MyPage</a></li>...</ul>`.
+* __$title__ : Website Title. (Used in template : `<title>[[title]]</title>`).
+* __$description__ : Website Description (`<meta name="description" content="[[description]]">`).
 * __$name__ : Published HTML file name. By default, it's "index".
 
 ### foo.js ###
