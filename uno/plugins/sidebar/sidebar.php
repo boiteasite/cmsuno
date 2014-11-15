@@ -14,7 +14,7 @@ if (isset($_POST['action']))
 		<div class="blocForm">
 			<h2><?php echo _("Sidebar");?></h2>
 			<p><?php echo _("This plugin allows you to add a block of HTML content. It can be used for a sidebar or somewhere else.");?></p>
-			<p><?php echo _("Just insert the code");?>&nbsp;<code>[[sidebar]]</code>&nbsp;<?php echo _("in the template and add the sidebar in the CSS file.");?>
+			<p><?php echo _("Just insert the code");?>&nbsp;<code>[[sidebar]]</code>&nbsp;<?php echo _("in the template and add the sidebar in the CSS file.");?></p>
 			<div>
 				<div class="input" id="sidebarP">
 					<textarea name="sidebar" id="sidebar"></textarea>
