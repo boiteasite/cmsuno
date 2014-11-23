@@ -72,7 +72,7 @@ if (isset($_POST['action']))
 		break;
 		// ********************************************************************************************
 		case 'getPage':
-		$q = file_get_contents('data/page'.(($_POST['data']!='')?$_POST['data']:'0').'.txt');
+		$q = file_get_contents('data/page'.((isset($_POST['data'])&&$_POST['data']!='')?$_POST['data']:'0').'.txt');
 		echo stripslashes($q); exit;
 		break;
 		// ********************************************************************************************
@@ -188,6 +188,7 @@ if (isset($_POST['action']))
 				break;
 				}
 			}
+		if(empty($a['pages'])) $a['pages'][0]=array("d"=>"0","t"=>"Welcome");
 		$out = json_encode($a);
 		if (file_put_contents('data/site.json', $out)) echo _('Deletion complete');
 		else echo '!'._('Failure');

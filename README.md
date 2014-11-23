@@ -34,10 +34,9 @@ In a few words:
 
 * No page creation in PHP. The site consists of an HTML page that is created when the redactor has finished its work.
 The server has nothing to build, the page displays faster than any other CMS.
-* No SQL database. Data are stored in JSON. Easier to install, faster to use, very suitable for Ajax transfer.
-* Use of effective tools, tested and monitored as CKEditor and ELFinder.
-* Realization of plugins very easy and very effective.
-Several plugins are already integrated in CMS: contact form, carousel images, videos, sliding menu page, insertion of code with syntax highlighting...
+* No SQL. Data stored in JSON. Easier to install, faster to use, very suitable for Ajax transfer.
+* Use of effective tools, tested and monitored as [CKEditor](http://ckeditor.com/) and {ELFinder](https://github.com/Studio-42/elFinder).
+* Development of plugins easy and effective.
 * Adaptation of open source CSS template fast and easy.
 * Multilingual with Gettext.
 
@@ -260,4 +259,6 @@ THE SOFTWARE.
 
 Versions
 --------
-CMS Uno Version 0.9 beta - 26/10/2014
+
+* CMS Uno Version 0.9 beta - 26/10/2014
+* V0.9.1 beta - 23/11/2014
