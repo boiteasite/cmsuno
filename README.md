@@ -35,7 +35,7 @@ In a few words:
 * No page creation in PHP. The site consists of an HTML page that is created when the redactor has finished its work.
 The server has nothing to build, the page displays faster than any other CMS.
 * No SQL. Data stored in JSON. Easier to install, faster to use, very suitable for Ajax transfer.
-* Use of effective tools, tested and monitored as [CKEditor](http://ckeditor.com/) and {ELFinder](https://github.com/Studio-42/elFinder).
+* Use of effective tools, tested and monitored as [CKEditor](http://ckeditor.com/) and [ELFinder](https://github.com/Studio-42/elFinder).
 * Development of plugins easy and effective.
 * Adaptation of open source CSS template fast and easy.
 * Multilingual with Gettext.
