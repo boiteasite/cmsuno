@@ -40,6 +40,7 @@ The server has nothing to build, the page displays faster than any other CMS.
 * Adaptation of open source CSS template fast and easy.
 * Multilingual with Gettext.
 
+Details on [GitHub](https://github.com/boiteasite/cmsuno).
 More details in French [here](http://www.boiteasite.fr/fiches/cmsuno.html).
 
 Installation
@@ -221,7 +222,7 @@ It is thus necessary to respect a specific format to not break the chain. Exampl
 
 ```
 UconfigNum++;
-CKEDITOR.plugins.addExternal('ckfoo', '../../plugins/foo/ckfoo/');
+CKEDITOR.plugins.addExternal('ckfoo', '../../../plugins/foo/ckfoo/');
 CKEDITOR.editorConfig = function(config)
 	{
 	config.extraPlugins += ',ckfoo';
