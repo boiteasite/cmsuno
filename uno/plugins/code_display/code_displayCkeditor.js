@@ -3,9 +3,9 @@
 // Plugin Code Display
 //
 
-	configNum++;
+	UconfigNum++;
 
-	CKEDITOR.plugins.addExternal('pbckcode', '../../plugins/code_display/pbckcode/');
+	CKEDITOR.plugins.addExternal('pbckcode', '../../../plugins/code_display/pbckcode/');
 	CKEDITOR.editorConfig = function(config)
 		{
 		config.extraPlugins += ',pbckcode';
@@ -17,5 +17,5 @@
 			theme : 'textmate',
 			tab_size : '4'
 			};
-		if(configFile.length>configNum)config.customConfig=configFile[configNum];   
+		if(UconfigFile.length>UconfigNum)config.customConfig=UconfigFile[UconfigNum];   
 		};

@@ -17,8 +17,6 @@ function gTo(f){
  }
 function onScroll(){
 	var s=window.pageYOffset|document.body.scrollTop,c=0,d=0;
-	if(mg<s){u.style.position='fixed';u.style.top=0;}
-	else{u.style.position='absolute';u.style.top=mg;}
 	for(v=a.length-1;v>=0;v--){
 		if(a[v].nodeName.toUpperCase()=="LI"){
 			var b=a[v].firstChild;

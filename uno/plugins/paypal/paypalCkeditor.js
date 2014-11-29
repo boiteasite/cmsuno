@@ -20,13 +20,13 @@
 		});
 	});
 
-	configNum++;
+	UconfigNum++;
 	
-	CKEDITOR.plugins.addExternal('ckpaypal','../../plugins/paypal/ckpaypal/');
+	CKEDITOR.plugins.addExternal('ckpaypal','../../../plugins/paypal/ckpaypal/');
 	CKEDITOR.editorConfig = function(config)
 		{
 		config.extraPlugins += ',ckpaypal';
 		config.toolbarGroups.push('ckpaypal');
 		config.extraAllowedContent += '; input[*](ckpaypal)';
-		if(configFile.length>configNum)config.customConfig=configFile[configNum];   
+		if(UconfigFile.length>UconfigNum)config.customConfig=UconfigFile[UconfigNum];   
 		};

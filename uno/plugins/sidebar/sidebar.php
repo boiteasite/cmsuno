@@ -38,6 +38,7 @@ if (isset($_POST['action']))
 			$q = file_get_contents('../../data/sidebar.txt');
 			echo stripslashes($q);
 			}
+		else echo '';
 		exit;
 		break;
 		// ********************************************************************************************

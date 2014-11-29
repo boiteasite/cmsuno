@@ -19,11 +19,12 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'tools' },
 		{ name: 'document',	   groups: [ 'mode', 'document', 'doctools' ] },
 		{ name: 'others' },
-		{ name: 'about' },
+		{ name: 'cmsuno' }, // CMSUNO
 		'/',
 		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
 		{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
-		{ name: 'styles' }
+		{ name: 'styles' },
+		{ name: 'about' }
 	];
 	config.extraPlugins = 'div';
 	config.format_tags = 'p;h2;h3;h4;pre'; // Select Format dans la barre de bouton
@@ -34,7 +35,7 @@ CKEDITOR.editorConfig = function( config ) {
 // CMSUNO
 //****************
 	config.height = '500'; //hauteur fenêtre
-	config.filebrowserBrowseUrl = 'uno/elfinder/elfinder.html';
+	config.filebrowserBrowseUrl = 'uno/includes/elfinder/elfinder.html';
 //	config.enterMode = CKEDITOR.ENTER_BR;
 	config.customConfig = "../../js/uno_ckeditor.js";   
 };

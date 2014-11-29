@@ -2,7 +2,7 @@
 ini_set('session.use_trans_sid', 0);
 session_start();
 include('uno/password.php');
-include('uno/lang/lang.php');
+include('uno/includes/lang/lang.php');
 if (isset($_POST['user']) && isset($_POST['pass']))
 	{
 	if ($_POST['user']===utf8_encode($user) && $_POST['pass']===$pass)
@@ -37,9 +37,8 @@ else if (!isset($_SESSION['cmsuno'])) { ?>
 <head>
 	<meta charset="utf-8">
 	<title>CMS Uno - <?php echo _("Login");?></title>
-	<link rel="stylesheet" href="uno/css/uno.css">
-	<link rel="stylesheet" href="uno/css/bootistrap.css">
-	<script src="uno/js/jquery-1.7.2.min.js"></script>
+	<link rel="stylesheet" href="uno/includes/css/uno.css">
+	<script src="uno/includes/js/jquery-1.7.2.min.js"></script>
 	<script type="text/javascript">$(document).ready(function(){$('.alert').delay(2000).fadeOut();});</script>
 </head>
 <body>
@@ -54,7 +53,7 @@ else if (!isset($_SESSION['cmsuno'])) { ?>
 
 	<div class="container">
 		<form class="blocLogin" method="POST" action="">
-			<img style="margin-bottom:20px;" src="uno/img/logo-uno220.png" alt="cms uno" />
+			<img style="margin-bottom:20px;" src="uno/includes/img/logo-uno220.png" alt="cms uno" />
 			<div class="clearfix">
 				<label><?php echo _("Administrator");?></label>
 				<div>

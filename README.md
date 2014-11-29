@@ -1,4 +1,4 @@
-cmsuno
+CMSUno
 ======
 
 An easy and clever content manager system to create one-page websites
@@ -28,7 +28,7 @@ Presentation
 
 CMS Uno is a free tool to create one-page websites.
 It was designed to be easy to use, comprehensive and particularly rapid in terms of navigation.
-This is a great tool to use jQuery plugins available on the web.
+This strong CMS is a great tool to use jQuery plugins available on the web.
 
 In a few words:
 
@@ -83,12 +83,13 @@ Configuration is limited to the minimum useful.
 Plugins can substantially improve the capabilities of CMS Uno.
 Plugin can especially add extra buttons to CKEditor and process the results before publication. In use, it's fantastic.
 
-At least 10 plugins are integrated by default in the CMS Uno :
+At least 11 plugins are integrated by default in the CMS Uno :
 
 * __Box__ : Adds easily editable box with pieces of text or code that can be inserted into the template with a simple Shortcode. Exemple : address for footer, phone number...
 * __Carousel__ : Allows you to add image slider. Use [NivoSlider](https://github.com/gilbitron/Nivo-Slider), [CarouFredSel](https://github.com/gilbitron/carouFredSel), [Kenburning](https://github.com/simbirsk/kenburning-slider) and [FeatureCarousel](http://www.bkosborne.com/jquery-feature-carousel) to have numerous possibilities.
 * __Code_display__ : Adds a button in CKEditor to display code. Use [google-code-prettify](https://code.google.com/p/google-code-prettify/).
 * __Contact__ : He allows to create a custom-made contact form with Captcha. Added with a Shortcode in the content of the page or directly in the template.
+* __Newsletter__ : Great plugin to send a formated newsletter to a list of subscriber. Use PHP mail() or Gmail SMTP. Shortcode to add a subscribe form in the page. Link in the mail to unsubscribe.
 * __Paypal__ : Very powerful. Adds a button in CKEditor to create  as many Paypal buttons as you need. Pay, Add to Cart, View Cart, Donate and Subscribe are available. Sales are checked and recorded with IPN return.
 * __Scrollnav__ : Replaces the menu with a drop down menu which scrolled with the page. Use [Scrollnav](http://scrollnav.com/)
 * __Sidebar__ : Adds easily an editable box with CKEditor content, as for the creation of page. Can be inserted into the template with a simple Shortcode.
@@ -219,13 +220,13 @@ In CKEditor, configuration files work in cascade as Matryoshka doll. Every confi
 It is thus necessary to respect a specific format to not break the chain. Example with your CKEditor plugin ckfoo :
 
 ```
-configNum++;
+UconfigNum++;
 CKEDITOR.plugins.addExternal('ckfoo', '../../plugins/foo/ckfoo/');
 CKEDITOR.editorConfig = function(config)
 	{
 	config.extraPlugins += ',ckfoo';
 	config.toolbarGroups.push('ckfoo');
-	if(configFile.length>configNum)config.customConfig=configFile[configNum];   
+	if(UconfigFile.length>UconfigNum)config.customConfig=UconfigFile[UconfigNum];   
 	};
 ```
 
@@ -260,5 +261,6 @@ THE SOFTWARE.
 Versions
 --------
 
-* CMS Uno Version 0.9 beta - 26/10/2014
+* V0.9.2 beta - 29/11/2014
 * V0.9.1 beta - 23/11/2014
+* CMS Uno Version 0.9 beta - 26/10/2014
