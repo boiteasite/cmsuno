@@ -1,10 +1,6 @@
 <?php
 if (!isset($_SESSION['cmsuno'])) exit();
-if(!file_exists('data/'.$Ubusy.'/carousel.json'))
-	{
-	@unlink('plugins/carousel/on.txt');
-	exit;
-	}
+if(!file_exists('data/'.$Ubusy.'/carousel.json')) exit;
 ?>
 <?php
 	$q1 = file_get_contents('data/'.$Ubusy.'/carousel.json');

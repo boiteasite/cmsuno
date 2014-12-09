@@ -1,10 +1,6 @@
 <?php
 if (!isset($_SESSION['cmsuno'])) exit();
-if(!file_exists('data/'.$Ubusy.'/box.json'))
-	{
-	@unlink('plugins/box/on.txt');
-	exit;
-	}
+if(!file_exists('data/'.$Ubusy.'/box.json')) exit;
 ?>
 <?php
 if (file_exists('data/'.$Ubusy.'/box.json'))

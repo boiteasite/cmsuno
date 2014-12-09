@@ -28,14 +28,15 @@ if (isset($_POST['action']))
 		<?php break;
 		// ********************************************************************************************
 		case 'save':
-		if (file_put_contents('../../data/sidebar.txt', $_POST['sidebar'])) echo _('Backup performed');
+		$q = file_get_contents('../../data/busy.json'); $a = json_decode($q,true); $Ubusy = $a['nom'];
+		if (file_put_contents('../../data/'.$Ubusy.'/sidebar.txt', $_POST['sidebar'])) echo _('Backup performed');
 		else echo '!'._('Impossible backup');
 		break;
 		// ********************************************************************************************
 		case 'get':
-		if (file_exists('../../data/sidebar.txt'))
+		if (file_exists('../../data/'.$Ubusy.'/sidebar.txt'))
 			{
-			$q = file_get_contents('../../data/sidebar.txt');
+			$q = file_get_contents('../../data/'.$Ubusy.'/sidebar.txt');
 			echo stripslashes($q);
 			}
 		else echo '';

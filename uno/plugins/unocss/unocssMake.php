@@ -1,10 +1,6 @@
 <?php
 if (!isset($_SESSION['cmsuno'])) exit();
-if(!file_exists('data/'.$Ubusy.'/unocss.json'))
-	{
-	@unlink('plugins/unocss/on.txt');
-	exit;
-	}
+if(!file_exists('data/'.$Ubusy.'/unocss.json')) exit;
 ?>
 <?php
 	if (file_exists('data/'.$Ubusy.'/unocss.json'))

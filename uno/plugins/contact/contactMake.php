@@ -1,10 +1,6 @@
 <?php
 if (!isset($_SESSION['cmsuno'])) exit();
-if(!file_exists('data/sdata/'.$Ubusy.'/contact.json'))
-	{
-	@unlink('plugins/contact/on.txt');
-	exit;
-	}
+if(!file_exists('data/sdata/'.$Ubusy.'/contact.json')) exit;
 ?>
 <?php
 	// {"t":"te","l":"Pr\u00e9nom"}
