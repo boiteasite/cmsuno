@@ -49,7 +49,8 @@ if (isset($_POST['action']))
 		<?php break;
 		// ********************************************************************************************
 		case 'save':
-		$q = @file_get_contents('../../data/scrollnav.json');
+		$q = file_get_contents('../../data/busy.json'); $a = json_decode($q,true); $Ubusy = $a['nom'];
+		$q = @file_get_contents('../../data/'.$Ubusy.'/scrollnav.json');
 		if($q) $a = json_decode($q,true);
 		else $a = Array();
 		$a['topi'] = ($_POST['topi']?$_POST['topi']:0);
@@ -58,7 +59,7 @@ if (isset($_POST['action']))
 		$a['sp'] = ($_POST['sp']?$_POST['sp']:false);
 		$a['ofs'] = ($_POST['ofs']?$_POST['ofs']:0);
 		$out = json_encode($a);
-		if (file_put_contents('../../data/scrollnav.json', $out)) echo _('Backup performed');
+		if (file_put_contents('../../data/'.$Ubusy.'/scrollnav.json', $out)) echo _('Backup performed');
 		else echo '!'._('Impossible backup');
 		break;
 		// ********************************************************************************************

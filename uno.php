@@ -36,7 +36,7 @@ else if (!isset($_SESSION['cmsuno'])) { ?>
 <html lang="fr">
 <head>
 	<meta charset="utf-8">
-	<title>CMS Uno - <?php echo _("Login");?></title>
+	<title>CMSUno - <?php echo _("Login");?></title>
 	<link rel="stylesheet" href="uno/includes/css/uno.css">
 	<script src="uno/includes/js/jquery-1.7.2.min.js"></script>
 	<script type="text/javascript">$(document).ready(function(){$('.alert').delay(2000).fadeOut();});</script>
@@ -44,7 +44,7 @@ else if (!isset($_SESSION['cmsuno'])) { ?>
 <body>
 	<div class="blocTop bgNoir">
 		<div class="container">
-			<span class="titre" href="/">CMS Uno</span>
+			<span class="titre" href="/">CMSUno</span>
 			<ul>
 				<li><a href="index.html" target="_blank"><?php echo _("See the website");?></a></li>
 			</ul>

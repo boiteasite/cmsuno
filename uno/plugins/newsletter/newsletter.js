@@ -80,7 +80,7 @@
 			document.getElementById('newsletterResult').style.display="block";
 			var a=new Array(),b=new Array();
 			jQuery.ajax({type:'POST',url:'uno/plugins/newsletter/newsletter.php',data:{'action':'load'},dataType:'json',async:false,success:function(r){a=r;}});
-			jQuery.ajax({dataType:'json',url:'uno/data/site.json',async:false,success:function(r){b=r;}});
+			jQuery.ajax({dataType:'json',url:'uno/data/'+Ubusy+'/site.json',async:false,success:function(r){b=r;}});
 			jQuery.post('uno/plugins/newsletter/newsletter.php',{'action':'loadContent'},function(r){
 				jQuery('#newsletterResult').empty();jQuery('#newsletterResult').append(start+'...<br />');
 				if(f)jQuery.each(a.list,function(k,v){

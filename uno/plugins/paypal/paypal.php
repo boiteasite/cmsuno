@@ -168,7 +168,7 @@ if (isset($_POST['action']))
 						echo '<td>'.$r['address_street'].'<br />'.$r['address_zip'].' - '.$r['address_city'].'<br />'.$r['address_state'].' - '.$r['address_country'].'</td>';
 						echo '<td>'.$item.'</td>';
 						echo '<td>'.$r['mc_gross'].' '.$r['mc_currency'].'</td>';
-						echo '<td '.(!$r['treated']?'onClick="f_treated_paypal(this,\''.$r['txn_id'].'\',\''._("Yes").'\')"':'').($r['treated']?'>'._("Yes"):' class="yesno">'._("No")).'</td>';
+						echo '<td '.(!$r['treated']?'onClick="f_treated_paypal(this,\''.$r['txn_id'].'\',\''._("No").'\')"':'').($r['treated']?'>'._("No"):' class="yesno">'._("Yes")).'</td>';
 					//	echo '<td>'.$a['custom'].'</td>';
 						echo '</tr>';
 						}

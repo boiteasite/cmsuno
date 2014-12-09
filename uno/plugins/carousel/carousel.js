@@ -1,95 +1,95 @@
 //
 // CMS Uno
-// Plugin Carrousel
+// Plugin Carousel
 //
-	function f_save_carrousel(){
+	function f_save_carousel(){
 		jQuery(document).ready(function(){
-			var a=document.getElementById("carrouselResult").getElementsByTagName("img");
-			var b=document.getElementById("carrouselResult").getElementsByTagName("input");
+			var a=document.getElementById("carouselResult").getElementsByTagName("img");
+			var b=document.getElementById("carouselResult").getElementsByTagName("input");
 			var h=[];
 			h.push({name:'action',value:'save'});
-			var c=document.getElementById('carrouselNum');
+			var c=document.getElementById('carouselNum');
 			h.push({name:'car',value:c.options[c.selectedIndex].value});
-			c=document.getElementById('carrouselTyp');
+			c=document.getElementById('carouselTyp');
 			h.push({name:'typ',value:c.options[c.selectedIndex].value});
-			h.push({name:'wid',value:document.getElementById('carrouselW').value});
-			h.push({name:'hei',value:document.getElementById('carrouselH').value});
-			h.push({name:'pau',value:document.getElementById('carrouselPause').value});
-			h.push({name:'spe',value:document.getElementById('carrouselSpeed').value});
-			c=document.getElementById('carrouselTransition');
+			h.push({name:'wid',value:document.getElementById('carouselW').value});
+			h.push({name:'hei',value:document.getElementById('carouselH').value});
+			h.push({name:'pau',value:document.getElementById('carouselPause').value});
+			h.push({name:'spe',value:document.getElementById('carouselSpeed').value});
+			c=document.getElementById('carouselTransition');
 			h.push({name:'tra',value:c.options[c.selectedIndex].value});
-			h.push({name:'rst',value:document.getElementById('carrouselRandStart').checked});
+			h.push({name:'rst',value:document.getElementById('carouselRandStart').checked});
 			h.push({name:'nb',value:a.length});
 			for (v=0;v<a.length;v++){h.push({name:'img'+v,value:a[v].src});h.push({name:'text'+v,value:b[v].value});}
-			jQuery.post('uno/plugins/carrousel/carrousel.php',h,function(r){
-				c=document.getElementById('carrouselNum');
+			jQuery.post('uno/plugins/carousel/carousel.php',h,function(r){
+				c=document.getElementById('carouselNum');
 				c.selectedIndex=0;
-				f_load_carrousel();
+				f_load_carousel();
 				f_alert(r);
 			});
 		});
 	}
 	//
-	function f_load_carrousel(){
+	function f_load_carousel(){
 		jQuery(document).ready(function(){
-			jQuery.getJSON("uno/data/carrousel.json?r="+Math.random(),function(data){
-				var c=document.getElementById('carrouselNum');
+			jQuery.getJSON("uno/data/"+Ubusy+"/carousel.json?r="+Math.random(),function(data){
+				var c=document.getElementById('carouselNum');
 				var n=c.options[c.selectedIndex].value;
 				var t=c.options[c.selectedIndex].text;
 				if(n==0){
-					document.getElementById('carrouselW').value='';
-					document.getElementById('carrouselH').value='';
-					document.getElementById('carrouselPause').value='';
-					document.getElementById('carrouselSpeed').value='';
-					document.getElementById('carrouselRandStart').checked=false;
-					document.getElementById('bSCarrousel').style.visibility='hidden';
-					jQuery("#carrouselResult").empty();
-					jQuery("#carrouselNum").empty();
-					jQuery('#carrouselNum').append('<option value="0">'+t+'</option>');
+					document.getElementById('carouselW').value='';
+					document.getElementById('carouselH').value='';
+					document.getElementById('carouselPause').value='';
+					document.getElementById('carouselSpeed').value='';
+					document.getElementById('carouselRandStart').checked=false;
+					document.getElementById('bSCarousel').style.visibility='hidden';
+					jQuery("#carouselResult").empty();
+					jQuery("#carouselNum").empty();
+					jQuery('#carouselNum').append('<option value="0">'+t+'</option>');
 					jQuery.each(data,function(k,da){
-						jQuery('#carrouselNum').append('<option value="'+k+'">carrousel-'+k+'</option>');
+						jQuery('#carouselNum').append('<option value="'+k+'">carousel-'+k+'</option>');
 					});
 				}
 				else jQuery.each(data,function(k,da){
 					if(k==n){
-						if(da.wid)document.getElementById('carrouselW').value=da.wid;
-						if(da.hei)document.getElementById('carrouselH').value=da.hei;
-						if(da.pau)document.getElementById('carrouselPause').value=da.pau;
-						if(da.spe)document.getElementById('carrouselSpeed').value=da.spe;
-						if(da.rst==1)document.getElementById('carrouselRandStart').checked=true;else document.getElementById('carrouselRandStart').checked=false;
+						if(da.wid)document.getElementById('carouselW').value=da.wid;
+						if(da.hei)document.getElementById('carouselH').value=da.hei;
+						if(da.pau)document.getElementById('carouselPause').value=da.pau;
+						if(da.spe)document.getElementById('carouselSpeed').value=da.spe;
+						if(da.rst==1)document.getElementById('carouselRandStart').checked=true;else document.getElementById('carouselRandStart').checked=false;
 						if(da.typ){
-							t=document.getElementById("carrouselTyp");
+							t=document.getElementById("carouselTyp");
 							to=t.options;
 							for(v=0;v<to.length;v++){if(to[v].value==da.typ){to[v].selected=true;v=to.length;}}
 						}
 						if(da.tra){
-							t=document.getElementById("carrouselTransition");
+							t=document.getElementById("carouselTransition");
 							to=t.options;
 							for(v=0;v<to.length;v++){if(to[v].value==da.tra){to[v].selected=true;v=to.length;}}
 						}
-						document.getElementById('bSCarrousel').style.visibility='visible';
-						jQuery("#carrouselResult").empty();
-						jQuery.each(da.img,function(k,v){f_carrousel_add(v.s,v.t);});
-						f_carrousel_type(da.typ);
+						document.getElementById('bSCarousel').style.visibility='visible';
+						jQuery("#carouselResult").empty();
+						jQuery.each(da.img,function(k,v){f_carousel_add(v.s,v.t);});
+						f_carousel_type(da.typ);
 					}
 				});
 			});
 		});
 	}
 	//
-	function f_supp_carrousel(){
+	function f_supp_carousel(){
 		jQuery(document).ready(function(){
-			var c=document.getElementById('carrouselNum');
-			jQuery.post('uno/plugins/carrousel/carrousel.php',{'action':'supp','s':c.options[c.selectedIndex].value},function(r){
+			var c=document.getElementById('carouselNum');
+			jQuery.post('uno/plugins/carousel/carousel.php',{'action':'supp','s':c.options[c.selectedIndex].value},function(r){
 				c.selectedIndex=0;
-				f_load_carrousel();
+				f_load_carousel();
 				f_alert(r);
 			});
 		});
 	}
 	//
-	function f_carrousel_add(f,g){
-		var a=document.getElementById('carrouselResult');
+	function f_carousel_add(f,g){
+		var a=document.getElementById('carouselResult');
 		var b=document.createElement('tr');
 		var c=document.createElement('td');
 		var d=document.createElement('img');
@@ -116,11 +116,11 @@
 		c.onclick=function(){this.parentNode.parentNode.removeChild(this.parentNode);}
 		b.appendChild(c);
 		a.appendChild(b);
-		document.getElementById('carrouselImg').value='';
+		document.getElementById('carouselImg').value='';
 	}
 	//
-	function f_carrousel_type(b){
-		var a=document.getElementById('carrouselTyp');
+	function f_carousel_type(b){
+		var a=document.getElementById('carouselTyp');
 		if(!b)var b=a.options[a.selectedIndex].value;
 		var aw=document.getElementById('trCarW');
 		var ah=document.getElementById('trCarH');
@@ -154,4 +154,4 @@
 	}
 	//
 //
-f_load_carrousel();
+f_load_carousel();

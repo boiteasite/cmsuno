@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CmsUno\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-27 15:08+0100\n"
-"PO-Revision-Date: 2014-10-27 15:08+0100\n"
+"POT-Creation-Date: 2014-10-27 18:11+0100\n"
+"PO-Revision-Date: 2014-10-27 18:12+0100\n"
 "Last-Translator: jacques Malgrange <contacter@boiteasite.fr>\n"
 "Language-Team: Jacques Malgrange <contacter@boiteasite.fr>\n"
 "Language: \n"
@@ -52,17 +52,20 @@ msgid "Name of the box"
 msgstr "Nom du bloc"
 
 #: ../../../box.php:25
-#: ../../../box.php:33
-msgid "Saves settings"
-msgstr "Enregistre le contenu"
-
-#: ../../../box.php:25
 msgid "Add the box"
 msgstr "Ajoute le bloc"
+
+#: ../../../box.php:25
+msgid "Add"
+msgstr "Ajouter"
 
 #: ../../../box.php:29
 msgid "Existing boxes :"
 msgstr "Blocs existants :"
+
+#: ../../../box.php:33
+msgid "Saves settings"
+msgstr "Enregistre le contenu"
 
 #: ../../../box.php:33
 msgid "Save"
@@ -75,3 +78,4 @@ msgstr "Sauvegarde effectu&eacute;e"
 #: ../../../box.php:51
 msgid "Impossible backup"
 msgstr "Sauvegarde impossible"
+

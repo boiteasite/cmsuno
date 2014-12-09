@@ -1,21 +1,22 @@
 <?php
 include('../../password.php'); $user=0; $pass=0; // Lang 
 include('lang/lang.php');
+$q = file_get_contents('../../data/busy.json'); $a = json_decode($q,true); $Ubusy = $a['nom'];
 // ********************* actions *************************************************************************
 if (isset($_GET['a'])&&isset($_GET['c'])&&isset($_GET['m'])&&isset($_GET['b']))
 	{
 	switch ($_GET['a'])
 		{
 		case 'add':
-		if(file_exists('../../data/sdata/newsletter.json') && filter_var(strip_tags($_GET['m']),FILTER_VALIDATE_EMAIL))
+		if(file_exists('../../data/sdata/'.$Ubusy.'/newsletter.json') && filter_var(strip_tags($_GET['m']),FILTER_VALIDATE_EMAIL))
 			{
-			$q = file_get_contents('../../data/sdata/newsletter.json');
+			$q = file_get_contents('../../data/sdata/'.$Ubusy.'/newsletter.json');
 			$a = json_decode($q,true);
 			if(!isset($a['list']) || array_search(strip_tags($_GET['m']),$a['list'])===false)
 				{
 				$a['list'][] = strip_tags($_GET['m']); // ajout du mail a la liste
 				$out = json_encode($a);
-				if(file_put_contents('../../data/sdata/newsletter.json', $out))
+				if(file_put_contents('../../data/sdata/'.$Ubusy.'/newsletter.json', $out))
 					{
 					echo "<script language='JavaScript'>setTimeout(function(){document.location.href='".strip_tags($_GET['b'])."';},2000);</script>";
 					echo "<html><head><meta charset='utf-8'></head><body><h3 style='text-align:center;margin-top:50px;'>"._('email added')."</h3></body></html>";
@@ -27,9 +28,9 @@ if (isset($_GET['a'])&&isset($_GET['c'])&&isset($_GET['m'])&&isset($_GET['b']))
 		break;
 		// ********************************************************************************************
 		case 'del':
-		if(file_exists('../../data/sdata/newsletter.json'))
+		if(file_exists('../../data/sdata/'.$Ubusy.'/newsletter.json'))
 			{
-			$q = file_get_contents('../../data/sdata/newsletter.json');
+			$q = file_get_contents('../../data/sdata/'.$Ubusy.'/newsletter.json');
 			$a = json_decode($q,true);
 			$iv = mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB), MCRYPT_RAND);
 			$c = mcrypt_decrypt(MCRYPT_RIJNDAEL_256, substr(strip_tags($a['pass']),0,30), base64_decode($_GET['c']), MCRYPT_MODE_ECB, $iv);
@@ -38,7 +39,7 @@ if (isset($_GET['a'])&&isset($_GET['c'])&&isset($_GET['m'])&&isset($_GET['b']))
 				{
 				unset($a['list'][$k]);
 				$out = json_encode($a);
-				if(file_put_contents('../../data/sdata/newsletter.json', $out))
+				if(file_put_contents('../../data/sdata/'.$Ubusy.'/newsletter.json', $out))
 					{
 					echo "<script language='JavaScript'>setTimeout(function(){document.location.href='".strip_tags($_GET['b'])."';},2000);</script>";
 					echo "<html><head><meta charset='utf-8'></head><body><h3 style='text-align:center;margin-top:50px;'>"._('email deleted')."</h3></body></html>";
@@ -52,11 +53,11 @@ if (isset($_GET['a'])&&isset($_GET['c'])&&isset($_GET['m'])&&isset($_GET['b']))
 		case 'new':
 		include 'template.php';
 		$bottom= str_replace('[[unsubscribe]]',"", $bottom); // template
-		if(file_exists('../../data/site.json'))
+		if(file_exists('../../data/'.$Ubusy.'/site.json'))
 			{
-			$q = file_get_contents('../../data/site.json');
+			$q = file_get_contents('../../data/'.$Ubusy.'/site.json');
 			$a = json_decode($q,true);
-			$q = file_get_contents('../../data/sdata/newsletter.json');
+			$q = file_get_contents('../../data/sdata/'.$Ubusy.'/newsletter.json');
 			$b = json_decode($q,true);
 			$key = $b['pass'];
 			$iv = mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB), MCRYPT_RAND);

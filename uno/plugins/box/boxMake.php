@@ -1,15 +1,15 @@
 <?php
 if (!isset($_SESSION['cmsuno'])) exit();
-if(!file_exists('data/box.json'))
+if(!file_exists('data/'.$Ubusy.'/box.json'))
 	{
 	@unlink('plugins/box/on.txt');
 	exit;
 	}
 ?>
 <?php
-if (file_exists('data/box.json'))
+if (file_exists('data/'.$Ubusy.'/box.json'))
 	{
-	$q1 = file_get_contents('data/box.json');
+	$q1 = file_get_contents('data/'.$Ubusy.'/box.json');
 	$a1 = json_decode($q1,true);
 	foreach($a1['box'] as $a2)
 		{
@@ -17,4 +17,5 @@ if (file_exists('data/box.json'))
 		$content = str_replace('[[box-'.$a2['n'].']]',$a2['b'],$content);
 		}
 	}
+
 ?>

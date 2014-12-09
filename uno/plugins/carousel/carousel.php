@@ -12,7 +12,7 @@ if (isset($_POST['action']))
 		// ********************************************************************************************
 		case 'plugin': ?>
 		<div class="blocForm">
-			<h2>Carrousel</h2>
+			<h2>Carousel</h2>
 			<p><?php echo _("Add one or more images carousels.");?></p>
 			<p><?php echo _("Just insert the code")." <code>[[carousel-3]]</code> "._("in the text of your page or directly into the template. This code will be replaced by the corresponding carousel.");?></p>
 			<p><?php echo _("To operate, JQuery must be inserted. See settings (or in the template).");?></p>
@@ -21,10 +21,10 @@ if (isset($_POST['action']))
 				<tr>
 					<td><label><?php echo _("Carousel Number");?></label></td>
 					<td>
-						<select name="carrouselNum" id="carrouselNum" onChange="f_load_carrousel(0);" />
+						<select name="carouselNum" id="carouselNum" onChange="f_load_carousel(0);" />
 							<option value="0"><?php echo _("New");?></option>
 						</select>
-						<div class="bouton" style="margin-left:30px;" id="bSCarrousel" onClick="f_supp_carrousel();" title="<?php echo _("Delete carousel");?>"><?php echo _("Delete");?></div>
+						<div class="bouton" style="margin-left:30px;" id="bSCarousel" onClick="f_supp_carousel();" title="<?php echo _("Delete carousel");?>"><?php echo _("Delete");?></div>
 					</td>
 					<td><em><?php echo _("Ability to create severals carousels. They are identified by a number.");?></em></td>
 				</tr>
@@ -34,7 +34,7 @@ if (isset($_POST['action']))
 				<tr>
 					<td><label><?php echo _("Carousel type");?></label></td>
 					<td>
-						<select name="carrouselTyp" id="carrouselTyp" onChange="f_carrousel_type();" />
+						<select name="carouselTyp" id="carouselTyp" onChange="f_carousel_type();">
 							<option value="nivo">Nivo Slider</option>
 							<option value="fred">CarouFredSel</option>
 							<option value="ken">KenBurning</option>
@@ -58,28 +58,28 @@ if (isset($_POST['action']))
 				</tr>
 				<tr id="trCarW">
 					<td><label><?php echo _("Width");?></label></td>
-					<td><input type="text" class="input" name="carrouselW" id="carrouselW" style="width:50px;" /></td>
+					<td><input type="text" class="input" name="carouselW" id="carouselW" style="width:50px;" /></td>
 					<td><em><?php echo _("Width of the carousel (px).");?></em></td>
 				</tr><tr id="trCarH">
 					<td><label><?php echo _("Height");?></label></td>
-					<td><input type="text" class="input" name="carrouselH" id="carrouselH" style="width:50px;" /></td>
+					<td><input type="text" class="input" name="carouselH" id="carouselH" style="width:50px;" /></td>
 					<td><em><?php echo _("Carousel Height (px).");?></em></td>
 				</tr><tr id="trCarPause">
 					<td><label><?php echo _("Pause");?></label></td>
-					<td><input type="text" class="input" name="carrouselPause" id="carrouselPause" style="width:50px;" /></td>
+					<td><input type="text" class="input" name="carouselPause" id="carouselPause" style="width:50px;" /></td>
 					<td><em><?php echo _("Duration of the break on each image (ms).");?></em></td>
 				</tr><tr id="trCarSpeed">
 					<td><label><?php echo _("Speed");?></label></td>
-					<td><input type="text" class="input" name="carrouselSpeed" id="carrouselSpeed" style="width:50px;" /></td>
+					<td><input type="text" class="input" name="carouselSpeed" id="carouselSpeed" style="width:50px;" /></td>
 					<td><em><?php echo _("Duration of the transition between two images (ms).");?></em></td>
 				</tr><tr id="trCarRandStart">
 					<td><label><?php echo _("Random First");?></label></td>
-					<td><input type="checkbox" class="input"  name="carrouselRandStart" id="carrouselRandStart" /></td>
+					<td><input type="checkbox" class="input"  name="carouselRandStart" id="carouselRandStart" /></td>
 					<td><em><?php echo _("The first image that appears is random.");?></em></td>
 				</tr><tr id="trCarTransition">
 					<td><label><?php echo _("Transition");?></label></td>
 					<td>
-						<select name="carrouselTransition" id="carrouselTransition" />
+						<select name="carouselTransition" id="carouselTransition" />
 							<option value="sliceDown">sliceDown</option>
 							<option value="sliceDownLeft">sliceDownLeft</option>
 							<option value="sliceUp">sliceUp</option>
@@ -106,26 +106,27 @@ if (isset($_POST['action']))
 				<tr>
 					<td><label><?php echo _("Image");?></label></td>
 					<td>
-						<input type="text" class="input" name="carrouselImg" id="carrouselImg" value="" />
-						<div class="bouton" style="margin-left:30px;" id="bFCarrousel" onClick="f_finder_select('carrouselImg')" title="<?php echo _("File manager");?>"><?php echo _("File Manager");?></div>
+						<input type="text" class="input" name="carouselImg" id="carouselImg" value="" />
+						<div class="bouton" style="margin-left:30px;" id="bFCarousel" onClick="f_finder_select('carouselImg')" title="<?php echo _("File manager");?>"><?php echo _("File Manager");?></div>
 					</td>
-					<td><div class="bouton fr" onClick="f_carrousel_add(document.getElementById('carrouselImg').value,'')" title="<?php echo _("Add this image");?>"><?php echo _("Add");?></div></td>
+					<td><div class="bouton fr" onClick="f_carousel_add(document.getElementById('carouselImg').value,'')" title="<?php echo _("Add this image");?>"><?php echo _("Add");?></div></td>
 				</tr>
 			</table>
 			<h3><?php echo _("Selection :");?></h3>
-			<form id="frmCarrousel">
-				<table id="carrouselResult"></table>
+			<form id="frmCarousel">
+				<table id="carouselResult"></table>
 			</form>
-			<div class="bouton fr" onClick="f_save_carrousel();" title="<?php echo _("Save settings");?>"><?php echo _("Save");?></div>
+			<div class="bouton fr" onClick="f_save_carousel();" title="<?php echo _("Save settings");?>"><?php echo _("Save");?></div>
 			<div class="clear"></div>
 		</div>
 		<?php break;
 		// ********************************************************************************************
 		case 'save':
-		$q = file_get_contents('../../data/carrousel.json');
+		$q = file_get_contents('../../data/busy.json'); $a = json_decode($q,true); $Ubusy = $a['nom'];
+		$q = file_get_contents('../../data/'.$Ubusy.'/carousel.json');
 		$a = json_decode($q,true);
 		$n = $_POST['car'];
-		if($n==0) // nouveau carrousel
+		if($n==0) // nouveau carousel
 			{
 			foreach($a as $k=>$v)
 				{
@@ -144,24 +145,26 @@ if (isset($_POST['action']))
 		$a[$n]['spe'] = $_POST['spe'];
 		$a[$n]['tra'] = $_POST['tra'];
 		if ($_POST['rst']=="true") $a[$n]['rst']=1; else $a[$n]['rst']=0;
-		for ($v=0;$v<$_POST['nb'];++$v)
+		if($_POST['nb']) for ($v=0;$v<$_POST['nb'];++$v)
 			{
 			$a[$n]['img'][$v]['s'] = $_POST['img'.$v];
 			$a[$n]['img'][$v]['t'] = $_POST['text'.$v];
 			}
+		else unset($a[$n]);
 		$out = json_encode($a);
-		if (file_put_contents('../../data/carrousel.json', $out)) echo _('Backup performed : carrousel-').$n;
+		if (file_put_contents('../../data/'.$Ubusy.'/carousel.json', $out)) echo _('Backup performed : carousel-').$n;
 		else echo '!'._('Impossible backup');
 		break;
 		// ********************************************************************************************
 		case 'supp':
-		$q = file_get_contents('../../data/carrousel.json');
+		$q = file_get_contents('../../data/busy.json'); $a = json_decode($q,true); $Ubusy = $a['nom'];
+		$q = file_get_contents('../../data/'.$Ubusy.'/carousel.json');
 		$a = json_decode($q,true);
 		if(isset($_POST['s']) && isset($a[$_POST['s']]))
 			{
 			unset($a[$_POST['s']]);
 			$out = json_encode($a);
-			if (file_put_contents('../../data/carrousel.json', $out)) echo _('Deletion made');
+			if (file_put_contents('../../data/'.$Ubusy.'/carousel.json', $out)) echo _('Deletion made');
 			else echo '!'._('Impossible deletion');
 			}
 		else echo '!'._('Error');

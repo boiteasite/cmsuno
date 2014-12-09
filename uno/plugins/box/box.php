@@ -22,7 +22,7 @@ if (isset($_POST['action']))
 					<td><label><?php echo _("Name of the box");?></label></td>
 					<td>
 						<input type="text" class="input" name="boxName" id="boxName" style="width:80px;margin-right:20px;" value="" />
-						<div class="bouton" style="margin:0;" onClick="f_add_box(document.getElementById('boxName').value);" title="<?php echo _("Saves settings");?>"><?php echo _("Add the box");?></div>
+						<div class="bouton" style="margin:0;" onClick="f_add_box(document.getElementById('boxName').value);" title="<?php echo _("Add the box");?>"><?php echo _("Add");?></div>
 					</td>
 				</tr>
 			</table>
@@ -36,6 +36,7 @@ if (isset($_POST['action']))
 		<?php break;
 		// ********************************************************************************************
 		case 'save':
+		$q = file_get_contents('../../data/busy.json'); $a = json_decode($q,true); $Ubusy = $a['nom'];
 		$a = array(); $c=0;
 		foreach($_POST as $k=>$v)
 			{
@@ -47,7 +48,7 @@ if (isset($_POST['action']))
 			++$c;
 			}
 		$out = json_encode($a);
-		if (file_put_contents('../../data/box.json', $out)) echo _('Backup performed');
+		if (file_put_contents('../../data/'.$Ubusy.'/box.json', $out)) echo _('Backup performed');
 		else echo '!'._('Impossible backup');
 		break;
 		// ********************************************************************************************

@@ -62,6 +62,7 @@ if (isset($_POST['action']))
 		<?php break;
 		// ********************************************************************************************
 		case 'save':
+		$q = file_get_contents('../../data/busy.json'); $a = json_decode($q,true); $Ubusy = $a['nom'];
 		$a = array(); $c=0;
 		$a['mail'] = $_POST['contactAdmin'];
 		$a['send'] = $_POST['contactSend'];
@@ -77,16 +78,18 @@ if (isset($_POST['action']))
 			++$c;
 			}
 		$out = json_encode($a);
-		if (file_put_contents('../../data/sdata/contact.json', $out)) echo _('Backup performed');
+		if (file_put_contents('../../data/sdata/'.$Ubusy.'/contact.json', $out)) echo _('Backup performed');
 		else echo '!'._('Impossible backup');
 		break;
 		// ********************************************************************************************
 		case 'load':
-		$q = file_get_contents('../../data/sdata/contact.json');
+		$q = file_get_contents('../../data/busy.json'); $a = json_decode($q,true); $Ubusy = $a['nom'];
+		$q = file_get_contents('../../data/sdata/'.$Ubusy.'/contact.json');
 		echo stripslashes($q); exit;
 		break;
 		// ********************************************************************************************
 		case 'send':
+		$q = file_get_contents('../../data/busy.json'); $a = json_decode($q,true); $Ubusy = $a['nom'];
 		if (isset($_POST['contactCaptcha']))
 			{
 			session_start();
@@ -98,7 +101,7 @@ if (isset($_POST['action']))
 			}
 		$msgT = "";
 		$msgH = "<html><head></head><body><table>";
-		$q = file_get_contents('../../data/sdata/contact.json');
+		$q = file_get_contents('../../data/sdata/'.$Ubusy.'/contact.json');
 		$a = json_decode($q,true);
 		$mail = $a['mail'];
 		$happy = $a['happy'];
@@ -116,7 +119,7 @@ if (isset($_POST['action']))
 			}
 		$msgH .= "</table></body></html>";
 		$boundary = "-----=".md5(rand());
-		$q = file_get_contents('../../data/site.json');
+		$q = file_get_contents('../../data/'.$Ubusy.'/site.json');
 		$a = json_decode($q,true);
 
 		$sujet = $a['tit'] . " - Contact";

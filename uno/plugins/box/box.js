@@ -40,7 +40,7 @@
 	//
 	function f_load_box(){
 		jQuery(document).ready(function(){
-			jQuery.getJSON("uno/data/box.json?r="+Math.random(),function(data){
+			jQuery.getJSON("uno/data/"+Ubusy+"/box.json?r="+Math.random(),function(data){
 				jQuery.each(data.box,function(k,d){
 					jQuery('#curBox').append('<tr><td style="width:100px;vertical-align:middle;padding-left:40px;">'+d.n+'</td><td><textarea style="width:100%" name="'+d.n+'">'+d.b+'</textarea></td><td width="30px" style="cursor:pointer;background:transparent url(\'uno/includes/img/close.png\') no-repeat scroll center center;" onClick="this.parentNode.parentNode.removeChild(this.parentNode);"></td></tr>');
 				});

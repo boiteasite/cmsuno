@@ -1,6 +1,6 @@
 <?php
 if (!isset($_SESSION['cmsuno'])) exit();
-if(!file_exists('data/sdata/contact.json'))
+if(!file_exists('data/sdata/'.$Ubusy.'/contact.json'))
 	{
 	@unlink('plugins/contact/on.txt');
 	exit;
@@ -9,7 +9,7 @@ if(!file_exists('data/sdata/contact.json'))
 <?php
 	// {"t":"te","l":"Pr\u00e9nom"}
 	$o1 = "\r\n".'<form id="contactfrm">'."\r\n\t".'<table>'."\r\n";
-	$q1 = file_get_contents('data/sdata/contact.json');
+	$q1 = file_get_contents('data/sdata/'.$Ubusy.'/contact.json');
 	$a1 = json_decode($q1,true);
 	$s1 = '';
 	$s2 = '';

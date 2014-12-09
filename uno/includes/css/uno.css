@@ -61,6 +61,8 @@ code{font-family:monospace;font-size:12px;padding:2px 4px;color:#333;background-
 #nomPlug{float:left;}
 #prePlugin div{float:right;margin:11px;}
 #prePlugin div label{display:block;float:right;margin:-2px 0 0 10px;width:40px;}
+.onoff{height:20px;width:16px;background-image:url(../img/onoff16.png);float:left;margin:10px 0 0 -5px;cursor:pointer;}
+.onoff.all{background-position:0 -14px;}
 .bouton {
 	background: #eee; /* Old browsers */
 	background: #eee -moz-linear-gradient(top, rgba(255,255,255,.2) 0%, rgba(0,0,0,.2) 100%); /* FF3.6+ */

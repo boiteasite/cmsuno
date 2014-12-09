@@ -4,6 +4,7 @@ if(!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQU
 <?php
 include('../../password.php'); $user=0; // Lang & $pass (for gmail password encryption)
 include('lang/lang.php');
+$q = file_get_contents('../../data/busy.json'); $a = json_decode($q,true); $Ubusy = $a['nom'];
 // ********************* actions *************************************************************************
 if (isset($_POST['action']))
 	{
@@ -91,10 +92,10 @@ if (isset($_POST['action']))
 		// ********************************************************************************************
 		case 'save':
 		$b = 0;
-		if (file_put_contents('../../data/newsletter.txt', $_POST['cont'])) $b=1;
-		if(file_exists('../../data/sdata/newsletter.json'))
+		if (file_put_contents('../../data/'.$Ubusy.'/newsletter.txt', $_POST['cont'])) $b=1;
+		if(file_exists('../../data/sdata/'.$Ubusy.'/newsletter.json'))
 			{
-			$q = file_get_contents('../../data/sdata/newsletter.json');
+			$q = file_get_contents('../../data/sdata/'.$Ubusy.'/newsletter.json');
 			$a = json_decode($q,true);
 			}
 		else $a = array();
@@ -104,15 +105,15 @@ if (isset($_POST['action']))
 		if(!isset($a['pass'])) $a['pass']='';
 		$a['su'] = $_POST['su'];
 		$out = json_encode($a);
-		if(file_put_contents('../../data/sdata/newsletter.json', $out) && $b) echo _('newsletter saved');
+		if(file_put_contents('../../data/sdata/'.$Ubusy.'/newsletter.json', $out) && $b) echo _('newsletter saved');
 		else echo '!'._('Impossible backup');
 		break;
 		// ********************************************************************************************
 		case 'saveConf':
 		$b = 0;
-		if(file_exists('../../data/sdata/newsletter.json'))
+		if(file_exists('../../data/sdata/'.$Ubusy.'/newsletter.json'))
 			{
-			$q = file_get_contents('../../data/sdata/newsletter.json');
+			$q = file_get_contents('../../data/sdata/'.$Ubusy.'/newsletter.json');
 			$a = json_decode($q,true);
 			}
 		else $a = array();
@@ -122,14 +123,14 @@ if (isset($_POST['action']))
 		$a['gmp'] = base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, substr($pass,0,30), strip_tags($_POST['gmp']), MCRYPT_MODE_ECB, $iv));
 		$a['pass'] = $_POST['pass'];
 		$out = json_encode($a);
-		if(file_put_contents('../../data/sdata/newsletter.json', $out)) echo _('config saved');
+		if(file_put_contents('../../data/sdata/'.$Ubusy.'/newsletter.json', $out)) echo _('config saved');
 		else echo '!'._('Error');
 		break;
 		// ********************************************************************************************
 		case 'load':
-		if(file_exists('../../data/sdata/newsletter.json'))
+		if(file_exists('../../data/sdata/'.$Ubusy.'/newsletter.json'))
 			{
-			$q = file_get_contents('../../data/sdata/newsletter.json'); // liste des emails + options + sujet
+			$q = file_get_contents('../../data/sdata/'.$Ubusy.'/newsletter.json'); // liste des emails + options + sujet
 			$a = json_decode($q,true);
 			if(isset($a['gmp']))
 				{
@@ -146,9 +147,9 @@ if (isset($_POST['action']))
 		break;
 		// ********************************************************************************************
 		case 'loadContent':
-		if (file_exists('../../data/newsletter.txt'))
+		if (file_exists('../../data/'.$Ubusy.'/newsletter.txt'))
 			{
-			$q = file_get_contents('../../data/newsletter.txt'); // contenu
+			$q = file_get_contents('../../data/'.$Ubusy.'/newsletter.txt'); // contenu
 			echo stripslashes($q);
 			}
 		else echo '';
@@ -159,9 +160,9 @@ if (isset($_POST['action']))
 		$l = $_POST['add'];
 		if($l)
 			{
-			if(file_exists('../../data/sdata/newsletter.json'))
+			if(file_exists('../../data/sdata/'.$Ubusy.'/newsletter.json'))
 				{
-				$q = file_get_contents('../../data/sdata/newsletter.json');
+				$q = file_get_contents('../../data/sdata/'.$Ubusy.'/newsletter.json');
 				$a = json_decode($q,true);
 				}
 			if(!isset($a['list']) || array_search($l,$a['list'])===false) $a['list'][] = $l; // ajout du mail a la liste
@@ -171,7 +172,7 @@ if (isset($_POST['action']))
 				break;
 				}
 			$out = json_encode($a);
-			if(file_put_contents('../../data/sdata/newsletter.json', $out)) echo _('email added');
+			if(file_put_contents('../../data/sdata/'.$Ubusy.'/newsletter.json', $out)) echo _('email added');
 			else echo '!'._('impossible add');
 			}
 		else echo '!'._('Error');
@@ -179,9 +180,9 @@ if (isset($_POST['action']))
 		// ********************************************************************************************
 		case 'del':
 		$l = $_POST['del'];
-		if(file_exists('../../data/sdata/newsletter.json') && $l)
+		if(file_exists('../../data/sdata/'.$Ubusy.'/newsletter.json') && $l)
 			{
-			$q = file_get_contents('../../data/sdata/newsletter.json');
+			$q = file_get_contents('../../data/sdata/'.$Ubusy.'/newsletter.json');
 			$a = json_decode($q,true);
 			if(($k=array_search($l,$a['list']))!==false) unset($a['list'][$k]);
 			else 
@@ -190,16 +191,16 @@ if (isset($_POST['action']))
 				break;
 				}
 			$out = json_encode($a);
-			if(file_put_contents('../../data/sdata/newsletter.json', $out)) echo _('email deleted');
+			if(file_put_contents('../../data/sdata/'.$Ubusy.'/newsletter.json', $out)) echo _('email deleted');
 			else echo '!'._('undeletable');
 			}
 		else echo '!'._('No data');
 		break;
 		// ********************************************************************************************
 		case 'liste':
-		if(file_exists('../../data/sdata/newsletter.json'))
+		if(file_exists('../../data/sdata/'.$Ubusy.'/newsletter.json'))
 			{
-			$q = file_get_contents('../../data/sdata/newsletter.json');
+			$q = file_get_contents('../../data/sdata/'.$Ubusy.'/newsletter.json');
 			$a = json_decode($q,true);
 			if(!empty($a)) 
 				{

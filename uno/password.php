@@ -1,1 +1,1 @@
-<?php $user = "jack"; $pass = "654321"; $lang = "fr"; ?>
+<?php $user = "jack"; $pass = "654321"; $lang = "en"; ?>

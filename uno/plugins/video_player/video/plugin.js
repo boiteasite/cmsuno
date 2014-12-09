@@ -23,6 +23,7 @@
  // MODIF POUR CMS Uno :
  //	- suppression lang ES - 
  //	- suppression commentaire linkTemplate & fallbackTemplate
+ //	- toolbar:'cmsuno'
  // *********************************************
 
 
@@ -73,7 +74,8 @@ CKEDITOR.plugins.add( 'video',
 			{
 				label : lang.toolbar,
 				command : 'Video',
-				icon : this.path + 'images/icon.png'
+				icon : this.path + 'images/icon.png',
+				toolbar:'cmsuno'
 			} );
 
 		// v3

@@ -1,6 +1,6 @@
 <?php
 if (!isset($_SESSION['cmsuno'])) exit();
-if(!file_exists('data/newsletter.txt'))
+if(!file_exists('data/'.$Ubusy.'/newsletter.txt'))
 	{
 	@unlink('plugins/newsletter/on.txt');
 	exit;

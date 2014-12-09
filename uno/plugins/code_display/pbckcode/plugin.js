@@ -48,9 +48,9 @@ CKEDITOR.plugins.add('pbckcode', {
 
         // add the button in the toolbar
         editor.ui.addButton('pbckcode', {
-            label   : editor.lang.pbckcode.addCode,
-            command : commandName,
-            toolbar : 'pbckcode'
+		label   : editor.lang.pbckcode.addCode,
+		command : commandName,
+		toolbar:'cmsuno'
         });
 
         // link the button to the command

@@ -14,7 +14,7 @@
 	//
 	function f_load_google_analytics(){
 		jQuery(document).ready(function(){
-			jQuery.getJSON("uno/data/unoscript.json",function(data){
+			jQuery.getJSON("uno/data/"+Ubusy+"/unoscript.json",function(data){
 				x = data.tex.replace(/\\/g,'');
 				document.getElementById('codeGA').value=x;
 			});

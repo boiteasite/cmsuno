@@ -26,7 +26,7 @@ u::::::::::::::u  n::::n    n::::n  o:::::ooooo:::::o
 Presentation
 ------------
 
-CMS Uno is a free tool to create one-page websites.
+CMSUno is a free tool to create one-page websites.
 It was designed to be easy to use, comprehensive and particularly rapid in terms of navigation.
 This strong CMS is a great tool to use jQuery plugins available on the web.
 
@@ -40,13 +40,12 @@ The server has nothing to build, the page displays faster than any other CMS.
 * Adaptation of open source CSS template fast and easy.
 * Multilingual with Gettext.
 
-Details on [GitHub](https://github.com/boiteasite/cmsuno).
 More details in French [here](http://www.boiteasite.fr/fiches/cmsuno.html).
 
 Installation
 ------------
 
-1. Download ZIP CMS Uno.
+1. Download ZIP CMSUno.
 2. Unzip the file.
 3. Upload the content (uno.php and uno/) to your website directory via FTP.
 4. Chmod 0755 recursively the uno folder.
@@ -81,10 +80,10 @@ Configuration is limited to the minimum useful.
 
 ### Plugins ###
 
-Plugins can substantially improve the capabilities of CMS Uno.
+Plugins can substantially improve the capabilities of CMSUno.
 Plugin can especially add extra buttons to CKEditor and process the results before publication. In use, it's fantastic.
 
-At least 11 plugins are integrated by default in the CMS Uno :
+At least 11 plugins are integrated by default in the CMSUno :
 
 * __Box__ : Adds easily editable box with pieces of text or code that can be inserted into the template with a simple Shortcode. Exemple : address for footer, phone number...
 * __Carousel__ : Allows you to add image slider. Use [NivoSlider](https://github.com/gilbitron/Nivo-Slider), [CarouFredSel](https://github.com/gilbitron/carouFredSel), [Kenburning](https://github.com/simbirsk/kenburning-slider) and [FeatureCarousel](http://www.bkosborne.com/jquery-feature-carousel) to have numerous possibilities.
@@ -135,13 +134,13 @@ if (isset($_POST['action']))
 		<?php break;
 		// ***********************
 		case 'save': // IF NEEDED FOR SAVING CONFIG IN JSON FILE
-		$q = @file_get_contents('../../data/foo.json');
+		$q = @file_get_contents('../../data/'.$Ubusy.'/foo.json');
 		if($q) $a = json_decode($q,true);
 		else $a = Array();
 		$a['lol'] = $_POST['lol'];
 		$a['yeswecan'] = $_POST['yeswecan'];
 		$out = json_encode($a);
-		if (file_put_contents('../../data/foo.json', $out)) echo _('Backup performed');
+		if (file_put_contents('../../data/'.$Ubusy.'/foo.json', $out)) echo _('Backup performed');
 		else echo '!'._('Impossible backup');
 		break;
 		// ***********************
@@ -151,6 +150,7 @@ if (isset($_POST['action']))
 	}
 ?>
 ```
+$Ubusy contains the name of the current page. It's because you can create multiple pages with CMSUno
 
 ### fooMake.php ###
 
@@ -199,7 +199,7 @@ function f_save_foo(){
 }
 function f_load_foo(){
 	jQuery(document).ready(function(){
-		jQuery.getJSON("uno/data/foo.json?r="+Math.random(),function(r){
+		jQuery.getJSON("uno/data/"+Ubusy+"/foo.json?r="+Math.random(),function(r){
 			if(r.lol!=undefined)document.getElementById('fooLol').value=r.lol;
 			if(r.yeswecan){
 				t=document.getElementById("fooYes");
@@ -222,7 +222,7 @@ It is thus necessary to respect a specific format to not break the chain. Exampl
 
 ```
 UconfigNum++;
-CKEDITOR.plugins.addExternal('ckfoo', '../../../plugins/foo/ckfoo/');
+CKEDITOR.plugins.addExternal('ckfoo', '../../plugins/foo/ckfoo/');
 CKEDITOR.editorConfig = function(config)
 	{
 	config.extraPlugins += ',ckfoo';
@@ -262,6 +262,7 @@ THE SOFTWARE.
 Versions
 --------
 
+* V0.9.3 beta - 09/12/2014
 * V0.9.2 beta - 29/11/2014
 * V0.9.1 beta - 23/11/2014
-* CMS Uno Version 0.9 beta - 26/10/2014
+* CMSUno Version 0.9 beta - 26/10/2014

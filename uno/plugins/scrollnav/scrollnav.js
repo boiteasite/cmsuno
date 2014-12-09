@@ -17,7 +17,7 @@
 	//
 	function f_load_scrollnav(){
 		jQuery(document).ready(function(){
-			jQuery.getJSON("uno/data/scrollnav.json?r="+Math.random(),function(r){
+			jQuery.getJSON("uno/data/"+Ubusy+"/scrollnav.json?r="+Math.random(),function(r){
 				if(r.topi!=undefined)document.getElementById('scroTopi').value=r.topi;
 				if(r.topf!=undefined)document.getElementById('scroTopf').value=r.topf;
 				if(r.tit)document.getElementById('scroTit').value=r.tit;

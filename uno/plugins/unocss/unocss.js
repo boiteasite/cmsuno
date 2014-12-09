@@ -14,7 +14,7 @@
 	//
 	function f_load_cssuno(){
 		jQuery(document).ready(function(){
-			jQuery.getJSON("uno/data/unocss.json",function(data){
+			jQuery.getJSON("uno/data/"+Ubusy+"/unocss.json",function(data){
 				x = data.tex.replace(/\\/g,'');
 				document.getElementById('inputCSS').value=x;
 			});

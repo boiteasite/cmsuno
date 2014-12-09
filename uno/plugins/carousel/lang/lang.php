@@ -8,7 +8,7 @@
 		{
 		putenv('LC_ALL='.$langPlug[$lang]);
 		setlocale(LC_ALL, $langPlug[$lang]);
-		bindtextdomain("carrousel", dirname (__FILE__));
-		textdomain("carrousel");
+		bindtextdomain("carousel", dirname (__FILE__));
+		textdomain("carousel");
 		}
 ?>

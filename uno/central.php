@@ -58,33 +58,62 @@ function f_zip($d,$n)
 	return $zip->close();
 	}
 //
+function f_copyDir($s,$d,$p=0755)
+	{
+	if (is_link($s)) return symlink(readlink($s), $d);
+	if (is_file($s)) return copy($s, $d);
+	if (!is_dir($d)) mkdir($d, $p);
+	$dir = dir($s);
+	while (false!==$e=$dir->read())
+		{
+		if($e=='.'||$e=='..') continue;
+		f_copyDir($s.'/'.$e, $d.'/'.$e, $p);
+		}
+	$dir->close();
+	return true;
+	}
+//
 // ********************* actions *************************************************************************
 if (isset($_POST['action']))
 	{
-	if(!file_exists('data/page0.txt')) file_put_contents('data/page0.txt', 'blabla...');
-	if(!file_exists('data/site.json')) file_put_contents('data/site.json', '{"pages":[{"d":"0","t":"Welcome"}],"pub":0}');
+	if(file_exists('data/busy.json'))
+		{
+		$q = file_get_contents('data/busy.json');
+		$a = json_decode($q,true);
+		$Ubusy = $a['nom'];
+		if(!is_dir('data/'.$Ubusy)) mkdir('data/'.$Ubusy);
+		}
+	else
+		{
+		if(!is_dir('data/index')) mkdir('data/index');
+		file_put_contents('data/busy.json', '{"nom":"index"}');
+		$Ubusy = 'index';
+		}
+	
+	if(!file_exists('data/'.$Ubusy.'/chap0.txt')) file_put_contents('data/'.$Ubusy.'/chap0.txt', 'blabla...');
+	if(!file_exists('data/'.$Ubusy.'/site.json')) file_put_contents('data/'.$Ubusy.'/site.json', '{"chap":[{"d":"0","t":"Welcome"}],"pub":0}');
 	switch ($_POST['action'])
 		{
 		// ********************************************************************************************
 		case 'getSite':
-		$q = file_get_contents('data/site.json');
+		$q = file_get_contents('data/'.$Ubusy.'/site.json');
 		echo $q; exit;
 		break;
 		// ********************************************************************************************
-		case 'getPage':
-		$q = file_get_contents('data/page'.((isset($_POST['data'])&&$_POST['data']!='')?$_POST['data']:'0').'.txt');
+		case 'getChap':
+		$q = file_get_contents('data/'.$Ubusy.'/chap'.((isset($_POST['data'])&&$_POST['data']!='')?$_POST['data']:'0').'.txt');
 		echo stripslashes($q); exit;
 		break;
 		// ********************************************************************************************
-		case 'sauvePage':
-		$q = file_get_contents('data/site.json');
+		case 'sauveChap':
+		$q = file_get_contents('data/'.$Ubusy.'/site.json');
 		$a = json_decode($q,true);
-		foreach ($a['pages'] as $k=>$v)
+		foreach ($a['chap'] as $k=>$v)
 			{
-			if ($k==$_POST['page'])
+			if ($k==$_POST['chap'])
 				{
-				$a['pages'][$k]['d'] = $_POST['data'];
-				$a['pages'][$k]['t'] = $_POST['titre'];
+				$a['chap'][$k]['d'] = $_POST['data'];
+				$a['chap'][$k]['t'] = $_POST['titre'];
 				break;
 				}
 			}
@@ -94,39 +123,39 @@ if (isset($_POST['action']))
 		if (!isset($a['edw'])) $a['edw'] = 960; // default
 		if (!isset($a['jq'])) $a['jq'] = 0; // default
 		$out = json_encode($a);
-		if (file_put_contents('data/site.json', $out) && file_put_contents('data/page'.$_POST['data'].'.txt', $_POST['content'])) echo _('Backup performed');
+		if (file_put_contents('data/'.$Ubusy.'/site.json', $out) && file_put_contents('data/'.$Ubusy.'/chap'.$_POST['data'].'.txt', $_POST['content'])) echo _('Backup performed');
 		else echo '!'._('Impossible backup');
 		break;
 		// ********************************************************************************************
 		case 'sauvePlace':
-		$q = file_get_contents('data/site.json');
+		$q = file_get_contents('data/'.$Ubusy.'/site.json');
 		$a = json_decode($q,true);
-		$b=0; $a1 = $a['pages'];
+		$b=0; $a1 = $a['chap'];
 		foreach ($a1 as $k=>$v)
 			{
-			if($_POST['place']<$_POST['page']) // la page remonte
+			if($_POST['place']<$_POST['chap']) // le chapitre remonte
 				{
 				if ($k==$_POST['place'])
 					{
-					$a['pages'][$k] = $a1[$_POST['page']];
+					$a['chap'][$k] = $a1[$_POST['chap']];
 					$b=1;
 					}
-				else if ($k==$_POST['page']) $b=0;
-				if ($b==1) $a['pages'][$k+1] = $v;
+				else if ($k==$_POST['chap']) $b=0;
+				if ($b==1) $a['chap'][$k+1] = $v;
 				}
 			else
 				{
-				if ($k==$_POST['page']) $b=1;
+				if ($k==$_POST['chap']) $b=1;
 				else if ($k==$_POST['place'])
 					{
-					$a['pages'][$k] = $a1[$_POST['page']];
+					$a['chap'][$k] = $a1[$_POST['chap']];
 					$b=0;
 					}
-				if ($b==1) $a['pages'][$k] = $a1[$k+1];
+				if ($b==1) $a['chap'][$k] = $a1[$k+1];
 				}
 			}
 		$out = json_encode($a);
-		if (file_put_contents('data/site.json', $out)) echo _('Change made');
+		if (file_put_contents('data/'.$Ubusy.'/site.json', $out)) echo _('Change made');
 		else echo '!'._('Error');
 		break;
 		// ********************************************************************************************
@@ -141,7 +170,14 @@ if (isset($_POST['action']))
 		break;
 		// ********************************************************************************************
 		case 'sauveConfig':
-		$q = file_get_contents('data/site.json');
+		if($Ubusy!=$_POST['nom'] && $_POST['nom']!="")
+			{
+			if(!is_dir('data/'.$_POST['nom'])) f_copyDir('data/'.$Ubusy, 'data/'.$_POST['nom']);
+			if(!is_dir('data/sdata/'.$_POST['nom'])) f_copyDir('data/sdata/'.$Ubusy, 'data/sdata/'.$_POST['nom'], 0711);
+			$Ubusy = $_POST['nom'];
+			file_put_contents('data/busy.json', '{"nom":"'.$Ubusy.'"}');
+			}
+		$q = file_get_contents('data/'.$Ubusy.'/site.json');
 		$a = json_decode($q,true);
 		$a['tit'] = $_POST['tit'];
 		$a['desc'] = $_POST['desc'];
@@ -154,46 +190,46 @@ if (isset($_POST['action']))
 		if ($_POST['jq']=="true") $a['jq']=1; else $a['jq']=0;
 		if ($_POST['sty']=="true") $a['sty']=1; else $a['sty']=0;
 		$out = json_encode($a);
-		if (file_put_contents('data/site.json', $out)) echo _('Backup performed');
+		if (file_put_contents('data/'.$Ubusy.'/site.json', $out)) echo _('Backup performed');
 		else echo '!'._('Impossible backup');
 		break;
 		// ********************************************************************************************
-		case 'nouvPage':
-		$q = file_get_contents('data/site.json');
+		case 'nouvChap':
+		$q = file_get_contents('data/'.$Ubusy.'/site.json');
 		$a= json_decode($q,true);
 		$d = 0;
-		while (file_exists('data/page'.$d.'.txt')) {++$d;} // numero de fichier libre
-		$b=0; $a1 = $a['pages'];
+		while (file_exists('data/'.$Ubusy.'/chap'.$d.'.txt')) {++$d;} // numero de fichier libre
+		$b=0; $a1 = $a['chap'];
 		foreach ($a1 as $k=>$v)
 			{
-			if ($b==0 && $k==$_POST['page'])
+			if ($b==0 && $k==$_POST['chap'])
 				{
-				$a['pages'][$k+1] = array("d"=>$d,"t"=>_("new page"));
+				$a['chap'][$k+1] = array("d"=>$d,"t"=>_("new chapter"));
 				$b=1;
 				}
-			else if ($b==1) $a['pages'][$k+1] = $v; // decallage de +1 des clefs
+			else if ($b==1) $a['chap'][$k+1] = $v; // decallage de +1 des clefs
 			}
 		$out = json_encode($a);
-		if (file_put_contents('data/site.json', $out) && file_put_contents('data/page'.$d.'.txt',' ')) echo _('Page created');
+		if (file_put_contents('data/'.$Ubusy.'/site.json', $out) && file_put_contents('data/'.$Ubusy.'/chap'.$d.'.txt',' ')) echo _('Chapter created');
 		else echo '!'._('Failure');
 		break;
 		// ********************************************************************************************
-		case 'suppPage':
-		$q = file_get_contents('data/site.json');
+		case 'suppChap':
+		$q = file_get_contents('data/'.$Ubusy.'/site.json');
 		$a = json_decode($q,true);
-		foreach ($a['pages'] as $k=>$v)
+		foreach ($a['chap'] as $k=>$v)
 			{
-			if ($k==$_POST['page'])
+			if ($k==$_POST['chap'])
 				{
-				unlink('data/page'.($a['pages'][$k]['d']).'.txt'); // supp fichier
-				unset($a['pages'][$k]); // supp element tableau
-				$a['pages'] = array_values($a['pages']); // renumerotation des clefs du tableau
+				unlink('data/'.$Ubusy.'/chap'.($a['chap'][$k]['d']).'.txt'); // supp fichier
+				unset($a['chap'][$k]); // supp element tableau
+				$a['chap'] = array_values($a['chap']); // renumerotation des clefs du tableau
 				break;
 				}
 			}
-		if(empty($a['pages'])) $a['pages'][0]=array("d"=>"0","t"=>"Welcome");
+		if(empty($a['chap'])) $a['chap'][0]=array("d"=>"0","t"=>"Welcome");
 		$out = json_encode($a);
-		if (file_put_contents('data/site.json', $out)) echo _('Deletion complete');
+		if (file_put_contents('data/'.$Ubusy.'/site.json', $out)) echo _('Deletion complete');
 		else echo '!'._('Failure');
 		break;
 		// ********************************************************************************************
@@ -201,15 +237,15 @@ if (isset($_POST['action']))
 		case 'publier':
 		$html = file_get_contents('template/template.html');
 		$head = ''; $foot = ''; $content = ''; $menu = '<ul id="nav">'; $style = ''; $jsmenu = '<script src="uno/includes/js/uno_menu.js"></script>';
-		$q = file_get_contents('data/site.json');
+		$q = file_get_contents('data/'.$Ubusy.'/site.json');
 		$Ua = json_decode($q,true);
-		foreach ($Ua['pages'] as $k=>$v)
+		foreach ($Ua['chap'] as $k=>$v)
 			{
 			$w = strtr(utf8_decode($v['t']),'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖØÙÚÛÜİŞßàáâãäåæçèéêëìíîïğñòóôõöøùúûıışÿ','aaaaaaaceeeeiiiidnoooooouuuuybsaaaaaaaceeeeiiiidnoooooouuuyyby');
 			$w = preg_replace('/[^a-zA-Z0-9%]/s','',$w);
 			$menu .= '<li><a href="#'.$w.'"'.($k==0?' class="active"':'').'>'.$v['t'].'</a></li>';
 			$content .= '<h2 id="'.$w.'" class="nav1"><a name="'.$w.'">'.$v['t'].'</a></h2>';
-			$content .= file_get_contents('data/page'.$v['d'].'.txt');
+			$content .= file_get_contents('data/'.$Ubusy.'/chap'.$v['d'].'.txt');
 			}
 		$menu .= '</ul>'; 
 		$title = (isset($Ua['tit']))?$Ua['tit']:"";
@@ -233,12 +269,12 @@ if (isset($_POST['action']))
 			$content = f_lazy($content);
 			}
 		// *** Plugins ***
-		$d = glob('plugins/*',GLOB_ONLYDIR);
-		foreach($d as $r)
+		if(isset($Ua['plug'])) foreach($Ua['plug'] as $k=>$r)
 			{
-			if (file_exists('plugins/'.basename($r).'/on.txt')) include('plugins/'.basename($r).'/'.basename($r).'Make.php');
+			if (file_exists('plugins/'.$k.'/'.$k.'Make.php')) include('plugins/'.$k.'/'.$k.'Make.php');
 			}
 		// *** / ***
+		include('includes/lang/lang.php');
 		$head .= '<style type="text/css">'."\r\n".$style.'</style>';
 		$foot .= $jsmenu;
 		// HTML
@@ -254,7 +290,7 @@ if (isset($_POST['action']))
 		$Ua['pub'] = 0;
 		if (!isset($Ua['nom'])) $Ua['nom']='index';
 		$out = json_encode($Ua);
-		if (file_put_contents('data/site.json', $out) && file_put_contents('../'.$Ua['nom'].'.html', $html)) echo _('The site has been updated');
+		if (file_put_contents('data/'.$Ubusy.'/site.json', $out) && file_put_contents('../'.$Ua['nom'].'.html', $html)) echo _('The site has been updated');
 		else echo '!'._('Failure');
 		break;
 		// ********************************************************************************************
@@ -306,39 +342,42 @@ if (isset($_POST['action']))
 		break;
 		// ********************************************************************************************
 		case 'plugins':
-		$a = array();
+		$b = array();
+		$q = file_get_contents('data/'.$Ubusy.'/site.json');
+		$a = json_decode($q,true);
 		$d = glob('plugins/*',GLOB_ONLYDIR);
 		sort($d);
 		foreach($d as $r)
 			{
-			if (file_exists('plugins/'.basename($r).'/on.txt')) $a[]='1'.basename($r);
-			else $a[]='0'.basename($r);
+			if (isset($a['plug'][basename($r)])) $b[]='1'.basename($r);
+			else $b[]='0'.basename($r);
 			}
-		echo json_encode($a);
+		echo json_encode($b);
 		break;
 		// ********************************************************************************************
 		case 'pluginsActifs':
-		$a = array();
-		$d = glob('plugins/*',GLOB_ONLYDIR);
-		if($d)
-			{
-			sort($d);
-			foreach($d as $r) 
+		$b = array();
+		$q = file_get_contents('data/'.$Ubusy.'/site.json');
+		$a = json_decode($q,true);
+		if(isset($a['plug'])) foreach($a['plug'] as $k=>$r)
 				{
-				if (file_exists('plugins/'.basename($r).'/on.txt'))
+				if(file_exists('plugins/'.$k.'/'.$k.'.php'))
 					{
-					$a['pl'][]=basename($r);
-					if (file_exists('plugins/'.basename($r).'/'.basename($r).'Ckeditor.js')) $a['ck'][]='../../../plugins/'.basename($r).'/'.basename($r).'Ckeditor.js';
+					$b['pl'][]=$k;
+					if(file_exists('plugins/'.$k.'/'.$k.'Ckeditor.js')) $b['ck'][]='../../../plugins/'.$k.'/'.$k.'Ckeditor.js';
 					}
 				}
-			echo json_encode($a);
-			}
-		else echo null;
+			echo json_encode($b);
 		break;
 		// ********************************************************************************************
 		case 'onPlug':
-		if ($_POST['c']=="true" && file_exists('plugins/'.$_POST['n'].'/'.$_POST['n'].'Make.php')) file_put_contents('plugins/'.$_POST['n'].'/on.txt','');
-		else @unlink('plugins/'.$_POST['n'].'/on.txt');
+		$q = file_get_contents('data/'.$Ubusy.'/site.json');
+		$a = json_decode($q,true);
+		if($_POST['c']=="true") $a['plug'][$_POST['n']]=1;
+		else if(isset($a['plug'][$_POST['n']])) unset($a['plug'][$_POST['n']]);
+		$b=$a['plug']; ksort($b); $a['plug']=$b;
+		$out = json_encode($a);
+		file_put_contents('data/'.$Ubusy.'/site.json', $out);
 		break;
 		// ********************************************************************************************
 		}
