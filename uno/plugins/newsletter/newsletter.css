@@ -1,5 +1,0 @@
-#newsletterML table{margin:10px;}
-#newsletterML table td{vertical-align:middle;padding:2px;}
-#newsletterML table td:nth-child(1){padding-right:20px;}
-#newsletterML table td:nth-child(2){font-weight:700;font-size:120%;color:red;cursor:pointer;}
-#newsletterResult{border-left:2px solid red;padding:5px;width:70%;display:none;}

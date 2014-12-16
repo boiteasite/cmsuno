@@ -83,19 +83,7 @@ Configuration is limited to the minimum useful.
 Plugins can substantially improve the capabilities of CMSUno.
 Plugin can especially add extra buttons to CKEditor and process the results before publication. In use, it's fantastic.
 
-At least 11 plugins are integrated by default in the CMSUno :
-
-* __Box__ : Adds easily editable box with pieces of text or code that can be inserted into the template with a simple Shortcode. Exemple : address for footer, phone number...
-* __Carousel__ : Allows you to add image slider. Use [NivoSlider](https://github.com/gilbitron/Nivo-Slider), [CarouFredSel](https://github.com/gilbitron/carouFredSel), [Kenburning](https://github.com/simbirsk/kenburning-slider) and [FeatureCarousel](http://www.bkosborne.com/jquery-feature-carousel) to have numerous possibilities.
-* __Code_display__ : Adds a button in CKEditor to display code. Use [google-code-prettify](https://code.google.com/p/google-code-prettify/).
-* __Contact__ : He allows to create a custom-made contact form with Captcha. Added with a Shortcode in the content of the page or directly in the template.
-* __Newsletter__ : Great plugin to send a formated newsletter to a list of subscriber. Use PHP mail() or Gmail SMTP. Shortcode to add a subscribe form in the page. Link in the mail to unsubscribe.
-* __Paypal__ : Very powerful. Adds a button in CKEditor to create  as many Paypal buttons as you need. Pay, Add to Cart, View Cart, Donate and Subscribe are available. Sales are checked and recorded with IPN return.
-* __Scrollnav__ : Replaces the menu with a drop down menu which scrolled with the page. Use [Scrollnav](http://scrollnav.com/)
-* __Sidebar__ : Adds easily an editable box with CKEditor content, as for the creation of page. Can be inserted into the template with a simple Shortcode.
-* __Unocss__ : Allows to add CSS in the site directly from the Dashboard.
-* __Unoscript__ : Allows to add a script in the site directly from the Dashboard. Example : Google Analytics tracking code.
-* __Video_player__ : Adds a button in CKEditor to watch Self-Hosted Videos on the site. Compatible with every browsers and supports.
+Plugins are available [here](https://github.com/boiteasite/cmsuno/tree/plugins)
 
 Plugin development
 ------------------
