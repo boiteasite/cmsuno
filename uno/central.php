@@ -236,7 +236,7 @@ if (isset($_POST['action']))
 		// SHORTCODE [[foo]] : title, description, template, head, foot, menu, jsmenu, content
 		case 'publier':
 		$html = file_get_contents('template/template.html');
-		$head = ''; $foot = ''; $content = ''; $menu = '<ul id="nav">'; $style = ''; $jsmenu = '<script src="uno/includes/js/uno_menu.js"></script>';
+		$head = ''; $foot = ''; $content = ''; $menu = ''; $style = ''; $jsmenu = '<script src="uno/includes/js/uno_menu.js"></script>';
 		$q = file_get_contents('data/'.$Ubusy.'/site.json');
 		$Ua = json_decode($q,true);
 		foreach ($Ua['chap'] as $k=>$v)
@@ -247,7 +247,6 @@ if (isset($_POST['action']))
 			$content .= '<h2 id="'.$w.'" class="nav1"><a name="'.$w.'">'.$v['t'].'</a></h2>';
 			$content .= file_get_contents('data/'.$Ubusy.'/chap'.$v['d'].'.txt');
 			}
-		$menu .= '</ul>'; 
 		$title = (isset($Ua['tit']))?$Ua['tit']:"";
 		$description = (isset($Ua['desc']))?$Ua['desc']:"";
 		$name = (isset($Ua['nom']))?$Ua['nom']:"";
@@ -277,6 +276,7 @@ if (isset($_POST['action']))
 		include('includes/lang/lang.php');
 		$head .= '<style type="text/css">'."\r\n".$style.'</style>';
 		$foot .= $jsmenu;
+		$menu = '<ul id="nav">'.$menu.'</ul>';
 		// HTML
 		$html = str_replace('[[head]]',$head,$html);
 		$html = str_replace('[[foot]]',$foot,$html);
