@@ -17,20 +17,29 @@ function f_archive()
 		}
 	else return false;
 	}
+function f_theme()
+	{
+	// liste des themes dans un select
+	$t = "uno/template/";
+	$d = opendir($t);
+	while(($f = readdir($d))!==false) { if(is_dir($t.$f) && file_exists($t.$f.'/template.html') && $f!="." && $f!="..") echo '<option value="'.$f.'">'.$f.'</option>';  }
+	closedir($d);
+	}
 ?>
 
 <html>
 <head>
-	<meta charset="utf-8">
+	<meta charset="utf-8" />
+	<meta name="robots" content="noindex" />
 	<title>CMSUno</title>
-	<link rel="stylesheet" href="uno/includes/css/uno.css">
+	<link rel="stylesheet" href="uno/includes/css/uno.css" />
 	<script type="text/javascript" src="uno/includes/js/jquery-1.7.2.min.js"></script>
 	<script type="text/javascript" src="uno/includes/js/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="uno/includes/js/ckeditor/ckeditor.js"></script>
 	<script type="text/javascript" src="uno/includes/elfinder/js/elfinder.min.js"></script>
 	<script type="text/javascript" src="uno/includes/elfinder/js/i18n/elfinder.<?php echo $lang;?>.js"></script>
 	<link rel="stylesheet" type="text/css" media="screen" href="uno/includes/css/jquery-ui.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="uno/includes/elfinder/css/elfinder.min.css">
+	<link rel="stylesheet" type="text/css" media="screen" href="uno/includes/elfinder/css/elfinder.min.css" />
 	<script type="text/javascript">
 		var Up=0,Udg=0,Usty=0,Uplug='',Uplugon=0,Unox='<?php echo $unox; ?>',Upt=[],Upd=[],Uplugact=[],UconfigFile=[],Ulang='<?php echo $lang; ?>',UconfigNum=0,Ubusy='';
   	</script>
@@ -98,6 +107,15 @@ function f_archive()
 					<td><label><?php echo _("E-mail");?></label></td>
 					<td><input type="text" class="input" name="mel" id="mel" /></td>
 					<td><em><?php echo _("Email address of the site administrator.");?></em></td>
+				</tr><tr>
+					<td><label><?php echo _("Theme");?></label></td>
+					<td>
+						<select name="tem" id="tem">
+						<?php f_theme(); ?>
+						
+						</select>
+					</td>
+					<td><em><?php echo _("Theme to use for this page.");?></em></td>
 				</tr>
 			</table>
 			<h2><?php echo _("Options");?></h2>
@@ -215,6 +233,7 @@ function f_archive()
 			document.getElementById('nom').value=r.nom||'';
 			document.getElementById('url').value=r.url||'<?php echo 'http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']); ?>';
 			document.getElementById('mel').value=r.mel||'';
+			t=document.getElementById("tem");to=t.options;for(v=0;v<to.length;v++){if(to[v].value==r.tem){to[v].selected=true;v=to.length;}}
 			document.getElementById('edw').value=r.edw||'';
 			if(r.lazy==1)document.getElementById('lazy').checked=true;else document.getElementById('lazy').checked=false;
 			if(r.jq==1)document.getElementById('jq').checked=true;else document.getElementById('jq').checked=false;
@@ -271,6 +290,7 @@ function f_archive()
 		'desc':document.getElementById('desc').value,
 		'nom':nom,
 		'mel':document.getElementById('mel').value,
+		'tem':document.getElementById("tem").options[document.getElementById("tem").selectedIndex].value,
 		'url':document.getElementById('url').value,
 		'lazy':document.getElementById('lazy').checked,
 		'jq':document.getElementById('jq').checked,

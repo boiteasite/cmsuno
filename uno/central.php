@@ -184,6 +184,7 @@ if (isset($_POST['action']))
 		$a['url'] = $_POST['url'];
 		if(substr($a['url'],-1)=='/') $a['url'] = substr($a['url'],0,-1);
 		$a['mel'] = $_POST['mel'];
+		$a['tem'] = $_POST['tem'];
 		$a['nom'] = (($_POST['nom']!="")?preg_replace("/[^A-Za-z0-9-]/",'',$_POST['nom']):'index');
 		if ($_POST['edw']!='') $a['edw'] = $_POST['edw']; else $a['edw'] = 960;
 		if ($_POST['lazy']=="true") $a['lazy']=1; else $a['lazy']=0;
@@ -235,10 +236,10 @@ if (isset($_POST['action']))
 		// ********************************************************************************************
 		// SHORTCODE [[foo]] : title, description, template, head, foot, menu, jsmenu, content
 		case 'publier':
-		$html = file_get_contents('template/template.html');
 		$head = ''; $foot = ''; $content = ''; $menu = ''; $style = ''; $jsmenu = '<script src="uno/includes/js/uno_menu.js"></script>';
 		$q = file_get_contents('data/'.$Ubusy.'/site.json');
 		$Ua = json_decode($q,true);
+		$html = file_get_contents('template/'.$Ua['tem'].'/template.html');
 		foreach ($Ua['chap'] as $k=>$v)
 			{
 			$w = strtr(utf8_decode($v['t']),'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖØÙÚÛÜİŞßàáâãäåæçèéêëìíîïğñòóôõöøùúûıışÿ','aaaaaaaceeeeiiiidnoooooouuuuybsaaaaaaaceeeeiiiidnoooooouuuyyby');
@@ -276,14 +277,14 @@ if (isset($_POST['action']))
 		include('includes/lang/lang.php');
 		$head .= '<style type="text/css">'."\r\n".$style.'</style>';
 		$foot .= $jsmenu;
-		$menu = '<ul id="nav">'.$menu.'</ul>';
+		$menu = '<label for="navR" class="navR"></label><input type="checkbox" id="navR" />'."\r\n".'<ul id="nav">'.$menu.'</ul>';
 		// HTML
 		$html = str_replace('[[head]]',$head,$html);
 		$html = str_replace('[[foot]]',$foot,$html);
 		$html = str_replace('[[menu]]',$menu,$html);
 		$html = str_replace('[[content]]','<div class="pagesContent">'."\r\n".$content."\r\n".'</div>',$html);
 		// HTML et CONTENT
-		$html = str_replace('[[template]]','uno/template/',$html);
+		$html = str_replace('[[template]]','uno/template/'.$Ua['tem'].'/',$html);
 		$html = str_replace('[[title]]',$title,$html);
 		$html = str_replace('[[description]]',$description,$html);
 		$html = str_replace('[[name]]',$name,$html);

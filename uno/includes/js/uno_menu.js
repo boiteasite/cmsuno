@@ -2,7 +2,7 @@
 // Smooth Menu in vanilla JS
 //
 var u=document.getElementById('nav'),a=u.childNodes,tt,mg=u.offsetHeight||30;
-window.onscroll=function(){onScroll()}
+window.onscroll=function(){onScroll()};document.getElementById('navR').checked=false;
 for(v=0;v<a.length; v++){
 	if(a[v].nodeName.toUpperCase()=="LI"&&a[v].firstChild.nodeName.toUpperCase()=="A"){
 		if(a[v].firstChild.addEventListener)a[v].firstChild.addEventListener('click',function(event){gTo(this);event.preventDefault();},false);
@@ -21,8 +21,7 @@ function onScroll(){
 		if(a[v].nodeName.toUpperCase()=="LI"){
 			var b=a[v].firstChild;
 			if(b.nodeName.toUpperCase()=="A"&&b.href.search("#")!=-1){
-				if(c)d=c;
-				c=b.href.substring(b.href.search("#")+1);
+				if(c)d=c;c=b.href.substring(b.href.search("#")+1);
 				if ((v==0||document.getElementById(c).offsetTop<=s+mg)&&(!d||document.getElementById(d).offsetTop>s+mg))b.className="active";
 				else b.className="";
 			}
