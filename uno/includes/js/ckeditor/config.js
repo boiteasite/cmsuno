@@ -26,7 +26,6 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'styles' },
 		{ name: 'about' }
 	];
-	config.extraPlugins = 'div';
 	config.format_tags = 'p;h2;h3;h4;pre'; // Select Format dans la barre de bouton
 	config.removeButtons = 'Styles,PageBreak,Symbol'; // Supprime des boutons d'un groupe
 	//config.removeDialogTabs = 'image:advanced;link:advanced'; // Supprime des onglets dans les boites de dialogue des boutons

@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -13,10 +13,10 @@
  * (1) http://ckeditor.com/builder
  *     Visit online builder to build CKEditor from scratch.
  *
- * (2) http://ckeditor.com/builder/4107a21d2222763493415c5bb55fcec9
+ * (2) http://ckeditor.com/builder/9aa3698d5b07ce2285fe49cdb62b56d5
  *     Visit online builder to build CKEditor, starting with the same setup as before.
  *
- * (3) http://ckeditor.com/builder/download/4107a21d2222763493415c5bb55fcec9
+ * (3) http://ckeditor.com/builder/download/9aa3698d5b07ce2285fe49cdb62b56d5
  *     Straight download link to the latest version of CKEditor (Optimized) with the same setup as before.
  *
  * NOTE:
@@ -29,15 +29,19 @@ var CKBUILDER_CONFIG = {
 	preset: 'standard',
 	ignore: [
 		'.bender',
-		'.DS_Store',
-		'.gitignore',
-		'.gitattributes',
-		'.idea',
-		'.mailmap',
 		'bender.js',
 		'bender-err.log',
 		'bender-out.log',
 		'dev',
+		'.DS_Store',
+		'.gitattributes',
+		'.gitignore',
+		'gruntfile.js',
+		'.idea',
+		'.jscsrc',
+		'.jshintignore',
+		'.jshintrc',
+		'.mailmap',
 		'node_modules',
 		'package.json',
 		'README.md',
@@ -51,6 +55,7 @@ var CKBUILDER_CONFIG = {
 		'clipboard' : 1,
 		'colorbutton' : 1,
 		'contextmenu' : 1,
+		'div' : 1,
 		'elementspath' : 1,
 		'enterkey' : 1,
 		'entities' : 1,
@@ -68,7 +73,6 @@ var CKBUILDER_CONFIG = {
 		'list' : 1,
 		'magicline' : 1,
 		'maximize' : 1,
-		'pagebreak' : 1,
 		'pastefromword' : 1,
 		'pastetext' : 1,
 		'removeformat' : 1,
@@ -79,7 +83,6 @@ var CKBUILDER_CONFIG = {
 		'sourcearea' : 1,
 		'specialchar' : 1,
 		'stylescombo' : 1,
-		'symbol' : 1,
 		'tab' : 1,
 		'table' : 1,
 		'tabletools' : 1,
