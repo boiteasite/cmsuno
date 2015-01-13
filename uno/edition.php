@@ -22,7 +22,7 @@ function f_theme()
 	// liste des themes dans un select
 	$t = "uno/template/";
 	$d = opendir($t);
-	while(($f = readdir($d))!==false) { if(is_dir($t.$f) && file_exists($t.$f.'/template.html') && $f!="." && $f!="..") echo '<option value="'.$f.'">'.$f.'</option>';  }
+	while(($f = readdir($d))!==false) { if(is_dir($t.$f) && file_exists($t.$f.'/template.html') && $f!="." && $f!="..") echo '<option value="'.$f.'">'.$f.'</option>'; }
 	closedir($d);
 	}
 ?>
@@ -215,21 +215,21 @@ function f_theme()
 					{
 					b=document.createElement("span");b.className="bouton current off";b.title="d\351placez moi";jQuery(b).disableSelection();
 					b.onmouseover=function(){f_drag(this);};
-					b.innerHTML=v.t;a.appendChild(b);
+					b.innerHTML=v.t.replace(/\\/,"");a.appendChild(b);
 					}
 				else
 					{
-					b=document.createElement("a");b.href="javascript:void(0)";b.className="bouton";b.id="b"+k;b.onclick=function(){f_get_chap(k);f_get_site();};b.innerHTML=v.t;a.appendChild(b);
+					b=document.createElement("a");b.href="javascript:void(0)";b.className="bouton";b.id="b"+k;b.onclick=function(){f_get_chap(k);f_get_site();};b.innerHTML=v.t.replace(/\\/,"");a.appendChild(b);
 					if(k!=Up-1){c=document.createElement("span");c.id="p"+(k+1);c.className="parking";a.appendChild(c);}
 					}
 				});
-			jQuery("input[name='titre']").val(Upt[Up]);
+			jQuery("input[name='titre']").val(Upt[Up].replace(/\\/,""));
 			document.getElementById('boutonSauv').className="bouton";
 			Udg=0;if(r.pub) document.getElementById('boutonPub').style.display="inline";
 			if(r.edw)document.getElementById('contentP').style.width=r.edw+'px';
 		}else{
-			document.getElementById('tit').value=r.tit||'';
-			document.getElementById('desc').value=r.desc||'';
+			document.getElementById('tit').value=r.tit.replace(/\\/, "")||'';
+			document.getElementById('desc').value=r.desc.replace(/\\/, "")||'';
 			document.getElementById('nom').value=r.nom||'';
 			document.getElementById('url').value=r.url||'<?php echo 'http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']); ?>';
 			document.getElementById('mel').value=r.mel||'';

@@ -85,6 +85,19 @@ Plugin can especially add extra buttons to CKEditor and process the results befo
 
 Plugins are available [here](https://github.com/boiteasite/cmsuno/tree/plugins)
 
+Template Tags
+-------------
+
+*[[content]] : page content
+*[[description]] : meta description
+*[[head]] : head content (script, css link...)
+*[[foot]] : foot content (script...)
+*[[menu]] : menu
+*[[name]] : page file name without .html
+*[[template]] : template url
+*[[title]] : page title
+*[[url]] : base site url
+
 Plugin development
 ------------------
 
@@ -250,6 +263,7 @@ THE SOFTWARE.
 Versions
 --------
 
+* V0.9.6 beta - 13/01/2015
 * V0.9.5 beta - 10/01/2015
 * V0.9.4 beta - 06/01/2015
 * V0.9.3 beta - 09/12/2014

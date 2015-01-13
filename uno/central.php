@@ -244,13 +244,13 @@ if (isset($_POST['action']))
 			{
 			$w = strtr(utf8_decode($v['t']),'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖØÙÚÛÜİŞßàáâãäåæçèéêëìíîïğñòóôõöøùúûıışÿ','aaaaaaaceeeeiiiidnoooooouuuuybsaaaaaaaceeeeiiiidnoooooouuuyyby');
 			$w = preg_replace('/[^a-zA-Z0-9%]/s','',$w);
-			$menu .= '<li><a href="#'.$w.'"'.($k==0?' class="active"':'').'>'.$v['t'].'</a></li>';
-			$content .= '<h2 id="'.$w.'" class="nav1"><a name="'.$w.'">'.$v['t'].'</a></h2>';
+			$menu .= '<li><a href="#'.$w.'"'.($k==0?' class="active"':'').'>'.stripslashes($v['t']).'</a></li>';
+			$content .= '<h2 id="'.$w.'" class="nav1"><a name="'.$w.'">'.stripslashes($v['t']).'</a></h2>';
 			$content .= file_get_contents('data/'.$Ubusy.'/chap'.$v['d'].'.txt');
 			}
-		$title = (isset($Ua['tit']))?$Ua['tit']:"";
-		$description = (isset($Ua['desc']))?$Ua['desc']:"";
-		$name = (isset($Ua['nom']))?$Ua['nom']:"";
+		$title = (isset($Ua['tit']))?stripslashes($Ua['tit']):"";
+		$description = (isset($Ua['desc']))?stripslashes($Ua['desc']):"";
+		$name = (isset($Ua['nom']))?stripslashes($Ua['nom']):"";
 		$content = str_replace('<h2>','<h2 class="nav2">',$content);
 		$content = stripslashes($content);
 		$u = dirname($_SERVER['PHP_SELF']).'/../';
@@ -279,6 +279,7 @@ if (isset($_POST['action']))
 		$foot .= $jsmenu;
 		$menu = '<label for="navR" class="navR"></label><input type="checkbox" id="navR" />'."\r\n".'<ul id="nav">'.$menu.'</ul>';
 		// HTML
+		$html = str_replace('[[url]]',$Ua['url'],$html);
 		$html = str_replace('[[head]]',$head,$html);
 		$html = str_replace('[[foot]]',$foot,$html);
 		$html = str_replace('[[menu]]',$menu,$html);

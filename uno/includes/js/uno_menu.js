@@ -2,7 +2,7 @@
 // Smooth Menu in vanilla JS
 //
 var u=document.getElementById('nav'),a=u.childNodes,tt,mg=u.offsetHeight||30;
-window.onscroll=function(){onScroll()};document.getElementById('navR').checked=false;
+window.onscroll=function(){onScroll()};document.getElementById('navR').checked=false;document.getElementById('navR').style.display="none";
 for(v=0;v<a.length; v++){
 	if(a[v].nodeName.toUpperCase()=="LI"&&a[v].firstChild.nodeName.toUpperCase()=="A"){
 		if(a[v].firstChild.addEventListener)a[v].firstChild.addEventListener('click',function(event){gTo(this);event.preventDefault();},false);
