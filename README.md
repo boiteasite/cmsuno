@@ -88,15 +88,15 @@ Plugins are available [here](https://github.com/boiteasite/cmsuno/tree/plugins)
 Template Tags
 -------------
 
-*[[content]] : page content
-*[[description]] : meta description
-*[[head]] : head content (script, css link...)
-*[[foot]] : foot content (script...)
-*[[menu]] : menu
-*[[name]] : page file name without .html
-*[[template]] : template url
-*[[title]] : page title
-*[[url]] : base site url
+* [[content]] : page content
+* [[description]] : meta description
+* [[head]] : head content (script, css link...)
+* [[foot]] : foot content (script...)
+* [[menu]] : menu
+* [[name]] : page file name without .html
+* [[template]] : template url
+* [[title]] : page title
+* [[url]] : base site url
 
 Plugin development
 ------------------
