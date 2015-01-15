@@ -3,6 +3,7 @@ ini_set('session.use_trans_sid', 0);
 session_start();
 include('uno/password.php');
 include('uno/includes/lang/lang.php');
+if (!is_dir('uno/includes/js/ckeditor/')) $dep = "http://cmsuno-dep.googlecode.com/git/"; else $dep = "uno/"; // LIGHT HOSTED VERSION
 if (isset($_POST['user']) && isset($_POST['pass']))
 	{
 	if ($_POST['user']===utf8_encode($user) && $_POST['pass']===$pass)
@@ -35,10 +36,11 @@ else if (!isset($_SESSION['cmsuno'])) { ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-	<meta charset="utf-8">
+	<meta charset="utf-8" />
+	<meta name="robots" content="noindex" />
 	<title>CMSUno - <?php echo _("Login");?></title>
-	<link rel="stylesheet" href="uno/includes/css/uno.css">
-	<script src="uno/includes/js/jquery-1.7.2.min.js"></script>
+	<link rel="stylesheet" href="<?php echo $dep; ?>includes/css/uno.css" />
+	<script src="<?php if($dep!='uno/') echo 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'; else echo 'uno/includes/js/jquery-1.7.2.min.js'; ?>"></script>
 	<script type="text/javascript">$(document).ready(function(){$('.alert').delay(2000).fadeOut();});</script>
 </head>
 <body>
@@ -46,14 +48,15 @@ else if (!isset($_SESSION['cmsuno'])) { ?>
 		<div class="container">
 			<span class="titre" href="/">CMSUno</span>
 			<ul>
-				<li><a href="index.html" target="_blank"><?php echo _("See the website");?></a></li>
+			<?php $q = file_get_contents('uno/data/busy.json'); $a = json_decode($q,true); $Ubusy = $a['nom']; ?>
+				<li><a href="<?php echo $Ubusy; ?>.html" target="_blank"><?php echo _("See the website");?></a></li>
 			</ul>
 		</div>
 	</div><!-- .blocTop-->
 
 	<div class="container">
 		<form class="blocLogin" method="POST" action="">
-			<img style="margin-bottom:20px;" src="uno/includes/img/logo-uno220.png" alt="cms uno" />
+			<img style="margin-bottom:20px;" src="<?php echo $dep; ?>includes/img/logo-uno220.png" alt="cms uno" />
 			<div class="clearfix">
 				<label><?php echo _("Administrator");?></label>
 				<div>

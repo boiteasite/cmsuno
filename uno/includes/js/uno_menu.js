@@ -1,28 +1,29 @@
 // CMSUNO
 // Smooth Menu in vanilla JS
 //
-var u=document.getElementById('nav'),a=u.childNodes,tt,mg=u.offsetHeight||30;
+var u=document.getElementById('nav'),Umenu=u.childNodes,Utt,Umg=u.offsetHeight||30,Ubot,Uv;
 window.onscroll=function(){onScroll()};document.getElementById('navR').checked=false;document.getElementById('navR').style.display="none";
-for(v=0;v<a.length; v++){
-	if(a[v].nodeName.toUpperCase()=="LI"&&a[v].firstChild.nodeName.toUpperCase()=="A"){
-		if(a[v].firstChild.addEventListener)a[v].firstChild.addEventListener('click',function(event){gTo(this);event.preventDefault();},false);
-		else a[v].firstChild.attachEvent('onclick',function(event){gTo(this);event.preventDefault();});
+for(Uv=0;Uv<Umenu.length;Uv++){
+	if(Umenu[Uv].nodeName.toUpperCase()=="LI"&&Umenu[Uv].firstChild.nodeName.toUpperCase()=="A"){
+		if(Umenu[Uv].firstChild.addEventListener)Umenu[Uv].firstChild.addEventListener('click',function(event){gTo(this);event.preventDefault();},false);
+		else Umenu[Uv].firstChild.attachEvent('onclick',function(event){gTo(this);event.preventDefault();});
 	}
 }
 function gTo(f){
-	var g=(f+"").substring((f+"").search("#")+1);g=Math.max(0,document.getElementById(g).offsetTop-mg);h=window.pageYOffset||document.body.scrollTop;
-	if (h<g-5){window.scrollBy(0,Math.min(80,(g-h)/4));tt=setTimeout(function(){gTo(f);},12);}
-	else if (h>g+5){window.scrollBy(0,Math.max(-80,(g-h)/4));tt=setTimeout(function(){gTo(f);},12);}
-	else{window.scrollTo(0,g);clearTimeout(tt);}
- }
+	var g=(f+"").substring((f+"").search("#")+1),h=window.pageYOffset||document.body.scrollTop;g=Math.max(0,document.getElementById(g).offsetTop-Umg);
+	if(h<g-5&&h!=Ubot){window.scrollBy(0,Math.min(80,(g-h)/4));Utt=setTimeout(function(){gTo(f);},12);}
+	else if(h>g+5){window.scrollBy(0,Math.max(-80,(g-h)/4));Utt=setTimeout(function(){gTo(f);},12);}
+	else{window.scrollTo(0,g);clearTimeout(Utt);}
+	Ubot=h;
+}
 function onScroll(){
 	var s=window.pageYOffset|document.body.scrollTop,c=0,d=0;
-	for(v=a.length-1;v>=0;v--){
-		if(a[v].nodeName.toUpperCase()=="LI"){
-			var b=a[v].firstChild;
+	for(v=Umenu.length-1;v>=0;v--){
+		if(Umenu[v].nodeName.toUpperCase()=="LI"){
+			var b=Umenu[v].firstChild;
 			if(b.nodeName.toUpperCase()=="A"&&b.href.search("#")!=-1){
 				if(c)d=c;c=b.href.substring(b.href.search("#")+1);
-				if ((v==0||document.getElementById(c).offsetTop<=s+mg)&&(!d||document.getElementById(d).offsetTop>s+mg))b.className="active";
+				if ((v==0||document.getElementById(c).offsetTop<=s+Umg)&&(!d||document.getElementById(d).offsetTop>s+Umg))b.className="active";
 				else b.className="";
 			}
 		}
