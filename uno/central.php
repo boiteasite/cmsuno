@@ -361,6 +361,8 @@ if (isset($_POST['action']))
 		// ********************************************************************************************
 		case 'pluginsActifs':
 		$b = array();
+		if($dep=='/uno/') $ck = '../../../';
+		else $ck = substr($_SERVER['PHP_SELF'],0,-11); // 11 : central.php
 		$q = file_get_contents('data/'.$Ubusy.'/site.json');
 		$a = json_decode($q,true);
 		if(isset($a['plug'])) foreach($a['plug'] as $k=>$r)
@@ -368,7 +370,7 @@ if (isset($_POST['action']))
 				if(file_exists('plugins/'.$k.'/'.$k.'.php'))
 					{
 					$b['pl'][]=$k;
-					if(file_exists('plugins/'.$k.'/'.$k.'Ckeditor.js')) $b['ck'][]='../../../plugins/'.$k.'/'.$k.'Ckeditor.js';
+					if(file_exists('plugins/'.$k.'/'.$k.'Ckeditor.js')) $b['ck'][]=$ck.'plugins/'.$k.'/'.$k.'Ckeditor.js';
 					}
 				}
 			echo json_encode($b);
