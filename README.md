@@ -1,7 +1,7 @@
 CMSUno
 ======
 
-An easy and clever content manager system to create one-page websites
+An easy and clever content manager system to create one-page responsive websites
 
 <pre>
  uuuu      uuuu        nnnnnn           ooooooooo
