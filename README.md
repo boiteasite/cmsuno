@@ -26,7 +26,7 @@ u::::::::::::::u  n::::n    n::::n  o:::::ooooo:::::o
 Presentation
 ------------
 
-CMSUno is a free tool to create one-page websites.
+CMSUno is a free tool to create one-page responsive websites.
 It was designed to be easy to use, comprehensive and particularly rapid in terms of navigation.
 This strong CMS is a great tool to use jQuery plugins available on the web.
 
@@ -39,6 +39,7 @@ The server has nothing to build, the page displays faster than any other CMS.
 * Development of plugins easy and effective.
 * Adaptation of open source CSS template fast and easy.
 * Multilingual with Gettext.
+* Less than 1MB. Centralized hosting of part of the code on Google servers.
 
 More details in French [here](http://www.boiteasite.fr/fiches/cmsuno.html).
 
@@ -223,7 +224,7 @@ It is thus necessary to respect a specific format to not break the chain. Exampl
 
 ```
 UconfigNum++;
-CKEDITOR.plugins.addExternal('ckfoo', '../../plugins/foo/ckfoo/');
+CKEDITOR.plugins.addExternal('ckfoo', UconfigFile[UconfigNum-1]+'/../ckfoo/');
 CKEDITOR.editorConfig = function(config)
 	{
 	config.extraPlugins += ',ckfoo';
