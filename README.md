@@ -169,6 +169,11 @@ If your plugin works with a Shortcode [[foo]] in the content of the page, there 
 	$content = str_replace('[[foo]]',$my_var,$content);
 ?>
 ```
+The plugins are executed in alphabetical order. If a plugin must be executed before any others, you can add an order of precedence in the name :
+
+* Exemple : fooMake2.php
+* Number between 1 and 5. No number is equivalent to 3
+* the series of 1 first (in alphabetic order) ... the series of 5 are the latest.
 
 Variables usable all have almost the same name as the shortcodes. Here is a non-exhaustive list :
 
@@ -264,6 +269,7 @@ THE SOFTWARE.
 Versions
 --------
 
+* V0.9.8 beta - 02/02/2015
 * V0.9.7 beta - 15/01/2015
 * V0.9.6 beta - 13/01/2015
 * V0.9.5 beta - 10/01/2015

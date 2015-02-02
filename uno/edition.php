@@ -234,12 +234,12 @@ function f_theme()
 			document.getElementById('desc').value=r.desc.replace(/\\/, "")||'';
 			document.getElementById('nom').value=r.nom||'';
 			document.getElementById('url').value=r.url||'<?php echo 'http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']); ?>';
-			document.getElementById('mel').value=r.mel||'';
 			t=document.getElementById("tem");to=t.options;for(v=0;v<to.length;v++){if(to[v].value==r.tem){to[v].selected=true;v=to.length;}}
 			document.getElementById('edw').value=r.edw||'';
 			if(r.lazy==1)document.getElementById('lazy').checked=true;else document.getElementById('lazy').checked=false;
 			if(r.jq==1)document.getElementById('jq').checked=true;else document.getElementById('jq').checked=false;
 			if(r.sty==1)document.getElementById('sty').checked=true;else document.getElementById('sty').checked=false;
+			document.getElementById('mel').value=r.mel||'';
 			}
 		if(r.nom)document.getElementById('avoir').href=r.nom+'.html';
 		}});});}

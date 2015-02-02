@@ -98,7 +98,16 @@ if (isset($_POST['action']))
 		{
 		// ********************************************************************************************
 		case 'getSite':
-		$q = file_get_contents('data/'.$Ubusy.'/site.json');
+		$a = array();
+		$q = @file_get_contents('data/'.$Ubusy.'/site.json');
+		$q1 = @file_get_contents('data/sdata/ssite.json');
+		if($q) $a = json_decode($q,true);
+		if($q1)
+			{
+			$a1 = json_decode($q1,true);
+			$a['mel'] = $a1['mel'];
+			}
+		$q = json_encode($a);
 		echo $q; exit;
 		break;
 		// ********************************************************************************************
@@ -179,13 +188,16 @@ if (isset($_POST['action']))
 			$Ubusy = $_POST['nom'];
 			file_put_contents('data/busy.json', '{"nom":"'.$Ubusy.'"}');
 			}
+		$q=@file_get_contents('data/sdata/ssite.json');
+		if($q) $a=json_decode($q,true);
+		else $a = array();
+		$a['mel']=$_POST['mel']; $out1=json_encode($a); file_put_contents('data/sdata/ssite.json',$out1);
 		$q = file_get_contents('data/'.$Ubusy.'/site.json');
 		$a = json_decode($q,true);
 		$a['tit'] = $_POST['tit'];
 		$a['desc'] = $_POST['desc'];
 		$a['url'] = $_POST['url'];
 		if(substr($a['url'],-1)=='/') $a['url'] = substr($a['url'],0,-1);
-		$a['mel'] = $_POST['mel'];
 		$a['tem'] = $_POST['tem'];
 		$a['nom'] = (($_POST['nom']!="")?preg_replace("/[^A-Za-z0-9-]/",'',$_POST['nom']):'index');
 		if ($_POST['edw']!='') $a['edw'] = $_POST['edw']; else $a['edw'] = 960;
@@ -271,9 +283,14 @@ if (isset($_POST['action']))
 			$content = f_lazy($content);
 			}
 		// *** Plugins ***
-		if(isset($Ua['plug'])) foreach($Ua['plug'] as $k=>$r)
+		if(isset($Ua['plug'])) for($Uv=1;$Uv<=5;++$Uv) // 1 first, 5 last, no number = 3 && alphabetic order
 			{
-			if (file_exists('plugins/'.$k.'/'.$k.'Make.php')) include('plugins/'.$k.'/'.$k.'Make.php');
+			foreach($Ua['plug'] as $Uk=>$Ur)
+				{
+				if($Uv!=3 && file_exists('plugins/'.$Uk.'/'.$Uk.'Make'.$Uv.'.php')) include('plugins/'.$Uk.'/'.$Uk.'Make'.$Uv.'.php');
+				else if($Uv==3 && file_exists('plugins/'.$Uk.'/'.$Uk.'Make.php')) include('plugins/'.$Uk.'/'.$Uk.'Make.php');
+				else if($Uv==3 && file_exists('plugins/'.$Uk.'/'.$Uk.'Make3.php')) include('plugins/'.$Uk.'/'.$Uk.'Make3.php');
+				}
 			}
 		// *** / ***
 		include('includes/lang/lang.php');
@@ -285,7 +302,7 @@ if (isset($_POST['action']))
 		$html = str_replace('[[head]]',$head,$html);
 		$html = str_replace('[[foot]]',$foot,$html);
 		$html = str_replace('[[menu]]',$menu,$html);
-		$html = str_replace('[[content]]','<div class="pagesContent">'."\r\n".$content."\r\n".'</div>',$html);
+		$html = str_replace('[[content]]','<div id="pagesContent" class="pagesContent">'."\r\n".$content."\r\n".'</div>',$html);
 		// HTML et CONTENT
 		$html = str_replace('[[template]]','uno/template/'.$Ua['tem'].'/',$html);
 		$html = str_replace('[[title]]',$title,$html);
