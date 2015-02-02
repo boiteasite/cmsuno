@@ -54,6 +54,12 @@ Installation
 
 Initial login & password : jack & 654321
 
+To reduce the size of CMSUno to less than 1 MB and benefit the speed of Google's servers, delete the following folders :
+
+* includes/css
+* includes/img
+* includes/js
+
 Use
 ---
 
