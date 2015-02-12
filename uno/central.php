@@ -250,7 +250,7 @@ if (isset($_POST['action']))
 		// ********************************************************************************************
 		// SHORTCODE [[foo]] : title, description, template, head, foot, menu, jsmenu, content
 		case 'publier':
-		$head = ''; $foot = ''; $content = ''; $menu = ''; $style = ''; $jsmenu = '<script src="'.$dep.'includes/js/uno_menu.js"></script>';
+		$head = ''; $foot = ''; $content = ''; $menu = ''; $style = ''; $jsmenu = '<script type="text/javascript" src="'.$dep.'includes/js/uno_menu.js"></script>';
 		$q = file_get_contents('data/'.$Ubusy.'/site.json');
 		$Ua = json_decode($q,true);
 		$html = file_get_contents('template/'.$Ua['tem'].'/template.html');
@@ -271,15 +271,15 @@ if (isset($_POST['action']))
 		$content = str_replace($u,'',$content);
 		if (isset($Ua['jq']) && $Ua['jq']==1)
 			{
-			$head .= '<!--[if (!IE)|(gt IE 8)]><!--><script src="//code.jquery.com/jquery-2.1.0.min.js"></script><!--<![endif]-->'."\r\n"
-				.'<!--[if lte IE 8]><script src="//code.jquery.com/jquery-1.11.0.min.js"></script><![endif]-->'."\r\n"
-				.'<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>'."\r\n";
-			if($dep=='uno/') $head .= '<script>window.jQuery || document.write(\'<script src="uno/includes/js/jquery-1.11.0.min.js">\x3C/script><script src="uno/includes/js/jquery-migrate-1.2.1.min.js">\x3C/script>\')</script>'."\r\n";
+			$head .= '<!--[if (!IE)|(gt IE 8)]><!--><script type="text/javascript" src="//code.jquery.com/jquery-2.1.0.min.js"></script><!--<![endif]-->'."\r\n"
+				.'<!--[if lte IE 8]><script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script><![endif]-->'."\r\n"
+				.'<script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>'."\r\n";
+			if($dep=='uno/') $head .= '<script type="text/javascript">window.jQuery || document.write(\'<script src="uno/includes/js/jquery-1.11.0.min.js">\x3C/script><script type="text/javascript" src="uno/includes/js/jquery-migrate-1.2.1.min.js">\x3C/script>\')</script>'."\r\n";
 			}
 		if (isset($Ua['lazy']) && $Ua['lazy']==1)
 			{
 			$style .= '.content img[data-echo]{display:none;background:#fff url('.$dep.'includes/css/a.gif) no-repeat center center;}'."\r\n";
-			$foot .= '<script src="'.$dep.'includes/js/echo.min.js"></script>'."\r\n".'<script type="text/javascript">var css=".content img[data-echo]{display:inline;}",head=document.head||document.getElementsByTagName("head")[0],style=document.createElement("style");style.type="text/css";if(style.styleSheet) style.styleSheet.cssText=css;else style.appendChild(document.createTextNode(css));head.appendChild(style);echo.init({offset:900,throttle:250});echo.render();</script>'."\r\n";
+			$foot .= '<script type="text/javascript" src="'.$dep.'includes/js/echo.min.js"></script>'."\r\n".'<script type="text/javascript">var css=".content img[data-echo]{display:inline;}",head=document.head||document.getElementsByTagName("head")[0],style=document.createElement("style");style.type="text/css";if(style.styleSheet) style.styleSheet.cssText=css;else style.appendChild(document.createTextNode(css));head.appendChild(style);echo.init({offset:900,throttle:250});echo.render();</script>'."\r\n";
 			$content = f_lazy($content);
 			}
 		// *** Plugins ***
