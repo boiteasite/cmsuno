@@ -206,7 +206,7 @@ function f_theme()
 	</div><!-- .container -->
 <script type="text/javascript">
 	function f_get_site(){a=document.getElementById('menu');jQuery(document).ready(function(){
-	jQuery.ajax({type:"POST",url:'uno/central.php',data:{'action':'getSite','unox':Unox},dataType:'json',async:false,success:function(r){
+	jQuery.ajax({type:"POST",url:'uno/central.php',data:{'action':'getSite','unox':Unox},dataType:'json',async:true,success:function(r){
 		Ubusy=r.nom;Usty=r.sty;Utem=r.tem;
 		if(Up!=-1){
 			jQuery("#menu").empty();
@@ -320,7 +320,7 @@ function f_theme()
 	function f_nouv_chap(){jQuery(document).ready(function(){jQuery.post('uno/central.php',{'action':'nouvChap','unox':Unox,'chap':Up,'data':Upd[Up]},function(r){Up++;f_get_site();f_get_chap(Up);f_alert(r);});});}
 	function f_supp_chap(){jQuery(document).ready(function(){jQuery.post('uno/central.php',{'action':'suppChap','unox':Unox,'chap':Up,'data':Upd[Up]},function(r){if(Up>0)Up--;else Up=0;f_get_site();f_get_chap(Up);f_alert(r);});});}
 	function f_publier(){jQuery(document).ready(function(){jQuery.post('uno/central.php',{'action':'publier','unox':Unox},function(r){document.getElementById('boutonPub').style.display="none";f_alert(r);});});}
-	function f_archivage(){jQuery(document).ready(function(){jQuery.post('uno/central.php',{'action':'archivage','unox':Unox,'nom':document.getElementById('nom').value},function(r){f_selectArchive();f_alert(r);});});}
+	function f_archivage(){jQuery(document).ready(function(){jQuery.post('uno/central.php',{'action':'archivage','unox':Unox},function(r){f_selectArchive();f_alert(r);});});}
 	function f_restaure(f){jQuery(document).ready(function(){jQuery.post('uno/central.php',{'action':'restaure','unox':Unox,'zip':f},function(r){f_alert(r);});});}
 	function f_selectArchive(){jQuery(document).ready(function(){jQuery.post('uno/central.php',{'action':'selectArchive','unox':Unox},function(r){if(r){document.getElementById('boutonRestaure').style.display="inline";document.getElementById('blocArchive').innerHTML=r;}else{document.getElementById('boutonRestaure').style.display="none";document.getElementById('blocArchive').innerHTML=''}});});}
 	function f_logout(){a=document.getElementById('info');b=document.createElement("form");b.method="POST";b.action="";c=document.createElement("input");c.name="logout";c.type="hidden";c.value=1;b.appendChild(c);a.appendChild(b);b.submit();}

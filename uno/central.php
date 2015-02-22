@@ -75,23 +75,48 @@ function f_copyDir($s,$d,$p=0755)
 	return true;
 	}
 //
+function f_rmdirR($dir)
+	{
+	$files = array_diff(scandir($dir), array('.','..'));
+	foreach ($files as $file)
+		{
+		(is_dir("$dir/$file")) ? f_rmdirR("$dir/$file") : unlink("$dir/$file");
+		}
+	return rmdir($dir);
+	}
+//
 // ********************* actions *************************************************************************
 if (isset($_POST['action']))
 	{
+	$b = 0;
 	if(file_exists('data/busy.json'))
 		{
 		$q = file_get_contents('data/busy.json');
 		$a = json_decode($q,true);
 		$Ubusy = $a['nom'];
-		if(!is_dir('data/'.$Ubusy)) mkdir('data/'.$Ubusy);
+		if(!is_dir('data/'.$Ubusy))
+			{
+			$h=opendir('data/');
+			while(($d=readdir($h))!==false)
+				{
+				if(is_dir('data/'.$d) && file_exists('data/'.$d.'/site.json'))
+					{
+					file_put_contents('data/busy.json', '{"nom":"'.$d.'"}');
+					$Ubusy = $d;
+					$b = 1;
+					}
+				}
+			closedir($h);
+			}
+		else $b = 1;
 		}
-	else
+	if(!$b)
 		{
+		if(!is_dir('data')) mkdir('data'); if(!is_dir('data/sdata')) mkdir('data/sdata',0711);
 		if(!is_dir('data/index')) mkdir('data/index');
 		file_put_contents('data/busy.json', '{"nom":"index"}');
 		$Ubusy = 'index';
 		}
-	
 	if(!file_exists('data/'.$Ubusy.'/chap0.txt')) file_put_contents('data/'.$Ubusy.'/chap0.txt', 'blabla...');
 	if(!file_exists('data/'.$Ubusy.'/site.json')) file_put_contents('data/'.$Ubusy.'/site.json', '{"chap":[{"d":"0","t":"Welcome"}],"pub":0}');
 	switch ($_POST['action'])
@@ -106,6 +131,8 @@ if (isset($_POST['action']))
 			{
 			$a1 = json_decode($q1,true);
 			$a['mel'] = $a1['mel'];
+			if(!isset($a['tit'])) $a['tit'] = '';
+			if(!isset($a['desc'])) $a['desc'] = '';
 			}
 		$q = json_encode($a);
 		echo $q; exit;
@@ -253,6 +280,11 @@ if (isset($_POST['action']))
 		$head = ''; $foot = ''; $content = ''; $menu = ''; $style = ''; $jsmenu = '<script type="text/javascript" src="'.$dep.'includes/js/uno_menu.js"></script>';
 		$q = file_get_contents('data/'.$Ubusy.'/site.json');
 		$Ua = json_decode($q,true);
+		if(!isset($Ua['tem']) || !isset($Ua['url']) || !isset($Ua['tit']) || !isset($Ua['desc']))
+			{
+			echo '!'._('Save Config First');
+			exit;
+			}
 		$html = file_get_contents('template/'.$Ua['tem'].'/template.html');
 		foreach ($Ua['chap'] as $k=>$v)
 			{
@@ -317,8 +349,7 @@ if (isset($_POST['action']))
 		// ********************************************************************************************
 		case 'archivage':
 		$d = '../files/unosave';
-		$nom = preg_replace("/[^A-Za-z0-9-]/",'',$_POST['nom']);
-		$n = $d.'/'.$nom.'-'.date('Ymd-Hi').'.zip';
+		$n = $d.'/unosave-'.date('Ymd-Hi').'.zip';
 		if (!file_exists($d)) mkdir($d, 0755, true);
 		if (f_zip('data/',$n)) echo _('Archiving performed');
 		else echo '!'._('Failure');
@@ -339,7 +370,7 @@ if (isset($_POST['action']))
 				}
 			closedir($h);
 			}
-		// **************************
+			// **************************
 		usort($g,create_function('$a,$b','return filemtime($b)-filemtime($a);'));
 		if ($g)
 			{
@@ -354,7 +385,8 @@ if (isset($_POST['action']))
 		$f = $zip->open($_POST['zip']);
 		if ($f===true)
 			{
-			array_map('unlink', glob('data/*'));
+			f_rmdirR('data');
+			mkdir('data');
 			$zip->extractTo('data/');
 			$zip->close();
 			echo _('Recovery performed');

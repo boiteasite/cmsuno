@@ -20,7 +20,7 @@ table {border-collapse: collapse;border-spacing: 0;}
 body{margin:45px 0 0;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:13px;line-height:18px;color:#333;background-color:#fff}
 h1{font-size:30px;line-height:36px;}
 h2{font-size:24px;line-height:36px;}
-h3{font-size:18px;line-height:27px;}
+h3{font-size:18px;line-height:27px;margin-top:15px;}
 h4{font-size:14px;line-height:18px;}
 code{font-family:monospace;font-size:12px;padding:2px 4px;color:#333;background-color:#f7f7f9;border:1px solid #a9bcf5;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;}
 .container {position:relative; width:960px; margin:0 auto; padding:0;}
@@ -48,7 +48,7 @@ code{font-family:monospace;font-size:12px;padding:2px 4px;color:#333;background-
 .tal{text-align:left;}
 .tar{text-align:right;}
 .hForm {position:relative;width:100%;margin:15px 0 5px;}
-.hForm td{vertical-align:middle;padding-right:5px;}
+.hForm td{padding-right:5px;}
 .hForm td:nth-child(1){width:15%;text-align:right;}
 .hForm td:nth-child(2){max-width:40%;padding:9px 0 0 10px;}
 .hForm td:nth-child(2) input{width:300px;text-align:left;}
