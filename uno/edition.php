@@ -206,7 +206,7 @@ function f_theme()
 	</div><!-- .container -->
 <script type="text/javascript">
 	function f_get_site(){a=document.getElementById('menu');jQuery(document).ready(function(){
-	jQuery.ajax({type:"POST",url:'uno/central.php',data:{'action':'getSite','unox':Unox},dataType:'json',async:true,success:function(r){
+	jQuery.ajax({type:"POST",url:'uno/central.php',data:{'action':'getSite','unox':Unox},dataType:'json',async:false,success:function(r){
 		Ubusy=r.nom;Usty=r.sty;Utem=r.tem;
 		if(Up!=-1){
 			jQuery("#menu").empty();
