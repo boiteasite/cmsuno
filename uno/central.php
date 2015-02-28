@@ -140,7 +140,15 @@ if (isset($_POST['action']))
 		// ********************************************************************************************
 		case 'getChap':
 		$q = file_get_contents('data/'.$Ubusy.'/chap'.((isset($_POST['data'])&&$_POST['data']!='')?$_POST['data']:'0').'.txt');
-		echo stripslashes($q); exit;
+		$q1 = file_get_contents('data/'.$Ubusy.'/site.json'); $a = json_decode($q1,true); $b = 0; $c = 0;
+		foreach ($a['chap'] as $k=>$v)
+			{
+			if($v['d']==$_POST['data']) { $c = $k; break; }
+			}
+		if(isset($a['chap'][$k]['ot']) && $a['chap'][$k]['ot']) $b += 1;
+		if(isset($a['chap'][$k]['om']) && $a['chap'][$k]['om']) $b += 2;
+		if(isset($a['chap'][$k]['od']) && $a['chap'][$k]['od']) $b += 4;
+		echo strval($b).stripslashes($q); exit;
 		break;
 		// ********************************************************************************************
 		case 'sauveChap':
@@ -152,6 +160,9 @@ if (isset($_POST['action']))
 				{
 				$a['chap'][$k]['d'] = $_POST['data'];
 				$a['chap'][$k]['t'] = $_POST['titre'];
+				$a['chap'][$k]['ot'] = ($_POST['otit']=='true'?1:0);
+				$a['chap'][$k]['om'] = ($_POST['omenu']=='true'?1:0);
+				$a['chap'][$k]['od'] = ($_POST['odisp']=='true'?1:0);
 				break;
 				}
 			}
@@ -166,35 +177,39 @@ if (isset($_POST['action']))
 		break;
 		// ********************************************************************************************
 		case 'sauvePlace':
-		$q = file_get_contents('data/'.$Ubusy.'/site.json');
-		$a = json_decode($q,true);
-		$b=0; $a1 = $a['chap'];
-		foreach ($a1 as $k=>$v)
+		if(isset($_POST['chap']) && isset($_POST['place']) && $_POST['chap']!=$_POST['place'])
 			{
-			if($_POST['place']<$_POST['chap']) // le chapitre remonte
+			$q = file_get_contents('data/'.$Ubusy.'/site.json');
+			$a = json_decode($q,true);
+			$b=0; $a1 = $a['chap'];
+			foreach ($a1 as $k=>$v)
 				{
-				if ($k==$_POST['place'])
+				if($_POST['place']<$_POST['chap']) // le chapitre remonte
 					{
-					$a['chap'][$k] = $a1[$_POST['chap']];
-					$b=1;
+					if ($k==$_POST['place'])
+						{
+						$a['chap'][$k] = $a1[$_POST['chap']];
+						$b=1;
+						}
+					else if ($k==$_POST['chap']) $b=0;
+					if ($b==1) $a['chap'][$k+1] = $v;
 					}
-				else if ($k==$_POST['chap']) $b=0;
-				if ($b==1) $a['chap'][$k+1] = $v;
-				}
-			else
-				{
-				if ($k==$_POST['chap']) $b=1;
-				else if ($k==$_POST['place'])
+				else
 					{
-					$a['chap'][$k] = $a1[$_POST['chap']];
-					$b=0;
+					if ($k==$_POST['chap']) $b=1;
+					else if ($k==$_POST['place'])
+						{
+						$a['chap'][$k] = $a1[$_POST['chap']];
+						$b=0;
+						}
+					if ($b==1) $a['chap'][$k] = $a1[$k+1];
 					}
-				if ($b==1) $a['chap'][$k] = $a1[$k+1];
 				}
+			$out = json_encode($a);
+			if (file_put_contents('data/'.$Ubusy.'/site.json', $out)) echo _('Change made');
+			else echo '!'._('Error');
 			}
-		$out = json_encode($a);
-		if (file_put_contents('data/'.$Ubusy.'/site.json', $out)) echo _('Change made');
-		else echo '!'._('Error');
+		else echo _('No change');
 		break;
 		// ********************************************************************************************
 		case 'sauvePass':
@@ -226,7 +241,7 @@ if (isset($_POST['action']))
 		$a['url'] = $_POST['url'];
 		if(substr($a['url'],-1)=='/') $a['url'] = substr($a['url'],0,-1);
 		$a['tem'] = $_POST['tem'];
-		$a['nom'] = (($_POST['nom']!="")?preg_replace("/[^A-Za-z0-9-]/",'',$_POST['nom']):'index');
+		$a['nom'] = (($_POST['nom']!="")?preg_replace("/[^A-Za-z0-9-_]/",'',$_POST['nom']):'index');
 		if ($_POST['edw']!='') $a['edw'] = $_POST['edw']; else $a['edw'] = 960;
 		if ($_POST['lazy']=="true") $a['lazy']=1; else $a['lazy']=0;
 		if ($_POST['jq']=="true") $a['jq']=1; else $a['jq']=0;
@@ -288,11 +303,21 @@ if (isset($_POST['action']))
 		$html = file_get_contents('template/'.$Ua['tem'].'/template.html');
 		foreach ($Ua['chap'] as $k=>$v)
 			{
-			$w = strtr(utf8_decode($v['t']),'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖØÙÚÛÜİŞßàáâãäåæçèéêëìíîïğñòóôõöøùúûıışÿ','aaaaaaaceeeeiiiidnoooooouuuuybsaaaaaaaceeeeiiiidnoooooouuuyyby');
-			$w = preg_replace('/[^a-zA-Z0-9%]/s','',$w);
-			$menu .= '<li><a href="#'.$w.'"'.($k==0?' class="active"':'').'>'.stripslashes($v['t']).'</a></li>';
-			$content .= '<h2 id="'.$w.'" class="nav1"><a name="'.$w.'">'.stripslashes($v['t']).'</a></h2>';
-			$content .= file_get_contents('data/'.$Ubusy.'/chap'.$v['d'].'.txt');
+			if(!isset($Ua['chap'][$k]['od']) || $Ua['chap'][$k]['od']==0)
+				{
+				$w = strtr(utf8_decode($v['t']),'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖØÙÚÛÜİŞßàáâãäåæçèéêëìíîïğñòóôõöøùúûıışÿ','aaaaaaaceeeeiiiidnoooooouuuuybsaaaaaaaceeeeiiiidnoooooouuuyyby');
+				$w = preg_replace('/[^a-zA-Z0-9%]/s','',$w);
+				// menu
+				if(!isset($Ua['chap'][$k]['om']) || $Ua['chap'][$k]['om']==0) $menu .= '<li><a href="#'.$w.'"'.($k==0?' class="active"':'').'>'.stripslashes($v['t']).'</a></li>';
+				// titre + class pour menu scrollnav
+				if(!isset($Ua['chap'][$k]['ot']) || $Ua['chap'][$k]['ot']==0)
+					{
+					if(!isset($Ua['chap'][$k]['om']) || $Ua['chap'][$k]['om']==0) $content .= '<h2 id="'.$w.'" class="nav1"><a name="'.$w.'">'.stripslashes($v['t']).'</a></h2>';
+					else $content .= '<h2 id="'.$w.'" class="NAV1"><a name="'.$w.'">'.stripslashes($v['t']).'</a></h2>';
+					}
+				else if(!isset($Ua['chap'][$k]['om']) || $Ua['chap'][$k]['om']==0) $content .= '<h2 id="'.$w.'" class="nav1" style="height:0;padding:0;border:0;margin-bottom:5px;overflow:hidden;"><a name="'.$w.'">'.stripslashes($v['t']).'</a></h2>';
+				$content .= file_get_contents('data/'.$Ubusy.'/chap'.$v['d'].'.txt');
+				}
 			}
 		$title = (isset($Ua['tit']))?stripslashes($Ua['tit']):"";
 		$description = (isset($Ua['desc']))?stripslashes($Ua['desc']):"";
@@ -345,6 +370,17 @@ if (isset($_POST['action']))
 		$out = json_encode($Ua);
 		if (file_put_contents('data/'.$Ubusy.'/site.json', $out) && file_put_contents('../'.$Ua['nom'].'.html', $html)) echo _('The site has been updated');
 		else echo '!'._('Failure');
+		break;
+		// ********************************************************************************************
+		case 'suppPub':
+		$q = file_get_contents('data/'.$Ubusy.'/site.json');
+		$Ua = json_decode($q,true);
+		if(file_exists('../'.$Ua['nom'].'.html'))
+			{
+			if(unlink('../'.$Ua['nom'].'.html')) echo _('Publication deleted');
+			else echo '!'._('Failure');
+			}
+		else echo '!'._('Missing file');
 		break;
 		// ********************************************************************************************
 		case 'archivage':

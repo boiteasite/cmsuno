@@ -42,7 +42,7 @@ function f_theme()
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $dep; ?>includes/css/jquery-ui.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="uno/includes/elfinder/css/elfinder.min.css" />
 	<script type="text/javascript">
-		var Up=0,Udg=0,Usty=0,Uini=0,Ucol=0,Utem='',Uplug='',Uplugon=0,Unox='<?php echo $unox; ?>',Upt=[],Upd=[],Uplugact=[],UconfigFile=[],Ulang='<?php echo $lang; ?>',UconfigNum=0,Ubusy='';
+		var Up=0,Udg=0,Usty=0,Uini=0,Utem='',Uplug='',Uplugon=0,Unox='<?php echo $unox; ?>',Upt=[],Upd=[],Uplugact=[],UconfigFile=[],Ulang='<?php echo $lang; ?>',UconfigNum=0,Ubusy='';
   	</script>
 </head>
 <body>
@@ -72,6 +72,7 @@ function f_theme()
 			</div>
 		</div>
 		<div class="blocBouton" style="text-align:right;">
+			<div id="optOnOff" class="onoff" onClick="f_chapOption(this);"></div>
 			<div class="bouton fl" onClick="f_supp_chap();" title="<?php echo _("Remove this chapter and title");?>"><?php echo _("Delete Chapter");?></div>
 			<span class="blocInput fl">
 				<label class="label"><?php echo _("Chapter title");?>&nbsp;:</label>
@@ -80,6 +81,15 @@ function f_theme()
 			<div class="bouton" onClick="f_nouv_chap();" title="<?php echo _("Inserts a chapter after this one. Have you saved ?");?>"><?php echo _("New chapter");?></div>
 			<div class="bouton" id="boutonSauv" onClick="f_sauve_chap();" title="<?php echo _("Save this chapter and title");?>"><?php echo _("Save Chapter");?></div>
 			<div class="bouton" id="boutonPub" onClick="f_publier();" title="<?php echo _("Publish on the web all saved chapters");?>"><?php echo _("Publish");?></div>
+			<div id="chapOpt" class="chapOpt" style="position:relative;display:none;text-align:left;clear:both;">
+				<div class="bouton fr" onClick="f_suppPub();" title="<?php echo _("Destroy the HTML file of this page (not the data)");?>"><?php echo _("Delete Publication");?></div>
+				<div style="padding-top:12px;">
+					<label><?php echo _("No Title");?></label><input type="checkbox" class="input" name="optTit" id="optTit" />
+					<label><?php echo _("Not in menu");?></label><input type="checkbox" class="input" name="optMenu" id="optMenu" />
+					<label><?php echo _("Hidden");?></label><input type="checkbox" class="input" name="optDisp" id="optDisp" />
+				</div>
+				<div class="clear"></div>
+			</div>
 		</div>
 	</div><!-- .container -->
 	<div id="config" class="container" style="display:none;">
@@ -210,22 +220,21 @@ function f_theme()
 		Ubusy=r.nom;Usty=r.sty;Utem=r.tem;
 		if(Up!=-1){
 			jQuery("#menu").empty();
-			if(Up!=0){c=document.createElement("span");c.id="p0";c.className="parking";a.appendChild(c);}
+			b=document.createElement('ul');b.id='menuSort';b.className='ui-sortable';
 			jQuery.each(r.chap,function(k,v){Upt[k]=v.t;Upd[k]=v.d;
-				if(k==Up)
-					{
-					b=document.createElement("span");b.className="bouton current off";b.title="d\351placez moi";jQuery(b).disableSelection();
-					b.onmouseover=function(){f_drag(this);};
-					b.innerHTML=v.t.replace(/\\/,"");a.appendChild(b);
-					}
-				else
-					{
-					b=document.createElement("a");b.href="javascript:void(0)";b.className="bouton";b.id="b"+k;b.onclick=function(){f_get_chap(k);f_get_site();};b.innerHTML=v.t.replace(/\\/,"");a.appendChild(b);
-					if(k!=Up-1){c=document.createElement("span");c.id="p"+(k+1);c.className="parking";a.appendChild(c);}
-					}
-				});
+				c=document.createElement('li');if(k==Up)c.className='bouton current off';else{c.className='bouton unsort';c.onclick=function(){f_get_chap(k);f_get_site();};}c.innerHTML=v.t.replace(/\\/,"");
+				b.appendChild(c);
+			});a.appendChild(b);
+			jQuery(function(){
+				jQuery("#menuSort").sortable({cancel:'.unsort',stop:function(){
+					b=document.getElementById('menuSort');
+					for(v=0;v<b.children.length;v++){if(b.children[v].className=='bouton current off'){jQuery.post('uno/central.php',{'action':'sauvePlace','unox':Unox,'chap':Up,'place':v},function(r){Up=v;f_get_site();f_alert(r);});break;}}
+				}});
+				jQuery("#menuSort").disableSelection();
+			});
 			jQuery("input[name='titre']").val(Upt[Up].replace(/\\/,""));
 			document.getElementById('boutonSauv').className="bouton";
+			document.getElementById('optOnOff').className="onoff";
 			Udg=0;if(r.pub) document.getElementById('boutonPub').style.display="inline";
 			if(r.edw)document.getElementById('contentP').style.width=r.edw+'px';
 			if(Uini==0)f_get_chap(0);
@@ -243,40 +252,13 @@ function f_theme()
 			}
 		if(r.nom)document.getElementById('avoir').href=r.nom+'.html';
 		}});});}
-	function f_drag(f){ct=0;m=document.getElementById('menu');
-		xi=f.offsetWidth/2; yi=f.offsetHeight/2;
-		xm=m.getBoundingClientRect().left+window.document.documentElement.scrollLeft-m.ownerDocument.documentElement.clientLeft;
-		ym=m.getBoundingClientRect().top+window.document.documentElement.scrollTop-m.ownerDocument.documentElement.clientTop;
-		xn=xm+m.offsetWidth; yn=ym+m.offsetHeight;
-		jQuery(f).mousedown(function(){Ucol=0;jQuery(document).mousemove(function(e){
-			f.style.cursor="move";
-			x=Math.min(Math.max(e.pageX,xm+xi-10),xn-xi+10)-xi;
-			y=Math.min(Math.max(e.pageY,ym+yi),yn-yi)-yi;
-			if(ct/5==Math.floor(ct/5)) jQuery(f).offset({top:y,left:x});ct++;
-			});}).mouseup(function(){f.style.cursor="pointer";jQuery(document).unbind('mousemove');jQuery(f).hover(function(){if(Ucol==0)f_collision(f);return;});});
-		}
-	function f_collision(f)
-		{
-		Ucol=1;
-		x1=f.getBoundingClientRect().left+window.document.documentElement.scrollLeft-f.ownerDocument.documentElement.clientLeft;
-		y1=f.getBoundingClientRect().top+window.document.documentElement.scrollTop-f.ownerDocument.documentElement.clientTop;
-		x2=x1+f.offsetWidth; y2=y1+f.offsetHeight;
-		for(v=0;v<=Upt.length;v++)
-			{
-			if(q=document.getElementById('p'+v))
-				{
-				xp=q.getBoundingClientRect().left+window.document.documentElement.scrollLeft-q.ownerDocument.documentElement.clientLeft;
-				yp=q.getBoundingClientRect().top+window.document.documentElement.scrollTop-q.ownerDocument.documentElement.clientTop;
-				if(x1<xp&&x2>xp&&y1<yp+10&&y2>yp+10){f_sauve_place(v);return;}
-			}}
-		f_get_site();
-		}
 	function f_get_chap(f){jQuery(document).ready(function(){Up=f;jQuery.post('uno/central.php',{'action':'getChap','unox':Unox,'data':Upd[Up]},function(r){
 		if(!CKEDITOR.instances.content){
 			if(Usty==0)CKEDITOR.replace('content'); else CKEDITOR.replace('content',{contentsCss:['uno/template/'+Utem+'/style.css','uno/template/'+Utem+'/styles.css','uno/template/'+Utem+'/css/style.css','uno/template/'+Utem+'/css/style.css']});
 			if(Udg==0){CKEDITOR.instances["content"].on('change', function(){Udg=1;document.getElementById('boutonSauv').className="bouton danger";});jQuery("input[name='titre']").on('keypress', function(){Udg=1;document.getElementById('boutonSauv').className="bouton danger";});}
 			}
-		CKEDITOR.instances['content'].setData(r);
+		if(r.length<3)r+='-';CKEDITOR.instances['content'].setData(r.substr(1));
+		var a=r.substr(0,1);if(a==1||a==3||a==5||a==7)document.getElementById('optTit').checked=true;else document.getElementById('optTit').checked=false;if(a==2||a==3||a==6||a==7)document.getElementById('optMenu').checked=true;else document.getElementById('optMenu').checked=false;if(a==4||a==5||a==6||a==7)document.getElementById('optDisp').checked=true;else document.getElementById('optDisp').checked=false;document.getElementById('chapOpt').style.display='none';
 		Uini=1;
 		});});}
 	function f_sauve_chap(){jQuery(document).ready(function(){jQuery.post('uno/central.php',{
@@ -285,14 +267,11 @@ function f_theme()
 		'chap':Up,
 		'data':Upd[Up],
 		'content':CKEDITOR.instances['content'].getData(),
-		'titre':document.getElementsByName('titre')[0].value
+		'titre':document.getElementsByName('titre')[0].value,
+		'otit':document.getElementById('optTit').checked,
+		'omenu':document.getElementById('optMenu').checked,
+		'odisp':document.getElementById('optDisp').checked,
 		},function(r){f_get_site();f_alert(r);});});}
-	function f_sauve_place(f){if(Up!=f){if(f>Up)f--;jQuery(document).ready(function(){jQuery.ajax({type:'POST',url:'uno/central.php',data:{
-		'action':'sauvePlace',
-		'unox':Unox,
-		'chap':Up,
-		'place':f
-		},async:true}).done(function(r){Up=f;f_alert(r);f_get_site();});});}}
 	function f_sauve_config(){var nom=document.getElementById('nom').value;jQuery(document).ready(function(){jQuery.post('uno/central.php',{
 		'action':'sauveConfig',
 		'unox':Unox,
@@ -319,7 +298,8 @@ function f_theme()
 		},function(r){f_alert(r);if(r.substr(0,1)!="!")setTimeout(function(){location.reload();},1000);});});}
 	function f_nouv_chap(){jQuery(document).ready(function(){jQuery.post('uno/central.php',{'action':'nouvChap','unox':Unox,'chap':Up,'data':Upd[Up]},function(r){Up++;f_get_site();f_get_chap(Up);f_alert(r);});});}
 	function f_supp_chap(){jQuery(document).ready(function(){jQuery.post('uno/central.php',{'action':'suppChap','unox':Unox,'chap':Up,'data':Upd[Up]},function(r){if(Up>0)Up--;else Up=0;f_get_site();f_get_chap(Up);f_alert(r);});});}
-	function f_publier(){jQuery(document).ready(function(){jQuery.post('uno/central.php',{'action':'publier','unox':Unox},function(r){document.getElementById('boutonPub').style.display="none";f_alert(r);});});}
+	function f_publier(){jQuery.post('uno/central.php',{'action':'publier','unox':Unox},function(r){document.getElementById('boutonPub').style.display="none";f_alert(r);});}
+	function f_suppPub(){jQuery.post('uno/central.php',{'action':'suppPub','unox':Unox},function(r){f_alert(r);});}
 	function f_archivage(){jQuery(document).ready(function(){jQuery.post('uno/central.php',{'action':'archivage','unox':Unox},function(r){f_selectArchive();f_alert(r);});});}
 	function f_restaure(f){jQuery(document).ready(function(){jQuery.post('uno/central.php',{'action':'restaure','unox':Unox,'zip':f},function(r){f_alert(r);});});}
 	function f_selectArchive(){jQuery(document).ready(function(){jQuery.post('uno/central.php',{'action':'selectArchive','unox':Unox},function(r){if(r){document.getElementById('boutonRestaure').style.display="inline";document.getElementById('blocArchive').innerHTML=r;}else{document.getElementById('boutonRestaure').style.display="none";document.getElementById('blocArchive').innerHTML=''}});});}
@@ -329,6 +309,7 @@ function f_theme()
 	a=document.getElementById('info');b=document.createElement("span");b.id="alert";if(f.substr(0,1)=="!"){b.style.color="red";f=f.substr(1);}b.innerHTML=f;a.appendChild(b);setTimeout(function(){jQuery("#alert").fadeOut("slow",function(){jQuery("#alert").remove();});jQuery("#info").empty();},2000);}
 	function f_config(){document.getElementById('plugins').style.display="none";document.getElementById('apage').style.textDecoration='none';document.getElementById('aplugin').style.textDecoration='none';document.getElementById('aconfig').style.textDecoration='underline';Up=-1;f_get_site();document.getElementById('chaps').style.display="none";document.getElementById('config').style.display="block";f_selectArchive();}
 	function f_chap(){document.getElementById('plugins').style.display="none";document.getElementById('apage').style.textDecoration='underline';document.getElementById('aplugin').style.textDecoration='none';document.getElementById('aconfig').style.textDecoration='none';Up=0;f_get_site();f_get_chap(0);document.getElementById('config').style.display="none";document.getElementById('chaps').style.display="block";}
+	function f_chapOption(f){var a=document.getElementById('chapOpt'),b;if(a.style.display=='none'){b='block';f.className='onoff all';}else{b='none';f.className='onoff';}a.style.display=b;window.scrollTo(0,document.body.scrollHeight);}
 	function f_plugins(){Up=-1;a=document.getElementById('listPlugins');document.getElementById('config').style.display="none";document.getElementById('chaps').style.display="none";document.getElementById('plugins').style.display="block";jQuery(document).ready(function(){
 		jQuery.ajax({type:"POST",url:'uno/central.php',data:{'action':'plugins','unox':Unox},dataType:'json',async:false,success:function(r){
 			if(r)document.getElementById('prePlugin').style.display='block';
