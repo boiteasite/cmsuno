@@ -39,6 +39,7 @@ else if (!isset($_SESSION['cmsuno'])) { ?>
 	<meta charset="utf-8" />
 	<meta name="robots" content="noindex" />
 	<title>CMSUno - <?php echo _("Login");?></title>
+	<link rel="icon" type="image/png" href="<?php echo $dep; ?>includes/img/favicon.png" />
 	<link rel="stylesheet" href="<?php echo $dep; ?>includes/css/uno.css" />
 	<script src="<?php if($dep!='uno/') echo 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'; else echo 'uno/includes/js/jquery-1.7.2.min.js'; ?>"></script>
 	<script type="text/javascript">$(document).ready(function(){$('.alert').delay(2000).fadeOut();});</script>

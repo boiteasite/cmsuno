@@ -25,15 +25,23 @@ function access($attr, $path, $data, $volume) {
 		? !($attr == 'read' || $attr == 'write')    // set read+write to false, other (locked+hidden) set to true
 		:  null;                                    // else elFinder decide it itself
 }
-if (dirname(dirname(dirname(dirname($_SERVER['PHP_SELF']))))=='/') $u='';
-else $u=dirname(dirname(dirname(dirname($_SERVER['PHP_SELF']))));
+//
+$u = $_SERVER['PHP_SELF'];
+$q = explode('/',$u); $u = '/';
+foreach($q as $r)
+	{
+	if($r=='uno') break;
+	else if($r!='') $u .= $r.'/';
+	}
+//
 $opts = array(
 	// 'debug' => true,
 	'roots' => array(
 		array(
 			'driver'        => 'LocalFileSystem',   // driver for accessing file system (REQUIRED)
 			'path'          => '../../../../files/',         // path to files (REQUIRED)
-			'URL'           => dirname(dirname(dirname($_SERVER['PHP_SELF']))) . '/../../files/', // URL to files (REQUIRED)
+	//		'URL'           => dirname(dirname(dirname($_SERVER['PHP_SELF']))) . '/../../files/', // URL to files (REQUIRED)
+			'URL'           => $u . 'files/', // URL to files (REQUIRED)
 			'accessControl' => 'access'             // disable and hide dot starting files (OPTIONAL)
 		)
 	)

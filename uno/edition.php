@@ -33,6 +33,7 @@ function f_theme()
 	<meta charset="utf-8" />
 	<meta name="robots" content="noindex" />
 	<title>CMSUno</title>
+	<link rel="icon" type="image/png" href="<?php echo $dep; ?>includes/img/favicon.png" />
 	<link rel="stylesheet" href="<?php echo $dep; ?>includes/css/uno.css" />
 	<script type="text/javascript" src="<?php if($dep=='uno/') echo 'uno/includes/js/jquery-1.7.2.min.js'; else echo 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js';?>"></script>
 	<script type="text/javascript" src="<?php if($dep=='uno/') echo 'uno/includes/js/jquery-ui.min.js'; else echo 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js'; ?>"></script>
