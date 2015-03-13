@@ -65,14 +65,17 @@ function f_copyDir($s,$d,$p=0755)
 	if (is_link($s)) return symlink(readlink($s), $d);
 	if (is_file($s)) return copy($s, $d);
 	if (!is_dir($d)) mkdir($d, $p);
-	$dir = dir($s);
-	while (false!==$e=$dir->read())
+	if(is_dir($s))
 		{
-		if($e=='.'||$e=='..') continue;
-		f_copyDir($s.'/'.$e, $d.'/'.$e, $p);
+		$dir = dir($s);
+		while (false!==$e=$dir->read())
+			{
+			if($e=='.'||$e=='..') continue;
+			f_copyDir($s.'/'.$e, $d.'/'.$e, $p);
+			}
+		$dir->close();
+		return true;
 		}
-	$dir->close();
-	return true;
 	}
 //
 function f_rmdirR($dir)

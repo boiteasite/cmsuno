@@ -11,4 +11,5 @@
 		bindtextdomain("cmsuno", dirname(__FILE__));
 		textdomain("cmsuno");
 		}
+	if(file_exists(dirname(__FILE__).'/../php/dep.php')) include(dirname(__FILE__).'/../php/dep.php');
 ?>

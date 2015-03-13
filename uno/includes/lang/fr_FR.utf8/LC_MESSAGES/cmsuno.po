@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CmsUno\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-13 15:24+0100\n"
-"PO-Revision-Date: 2015-03-13 15:25+0100\n"
+"POT-Creation-Date: 2015-03-13 18:47+0100\n"
+"PO-Revision-Date: 2015-03-13 18:48+0100\n"
 "Last-Translator: jacques Malgrange <contacter@boiteasite.fr>\n"
 "Language-Team: Jacques Malgrange <contacter@boiteasite.fr>\n"
 "Language: \n"
@@ -18,110 +18,83 @@ msgstr ""
 "X-Poedit-Language: French\n"
 "X-Poedit-SearchPath-0: ../../../..\n"
 
-#: ../../../../uno.php:26
-#: ../../../../uno.php:27
-#: ../../../../uno.php:85
-#: ../../../../uno.php:86
-msgid "must writable recursively !"
-msgstr "doit être inscriptible (RW) de façon récursive !"
-
-#: ../../../../uno.php:44
-#: ../../../../uno.php:80
-msgid "Login"
-msgstr "Login"
-
-#: ../../../../uno.php:59
-#: ../../../../edition.php:58
-msgid "See the website"
-msgstr "Voir le site"
-
-#: ../../../../uno.php:68
-msgid "Administrator"
-msgstr "Administrateur"
-
-#: ../../../../uno.php:74
-#: ../../../../edition.php:180
-#: ../../../../edition.php:185
-msgid "Password"
-msgstr "Mot de passe"
-
-#: ../../../../central.php:175
-#: ../../../../central.php:250
+#: ../../../../central.php:178
+#: ../../../../central.php:253
 msgid "Backup performed"
 msgstr "Sauvegarde effectu&eacute;e"
 
-#: ../../../../central.php:176
-#: ../../../../central.php:222
-#: ../../../../central.php:251
+#: ../../../../central.php:179
+#: ../../../../central.php:225
+#: ../../../../central.php:254
 msgid "Impossible backup"
 msgstr "Sauvegarde impossible"
 
-#: ../../../../central.php:209
+#: ../../../../central.php:212
 msgid "Change made"
 msgstr "Changement effectu&eacute;"
 
-#: ../../../../central.php:210
+#: ../../../../central.php:213
 msgid "Error"
 msgstr "Erreur"
 
-#: ../../../../central.php:212
+#: ../../../../central.php:215
 msgid "No change"
 msgstr "Aucun changement"
 
-#: ../../../../central.php:219
+#: ../../../../central.php:222
 msgid "Wrong current elements"
 msgstr "Mauvais &eacute;l&eacute;ments actuels"
 
-#: ../../../../central.php:221
+#: ../../../../central.php:224
 msgid "The login / password were changed"
 msgstr "Les login / mot de passe ont &eacute;t&eacute; chang&eacute;s"
 
-#: ../../../../central.php:221
+#: ../../../../central.php:224
 msgid "The language was changed"
 msgstr "La langue a &eacute;t&eacute; chang&eacute;e"
 
-#: ../../../../central.php:264
+#: ../../../../central.php:267
 msgid "new chapter"
 msgstr "nouveau chapitre"
 
-#: ../../../../central.php:270
+#: ../../../../central.php:273
 msgid "Chapter created"
 msgstr "Chapitre créé"
 
-#: ../../../../central.php:271
-#: ../../../../central.php:290
-#: ../../../../central.php:372
-#: ../../../../central.php:381
-#: ../../../../central.php:391
-#: ../../../../central.php:430
+#: ../../../../central.php:274
+#: ../../../../central.php:293
+#: ../../../../central.php:375
+#: ../../../../central.php:384
+#: ../../../../central.php:394
+#: ../../../../central.php:433
 msgid "Failure"
 msgstr "Echec"
 
-#: ../../../../central.php:289
+#: ../../../../central.php:292
 msgid "Deletion complete"
 msgstr "Suppression effectu&eacute;e"
 
-#: ../../../../central.php:300
+#: ../../../../central.php:303
 msgid "Save Config First"
 msgstr "Enregistrer d'abord CONFIG"
 
-#: ../../../../central.php:371
+#: ../../../../central.php:374
 msgid "The site has been updated"
 msgstr "Le site a &eacute;t&eacute; mis &agrave; jour"
 
-#: ../../../../central.php:380
+#: ../../../../central.php:383
 msgid "Publication deleted"
 msgstr "Fichier HTML détruit"
 
-#: ../../../../central.php:383
+#: ../../../../central.php:386
 msgid "Missing file"
 msgstr "Fichier manquant"
 
-#: ../../../../central.php:390
+#: ../../../../central.php:393
 msgid "Archiving performed"
 msgstr "Archivage effectu&eacute;"
 
-#: ../../../../central.php:428
+#: ../../../../central.php:431
 msgid "Recovery performed"
 msgstr "Restauration effectu&eacute;e"
 
@@ -136,6 +109,10 @@ msgstr "Config"
 #: ../../../../edition.php:57
 msgid "Plugins"
 msgstr "Plugins"
+
+#: ../../../../edition.php:58
+msgid "See the website"
+msgstr "Voir le site"
 
 #: ../../../../edition.php:59
 msgid "Log out"
@@ -350,6 +327,11 @@ msgstr "Utilisateur"
 msgid "Enter a nickname. Avoid words that are too simple (admin, user ...)"
 msgstr "Entrer un pseudo. Eviter les mots trop simples (admin, user...)"
 
+#: ../../../../edition.php:180
+#: ../../../../edition.php:185
+msgid "Password"
+msgstr "Mot de passe"
+
 #: ../../../../edition.php:182
 msgid "Very important for the safety of the site. Use lowercase, uppercase and digit."
 msgstr "Tr&egrave;s important pour la s&eacute;curit&eacute; du site. Utilisez min, maj et chiffres."
@@ -372,7 +354,7 @@ msgstr "Enregistre le mot de passe"
 
 #: ../../../../edition.php:210
 msgid "No plugin"
-msgstr "Pas de plugin"
+msgstr "Aucun plugin"
 
 #: ../../../../edition.php:290
 msgid "Current elements are missing"
@@ -404,3 +386,11 @@ msgstr "Inactif"
 msgid "Select a file"
 msgstr "S&eacute;lectionner un fichier"
 
+#~ msgid "must writable recursively !"
+#~ msgstr "doit être inscriptible (RW) de façon récursive !"
+
+#~ msgid "Login"
+#~ msgstr "Login"
+
+#~ msgid "Administrator"
+#~ msgstr "Administrateur"
