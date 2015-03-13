@@ -65,17 +65,14 @@ function f_copyDir($s,$d,$p=0755)
 	if (is_link($s)) return symlink(readlink($s), $d);
 	if (is_file($s)) return copy($s, $d);
 	if (!is_dir($d)) mkdir($d, $p);
-	if(is_dir($s))
+	$dir = dir($s);
+	while (false!==$e=$dir->read())
 		{
-		$dir = dir($s);
-		while (false!==$e=$dir->read())
-			{
-			if($e=='.'||$e=='..') continue;
-			f_copyDir($s.'/'.$e, $d.'/'.$e, $p);
-			}
-		$dir->close();
-		return true;
+		if($e=='.'||$e=='..') continue;
+		f_copyDir($s.'/'.$e, $d.'/'.$e, $p);
 		}
+	$dir->close();
+	return true;
 	}
 //
 function f_rmdirR($dir)
@@ -437,12 +434,17 @@ if (isset($_POST['action']))
 		$b = array();
 		$q = file_get_contents('data/'.$Ubusy.'/site.json');
 		$a = json_decode($q,true);
-		$d = glob('plugins/*',GLOB_ONLYDIR);
-		sort($d);
-		foreach($d as $r)
+		$d = array(); $p = dirname(__FILE__).'/plugins/';
+		if ($dh=opendir($p))
 			{
-			if (isset($a['plug'][basename($r)])) $b[]='1'.basename($r);
-			else $b[]='0'.basename($r);
+			while (($file=readdir($dh))!==false) { if ($file!='.' && $file!='..'&& is_dir($p.$file)) $d[]=$p.$file; }
+			closedir($dh);
+			sort($d);
+			foreach($d as $r)
+				{
+				if (isset($a['plug'][basename($r)])) $b[]='1'.basename($r);
+				else $b[]='0'.basename($r);
+				}
 			}
 		echo json_encode($b);
 		break;
