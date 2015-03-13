@@ -6,7 +6,7 @@ include('uno/includes/lang/lang.php');
 if (!is_dir('uno/includes/js/ckeditor/')) $dep = "http://cmsuno-dep.googlecode.com/git/"; else $dep = "uno/"; // LIGHT HOSTED VERSION
 if (isset($_POST['user']) && isset($_POST['pass']))
 	{
-	if ($_POST['user']===utf8_encode($user) && $_POST['pass']===$pass)
+	if ($_POST['user']===utf8_encode($user) && $_POST['pass']===$pass && is_writable(dirname(__FILE__)))
 		{
 		$_SESSION['cmsuno']=true;
 		if(!is_dir('uno/data')) mkdir('uno/data');
@@ -19,9 +19,12 @@ if (isset($_POST['user']) && isset($_POST['pass']))
 		if(substr(sprintf('%o', fileperms('uno/data/sdata')), -4)!="0711") @chmod("uno/data/sdata", 0711);
 		if(!file_exists('files/unosave/.htaccess')) file_put_contents('files/unosave/.htaccess', 'Order Allow,Deny'."\r\n".'Deny from all'); 
 		if(substr(sprintf('%o', fileperms('files/unosave')), -4)!="0711") @chmod("files/unosave", 0711);
+		if(!file_exists('uno/data/busy.json')) file_put_contents('uno/data/busy.json', '{"nom":"index"}');
 		}
 	else sleep(2);
-	echo '<script type="text/javascript">window.location=document.URL; </script>';
+	if(is_dir('files') && is_writable(dirname(__FILE__)) && is_writable(dirname(__FILE__).'/uno')) echo '<script type="text/javascript">window.location=document.URL; </script>';
+	else if(!is_writable(dirname(__FILE__))) echo '<div style="clear:both;text-align:center;color:red;font-weight:700;padding-top:20px;"><span  style="color:#000;">'.dirname(__FILE__).'</span>&nbsp'._("must writable recursively !").'</div>';
+	else if(!is_writable(dirname(__FILE__).'/uno')) echo '<div style="clear:both;text-align:center;color:red;font-weight:700;padding-top:20px;"><span  style="color:#000;">'.dirname(__FILE__).'/uno</span>&nbsp'._("must writable recursively !").'</div>';
 	}
 //
 else if (isset($_POST['logout']) && $_POST['logout']==1)
@@ -49,7 +52,10 @@ else if (!isset($_SESSION['cmsuno'])) { ?>
 		<div class="container">
 			<span class="titre" href="/">CMSUno</span>
 			<ul>
-			<?php $q = file_get_contents('uno/data/busy.json'); $a = json_decode($q,true); $Ubusy = $a['nom']; ?>
+				<?php 
+				if(file_exists('uno/data/busy.json')) { $q = file_get_contents('uno/data/busy.json'); $a = json_decode($q,true); $Ubusy = $a['nom']; }
+				else $Ubusy = 'index';
+				?>
 				<li><a href="<?php echo $Ubusy; ?>.html" target="_blank"><?php echo _("See the website");?></a></li>
 			</ul>
 		</div>
@@ -74,11 +80,17 @@ else if (!isset($_SESSION['cmsuno'])) { ?>
 				<input type="submit" class="bouton fr" value="<?php echo _("Login");?>" />
 			</div>
 		</form>
+		<div style="clear:both;text-align:center;color:red;font-weight:700;padding-top:20px;">
+		<?php
+			if(!is_writable(dirname(__FILE__))) echo '<span  style="color:#000;">'.dirname(__FILE__).'</span>&nbsp'._("must writable recursively !");
+			else if(!is_writable(dirname(__FILE__).'/uno')) echo '<br /><span  style="color:#000;">'.dirname(__FILE__).'/uno</span>&nbsp'._("must writable recursively !");
+		?>
+		</div>
 	</div><!-- .container -->
 </body>
 </html>
 <?php }
-else 
+else
 	{
 	$unox = md5(rand(1000,9999));
 	$_SESSION['unox'] = $unox; // securisation des appels ajax

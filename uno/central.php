@@ -118,7 +118,7 @@ if (isset($_POST['action']))
 		$Ubusy = 'index';
 		}
 	if(!file_exists('data/'.$Ubusy.'/chap0.txt')) file_put_contents('data/'.$Ubusy.'/chap0.txt', 'blabla...');
-	if(!file_exists('data/'.$Ubusy.'/site.json')) file_put_contents('data/'.$Ubusy.'/site.json', '{"chap":[{"d":"0","t":"Welcome"}],"pub":0}');
+	if(!file_exists('data/'.$Ubusy.'/site.json')) file_put_contents('data/'.$Ubusy.'/site.json', '{"chap":[{"d":"0","t":"Welcome"}],"pub":0,"lazy":1}');
 	switch ($_POST['action'])
 		{
 		// ********************************************************************************************
@@ -131,9 +131,9 @@ if (isset($_POST['action']))
 			{
 			$a1 = json_decode($q1,true);
 			$a['mel'] = $a1['mel'];
-			if(!isset($a['tit'])) $a['tit'] = '';
-			if(!isset($a['desc'])) $a['desc'] = '';
 			}
+		if(!isset($a['tit'])) $a['tit'] = '';
+		if(!isset($a['desc'])) $a['desc'] = '';
 		$q = json_encode($a);
 		echo $q; exit;
 		break;

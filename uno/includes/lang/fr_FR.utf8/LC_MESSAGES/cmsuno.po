@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CmsUno\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-28 19:54+0100\n"
-"PO-Revision-Date: 2015-02-28 19:55+0100\n"
+"POT-Creation-Date: 2015-03-13 15:24+0100\n"
+"PO-Revision-Date: 2015-03-13 15:25+0100\n"
 "Last-Translator: jacques Malgrange <contacter@boiteasite.fr>\n"
 "Language-Team: Jacques Malgrange <contacter@boiteasite.fr>\n"
 "Language: \n"
@@ -17,6 +17,33 @@ msgstr ""
 "X-Poedit-SourceCharset: iso-8859-1\n"
 "X-Poedit-Language: French\n"
 "X-Poedit-SearchPath-0: ../../../..\n"
+
+#: ../../../../uno.php:26
+#: ../../../../uno.php:27
+#: ../../../../uno.php:85
+#: ../../../../uno.php:86
+msgid "must writable recursively !"
+msgstr "doit être inscriptible (RW) de façon récursive !"
+
+#: ../../../../uno.php:44
+#: ../../../../uno.php:80
+msgid "Login"
+msgstr "Login"
+
+#: ../../../../uno.php:59
+#: ../../../../edition.php:58
+msgid "See the website"
+msgstr "Voir le site"
+
+#: ../../../../uno.php:68
+msgid "Administrator"
+msgstr "Administrateur"
+
+#: ../../../../uno.php:74
+#: ../../../../edition.php:180
+#: ../../../../edition.php:185
+msgid "Password"
+msgstr "Mot de passe"
 
 #: ../../../../central.php:175
 #: ../../../../central.php:250
@@ -98,287 +125,282 @@ msgstr "Archivage effectu&eacute;"
 msgid "Recovery performed"
 msgstr "Restauration effectu&eacute;e"
 
-#: ../../../../edition.php:54
+#: ../../../../edition.php:55
 msgid "Page"
 msgstr "Page"
 
-#: ../../../../edition.php:55
+#: ../../../../edition.php:56
 msgid "Settings"
 msgstr "Config"
 
-#: ../../../../edition.php:56
+#: ../../../../edition.php:57
 msgid "Plugins"
 msgstr "Plugins"
 
-#: ../../../../edition.php:57
-msgid "See the website"
-msgstr "Voir le site"
-
-#: ../../../../edition.php:58
+#: ../../../../edition.php:59
 msgid "Log out"
 msgstr "D&eacute;connexion"
 
-#: ../../../../edition.php:65
+#: ../../../../edition.php:66
 msgid "File manager"
 msgstr "Gestionnaire de fichiers"
 
-#: ../../../../edition.php:65
+#: ../../../../edition.php:66
 msgid "File Manager"
 msgstr "Finder"
 
-#: ../../../../edition.php:76
+#: ../../../../edition.php:77
 msgid "Remove this chapter and title"
 msgstr "Supprime ce chapitre et son titre"
 
-#: ../../../../edition.php:76
+#: ../../../../edition.php:77
 msgid "Delete Chapter"
 msgstr "Supprimer le chapitre"
 
-#: ../../../../edition.php:78
+#: ../../../../edition.php:79
 msgid "Chapter title"
 msgstr "Titre du chapitre"
 
-#: ../../../../edition.php:81
+#: ../../../../edition.php:82
 msgid "Inserts a chapter after this one. Have you saved ?"
 msgstr "Insère un chapitre après celui-ci. L'avez-vous enregistré ?"
 
-#: ../../../../edition.php:81
+#: ../../../../edition.php:82
 msgid "New chapter"
 msgstr "Nouveau chapitre"
 
-#: ../../../../edition.php:82
+#: ../../../../edition.php:83
 msgid "Save this chapter and title"
 msgstr "Enregistre ce chapitre et son titre"
 
-#: ../../../../edition.php:82
+#: ../../../../edition.php:83
 msgid "Save Chapter"
 msgstr "Enregistrer le chapitre"
 
-#: ../../../../edition.php:83
-#: ../../../../edition.php:97
-#: ../../../../edition.php:204
+#: ../../../../edition.php:84
+#: ../../../../edition.php:98
+#: ../../../../edition.php:205
 msgid "Publish on the web all saved chapters"
 msgstr "Mise en ligne de la page avec tous les chapitres enregistr&eacute;s"
 
-#: ../../../../edition.php:83
-#: ../../../../edition.php:97
-#: ../../../../edition.php:204
+#: ../../../../edition.php:84
+#: ../../../../edition.php:98
+#: ../../../../edition.php:205
 msgid "Publish"
 msgstr "Publier"
 
-#: ../../../../edition.php:85
+#: ../../../../edition.php:86
 msgid "Destroy the HTML file of this page (not the data)"
 msgstr "Détruire le fichier HTML de cette page (pas les données)"
 
-#: ../../../../edition.php:85
+#: ../../../../edition.php:86
 msgid "Delete Publication"
 msgstr "Supprimer la publication"
 
-#: ../../../../edition.php:87
+#: ../../../../edition.php:88
 msgid "No Title"
 msgstr "Pas de titre"
 
-#: ../../../../edition.php:88
+#: ../../../../edition.php:89
 msgid "Not in menu"
 msgstr "Pas dans le menu"
 
-#: ../../../../edition.php:89
+#: ../../../../edition.php:90
 msgid "Hidden"
 msgstr "Masqué"
 
-#: ../../../../edition.php:99
+#: ../../../../edition.php:100
 msgid "My Card"
 msgstr "Ma fiche"
 
-#: ../../../../edition.php:102
+#: ../../../../edition.php:103
 msgid "Page Title"
 msgstr "Titre de la page"
 
-#: ../../../../edition.php:104
+#: ../../../../edition.php:105
 msgid "Very important. The most important words at the beginning. 65 characters max."
 msgstr "Tr&egrave;s important. Les mots les plus importants au d&eacute;but. 65 caract&egrave;res max."
 
-#: ../../../../edition.php:106
+#: ../../../../edition.php:107
 msgid "Page Description"
 msgstr "Description de la page"
 
-#: ../../../../edition.php:108
+#: ../../../../edition.php:109
 msgid "Important for attracting visitors. 156 characters max."
 msgstr "Important pour attirer le visiteur. 156 caract&egrave;res max."
 
-#: ../../../../edition.php:110
+#: ../../../../edition.php:111
 msgid "Base URL"
 msgstr "URL de base"
 
-#: ../../../../edition.php:112
+#: ../../../../edition.php:113
 msgid "Base URL for this site (URL displayed by the browser without uno.php)."
 msgstr "URL de la racine du site (URL affiché par le navigateur sans uno.php)."
 
-#: ../../../../edition.php:114
+#: ../../../../edition.php:115
 msgid "Filename"
 msgstr "Nom du fichier"
 
-#: ../../../../edition.php:116
+#: ../../../../edition.php:117
 msgid "Created file will be index.html by default."
 msgstr "Par d&eacute;faut le fichier cr&eacute;&eacute; sera index.html."
 
-#: ../../../../edition.php:118
+#: ../../../../edition.php:119
 msgid "E-mail"
 msgstr "Email"
 
-#: ../../../../edition.php:120
+#: ../../../../edition.php:121
 msgid "Email address of the site administrator."
 msgstr "Adresse email de l'administrateur du site."
 
-#: ../../../../edition.php:122
+#: ../../../../edition.php:123
 msgid "Theme"
 msgstr "Thème"
 
-#: ../../../../edition.php:129
+#: ../../../../edition.php:130
 msgid "Theme to use for this page."
 msgstr "Thème à utiliser avec cette page."
 
-#: ../../../../edition.php:132
+#: ../../../../edition.php:133
 msgid "Options"
 msgstr "Options"
 
-#: ../../../../edition.php:135
+#: ../../../../edition.php:136
 msgid "LazyLoad"
 msgstr "LazyLoad"
 
-#: ../../../../edition.php:137
+#: ../../../../edition.php:138
 msgid "Dynamic images loading (recommended)"
 msgstr "Chargement dynamique des images (conseill&eacute;)"
 
-#: ../../../../edition.php:139
+#: ../../../../edition.php:140
 msgid "Load JQuery"
 msgstr "Charger jQuery"
 
-#: ../../../../edition.php:141
+#: ../../../../edition.php:142
 msgid "Javascript library useful for some plugins. (not recommended if not required)"
 msgstr "Biblioth&egrave;que Javascript utile pour certains plugins. (d&eacute;conseill&eacute; si inutile)"
 
-#: ../../../../edition.php:143
+#: ../../../../edition.php:144
 msgid "CSS template"
 msgstr "CSS du template"
 
-#: ../../../../edition.php:145
+#: ../../../../edition.php:146
 msgid "Same styles in the editor and page. Ref"
 msgstr "M&ecirc;me styles dans l'&eacute;diteur et la page. Ref"
 
-#: ../../../../edition.php:145
+#: ../../../../edition.php:146
 msgid "or"
 msgstr "ou"
 
-#: ../../../../edition.php:145
+#: ../../../../edition.php:146
 msgid "in"
 msgstr "dans"
 
-#: ../../../../edition.php:147
+#: ../../../../edition.php:148
 msgid "Width page"
 msgstr "Largeur page"
 
-#: ../../../../edition.php:149
+#: ../../../../edition.php:150
 msgid "Adapt the editor width with the observed width of the HTML page. (960 by default)"
 msgstr "Permet d'adapter la largeur de l'&eacute;diteur avec la largeur constat&eacute;e sur la page HTML. (960 par defaut)"
 
-#: ../../../../edition.php:152
+#: ../../../../edition.php:153
 msgid "Saves settings"
 msgstr "Enregistre les param&egrave;tres"
 
-#: ../../../../edition.php:152
-#: ../../../../edition.php:197
+#: ../../../../edition.php:153
+#: ../../../../edition.php:198
 msgid "Save"
 msgstr "Enregistrer"
 
-#: ../../../../edition.php:156
+#: ../../../../edition.php:157
 msgid "Save all the website"
 msgstr "Sauvegarde de tout le site"
 
-#: ../../../../edition.php:156
+#: ../../../../edition.php:157
 msgid "Make a backup"
 msgstr "Faire une sauvegarde"
 
-#: ../../../../edition.php:157
+#: ../../../../edition.php:158
 msgid "Restore a backup (delete the current site)"
 msgstr "Restaurer une sauvegarde (supprime le site actuel)"
 
-#: ../../../../edition.php:157
+#: ../../../../edition.php:158
 msgid "Restore a backup"
 msgstr "Restaurer une sauvegarde"
 
-#: ../../../../edition.php:161
+#: ../../../../edition.php:162
 msgid "Change User / Password / Language"
 msgstr "Changement Utilisateur / Mot de passe / Langue"
 
-#: ../../../../edition.php:164
+#: ../../../../edition.php:165
 msgid "Current user"
 msgstr "Utilisateur actuel"
 
-#: ../../../../edition.php:169
+#: ../../../../edition.php:170
 msgid "Current password"
 msgstr "Mot de passe actuel"
 
-#: ../../../../edition.php:174
+#: ../../../../edition.php:175
 msgid "User"
 msgstr "Utilisateur"
 
-#: ../../../../edition.php:176
+#: ../../../../edition.php:177
 msgid "Enter a nickname. Avoid words that are too simple (admin, user ...)"
 msgstr "Entrer un pseudo. Eviter les mots trop simples (admin, user...)"
 
-#: ../../../../edition.php:179
-#: ../../../../edition.php:184
-msgid "Password"
-msgstr "Mot de passe"
-
-#: ../../../../edition.php:181
+#: ../../../../edition.php:182
 msgid "Very important for the safety of the site. Use lowercase, uppercase and digit."
 msgstr "Tr&egrave;s important pour la s&eacute;curit&eacute; du site. Utilisez min, maj et chiffres."
 
-#: ../../../../edition.php:186
+#: ../../../../edition.php:187
 msgid "Check. Re-enter the password."
 msgstr "V&eacute;rification. Entrer &agrave; nouveau le mot de passe."
 
-#: ../../../../edition.php:188
+#: ../../../../edition.php:189
 msgid "Language"
 msgstr "Langue"
 
-#: ../../../../edition.php:194
+#: ../../../../edition.php:195
 msgid "Language for the admin side of the site."
 msgstr "Langue pour la partie admin du site."
 
-#: ../../../../edition.php:197
+#: ../../../../edition.php:198
 msgid "Save password"
 msgstr "Enregistre le mot de passe"
 
-#: ../../../../edition.php:289
+#: ../../../../edition.php:210
+msgid "No plugin"
+msgstr "Pas de plugin"
+
+#: ../../../../edition.php:290
 msgid "Current elements are missing"
 msgstr "Il manque les &eacute;l&eacute;ments actuels"
 
-#: ../../../../edition.php:289
+#: ../../../../edition.php:290
 msgid "Too short name"
 msgstr "Nom trop court"
 
-#: ../../../../edition.php:289
+#: ../../../../edition.php:290
 msgid "Passwords are different"
 msgstr "Les mots de passes sont diff&eacute;rents"
 
-#: ../../../../edition.php:289
+#: ../../../../edition.php:290
 msgid "Too short password"
 msgstr "Mot de passe trop court"
 
-#: ../../../../edition.php:327
-#: ../../../../edition.php:333
+#: ../../../../edition.php:328
+#: ../../../../edition.php:334
 msgid "Enable"
 msgstr "Actif"
 
-#: ../../../../edition.php:327
-#: ../../../../edition.php:333
+#: ../../../../edition.php:328
+#: ../../../../edition.php:334
 msgid "Disable"
 msgstr "Inactif"
 
-#: ../../../../edition.php:352
+#: ../../../../edition.php:353
 msgid "Select a file"
 msgstr "S&eacute;lectionner un fichier"
 
