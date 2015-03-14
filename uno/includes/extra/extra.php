@@ -1,5 +1,5 @@
 <?php
-// EXTRA TO USE WITH OLD PHP
+// EXTRA FOR OLD PHP
 //
 if(!function_exists('json_decode') || !function_exists('json_encode')) include(dirname(__FILE__).'/JSON.php');
 if(!function_exists('json_encode'))
