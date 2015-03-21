@@ -6,7 +6,8 @@ if(!isset($_POST['unox']) || $_POST['unox']!=$_SESSION['unox']) {sleep(2);exit;}
 $lazy = 1;
 include('password.php'); $user=0; $pass=0; // reset
 include('includes/lang/lang.php');
-if (!is_dir('includes/js/ckeditor/')) $dep = "http://cmsuno-dep.googlecode.com/git/"; else $dep = "uno/"; // LIGHT HOSTED VERSION
+//if (!is_dir('includes/js/ckeditor/')) $dep = "http://cmsuno-dep.googlecode.com/git/"; else $dep = "uno/"; // LIGHT HOSTED VERSION
+if (!is_dir('includes/js/ckeditor/')) $dep = "https://cdn.rawgit.com/boiteasite/cmsuno/master/uno/"; else $dep = "uno/"; // LIGHT HOSTED VERSION
 //
 // ********************* functions ***********************************************************************
 function f_lazy($f)
@@ -118,7 +119,7 @@ if (isset($_POST['action']))
 		$Ubusy = 'index';
 		}
 	if(!file_exists('data/'.$Ubusy.'/chap0.txt')) file_put_contents('data/'.$Ubusy.'/chap0.txt', 'blabla...');
-	if(!file_exists('data/'.$Ubusy.'/site.json')) file_put_contents('data/'.$Ubusy.'/site.json', '{"chap":[{"d":"0","t":"Welcome"}],"pub":0,"lazy":1}');
+	if(!file_exists('data/'.$Ubusy.'/site.json')) file_put_contents('data/'.$Ubusy.'/site.json', '{"chap":[{"d":"0","t":"Welcome"}],"pub":0}');
 	switch ($_POST['action'])
 		{
 		// ********************************************************************************************
@@ -131,9 +132,9 @@ if (isset($_POST['action']))
 			{
 			$a1 = json_decode($q1,true);
 			$a['mel'] = $a1['mel'];
+			if(!isset($a['tit'])) $a['tit'] = '';
+			if(!isset($a['desc'])) $a['desc'] = '';
 			}
-		if(!isset($a['tit'])) $a['tit'] = '';
-		if(!isset($a['desc'])) $a['desc'] = '';
 		$q = json_encode($a);
 		echo $q; exit;
 		break;
@@ -328,10 +329,10 @@ if (isset($_POST['action']))
 		$content = str_replace($u,'',$content);
 		if (isset($Ua['jq']) && $Ua['jq']==1)
 			{
-			$head .= '<!--[if (!IE)|(gt IE 8)]><!--><script type="text/javascript" src="//code.jquery.com/jquery-2.1.0.min.js"></script><!--<![endif]-->'."\r\n"
-				.'<!--[if lte IE 8]><script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script><![endif]-->'."\r\n"
-				.'<script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>'."\r\n";
-			if($dep=='uno/') $head .= '<script type="text/javascript">window.jQuery || document.write(\'<script src="uno/includes/js/jquery-1.11.0.min.js">\x3C/script><script type="text/javascript" src="uno/includes/js/jquery-migrate-1.2.1.min.js">\x3C/script>\')</script>'."\r\n";
+			$head .= '<!--[if (!IE)|(gt IE 8)]><!--><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script><!--<![endif]-->'."\r\n"
+				.'<!--[if lte IE 8]><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script><![endif]-->'."\r\n"
+				.'<script type="text/javascript" src="'.$dep.'includes/js/jquery-migrate-1.2.1.min.js"></script>'."\r\n";
+			if($dep=='uno/') $head .= '<script type="text/javascript">window.jQuery || document.write(\'<script src="uno/includes/js/jquery-1.11.0.min.js">\x3C/script>\')</script>'."\r\n";
 			}
 		if (isset($Ua['lazy']) && $Ua['lazy']==1)
 			{
@@ -434,17 +435,12 @@ if (isset($_POST['action']))
 		$b = array();
 		$q = file_get_contents('data/'.$Ubusy.'/site.json');
 		$a = json_decode($q,true);
-		$d = array(); $p = dirname(__FILE__).'/plugins/';
-		if ($dh=opendir($p))
+		$d = glob('plugins/*',GLOB_ONLYDIR);
+		sort($d);
+		foreach($d as $r)
 			{
-			while (($file=readdir($dh))!==false) { if ($file!='.' && $file!='..'&& is_dir($p.$file)) $d[]=$p.$file; }
-			closedir($dh);
-			sort($d);
-			foreach($d as $r)
-				{
-				if (isset($a['plug'][basename($r)])) $b[]='1'.basename($r);
-				else $b[]='0'.basename($r);
-				}
+			if (isset($a['plug'][basename($r)])) $b[]='1'.basename($r);
+			else $b[]='0'.basename($r);
 			}
 		echo json_encode($b);
 		break;

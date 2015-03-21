@@ -39,7 +39,7 @@ The server has nothing to build, the page displays faster than any other CMS.
 * Development of plugins easy and effective.
 * Adaptation of open source CSS template fast and easy.
 * Multilingual with Gettext.
-* Less than 1MB. Centralized hosting of part of the code on Google servers.
+* Less than 1MB. Centralized hosting of part of the code on GitHub servers.
 
 More details in French [here](http://www.boiteasite.fr/fiches/cmsuno.html).
 
@@ -54,7 +54,7 @@ Installation
 
 Initial login & password : jack & 654321
 
-To reduce the size of CMSUno to less than 1 MB and benefit the speed of Google's servers, delete the following folders :
+To reduce the size of CMSUno to less than 1 MB and benefit the speed of GitHub's servers, delete the following folders :
 
 * includes/css
 * includes/img
@@ -275,6 +275,7 @@ THE SOFTWARE.
 Versions
 --------
 
+* V0.9.14 beta - 21/03/2015
 * V0.9.13 beta - 13/03/2015
 * V0.9.12 beta - 10/03/2015
 * V0.9.11 beta - 28/02/2015

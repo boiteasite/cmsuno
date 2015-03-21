@@ -11,5 +11,5 @@
 		bindtextdomain("cmsuno", dirname(__FILE__));
 		textdomain("cmsuno");
 		}
-	if(file_exists(dirname(__FILE__).'/../extra/extra.php')) include(dirname(__FILE__).'/../extra/extra.php');
+	// if(file_exists(dirname(__FILE__).'/../extra/extra.php')) include(dirname(__FILE__).'/../extra/extra.php');
 ?>

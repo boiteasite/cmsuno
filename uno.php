@@ -3,7 +3,7 @@ ini_set('session.use_trans_sid', 0);
 session_start();
 include('uno/password.php');
 include('uno/includes/lang/lang.php');
-if (!is_dir('uno/includes/js/ckeditor/')) $dep = "http://cmsuno-dep.googlecode.com/git/"; else $dep = "uno/"; // LIGHT HOSTED VERSION
+if (!is_dir('uno/includes/js/ckeditor/')) $dep = "https://cdn.rawgit.com/boiteasite/cmsuno/master/uno/"; else $dep = "uno/"; // LIGHT HOSTED VERSION
 if (isset($_POST['user']) && isset($_POST['pass']))
 	{
 	if ($_POST['user']===utf8_encode($user) && $_POST['pass']===$pass && is_writable(dirname(__FILE__)))
