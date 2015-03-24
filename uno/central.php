@@ -6,8 +6,7 @@ if(!isset($_POST['unox']) || $_POST['unox']!=$_SESSION['unox']) {sleep(2);exit;}
 $lazy = 1;
 include('password.php'); $user=0; $pass=0; // reset
 include('includes/lang/lang.php');
-//if (!is_dir('includes/js/ckeditor/')) $dep = "http://cmsuno-dep.googlecode.com/git/"; else $dep = "uno/"; // LIGHT HOSTED VERSION
-if (!is_dir('includes/js/ckeditor/')) $dep = "https://cdn.rawgit.com/boiteasite/cmsuno/master/uno/"; else $dep = "uno/"; // LIGHT HOSTED VERSION
+if (!is_dir('includes/js/ckeditor/')) $dep = "https://cdn.rawgit.com/boiteasite/cmsuno/master/uno/"; else $dep = "uno/"; // SEMI HOSTED VERSION
 //
 // ********************* functions ***********************************************************************
 function f_lazy($f)
@@ -132,9 +131,9 @@ if (isset($_POST['action']))
 			{
 			$a1 = json_decode($q1,true);
 			$a['mel'] = $a1['mel'];
-			if(!isset($a['tit'])) $a['tit'] = '';
-			if(!isset($a['desc'])) $a['desc'] = '';
 			}
+		if(!isset($a['tit'])) $a['tit'] = '';
+		if(!isset($a['desc'])) $a['desc'] = '';
 		$q = json_encode($a);
 		echo $q; exit;
 		break;
@@ -226,8 +225,11 @@ if (isset($_POST['action']))
 		case 'sauveConfig':
 		if($Ubusy!=$_POST['nom'] && $_POST['nom']!="")
 			{
-			if(!is_dir('data/'.$_POST['nom'])) f_copyDir('data/'.$Ubusy, 'data/'.$_POST['nom']);
-			if(!is_dir('data/sdata/'.$_POST['nom'])) f_copyDir('data/sdata/'.$Ubusy, 'data/sdata/'.$_POST['nom'], 0711);
+			if(!is_dir('data/'.$_POST['nom']) && is_dir('data/'.$Ubusy)) f_copyDir('data/'.$Ubusy, 'data/'.$_POST['nom']);
+			else mkdir('data/'.$_POST['nom'], 0755, true);
+			if(!is_dir('data/sdata/'.$_POST['nom']) && is_dir('data/sdata/'.$Ubusy)) f_copyDir('data/sdata/'.$Ubusy, 'data/sdata/'.$_POST['nom'], 0711);
+			else mkdir('data/sdata/'.$_POST['nom'], 0711, true);
+			f_rmdirR('data/'.$Ubusy);
 			$Ubusy = $_POST['nom'];
 			file_put_contents('data/busy.json', '{"nom":"'.$Ubusy.'"}');
 			}

@@ -5,19 +5,6 @@ if (!isset($_SESSION['cmsuno'])) exit();
 <?php
 $user=0; $pass=0; // reset
 if (!is_dir('uno/includes/js/ckeditor/')) $dep = "https://cdn.rawgit.com/boiteasite/cmsuno/master/uno/"; else $dep = "uno/"; // SEMI HOSTED VERSION
-function f_archive()
-	{
-	// liste des archives dans un select
-	$d = "uno/data/";
-	$g = glob($d."*.gz");
-	if ($g)
-		{
-		echo '<select>';
-		foreach ($g as $r) { echo '<option value="'.$r.'">'.$r.'</option>'; }
-		echo '</select>';
-		}
-	else return false;
-	}
 function f_theme()
 	{
 	// liste des themes dans un select
@@ -43,7 +30,7 @@ function f_theme()
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $dep; ?>includes/css/jquery-ui.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="uno/includes/elfinder/css/elfinder.min.css" />
 	<script type="text/javascript">
-		var Up=0,Udg=0,Usty=0,Uini=0,Utem='',Uplug='',Uplugon=0,Unox='<?php echo $unox; ?>',Upt=[],Upd=[],Uplugact=[],UconfigFile=[],Ulang='<?php echo $lang; ?>',UconfigNum=0,Ubusy='';
+		var Up=0,Udg=0,Usty=0,Uini=0,Utem=false,Uplug='',Uplugon=0,Unox='<?php echo $unox; ?>',Upt=[],Upd=[],Uplugact=[],UconfigFile=[],Ulang='<?php echo $lang; ?>',UconfigNum=0,Ubusy='';
   	</script>
 </head>
 <body>
@@ -218,7 +205,7 @@ function f_theme()
 <script type="text/javascript">
 	function f_get_site(){a=document.getElementById('menu');jQuery(document).ready(function(){
 	jQuery.ajax({type:"POST",url:'uno/central.php',data:{'action':'getSite','unox':Unox},dataType:'json',async:false,success:function(r){
-		Ubusy=r.nom;Usty=r.sty;Utem=r.tem;
+		Ubusy=r.nom;Usty=r.sty;Utem=(r.tem in window)?r.tem:false;
 		if(Up!=-1){
 			jQuery("#menu").empty();
 			b=document.createElement('ul');b.id='menuSort';b.className='ui-sortable';
@@ -255,7 +242,7 @@ function f_theme()
 		}});});}
 	function f_get_chap(f){jQuery(document).ready(function(){Up=f;jQuery.post('uno/central.php',{'action':'getChap','unox':Unox,'data':Upd[Up]},function(r){
 		if(!CKEDITOR.instances.content){
-			if(Usty==0)CKEDITOR.replace('content'); else CKEDITOR.replace('content',{contentsCss:['uno/template/'+Utem+'/style.css','uno/template/'+Utem+'/styles.css','uno/template/'+Utem+'/css/style.css','uno/template/'+Utem+'/css/style.css']});
+			if(Usty==0||!Utem)CKEDITOR.replace('content'); else CKEDITOR.replace('content',{contentsCss:['uno/template/'+Utem+'/style.css','uno/template/'+Utem+'/styles.css','uno/template/'+Utem+'/css/style.css','uno/template/'+Utem+'/css/style.css']});
 			if(Udg==0){CKEDITOR.instances["content"].on('change', function(){Udg=1;document.getElementById('boutonSauv').className="bouton danger";});jQuery("input[name='titre']").on('keypress', function(){Udg=1;document.getElementById('boutonSauv').className="bouton danger";});}
 			}
 		if(r.length<3)r+='-';CKEDITOR.instances['content'].setData(r.substr(1));
