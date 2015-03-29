@@ -188,6 +188,7 @@ Variables usable all have almost the same name as the shortcodes. Here is a non-
 * __$head__ : At the end of the block `<head>`. Used to add a script or a CSS file.
 * __$style__ : CSS content added at the end of the block `<head>` in a `<style>` container.
 * __$foot__ : At the end of the block `<body>`. Used to add a script.
+* __$onload__ : Used to add a JS code to be run after the start. ex : $onload = 'alert("hello!");';
 * __$menu__ : Page list according to `<ul class="maClasse"><li><a href="#...">MyPage</a></li>...</ul>`.
 * __$title__ : Website Title. (Used in template : `<title>[[title]]</title>`).
 * __$description__ : Website Description (`<meta name="description" content="[[description]]">`).
