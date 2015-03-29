@@ -1,39 +1,14 @@
 <?php
-
 /**
  * Default elFinder connector
  *
  * @author Dmitry (dio) Levashov
  **/
 class elFinderConnector {
-	/**
-	 * elFinder instance
-	 *
-	 * @var elFinder
-	 **/
 	protected $elFinder;
-	
-	/**
-	 * Options
-	 *
-	 * @var aray
-	 **/
 	protected $options = array();
-	
-	/**
-	 * undocumented class variable
-	 *
-	 * @var string
-	 **/
 	protected $header = 'Content-Type: application/json';
-	
-	
-	/**
-	 * Constructor
-	 *
-	 * @return void
-	 * @author Dmitry (dio) Levashov
-	 **/
+	//
 	public function __construct($elFinder, $debug=false) {
 		
 		$this->elFinder = $elFinder;
@@ -41,13 +16,6 @@ class elFinderConnector {
 			$this->header = 'Content-Type: text/html; charset=utf-8';
 		}
 	}
-	
-	/**
-	 * Execute elFinder command and output result
-	 *
-	 * @return void
-	 * @author Dmitry (dio) Levashov
-	 **/
 	public function run() {
 		$isPost = $_SERVER["REQUEST_METHOD"] == 'POST';
 		$src    = $_SERVER["REQUEST_METHOD"] == 'POST' ? $_POST : $_GET;
@@ -92,14 +60,6 @@ class elFinderConnector {
 		
 		$this->output($this->elFinder->exec($cmd, $args));
 	}
-	
-	/**
-	 * Output json
-	 *
-	 * @param  array  data to output
-	 * @return void
-	 * @author Dmitry (dio) Levashov
-	 **/
 	protected function output(array $data) {
 		$header = isset($data['header']) ? $data['header'] : $this->header;
 		unset($data['header']);

@@ -9,42 +9,12 @@
  * @author Troex Nevelin
  * @author Alexey Sukhotin
  **/
-class elFinder {
-	
-	/**
-	 * API version number
-	 *
-	 * @var string
-	 **/
+class elFinder
+{
 	protected $version = '2.0';
-	
-	/**
-	 * Storages (root dirs)
-	 *
-	 * @var array
-	 **/
 	protected $volumes = array();
-	
-	/**
-	 * Mounted volumes count
-	 * Required to create unique volume id
-	 *
-	 * @var int
-	 **/
 	public static $volumesCnt = 1;
-	
-	/**
-	 * Default root (storage)
-	 *
-	 * @var elFinderStorageDriver
-	 **/
 	protected $default = null;
-	
-	/**
-	 * Commands and required arguments list
-	 *
-	 * @var array
-	 **/
 	protected $commands = array(
 		'open'      => array('target' => false, 'tree' => false, 'init' => false, 'mimes' => false),
 		'ls'        => array('target' => true, 'mimes' => false),
@@ -69,48 +39,12 @@ class elFinder {
 		'dim'       => array('target' => true),
 		'resize'    => array('target' => true, 'width' => true, 'height' => true, 'mode' => false, 'x' => false, 'y' => false, 'degree' => false)
 	);
-	
-	/**
-	 * Commands listeners
-	 *
-	 * @var array
-	 **/
 	protected $listeners = array();
-	
-	/**
-	 * script work time for debug
-	 *
-	 * @var string
-	 **/
 	protected $time = 0;
-	/**
-	 * Is elFinder init correctly?
-	 *
-	 * @var bool
-	 **/
 	protected $loaded = false;
-	/**
-	 * Send debug to client?
-	 *
-	 * @var string
-	 **/
 	protected $debug = false;
-	
-	/**
-	 * undocumented class variable
-	 *
-	 * @var string
-	 **/
 	protected $uploadDebug = '';
-	
-	/**
-	 * Errors from not mounted volumes
-	 *
-	 * @var array
-	 **/
 	public $mountErrors = array();
-	
-	// Errors messages
 	const ERROR_UNKNOWN           = 'errUnknown';
 	const ERROR_UNKNOWN_CMD       = 'errUnknownCmd';
 	const ERROR_CONF              = 'errConf';
@@ -157,14 +91,7 @@ class elFinder {
 	const ERROR_RESIZE            = 'errResize';
 	const ERROR_UNSUPPORT_TYPE    = 'errUsupportType';
 	const ERROR_NOT_UTF8_CONTENT  = 'errNotUTF8Content';
-	
-	/**
-	 * Constructor
-	 *
-	 * @param  array  elFinder and roots configurations
-	 * @return void
-	 * @author Dmitry (dio) Levashov
-	 **/
+	//
 	public function __construct($opts) {
 		
 		$this->time  = $this->utime();
@@ -207,35 +134,12 @@ class elFinder {
 		// if at least one redable volume - ii desu >_<
 		$this->loaded = !empty($this->default);
 	}
-	
-	/**
-	 * Return true if fm init correctly
-	 *
-	 * @return bool
-	 * @author Dmitry (dio) Levashov
-	 **/
 	public function loaded() {
 		return $this->loaded;
 	}
-	
-	/**
-	 * Return version (api) number
-	 *
-	 * @return string
-	 * @author Dmitry (dio) Levashov
-	 **/
 	public function version() {
 		return $this->version;
 	}
-	
-	/**
-	 * Add handler to elFinder command
-	 *
-	 * @param  string  command name
-	 * @param  string|array  callback name or array(object, method)
-	 * @return elFinder
-	 * @author Dmitry (dio) Levashov
-	 **/
 	public function bind($cmd, $handler) {
 		$cmds = array_map('trim', explode(' ', $cmd));
 		
@@ -254,15 +158,6 @@ class elFinder {
 
 		return $this;
 	}
-	
-	/**
-	 * Remove event (command exec) handler
-	 *
-	 * @param  string  command name
-	 * @param  string|array  callback name or array(object, method)
-	 * @return elFinder
-	 * @author Dmitry (dio) Levashov
-	 **/
 	public function unbind($cmd, $handler) {
 		if (!empty($this->listeners[$cmd])) {
 			foreach ($this->listeners[$cmd] as $i => $h) {
@@ -274,37 +169,12 @@ class elFinder {
 		}
 		return $this;
 	}
-	
-	/**
-	 * Return true if command exists
-	 *
-	 * @param  string  command name
-	 * @return bool
-	 * @author Dmitry (dio) Levashov
-	 **/
 	public function commandExists($cmd) {
 		return $this->loaded && isset($this->commands[$cmd]) && method_exists($this, $cmd);
 	}
-	
-	/**
-	 * Return command required arguments info
-	 *
-	 * @param  string  command name
-	 * @return array
-	 * @author Dmitry (dio) Levashov
-	 **/
 	public function commandArgsList($cmd) {
 		return $this->commandExists($cmd) ? $this->commands[$cmd] : array();
 	}
-	
-	/**
-	 * Exec command and return result
-	 *
-	 * @param  string  $cmd  command name
-	 * @param  array   $args command arguments
-	 * @return array
-	 * @author Dmitry (dio) Levashov
-	 **/
 	public function exec($cmd, $args) {
 		
 		if (!$this->loaded) {
@@ -380,31 +250,12 @@ class elFinder {
 		
 		return $result;
 	}
-	
-	/**
-	 * Return file real path
-	 *
-	 * @param  string  $hash  file hash
-	 * @return string
-	 * @author Dmitry (dio) Levashov
-	 **/
 	public function realpath($hash)	{
 		if (($volume = $this->volume($hash)) == false) {
 			return false;
 		}
 		return $volume->realpath($hash);
 	}
-	
-	/***************************************************************************/
-	/*                                 commands                                */
-	/***************************************************************************/
-	
-	/**
-	 * Normalize error messages
-	 *
-	 * @return array
-	 * @author Dmitry (dio) Levashov
-	 **/
 	public function error() {
 		$errors = array();
 
@@ -418,20 +269,6 @@ class elFinder {
 		
 		return count($errors) ? $errors : array(self::ERROR_UNKNOWN);
 	}
-	
-	/**
-	 * "Open" directory
-	 * Return array with following elements
-	 *  - cwd          - opened dir info
-	 *  - files        - opened dir content [and dirs tree if $args[tree]]
-	 *  - api          - api version (if $args[init])
-	 *  - uplMaxSize   - if $args[init]
-	 *  - error        - on failed
-	 *
-	 * @param  array  command arguments
-	 * @return array
-	 * @author Dmitry (dio) Levashov
-	 **/
 	protected function open($args) {
 		$target = $args['target'];
 		$init   = !empty($args['init']);
@@ -491,14 +328,6 @@ class elFinder {
 		
 		return $result;
 	}
-	
-	/**
-	 * Return dir files names list
-	 *
-	 * @param  array  command arguments
-	 * @return array
-	 * @author Dmitry (dio) Levashov
-	 **/
 	protected function ls($args) {
 		$target = $args['target'];
 		
@@ -508,14 +337,6 @@ class elFinder {
 		}
 		return array('list' => $list);
 	}
-	
-	/**
-	 * Return subdirs for required directory
-	 *
-	 * @param  array  command arguments
-	 * @return array
-	 * @author Dmitry (dio) Levashov
-	 **/
 	protected function tree($args) {
 		$target = $args['target'];
 		
@@ -526,14 +347,6 @@ class elFinder {
 
 		return array('tree' => $tree);
 	}
-	
-	/**
-	 * Return parents dir for required directory
-	 *
-	 * @param  array  command arguments
-	 * @return array
-	 * @author Dmitry (dio) Levashov
-	 **/
 	protected function parents($args) {
 		$target = $args['target'];
 		
@@ -544,14 +357,6 @@ class elFinder {
 
 		return array('tree' => $tree);
 	}
-	
-	/**
-	 * Return new created thumbnails list
-	 *
-	 * @param  array  command arguments
-	 * @return array
-	 * @author Dmitry (dio) Levashov
-	 **/
 	protected function tmb($args) {
 		
 		$result  = array('images' => array());
@@ -565,15 +370,6 @@ class elFinder {
 		}
 		return $result;
 	}
-	
-	/**
-	 * Required to output file in browser when volume URL is not set 
-	 * Return array contains opened file pointer, root itself and required headers
-	 *
-	 * @param  array  command arguments
-	 * @return array
-	 * @author Dmitry (dio) Levashov
-	 **/
 	protected function file($args) {
 		$target   = $args['target'];
 		$download = !empty($args['download']);
@@ -633,14 +429,6 @@ class elFinder {
 		);
 		return $result;
 	}
-	
-	/**
-	 * Count total files size
-	 *
-	 * @param  array  command arguments
-	 * @return array
-	 * @author Dmitry (dio) Levashov
-	 **/
 	protected function size($args) {
 		$size = 0;
 		
@@ -655,14 +443,6 @@ class elFinder {
 		}
 		return array('size' => $size);
 	}
-	
-	/**
-	 * Create directory
-	 *
-	 * @param  array  command arguments
-	 * @return array
-	 * @author Dmitry (dio) Levashov
-	 **/
 	protected function mkdir($args) {
 		$target = $args['target'];
 		$name   = $args['name'];
@@ -675,14 +455,6 @@ class elFinder {
 			? array('error' => $this->error(self::ERROR_MKDIR, $name, $volume->error()))
 			: array('added' => array($dir));
 	}
-	
-	/**
-	 * Create empty file
-	 *
-	 * @param  array  command arguments
-	 * @return array
-	 * @author Dmitry (dio) Levashov
-	 **/
 	protected function mkfile($args) {
 		$target = $args['target'];
 		$name   = $args['name'];
@@ -695,14 +467,6 @@ class elFinder {
 			? array('error' => $this->error(self::ERROR_MKFILE, $name, $volume->error()))
 			: array('added' => array($file));
 	}
-	
-	/**
-	 * Rename file
-	 *
-	 * @param  array  $args
-	 * @return array
-	 * @author Dmitry (dio) Levashov
-	 **/
 	protected function rename($args) {
 		$target = $args['target'];
 		$name   = $args['name'];
@@ -717,14 +481,6 @@ class elFinder {
 			? array('error' => $this->error(self::ERROR_RENAME, $rm['name'], $volume->error()))
 			: array('added' => array($file), 'removed' => array($rm));
 	}
-	
-	/**
-	 * Duplicate file - create copy with "copy %d" suffix
-	 *
-	 * @param array  $args  command arguments
-	 * @return array
-	 * @author Dmitry (dio) Levashov
-	 **/
 	protected function duplicate($args) {
 		$targets = is_array($args['targets']) ? $args['targets'] : array();
 		$result  = array('added' => array());
@@ -747,14 +503,6 @@ class elFinder {
 		
 		return $result;
 	}
-		
-	/**
-	 * Remove dirs/files
-	 *
-	 * @param array  command arguments
-	 * @return array
-	 * @author Dmitry (dio) Levashov
-	 **/
 	protected function rm($args) {
 		$targets = is_array($args['targets']) ? $args['targets'] : array();
 		$result  = array('removed' => array());
@@ -772,14 +520,6 @@ class elFinder {
 
 		return $result;
 	}
-	
-	/**
-	 * Save uploaded files
-	 *
-	 * @param  array
-	 * @return array
-	 * @author Dmitry (dio) Levashov
-	 **/
 	protected function upload($args) {
 		$target = $args['target'];
 		$volume = $this->volume($target);
@@ -821,14 +561,6 @@ class elFinder {
 		
 		return $result;
 	}
-		
-	/**
-	 * Copy/move files into new destination
-	 *
-	 * @param  array  command arguments
-	 * @return array
-	 * @author Dmitry (dio) Levashov
-	 **/
 	protected function paste($args) {
 		$dst     = $args['dst'];
 		$targets = is_array($args['targets']) ? $args['targets'] : array();
@@ -855,14 +587,6 @@ class elFinder {
 		}
 		return $result;
 	}
-	
-	/**
-	 * Return file content
-	 *
-	 * @param  array  $args  command arguments
-	 * @return array
-	 * @author Dmitry (dio) Levashov
-	 **/
 	protected function get($args) {
 		$target = $args['target'];
 		$volume = $this->volume($target);
@@ -883,13 +607,6 @@ class elFinder {
 		
 		return array('content' => $content);
 	}
-	
-	/**
-	 * Save content into text file
-	 *
-	 * @return array
-	 * @author Dmitry (dio) Levashov
-	 **/
 	protected function put($args) {
 		$target = $args['target'];
 		
@@ -904,15 +621,6 @@ class elFinder {
 		
 		return array('changed' => array($file));
 	}
-
-	/**
-	 * Extract files from archive
-	 *
-	 * @param  array  $args  command arguments
-	 * @return array
-	 * @author Dmitry (dio) Levashov, 
-	 * @author Alexey Sukhotin
-	 **/
 	protected function extract($args) {
 		$target = $args['target'];
 		$mimes  = !empty($args['mimes']) && is_array($args['mimes']) ? $args['mimes'] : array();
@@ -927,15 +635,6 @@ class elFinder {
 			? array('added' => array($file))
 			: array('error' => $this->error(self::ERROR_EXTRACT, $volume->path($target), $volume->error()));
 	}
-	
-	/**
-	 * Create archive
-	 *
-	 * @param  array  $args  command arguments
-	 * @return array
-	 * @author Dmitry (dio) Levashov, 
-	 * @author Alexey Sukhotin
-	 **/
 	protected function archive($args) {
 		$type    = $args['type'];
 		$targets = isset($args['targets']) && is_array($args['targets']) ? $args['targets'] : array();
@@ -948,14 +647,6 @@ class elFinder {
 			? array('added' => array($file))
 			: array('error' => $this->error(self::ERROR_ARCHIVE, $volume->error()));
 	}
-	
-	/**
-	 * Search files
-	 *
-	 * @param  array  $args  command arguments
-	 * @return array
-	 * @author Dmitry Levashov
-	 **/
 	protected function search($args) {
 		$q      = trim($args['q']);
 		$mimes  = !empty($args['mimes']) && is_array($args['mimes']) ? $args['mimes'] : array();
@@ -967,14 +658,6 @@ class elFinder {
 		
 		return array('files' => $result);
 	}
-	
-	/**
-	 * Return file info (used by client "places" ui)
-	 *
-	 * @param  array  $args  command arguments
-	 * @return array
-	 * @author Dmitry Levashov
-	 **/
 	protected function info($args) {
 		$files = array();
 		
@@ -987,14 +670,6 @@ class elFinder {
 		
 		return array('files' => $files);
 	}
-	
-	/**
-	 * Return image dimmensions
-	 *
-	 * @param  array  $args  command arguments
-	 * @return array
-	 * @author Dmitry (dio) Levashov
-	 **/
 	protected function dim($args) {
 		$target = $args['target'];
 		
@@ -1004,15 +679,6 @@ class elFinder {
 		}
 		return array();
 	}
-	
-	/**
-	 * Resize image
-	 *
-	 * @param  array  command arguments
-	 * @return array
-	 * @author Dmitry (dio) Levashov
-	 * @author Alexey Sukhotin
-	 **/
 	protected function resize($args) {
 		$target = $args['target'];
 		$width  = $args['width'];
@@ -1032,18 +698,6 @@ class elFinder {
 			? array('changed' => array($file))
 			: array('error' => $this->error(self::ERROR_RESIZE, $volume->path($target), $volume->error()));
 	}
-	
-	/***************************************************************************/
-	/*                                   utils                                 */
-	/***************************************************************************/
-	
-	/**
-	 * Return root - file's owner
-	 *
-	 * @param  string  file hash
-	 * @return elFinderStorageDriver
-	 * @author Dmitry (dio) Levashov
-	 **/
 	protected function volume($hash) {
 		foreach ($this->volumes as $id => $v) {
 			if (strpos(''.$hash, $id) === 0) {
@@ -1052,25 +706,9 @@ class elFinder {
 		}
 		return false;
 	}
-	
-	/**
-	 * Return files info array 
-	 *
-	 * @param  array  $data  one file info or files info
-	 * @return array
-	 * @author Dmitry (dio) Levashov
-	 **/
 	protected function toArray($data) {
 		return isset($data['hash']) || !is_array($data) ? array($data) : $data;
 	}
-	
-	/**
-	 * Return fils hashes list
-	 *
-	 * @param  array  $files  files info
-	 * @return array
-	 * @author Dmitry (dio) Levashov
-	 **/
 	protected function hashes($files) {
 		$ret = array();
 		foreach ($files as $file) {
@@ -1078,14 +716,6 @@ class elFinder {
 		}
 		return $ret;
 	}
-	
-	/**
-	 * Remove from files list hidden files and files with required mime types
-	 *
-	 * @param  array  $files  files info
-	 * @return array
-	 * @author Dmitry (dio) Levashov
-	 **/
 	protected function filter($files) {
 		foreach ($files as $i => $file) {
 			if (!empty($file['hidden']) || !$this->default->mimeAccepted($file['mime'])) {
