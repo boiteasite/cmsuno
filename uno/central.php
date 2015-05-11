@@ -354,6 +354,7 @@ if (isset($_POST['action']))
 			}
 		// *** / ***
 		include('includes/lang/lang.php');
+		if(strpos(strtolower($html),'charset="utf-8"')===false && strpos(strtolower($html),"charset='utf-8'")===false) $head .= '<meta charset="utf-8">'."\r\n";
 		$head .= '<style type="text/css">'."\r\n".$style.'</style>';
 		$foot .= $jsmenu;
 		if($onload!='') $foot .= '<script type="text/javascript">window.onload=function(){'.$onload.'}</script>'."\r\n";
