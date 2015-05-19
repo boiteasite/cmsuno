@@ -193,7 +193,7 @@ Variables usable all have almost the same name as the shortcodes. Here is a non-
 * __$title__ : Website Title. (Used in template : `<title>[[title]]</title>`).
 * __$description__ : Website Description (`<meta name="description" content="[[description]]">`).
 * __$name__ : Published HTML file name. By default, it's "index".
-* __$unoPop__ : Set 1 to add unoPop JS and CSS. Small code in pure JS to use nodal window and to get value in url variable.
+* __$unoPop__ : Set 1 to add unoPop JS and CSS. Small code in pure JS to use nodal window and to get value from url data.
 
 ### foo.js ###
 
