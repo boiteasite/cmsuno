@@ -277,6 +277,7 @@ THE SOFTWARE.
 Versions
 --------
 
+* V0.9.19 beta - 22/05/2015 : CKEditor 4.4.7 with widget
 * V0.9.18 beta - 19/05/2015
 * V0.9.17 beta - 11/05/2015
 * V0.9.16 beta - 29/03/2015

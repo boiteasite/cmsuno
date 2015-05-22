@@ -23,8 +23,10 @@ u::::::::::::::u  n::::n    n::::n  o:::::ooooo:::::o
      \____/           \/    \/            \__/
 </pre>
 
-CKEditor
+CKEditor 4.4.7
 --------
+
+Update : 22/05/2015
 
 CMSUno use a custom version of CKEditor made on http://ckeditor.com/ with the Standard Package plus :
 
@@ -34,5 +36,6 @@ CMSUno use a custom version of CKEditor made on http://ckeditor.com/ with the St
 * FONT SIZE AND FAMILY
 * JUSTIFY
 * SHOW BLOCKS
+* WIDGET
 
 Nothing more.

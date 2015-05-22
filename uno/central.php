@@ -6,7 +6,8 @@ if(!isset($_POST['unox']) || $_POST['unox']!=$_SESSION['unox']) {sleep(2);exit;}
 $lazy = 1;
 include('password.php'); $user=0; $pass=0; // reset
 include('includes/lang/lang.php');
-if (!is_dir('includes/js/ckeditor/')) $dep = "https://cdn.rawgit.com/boiteasite/cmsuno/master/uno/"; else $dep = "uno/"; // SEMI HOSTED VERSION
+//if (!is_dir('includes/js/ckeditor/')) $dep = "https://cdn.rawgit.com/boiteasite/cmsuno/master/uno/"; else $dep = "uno/"; // SEMI HOSTED VERSION
+if (!is_dir('includes/js/ckeditor/')) $dep = "https://rawgit.com/boiteasite/cmsuno/master/uno/"; else $dep = "uno/"; // SEMI HOSTED VERSION
 //
 // ********************* functions ***********************************************************************
 function f_lazy($f)

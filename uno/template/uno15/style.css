@@ -68,7 +68,7 @@ section{display:block;}
 .scroll-nav .active a{background:#e1513b;color:#fff;}
 .scroll-nav ol ol{display:none;}
 .scroll-nav ol .active ol{display:block;}
-.scroll-nav ol .active ol a{background-color:transparent;color:#555;font-size:80%;margin-left:8px;line-height:1.3em;}
+.scroll-nav ol .active ol a{background-color:transparent;color:#555;font-size:.8em;margin-left:8px;line-height:1.3em;}
 .scroll-nav ol ol .active a{text-decoration:underline;}
 li.L0,li.L1,li.L2,li.L3,li.L5,li.L6,li.L7,li.L8{list-style-type:decimal !important;}
 /* NIVO */
@@ -81,12 +81,14 @@ li.L0,li.L1,li.L2,li.L3,li.L5,li.L6,li.L7,li.L8{list-style-type:decimal !importa
 	body{font-size:13px;}
 	#header .wrapper{width:98%;}
 	#global{width:98%;}
-	#global .content{margin:0 auto;width:98%;}
+	#global .content, .sn-active #global .content{margin:0 auto;width:98%;}
 	#footer{width:98%;padding:8px 5px 4px;}
 	.navR{display:inline;position:absolute;top:0;right:10px;font-size:40px;line-height:1.2em;font-weight:bold;cursor:pointer;}
-	.navR:before{content:"\2261";}
+	.navR:before, .scroll-nav:before{content:"\2261";display:block;}
 	#nav{position:absolute;top:50px;right:0;display:none;}
 	#nav li{display:block;height:auto;text-align:left;line-height:1.5em;}
+	.sn-active #global .content{border-left:none;padding:0px;}
+	.scroll-nav{display:none;}
 }
 @media screen and (max-width:480px){
 	body{font-size:12px;}

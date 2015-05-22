@@ -1,4 +1,4 @@
-// CMSUNO
+// CMSUno
 // Smooth Menu in vanilla JS
 //
 var u=document.getElementById('nav'),Umenu=u.childNodes,Utt,Ubot,Uv,u1=document.getElementsByClassName("nav1"),u2=u1[0].getBoundingClientRect(),Umg=-u2.top+100-window.pageYOffset;

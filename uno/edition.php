@@ -4,7 +4,8 @@ if (!isset($_SESSION['cmsuno'])) exit();
 ?>
 <?php
 $user=0; $pass=0; // reset
-if (!is_dir('uno/includes/js/ckeditor/')) $dep = "https://cdn.rawgit.com/boiteasite/cmsuno/master/uno/"; else $dep = "uno/"; // SEMI HOSTED VERSION
+//if (!is_dir('uno/includes/js/ckeditor/')) $dep = "https://cdn.rawgit.com/boiteasite/cmsuno/master/uno/"; else $dep = "uno/"; // SEMI HOSTED VERSION
+if (!is_dir('uno/includes/js/ckeditor/')) $dep = "https://rawgit.com/boiteasite/cmsuno/master/uno/"; else $dep = "uno/"; // SEMI HOSTED VERSION
 function f_theme()
 	{
 	// liste des themes dans un select
