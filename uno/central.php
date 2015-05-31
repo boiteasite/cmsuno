@@ -296,7 +296,7 @@ if (isset($_POST['action']))
 		// ********************************************************************************************
 		// SHORTCODE [[foo]] : title, description, template, head, foot, menu, jsmenu, content
 		case 'publier':
-		$head = ''; $foot = ''; $onload = ''; $content = ''; $menu = ''; $style = ''; $jsmenu = '<script type="text/javascript" src="'.$dep.'includes/js/uno_menu.js"></script>';
+		$head = ''; $foot = ''; $onload = ''; $content = ''; $menu = ''; $style = ''; $script = ''; $jsmenu = '<script type="text/javascript" src="'.$dep.'includes/js/uno_menu.js"></script>';
 		$unoPop=0; // Include JS files
 		$q = file_get_contents('data/'.$Ubusy.'/site.json');
 		$Ua = json_decode($q,true);
@@ -359,6 +359,8 @@ if (isset($_POST['action']))
 		if(strpos(strtolower($html),'charset="utf-8"')===false && strpos(strtolower($html),"charset='utf-8'")===false) $head .= '<meta charset="utf-8">'."\r\n";
 		$head .= '<style type="text/css">'."\r\n".$style.'</style>'."\r\n";
 		if($unoPop==1) $head .= '<script type="text/javascript" src="'.$dep.'includes/js/unoPop.js"></script><link rel="stylesheet" type="text/css" href="'.$dep.'includes/css/unoPop.css" />'."\r\n";
+		if($unoUbusy==1) $script .= 'var Ubusy="'.$Ubusy.'";';
+		if($script) $head .= '<script type="text/javascript">'.$script.'</script>'."\r\n";
 		$foot .= $jsmenu;
 		if($onload!='') $foot .= '<script type="text/javascript">window.onload=function(){'.$onload.'}</script>'."\r\n";
 		$menu = '<label for="navR" class="navR"></label><input type="checkbox" id="navR" />'."\r\n".'<ul id="nav">'.$menu.'</ul>';

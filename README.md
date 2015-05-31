@@ -187,6 +187,7 @@ Variables usable all have almost the same name as the shortcodes. Here is a non-
 * __$content__ : The content of the pages. Used to replace a shortcode added in the page with CKEditor.
 * __$head__ : At the end of the block `<head>`. Used to add a script or a CSS file.
 * __$style__ : CSS content added at the end of the block `<head>` in a `<style>` container.
+* __$script__ : Short JS content added at the end of the head part in a `<script>` container. Use it, for example, to declare var.
 * __$foot__ : At the end of the block `<body>`. Used to add a script.
 * __$onload__ : Used to add a JS code to be run after the start. ex : $onload = 'alert("hello!");';
 * __$menu__ : Page list according to `<ul class="maClasse"><li><a href="#...">MyPage</a></li>...</ul>`.
@@ -194,6 +195,7 @@ Variables usable all have almost the same name as the shortcodes. Here is a non-
 * __$description__ : Website Description (`<meta name="description" content="[[description]]">`).
 * __$name__ : Published HTML file name. By default, it's "index".
 * __$unoPop__ : Set 1 to add unoPop JS and CSS. Small code in pure JS to use nodal window and to get value from url data.
+* __$unoUbusy__ : Set 1 to add JS var Ubusy in the head.
 
 ### foo.js ###
 
@@ -277,6 +279,7 @@ THE SOFTWARE.
 Versions
 --------
 
+* V0.9.20 beta - 31/05/2015
 * V0.9.19 beta - 22/05/2015 : CKEditor 4.4.7 with widget
 * V0.9.18 beta - 19/05/2015
 * V0.9.17 beta - 11/05/2015

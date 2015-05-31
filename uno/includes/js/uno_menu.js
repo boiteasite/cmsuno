@@ -11,9 +11,9 @@ for(Uv=0;Uv<Umenu.length;Uv++){
 }
 function gTo(f){
 	var g=(f+"").substring((f+"").search("#")+1),h=window.pageYOffset||document.body.scrollTop;g=Math.max(0,document.getElementById(g).offsetTop-Umg);
-	if(h<g-5&&h!=Ubot){window.scrollBy(0,Math.min(80,(g-h)/4));Utt=setTimeout(function(){gTo(f);},12);}
-	else if(h>g+5){window.scrollBy(0,Math.max(-80,(g-h)/4));Utt=setTimeout(function(){gTo(f);},12);}
-	else{window.scrollTo(0,g);clearTimeout(Utt);}
+	if(h<g-5&&h!=Ubot){window.scrollBy(0,Math.max((g-h)/30,Math.min(80,(g-h)/4)));Utt=setTimeout(function(){gTo(f);},12);}
+	else if(h>g+5){window.scrollBy(0,Math.min((g-h)/30,Math.max(-80,(g-h)/4)));Utt=setTimeout(function(){gTo(f);},12);}
+	else{window.scrollTo(0,g+1);clearTimeout(Utt);}
 	Ubot=h;
 }
 function onScroll(){

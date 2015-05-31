@@ -1,5 +1,6 @@
-.unoPop{position:fixed;top:40%;left:50%;margin:-5% 0 0 -150px;width:300px;padding:0 0 30px;opacity:1;text-align:center;font-size:1.1em;color:#000;background-color:#999;border:2px outset #777;z-index:99;}
+.unoPop{position:fixed;top:25%;left:50%;margin:-6% 0 0 -150px;width:300px;padding:0 0 30px;opacity:1;text-align:center;font-size:1.1em;color:#000;background-color:#999;border:2px outset #777;z-index:99;}
 .unoPopContent{width:260px;padding:20px;background-color:#ddd}
 .unoPopContent img.logo{padding:10px;}
 .unoPopClose{display:block;width:16px;height:16px;float:right;background-image:url('../img/close.png');background-color:none;}
 .unoPopClose:hover{background-color:#e9ffe9;}
+@media only screen and (max-width: 480px){.unoPop{position:absolute;top:0;left:0;margin:2px;}}
