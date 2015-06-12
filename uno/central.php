@@ -113,7 +113,7 @@ if (isset($_POST['action']))
 		}
 	if(!$b)
 		{
-		if(!is_dir('data')) mkdir('data'); if(!is_dir('data/sdata')) mkdir('data/sdata',0711);
+		if(!is_dir('data')) mkdir('data'); if(!is_dir('data/_sdata')) mkdir('data/_sdata',0711);
 		if(!is_dir('data/index')) mkdir('data/index');
 		file_put_contents('data/busy.json', '{"nom":"index"}');
 		$Ubusy = 'index';
@@ -126,7 +126,7 @@ if (isset($_POST['action']))
 		case 'getSite':
 		$a = array();
 		$q = @file_get_contents('data/'.$Ubusy.'/site.json');
-		$q1 = @file_get_contents('data/sdata/ssite.json');
+		$q1 = @file_get_contents('data/_sdata/ssite.json');
 		if($q) $a = json_decode($q,true);
 		if($q1)
 			{
@@ -224,20 +224,22 @@ if (isset($_POST['action']))
 		break;
 		// ********************************************************************************************
 		case 'sauveConfig':
-		if($Ubusy!=$_POST['nom'] && $_POST['nom']!="")
+		$n = (($_POST['nom']!="")?preg_replace("/[^A-Za-z0-9-_]/",'',$_POST['nom']):'index');
+		while(substr($n,0,1)=="_") $n = substr($n,1);
+		if($Ubusy!=$n && $n!="")
 			{
-			if(!is_dir('data/'.$_POST['nom']) && is_dir('data/'.$Ubusy)) f_copyDir('data/'.$Ubusy, 'data/'.$_POST['nom']);
-			else mkdir('data/'.$_POST['nom'], 0755, true);
-			if(!is_dir('data/sdata/'.$_POST['nom']) && is_dir('data/sdata/'.$Ubusy)) f_copyDir('data/sdata/'.$Ubusy, 'data/sdata/'.$_POST['nom'], 0711);
-			else mkdir('data/sdata/'.$_POST['nom'], 0711, true);
+			if(!is_dir('data/'.$n) && is_dir('data/'.$Ubusy)) f_copyDir('data/'.$Ubusy, 'data/'.$n);
+			else mkdir('data/'.$n, 0755, true);
+			if(!is_dir('data/_sdata/'.$n) && is_dir('data/_sdata/'.$Ubusy)) f_copyDir('data/_sdata/'.$Ubusy, 'data/_sdata/'.$n, 0711);
+			else mkdir('data/_sdata/'.$n, 0711, true);
 			f_rmdirR('data/'.$Ubusy);
-			$Ubusy = $_POST['nom'];
+			$Ubusy = $n;
 			file_put_contents('data/busy.json', '{"nom":"'.$Ubusy.'"}');
 			}
-		$q=@file_get_contents('data/sdata/ssite.json');
+		$q=@file_get_contents('data/_sdata/ssite.json');
 		if($q) $a=json_decode($q,true);
 		else $a = array();
-		$a['mel']=$_POST['mel']; $out1=json_encode($a); file_put_contents('data/sdata/ssite.json',$out1);
+		$a['mel']=$_POST['mel']; $out1=json_encode($a); file_put_contents('data/_sdata/ssite.json',$out1);
 		$q = file_get_contents('data/'.$Ubusy.'/site.json');
 		$a = json_decode($q,true);
 		$a['tit'] = $_POST['tit'];
@@ -245,7 +247,7 @@ if (isset($_POST['action']))
 		$a['url'] = $_POST['url'];
 		if(substr($a['url'],-1)=='/') $a['url'] = substr($a['url'],0,-1);
 		$a['tem'] = $_POST['tem'];
-		$a['nom'] = (($_POST['nom']!="")?preg_replace("/[^A-Za-z0-9-_]/",'',$_POST['nom']):'index');
+		$a['nom'] = $n;
 		if ($_POST['edw']!='') $a['edw'] = $_POST['edw']; else $a['edw'] = 960;
 		if ($_POST['lazy']=="true") $a['lazy']=1; else $a['lazy']=0;
 		if ($_POST['jq']=="true") $a['jq']=1; else $a['jq']=0;

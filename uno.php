@@ -11,13 +11,13 @@ if (isset($_POST['user']) && isset($_POST['pass']))
 		{
 		$_SESSION['cmsuno']=true;
 		if(!is_dir('uno/data')) mkdir('uno/data');
-		if(!is_dir('uno/data/sdata')) mkdir('uno/data/sdata',0711);
+		if(!is_dir('uno/data/_sdata')) mkdir('uno/data/_sdata',0711);
 		if(!is_dir('files')) mkdir('files');
 		if(!is_dir('files/unosave')) mkdir('files/unosave',0711);
 		if(!file_exists('uno/.htaccess')) file_put_contents('uno/.htaccess', 'Options -Indexes'."\r\n".'Allow from all');
 		if(!file_exists('uno/data/.htaccess')) file_put_contents('uno/data/.htaccess', 'Options -Indexes'."\r\n".'Allow from all');
-		if(!file_exists('uno/data/sdata/.htaccess')) file_put_contents('uno/data/sdata/.htaccess', 'Order Allow,Deny'."\r\n".'Deny from all'); 
-		if(substr(sprintf('%o', fileperms('uno/data/sdata')), -4)!="0711") @chmod("uno/data/sdata", 0711);
+		if(!file_exists('uno/data/_sdata/.htaccess')) file_put_contents('uno/data/_sdata/.htaccess', 'Order Allow,Deny'."\r\n".'Deny from all'); 
+		if(substr(sprintf('%o', fileperms('uno/data/_sdata')), -4)!="0711") @chmod("uno/data/_sdata", 0711);
 		if(!file_exists('files/unosave/.htaccess')) file_put_contents('files/unosave/.htaccess', 'Order Allow,Deny'."\r\n".'Deny from all'); 
 		if(substr(sprintf('%o', fileperms('files/unosave')), -4)!="0711") @chmod("files/unosave", 0711);
 		if(!file_exists('uno/data/busy.json')) file_put_contents('uno/data/busy.json', '{"nom":"index"}');
