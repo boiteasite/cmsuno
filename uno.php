@@ -57,6 +57,7 @@ else if (!isset($_SESSION['cmsuno'])) { ?>
 				if(file_exists('uno/data/busy.json')) { $q = file_get_contents('uno/data/busy.json'); $a = json_decode($q,true); $Ubusy = $a['nom']; }
 				else $Ubusy = 'index';
 				?>
+				<li id="wait"><img style="margin:2px 6px 0 0;display:none;" src="<?php echo $dep; ?>includes/img/wait.gif" /></li>
 				<li><a href="<?php echo $Ubusy; ?>.html" target="_blank"><?php echo _("See the website");?></a></li>
 			</ul>
 		</div>
