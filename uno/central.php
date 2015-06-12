@@ -300,6 +300,7 @@ if (isset($_POST['action']))
 		case 'publier':
 		$head = ''; $foot = ''; $onload = ''; $content = ''; $menu = ''; $style = ''; $script = ''; $jsmenu = '<script type="text/javascript" src="'.$dep.'includes/js/uno_menu.js"></script>';
 		$unoPop=0; // Include JS files
+		$unoUbusy=0; // Include Ubusy in JS
 		$q = file_get_contents('data/'.$Ubusy.'/site.json');
 		$Ua = json_decode($q,true);
 		if(!isset($Ua['tem']) || !isset($Ua['url']) || !isset($Ua['tit']) || !isset($Ua['desc']))
