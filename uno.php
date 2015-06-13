@@ -3,8 +3,8 @@ ini_set('session.use_trans_sid', 0);
 session_start();
 include('uno/password.php');
 include('uno/includes/lang/lang.php');
-//if (!is_dir('uno/includes/js/ckeditor/')) $dep = "https://cdn.rawgit.com/boiteasite/cmsuno/master/uno/"; else $dep = "uno/"; // LIGHT HOSTED VERSION
-if (!is_dir('uno/includes/js/ckeditor/')) $dep = "https://rawgit.com/boiteasite/cmsuno/master/uno/"; else $dep = "uno/"; // LIGHT HOSTED VERSION
+//if (!is_dir('uno/includes/js/ckeditor/')) $Udep = "https://cdn.rawgit.com/boiteasite/cmsuno/master/uno/"; else $Udep = "uno/"; // LIGHT HOSTED VERSION
+if (!is_dir('uno/includes/js/ckeditor/')) $Udep = "https://rawgit.com/boiteasite/cmsuno/master/uno/"; else $Udep = "uno/"; // LIGHT HOSTED VERSION
 if (isset($_POST['user']) && isset($_POST['pass']))
 	{
 	if ($_POST['user']===utf8_encode($user) && $_POST['pass']===$pass && is_writable(dirname(__FILE__)))
@@ -43,9 +43,9 @@ else if (!isset($_SESSION['cmsuno'])) { ?>
 	<meta charset="utf-8" />
 	<meta name="robots" content="noindex" />
 	<title>CMSUno - <?php echo _("Login");?></title>
-	<link rel="icon" type="image/png" href="<?php echo $dep; ?>includes/img/favicon.png" />
-	<link rel="stylesheet" href="<?php echo $dep; ?>includes/css/uno.css" />
-	<script src="<?php if($dep!='uno/') echo 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'; else echo 'uno/includes/js/jquery-1.7.2.min.js'; ?>"></script>
+	<link rel="icon" type="image/png" href="<?php echo $Udep; ?>includes/img/favicon.png" />
+	<link rel="stylesheet" href="<?php echo $Udep; ?>includes/css/uno.css" />
+	<script src="<?php if($Udep!='uno/') echo 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'; else echo 'uno/includes/js/jquery-1.7.2.min.js'; ?>"></script>
 	<script type="text/javascript">$(document).ready(function(){$('.alert').delay(2000).fadeOut();});</script>
 </head>
 <body>
@@ -57,7 +57,7 @@ else if (!isset($_SESSION['cmsuno'])) { ?>
 				if(file_exists('uno/data/busy.json')) { $q = file_get_contents('uno/data/busy.json'); $a = json_decode($q,true); $Ubusy = $a['nom']; }
 				else $Ubusy = 'index';
 				?>
-				<li id="wait"><img style="margin:2px 6px 0 0;display:none;" src="<?php echo $dep; ?>includes/img/wait.gif" /></li>
+				<li id="wait"><img style="margin:2px 6px 0 0;display:none;" src="<?php echo $Udep; ?>includes/img/wait.gif" /></li>
 				<li><a href="<?php echo $Ubusy; ?>.html" target="_blank"><?php echo _("See the website");?></a></li>
 			</ul>
 		</div>
@@ -65,7 +65,7 @@ else if (!isset($_SESSION['cmsuno'])) { ?>
 
 	<div class="container">
 		<form class="blocLogin" method="POST" action="">
-			<img style="margin-bottom:20px;" src="<?php echo $dep; ?>includes/img/logo-uno220.png" alt="cms uno" />
+			<img style="margin-bottom:20px;" src="<?php echo $Udep; ?>includes/img/logo-uno220.png" alt="cms uno" />
 			<div class="clearfix">
 				<label><?php echo _("Administrator");?></label>
 				<div>

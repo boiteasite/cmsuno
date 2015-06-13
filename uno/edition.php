@@ -4,8 +4,8 @@ if (!isset($_SESSION['cmsuno'])) exit();
 ?>
 <?php
 $user=0; $pass=0; // reset
-//if (!is_dir('uno/includes/js/ckeditor/')) $dep = "https://cdn.rawgit.com/boiteasite/cmsuno/master/uno/"; else $dep = "uno/"; // SEMI HOSTED VERSION
-if (!is_dir('uno/includes/js/ckeditor/')) $dep = "https://rawgit.com/boiteasite/cmsuno/master/uno/"; else $dep = "uno/"; // SEMI HOSTED VERSION
+//if (!is_dir('uno/includes/js/ckeditor/')) $Udep = "https://cdn.rawgit.com/boiteasite/cmsuno/master/uno/"; else $Udep = "uno/"; // SEMI HOSTED VERSION
+if (!is_dir('uno/includes/js/ckeditor/')) $Udep = "https://rawgit.com/boiteasite/cmsuno/master/uno/"; else $Udep = "uno/"; // SEMI HOSTED VERSION
 function f_theme()
 	{
 	// liste des themes dans un select
@@ -21,14 +21,14 @@ function f_theme()
 	<meta charset="utf-8" />
 	<meta name="robots" content="noindex" />
 	<title>CMSUno</title>
-	<link rel="icon" type="image/png" href="<?php echo $dep; ?>includes/img/favicon.png" />
-	<link rel="stylesheet" href="<?php echo $dep; ?>includes/css/uno.css" />
-	<script type="text/javascript" src="<?php if($dep=='uno/') echo 'uno/includes/js/jquery-1.7.2.min.js'; else echo 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js';?>"></script>
-	<script type="text/javascript" src="<?php if($dep=='uno/') echo 'uno/includes/js/jquery-ui.min.js'; else echo 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js'; ?>"></script>
-	<script type="text/javascript" src="<?php echo $dep; ?>includes/js/ckeditor/ckeditor.js"></script>
+	<link rel="icon" type="image/png" href="<?php echo $Udep; ?>includes/img/favicon.png" />
+	<link rel="stylesheet" href="<?php echo $Udep; ?>includes/css/uno.css" />
+	<script type="text/javascript" src="<?php if($Udep=='uno/') echo 'uno/includes/js/jquery-1.7.2.min.js'; else echo 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js';?>"></script>
+	<script type="text/javascript" src="<?php if($Udep=='uno/') echo 'uno/includes/js/jquery-ui.min.js'; else echo 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js'; ?>"></script>
+	<script type="text/javascript" src="<?php echo $Udep; ?>includes/js/ckeditor/ckeditor.js"></script>
 	<script type="text/javascript" src="uno/includes/elfinder/js/elfinder.min.js"></script>
 	<?php if($lang!='en' && $lang!='') echo '<script type="text/javascript" src="uno/includes/elfinder/js/i18n/elfinder.'.$lang.'.js"></script>'; ?>
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $dep; ?>includes/css/jquery-ui.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $Udep; ?>includes/css/jquery-ui.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="uno/includes/elfinder/css/elfinder.min.css" />
 	<script type="text/javascript">
 		var Up=0,Udg=0,Usty=0,Uini=0,Utem=false,Uplug='',Uplugon=0,Unox='<?php echo $unox; ?>',Upt=[],Upd=[],Uplugact=[],UconfigFile=[],Ulang='<?php echo $lang; ?>',UconfigNum=0,Ubusy='';
@@ -40,7 +40,7 @@ function f_theme()
 			<span class="titre" href="/">CMSUno</span>
 			<div id="info"></div>
 			<ul>
-				<li id="wait"><img style="margin:2px 6px 0 0;" src="<?php echo $dep; ?>includes/img/wait.gif" /></li>
+				<li id="wait"><img style="margin:2px 6px 0 0;" src="<?php echo $Udep; ?>includes/img/wait.gif" /></li>
 				<li><a id="apage" style="text-decoration:underline" href=""><?php echo _("Page");?></a></li>
 				<li><a id="aconfig" onClick="f_config();" href="javascript:void(0)"><?php echo _("Settings");?></a></li>
 				<li><a id="aplugin" onClick="f_plugin(0);f_plugAll(document.getElementById('plugOnOff'),1)" href="javascript:void(0)"><?php echo _("Plugins");?></a></li>

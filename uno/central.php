@@ -6,13 +6,13 @@ if(!isset($_POST['unox']) || $_POST['unox']!=$_SESSION['unox']) {sleep(2);exit;}
 $lazy = 1;
 include('password.php'); $user=0; $pass=0; // reset
 include('includes/lang/lang.php');
-//if (!is_dir('includes/js/ckeditor/')) $dep = "https://cdn.rawgit.com/boiteasite/cmsuno/master/uno/"; else $dep = "uno/"; // SEMI HOSTED VERSION
-if (!is_dir('includes/js/ckeditor/')) $dep = "https://rawgit.com/boiteasite/cmsuno/master/uno/"; else $dep = "uno/"; // SEMI HOSTED VERSION
+//if (!is_dir('includes/js/ckeditor/')) $Udep = "https://cdn.rawgit.com/boiteasite/cmsuno/master/uno/"; else $Udep = "uno/"; // SEMI HOSTED VERSION
+if (!is_dir('includes/js/ckeditor/')) $Udep = "https://rawgit.com/boiteasite/cmsuno/master/uno/"; else $Udep = "uno/"; // SEMI HOSTED VERSION
 //
 // ********************* functions ***********************************************************************
 function f_lazy($f)
 	{
-	global $dep;
+	global $Udep;
 	$out=''; $src=''; $alt=''; $b=0; $c=0; $v=4;
 	do	{
 		if ($b==0) do { ++$v; } while (substr($f,$v-4,4)!='<img' && $v<strlen($f));
@@ -20,7 +20,7 @@ function f_lazy($f)
 		else if ($b==1 && (substr($f,$v-5,5)=='src="' || substr($f,$v-5,5)=="src='"))
 			{
 			do { $src.=substr($f,$v,1); ++$v; } while (substr($f,$v,1)!='"' && substr($f,$v,1)!="'" && $v<strlen($f));
-			$out .= $dep.'includes/css/a.png" data-echo="'.$src.'"'; // ECHO
+			$out .= $Udep.'includes/css/a.png" data-echo="'.$src.'"'; // ECHO
 			}
 		else if ($b==1 && (substr($f,$v-5,5)=='alt="' || substr($f,$v-5,5)=="alt='") && substr($f,$v-5,6)!='alt=""' && substr($f,$v-5,6)!="alt=''")
 			{
@@ -119,7 +119,7 @@ if (isset($_POST['action']))
 		$Ubusy = 'index';
 		}
 	if(!file_exists('data/'.$Ubusy.'/chap0.txt')) file_put_contents('data/'.$Ubusy.'/chap0.txt', 'blabla...');
-	if(!file_exists('data/'.$Ubusy.'/site.json')) file_put_contents('data/'.$Ubusy.'/site.json', '{"chap":[{"d":"0","t":"Welcome"}],"pub":0}');
+	if(!file_exists('data/'.$Ubusy.'/site.json')) file_put_contents('data/'.$Ubusy.'/site.json', '{"chap":[{"d":"0","t":"'._("Welcome").'"}],"pub":0}');
 	switch ($_POST['action'])
 		{
 		// ********************************************************************************************
@@ -298,7 +298,7 @@ if (isset($_POST['action']))
 		// ********************************************************************************************
 		// SHORTCODE [[foo]] : title, description, template, head, foot, menu, jsmenu, content
 		case 'publier':
-		$head = ''; $foot = ''; $onload = ''; $content = ''; $menu = ''; $style = ''; $script = ''; $jsmenu = '<script type="text/javascript" src="'.$dep.'includes/js/uno_menu.js"></script>';
+		$Uhead = ''; $Ufoot = ''; $Uonload = ''; $Ucontent = ''; $Umenu = ''; $Ustyle = ''; $Uscript = ''; $Ujsmenu = '<script type="text/javascript" src="'.$Udep.'includes/js/uno_menu.js"></script>';
 		$unoPop=0; // Include JS files
 		$unoUbusy=0; // Include Ubusy in JS
 		$q = file_get_contents('data/'.$Ubusy.'/site.json');
@@ -308,7 +308,7 @@ if (isset($_POST['action']))
 			echo '!'._('Save Config First');
 			exit;
 			}
-		$html = file_get_contents('template/'.$Ua['tem'].'/template.html');
+		$Uhtml = file_get_contents('template/'.$Ua['tem'].'/template.html');
 		foreach ($Ua['chap'] as $k=>$v)
 			{
 			if(!isset($Ua['chap'][$k]['od']) || $Ua['chap'][$k]['od']==0)
@@ -316,37 +316,38 @@ if (isset($_POST['action']))
 				$w = strtr(utf8_decode($v['t']),'¿¡¬√ƒ≈∆«»… ÀÃÕŒœ–—“”‘’÷ÿŸ⁄€‹›ﬁﬂ‡·‚„‰ÂÊÁËÈÍÎÏÌÓÔÒÚÛÙıˆ¯˘˙˚˝˝˛ˇ','aaaaaaaceeeeiiiidnoooooouuuuybsaaaaaaaceeeeiiiidnoooooouuuyyby');
 				$w = preg_replace('/[^a-zA-Z0-9%]/s','',$w);
 				// menu
-				if(!isset($Ua['chap'][$k]['om']) || $Ua['chap'][$k]['om']==0) $menu .= '<li><a href="#'.$w.'"'.($k==0?' class="active"':'').'>'.stripslashes($v['t']).'</a></li>';
+				if(!isset($Ua['chap'][$k]['om']) || $Ua['chap'][$k]['om']==0) $Umenu .= '<li><a href="#'.$w.'"'.($k==0?' class="active"':'').'>'.stripslashes($v['t']).'</a></li>';
 				// titre + class pour menu scrollnav
 				if(!isset($Ua['chap'][$k]['ot']) || $Ua['chap'][$k]['ot']==0)
 					{
-					if(!isset($Ua['chap'][$k]['om']) || $Ua['chap'][$k]['om']==0) $content .= '<h2 id="'.$w.'" class="nav1"><a name="'.$w.'">'.stripslashes($v['t']).'</a></h2>';
-					else $content .= '<h2 id="'.$w.'" class="NAV1"><a name="'.$w.'">'.stripslashes($v['t']).'</a></h2>';
+					if(!isset($Ua['chap'][$k]['om']) || $Ua['chap'][$k]['om']==0) $Ucontent .= '<h2 id="'.$w.'" class="nav1"><a name="'.$w.'">'.stripslashes($v['t']).'</a></h2>';
+					else $Ucontent .= '<h2 id="'.$w.'" class="NAV1"><a name="'.$w.'">'.stripslashes($v['t']).'</a></h2>';
 					}
-				else if(!isset($Ua['chap'][$k]['om']) || $Ua['chap'][$k]['om']==0) $content .= '<h2 id="'.$w.'" class="nav1" style="height:0;padding:0;border:0;margin-bottom:5px;overflow:hidden;"><a name="'.$w.'">'.stripslashes($v['t']).'</a></h2>';
-				$content .= file_get_contents('data/'.$Ubusy.'/chap'.$v['d'].'.txt');
+				else if(!isset($Ua['chap'][$k]['om']) || $Ua['chap'][$k]['om']==0) $Ucontent .= '<h2 id="'.$w.'" class="nav1" style="height:0;padding:0;border:0;margin-bottom:5px;overflow:hidden;"><a name="'.$w.'">'.stripslashes($v['t']).'</a></h2>';
+				$Ucontent .= file_get_contents('data/'.$Ubusy.'/chap'.$v['d'].'.txt');
 				}
 			}
-		$title = (isset($Ua['tit']))?stripslashes($Ua['tit']):"";
-		$description = (isset($Ua['desc']))?stripslashes($Ua['desc']):"";
-		$name = (isset($Ua['nom']))?stripslashes($Ua['nom']):"";
-		$content = str_replace('<h2>','<h2 class="nav2">',$content);
-		$content = stripslashes($content);
+		$Utitle = (isset($Ua['tit']))?stripslashes($Ua['tit']):"";
+		$Udescription = (isset($Ua['desc']))?stripslashes($Ua['desc']):"";
+		$Uname = (isset($Ua['nom']))?stripslashes($Ua['nom']):"";
+		$Ucontent = str_replace('<h2>','<h2 class="nav2">',$Ucontent);
+		$Ucontent = stripslashes($Ucontent);
 		$u = dirname($_SERVER['PHP_SELF']).'/../';
-		$content = str_replace($u,'',$content);
+		$Ucontent = str_replace($u,'',$Ucontent);
 		if (isset($Ua['jq']) && $Ua['jq']==1)
 			{
-			$head .= '<!--[if (!IE)|(gt IE 8)]><!--><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script><!--<![endif]-->'."\r\n"
+			$Uhead .= '<!--[if (!IE)|(gt IE 8)]><!--><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script><!--<![endif]-->'."\r\n"
 				.'<!--[if lte IE 8]><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script><![endif]-->'."\r\n"
-				.'<script type="text/javascript" src="'.$dep.'includes/js/jquery-migrate-1.2.1.min.js"></script>'."\r\n";
-			if($dep=='uno/') $head .= '<script type="text/javascript">window.jQuery || document.write(\'<script src="uno/includes/js/jquery-1.11.0.min.js">\x3C/script>\')</script>'."\r\n";
+				.'<script type="text/javascript" src="'.$Udep.'includes/js/jquery-migrate-1.2.1.min.js"></script>'."\r\n";
+			if($Udep=='uno/') $Uhead .= '<script type="text/javascript">window.jQuery || document.write(\'<script src="uno/includes/js/jquery-1.11.0.min.js">\x3C/script>\')</script>'."\r\n";
 			}
 		if (isset($Ua['lazy']) && $Ua['lazy']==1)
 			{
-			$style .= '.content img[data-echo]{display:none;background:#fff url('.$dep.'includes/css/a.gif) no-repeat center center;}'."\r\n";
-			$foot .= '<script type="text/javascript" src="'.$dep.'includes/js/echo.min.js"></script>'."\r\n".'<script type="text/javascript">var css=".content img[data-echo]{display:inline;}",head=document.head||document.getElementsByTagName("head")[0],style=document.createElement("style");style.type="text/css";if(style.styleSheet) style.styleSheet.cssText=css;else style.appendChild(document.createTextNode(css));head.appendChild(style);echo.init({offset:900,throttle:250});echo.render();</script>'."\r\n";
-			$content = f_lazy($content);
+			$Ustyle .= '.content img[data-echo]{display:none;background:#fff url('.$Udep.'includes/css/a.gif) no-repeat center center;}'."\r\n";
+			$Ufoot .= '<script type="text/javascript" src="'.$Udep.'includes/js/echo.min.js"></script>'."\r\n".'<script type="text/javascript">var css=".content img[data-echo]{display:inline;}",head=document.head||document.getElementsByTagName("head")[0],style=document.createElement("style");style.type="text/css";if(style.styleSheet) style.styleSheet.cssText=css;else style.appendChild(document.createTextNode(css));head.appendChild(style);echo.init({offset:900,throttle:250});echo.render();</script>'."\r\n";
+			$Ucontent = f_lazy($Ucontent);
 			}
+		if(file_exists('template/'.$Ua['tem'].'/0make.php')) include('template/'.$Ua['tem'].'/0make.php'); // template Make before plugin
 		// *** Plugins ***
 		if(isset($Ua['plug'])) for($Uv=1;$Uv<=5;++$Uv) // 1 first, 5 last, no number = 3 && alphabetic order
 			{
@@ -358,30 +359,31 @@ if (isset($_POST['action']))
 				}
 			}
 		// *** / ***
+		if(file_exists('template/'.$Ua['tem'].'/make.php')) include('template/'.$Ua['tem'].'/make.php'); // template Make after plugin
 		include('includes/lang/lang.php');
-		if(strpos(strtolower($html),'charset="utf-8"')===false && strpos(strtolower($html),"charset='utf-8'")===false) $head .= '<meta charset="utf-8">'."\r\n";
-		$head .= '<style type="text/css">'."\r\n".$style.'</style>'."\r\n";
-		if($unoPop==1) $head .= '<script type="text/javascript" src="'.$dep.'includes/js/unoPop.js"></script><link rel="stylesheet" type="text/css" href="'.$dep.'includes/css/unoPop.css" />'."\r\n";
-		if($unoUbusy==1) $script .= 'var Ubusy="'.$Ubusy.'";';
-		if($script) $head .= '<script type="text/javascript">'.$script.'</script>'."\r\n";
-		$foot .= $jsmenu;
-		if($onload!='') $foot .= '<script type="text/javascript">window.onload=function(){'.$onload.'}</script>'."\r\n";
-		$menu = '<label for="navR" class="navR"></label><input type="checkbox" id="navR" />'."\r\n".'<ul id="nav">'.$menu.'</ul>';
+		if(strpos(strtolower($Uhtml),'charset="utf-8"')===false && strpos(strtolower($Uhtml),"charset='utf-8'")===false) $Uhead .= '<meta charset="utf-8">'."\r\n";
+		$Uhead .= '<style type="text/css">'."\r\n".$Ustyle.'</style>'."\r\n";
+		if($unoPop==1) $Uhead .= '<script type="text/javascript" src="'.$Udep.'includes/js/unoPop.js"></script><link rel="stylesheet" type="text/css" href="'.$Udep.'includes/css/unoPop.css" />'."\r\n";
+		if($unoUbusy==1) $Uscript .= 'var Ubusy="'.$Ubusy.'";';
+		if($Uscript) $Uhead .= '<script type="text/javascript">'.$Uscript.'</script>'."\r\n";
+		$Ufoot .= $Ujsmenu;
+		if($Uonload!='') $Ufoot .= '<script type="text/javascript">window.onload=function(){'.$Uonload.'}</script>'."\r\n";
+		$Umenu = '<label for="navR" class="navR"></label><input type="checkbox" id="navR" />'."\r\n".'<ul id="nav">'.$Umenu.'</ul>';
 		// HTML
-		$html = str_replace('[[url]]',$Ua['url'],$html);
-		$html = str_replace('[[head]]',$head,$html);
-		$html = str_replace('[[foot]]',$foot,$html);
-		$html = str_replace('[[menu]]',$menu,$html);
-		$html = str_replace('[[content]]','<div id="pagesContent" class="pagesContent">'."\r\n".$content."\r\n".'</div>',$html);
+		$Uhtml = str_replace('[[url]]',$Ua['url'],$Uhtml);
+		$Uhtml = str_replace('[[head]]',$Uhead,$Uhtml);
+		$Uhtml = str_replace('[[foot]]',$Ufoot,$Uhtml);
+		$Uhtml = str_replace('[[menu]]',$Umenu,$Uhtml);
+		$Uhtml = str_replace('[[content]]','<div id="pagesContent" class="pagesContent">'."\r\n".$Ucontent."\r\n".'</div>',$Uhtml);
 		// HTML et CONTENT
-		$html = str_replace('[[template]]','uno/template/'.$Ua['tem'].'/',$html);
-		$html = str_replace('[[title]]',$title,$html);
-		$html = str_replace('[[description]]',$description,$html);
-		$html = str_replace('[[name]]',$name,$html);
+		$Uhtml = str_replace('[[template]]','uno/template/'.$Ua['tem'].'/',$Uhtml);
+		$Uhtml = str_replace('[[title]]',$Utitle,$Uhtml);
+		$Uhtml = str_replace('[[description]]',$Udescription,$Uhtml);
+		$Uhtml = str_replace('[[name]]',$Uname,$Uhtml);
 		$Ua['pub'] = 0;
 		if (!isset($Ua['nom'])) $Ua['nom']='index';
 		$out = json_encode($Ua);
-		if (file_put_contents('data/'.$Ubusy.'/site.json', $out) && file_put_contents('../'.$Ua['nom'].'.html', $html)) echo _('The site has been updated');
+		if (file_put_contents('data/'.$Ubusy.'/site.json', $out) && file_put_contents('../'.$Ua['nom'].'.html', $Uhtml)) echo _('The site has been updated');
 		else echo '!'._('Failure');
 		break;
 		// ********************************************************************************************
@@ -459,7 +461,7 @@ if (isset($_POST['action']))
 		// ********************************************************************************************
 		case 'pluginsActifs':
 		$b = array();
-		if($dep=='/uno/') $ck = '../../../';
+		if($Udep=='/uno/') $ck = '../../../';
 		else $ck = substr($_SERVER['PHP_SELF'],0,-11); // 11 : central.php
 		$q = file_get_contents('data/'.$Ubusy.'/site.json');
 		$a = json_decode($q,true);

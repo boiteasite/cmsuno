@@ -105,6 +105,13 @@ Template Tags
 * [[title]] : page title
 * [[url]] : base site url
 
+As a plugin, you can add a makefile in your template folder :
+
+* 0make.php executed before all plugins (if exists) when publishing.
+* make.php executed after plugins (if exists) when publishing.
+
+You can use both.
+
 Plugin development
 ------------------
 
@@ -183,17 +190,17 @@ The plugins are executed in alphabetical order. If a plugin must be executed bef
 
 Variables usable all have almost the same name as the shortcodes. Here is a non-exhaustive list :
 
-* __$html__ (no shortcode) : The template content. Used to replace a shortcode directly into the template.
-* __$content__ : The content of the pages. Used to replace a shortcode added in the page with CKEditor.
-* __$head__ : At the end of the block `<head>`. Used to add a script or a CSS file.
-* __$style__ : CSS content added at the end of the block `<head>` in a `<style>` container.
-* __$script__ : Short JS content added at the end of the head part in a `<script>` container. Use it, for example, to declare var.
-* __$foot__ : At the end of the block `<body>`. Used to add a script.
-* __$onload__ : Used to add a JS code to be run after the start. ex : $onload = 'alert("hello!");';
-* __$menu__ : Page list according to `<ul class="maClasse"><li><a href="#...">MyPage</a></li>...</ul>`.
-* __$title__ : Website Title. (Used in template : `<title>[[title]]</title>`).
-* __$description__ : Website Description (`<meta name="description" content="[[description]]">`).
-* __$name__ : Published HTML file name. By default, it's "index".
+* __$Uhtml__ (no shortcode) : The template content. Used to replace a shortcode directly into the template.
+* __$Ucontent__ : The content of the pages. Used to replace a shortcode added in the page with CKEditor.
+* __$Uhead__ : At the end of the block `<head>`. Used to add a script or a CSS file.
+* __$Ufoot__ : At the end of the block `<body>`. Used to add a script.
+* __$Ustyle__ : CSS content added at the end of the block `<head>` in a `<style>` container.
+* __$Uscript__ : Short JS content added at the end of the head part in a `<script>` container. Use it, for example, to declare var.
+* __$Uonload__ : Used to add a JS code to be run after the start. ex : $onload = 'alert("hello!");';
+* __$Umenu__ : Page list according to `<ul class="maClasse"><li><a href="#...">MyPage</a></li>...</ul>`.
+* __$Utitle__ : Website Title. (Used in template : `<title>[[title]]</title>`).
+* __$Udescription__ : Website Description (`<meta name="description" content="[[description]]">`).
+* __$Uname__ : Published HTML file name. By default, it's "index".
 * __$unoPop__ : Set 1 to add unoPop JS and CSS. Small code in pure JS to use nodal window and to get value from url data.
 * __$unoUbusy__ : Set 1 to add JS var Ubusy in the head.
 
@@ -279,6 +286,7 @@ THE SOFTWARE.
 Versions
 --------
 
+* V0.9.22 beta - 13/06/2015 : Add U in make variables. Add makefile for template.
 * V0.9.21 beta - 12/06/2015
 * V0.9.20 beta - 31/05/2015
 * V0.9.19 beta - 22/05/2015 : CKEditor 4.4.7 with widget
