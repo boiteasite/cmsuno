@@ -301,6 +301,7 @@ if (isset($_POST['action']))
 		$Uhead = ''; $Ufoot = ''; $Uonload = ''; $Ucontent = ''; $Umenu = ''; $Ustyle = ''; $Uscript = ''; $Ujsmenu = '<script type="text/javascript" src="'.$Udep.'includes/js/uno_menu.js"></script>';
 		$unoPop=0; // Include JS files
 		$unoUbusy=0; // Include Ubusy in JS
+		if(isset($_POST['Ubusy']) && $_POST['Ubusy'] && file_exists('data/'.$_POST['Ubusy'].'/site.json')) $Ubusy = $_POST['Ubusy'];
 		$q = file_get_contents('data/'.$Ubusy.'/site.json');
 		$Ua = json_decode($q,true);
 		if(!isset($Ua['tem']) || !isset($Ua['url']) || !isset($Ua['tit']) || !isset($Ua['desc']))

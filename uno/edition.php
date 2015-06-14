@@ -342,6 +342,7 @@ function f_theme()
 	function f_finder_select(f){jQuery('<div \>').dialog({modal:true,width:"940px",title:"<?php echo _("Select a file");?>",zIndex: 9999,create:function(e,u){jQuery(this).elfinder({resizable:false,url:"uno/includes/elfinder/php/connector.php",commandsOptions:{getfile:{oncomplete:'destroy'}},getFileCallback: function(url){document.getElementById(f).value=url;jQuery('a.ui-dialog-titlebar-close[role="button"]').click();}}).elfinder('instance')}});}
 	function f_nombre(e){c=(e.which)?e.which:event.keyCode;if(c>31&&(c<48||c>57))return false;return true;}
 	//
+	window.scrollTo(0,0);
 	f_plugin_hook();
 	jQuery('#finderDiv').elfinder({lang:'<?php echo $lang;?>',url:'uno/includes/elfinder/php/connector.php'}).elfinder('instance');jQuery("#finderDiv").elfinder('close');
 	f_get_site();
