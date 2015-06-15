@@ -286,11 +286,12 @@ THE SOFTWARE.
 Versions
 --------
 
+* V0.9.23 beta - 15/06/2015 : Everywhere asynchronous ajax.
 * V0.9.22 beta - 13/06/2015 : Add U in make variables. Add makefile for template.
-* V0.9.21 beta - 12/06/2015
-* V0.9.20 beta - 31/05/2015
-* V0.9.19 beta - 22/05/2015 : CKEditor 4.4.7 with widget
-* V0.9.18 beta - 19/05/2015
+* V0.9.21 beta - 12/06/2015 : Add a gif hourglass.
+* V0.9.20 beta - 31/05/2015 : Fix some bigs.
+* V0.9.19 beta - 22/05/2015 : CKEditor 4.4.7 with widget.
+* V0.9.18 beta - 19/05/2015 : Responsive menu.
 * V0.9.17 beta - 11/05/2015
 * V0.9.16 beta - 29/03/2015
 * V0.9.15 beta - 24/03/2015

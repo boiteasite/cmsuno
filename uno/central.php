@@ -450,7 +450,15 @@ if (isset($_POST['action']))
 		$b = array();
 		$q = file_get_contents('data/'.$Ubusy.'/site.json');
 		$a = json_decode($q,true);
-		$d = glob('plugins/*',GLOB_ONLYDIR);
+		$d = array();
+		if(is_dir('plugins') && $h=opendir('plugins'))
+			{
+			while(false!==($f=readdir($h)))
+				{
+				if($f!='.' && $f!='..' && is_dir('plugins/'.$f)) $d[]=$f;
+				}
+			closedir($h);
+			}		
 		sort($d);
 		foreach($d as $r)
 			{
