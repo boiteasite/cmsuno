@@ -286,6 +286,7 @@ THE SOFTWARE.
 Versions
 --------
 
+* V0.9.24 beta - 19/06/2015 : Improved speed of 40%.
 * V0.9.23 beta - 15/06/2015 : Everywhere asynchronous ajax.
 * V0.9.22 beta - 13/06/2015 : Add U in make variables. Add makefile for template.
 * V0.9.21 beta - 12/06/2015 : Add a gif hourglass.

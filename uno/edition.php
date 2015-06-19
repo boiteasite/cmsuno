@@ -209,6 +209,11 @@ function f_get_site(){a=document.getElementById('menu');
 jQuery.ajax({type:"POST",url:'uno/central.php',data:{'action':'getSite','unox':Unox},dataType:'json',async:true,success:function(r){
 	Ubusy=r.nom;Usty=r.sty;Utem=(r.tem in window)?r.tem:false;
 	if(Up!=-1){
+		if(!CKEDITOR.instances.content){
+			if(Usty==0||!Utem)CKEDITOR.replace('content');else CKEDITOR.replace('content',{contentsCss:['uno/template/'+Utem+'/style.css','uno/template/'+Utem+'/styles.css','uno/template/'+Utem+'/css/style.css','uno/template/'+Utem+'/css/style.css']});
+			CKEDITOR.instances["content"].on('change',function(){if(Udg==4){document.getElementById('boutonSauv').className="bouton danger";Udg=5;}else if(Udg<4)Udg++;});
+			jQuery("input[name='titre']").on('keypress',function(){document.getElementById('boutonSauv').className="bouton danger";Udg=1;});
+		}
 		jQuery("#menu").empty();
 		b=document.createElement('ul');b.id='menuSort';b.className='ui-sortable';
 		jQuery.each(r.chap,function(k,v){Upt[k]=v.t;Upd[k]=v.d;
@@ -223,9 +228,8 @@ jQuery.ajax({type:"POST",url:'uno/central.php',data:{'action':'getSite','unox':U
 			jQuery("#menuSort").disableSelection();
 		});
 		jQuery("input[name='titre']").val(Upt[Up].replace(/\\/,""));
-		document.getElementById('boutonSauv').className="bouton";
 		document.getElementById('optOnOff').className="onoff";
-		Udg=0;if(r.pub) document.getElementById('boutonPub').style.display="inline";
+		if(r.pub) document.getElementById('boutonPub').style.display="inline";
 		if(r.edw)document.getElementById('contentP').style.width=r.edw+'px';
 		if(Uini==0)f_get_chap(0);else f_get_chap(Up);
 	}else{
@@ -243,13 +247,9 @@ jQuery.ajax({type:"POST",url:'uno/central.php',data:{'action':'getSite','unox':U
 	if(r.nom)document.getElementById('avoir').href=r.nom+'.html';
 }});}
 function f_get_chap(f){Up=f;jQuery.post('uno/central.php',{'action':'getChap','unox':Unox,'data':Upd[Up]},function(r){
-	if(!CKEDITOR.instances.content){
-		if(Usty==0||!Utem)CKEDITOR.replace('content'); else CKEDITOR.replace('content',{contentsCss:['uno/template/'+Utem+'/style.css','uno/template/'+Utem+'/styles.css','uno/template/'+Utem+'/css/style.css','uno/template/'+Utem+'/css/style.css']});
-		if(Udg==0){CKEDITOR.instances["content"].on('change', function(){Udg=1;document.getElementById('boutonSauv').className="bouton danger";});jQuery("input[name='titre']").on('keypress', function(){Udg=1;document.getElementById('boutonSauv').className="bouton danger";});}
-	}
 	if(r.length<3)r+='-';CKEDITOR.instances['content'].setData(r.substr(1));
 	var a=r.substr(0,1);if(a==1||a==3||a==5||a==7)document.getElementById('optTit').checked=true;else document.getElementById('optTit').checked=false;if(a==2||a==3||a==6||a==7)document.getElementById('optMenu').checked=true;else document.getElementById('optMenu').checked=false;if(a==4||a==5||a==6||a==7)document.getElementById('optDisp').checked=true;else document.getElementById('optDisp').checked=false;document.getElementById('chapOpt').style.display='none';
-	Uini=1;jQuery("#wait").hide();
+	Uini=1;Udg=0;jQuery("#wait").hide();document.getElementById('boutonSauv').className="bouton";
 });}
 function f_sauve_chap(){jQuery.post('uno/central.php',{
 	'action':'sauveChap',
