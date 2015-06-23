@@ -7,6 +7,7 @@ include('uno/includes/lang/lang.php');
 if (!is_dir('uno/includes/js/ckeditor/')) $Udep = "https://rawgit.com/boiteasite/cmsuno/master/uno/"; else $Udep = "uno/"; // LIGHT HOSTED VERSION
 if (isset($_POST['user']) && isset($_POST['pass']))
 	{
+	session_regenerate_id();
 	if ($_POST['user']===utf8_encode($user) && $_POST['pass']===$pass && is_writable(dirname(__FILE__)))
 		{
 		$_SESSION['cmsuno']=true;

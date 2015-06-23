@@ -1,5 +1,8 @@
 <?php
-
+session_start(); 
+if(!isset($_SESSION['unox'])) {sleep(2);exit;} // appel depuis uno.php
+?>
+<?php
 error_reporting(0); // Set E_ALL for debuging
 
 include_once dirname(__FILE__).DIRECTORY_SEPARATOR.'elFinderConnector.class.php';

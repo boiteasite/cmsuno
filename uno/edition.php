@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <?php
-if (!isset($_SESSION['cmsuno'])) exit();
+if(!isset($_SESSION['cmsuno']) || !isset($_SESSION['unox']) || !isset($unox) || $_SESSION['cmsuno']!=$unox) exit();
 ?>
 <?php
 $user=0; $pass=0; // reset
@@ -316,7 +316,7 @@ function f_plugin(f){a=document.getElementById('listPlugins');if(f==0){f_plugins
 	d=a.childNodes;for(v=0;v<d.length;v++){if(d[v].id=="p"+f.substr(1))d[v].className="bouton current off";else d[v].className="bouton";}
 	d=document.getElementById('onPlug');d.name=f.substr(1);if(f.substr(0,1)=="1"){d.checked=true;d.nextSibling.innerHTML='<?php echo _("Enable");?>';d.nextSibling.style.color='green';}else{d.checked=false;d.nextSibling.innerHTML='<?php echo _("Disable");?>';d.nextSibling.style.color='#f79f81';}document.getElementById('nomPlug').innerHTML='Plugin : '+f.substr(1);
 	document.getElementById('plugin').innerHTML="";
-	jQuery.post('uno/plugins/'+f.substr(1)+'/'+f.substr(1)+'.php',{'action':'plugin'},function(r){
+	jQuery.post('uno/plugins/'+f.substr(1)+'/'+f.substr(1)+'.php',{'action':'plugin','unox':Unox},function(r){
 		document.getElementById('plugin').innerHTML=r;jQuery.getScript('uno/plugins/'+f.substr(1)+'/'+f.substr(1)+'.js');jQuery("#wait").hide();
 	});
 }
