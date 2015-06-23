@@ -115,6 +115,7 @@ if (isset($_POST['action']))
 		{
 		if(!is_dir('data')) mkdir('data'); if(!is_dir('data/_sdata')) mkdir('data/_sdata',0711);
 		if(!is_dir('data/index')) mkdir('data/index');
+		if(!is_dir('data/_sdata/index')) mkdir('data/_sdata/index',0711);
 		file_put_contents('data/busy.json', '{"nom":"index"}');
 		$Ubusy = 'index';
 		}
@@ -386,6 +387,18 @@ if (isset($_POST['action']))
 		$out = json_encode($Ua);
 		if (file_put_contents('data/'.$Ubusy.'/site.json', $out) && file_put_contents('../'.$Ua['nom'].'.html', $Uhtml)) echo _('The site has been updated');
 		else echo '!'._('Failure');
+		break;
+		// ********************************************************************************************
+		case 'error':
+		$Ua = array();
+		if(file_exists('data/error.json'))
+			{
+			$q = file_get_contents('data/error.json');
+			$Ua = json_decode($q,true);
+			}
+		$Ua[] = array('t'=>date("Y-m-d H:i:s"),'e'=>$_POST['e']);
+		$out = json_encode($Ua);
+		file_put_contents('data/error.json', $out);
 		break;
 		// ********************************************************************************************
 		case 'suppPub':

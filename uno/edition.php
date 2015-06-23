@@ -31,7 +31,7 @@ function f_theme()
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $Udep; ?>includes/css/jquery-ui.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="uno/includes/elfinder/css/elfinder.min.css" />
 	<script type="text/javascript">
-		var Up=0,Udg=0,Usty=0,Uini=0,Utem=false,Uplug='',Uplugon=0,Unox='<?php echo $unox; ?>',Upt=[],Upd=[],Uplugact=[],Upluglist=[],UconfigFile=[],Ulang='<?php echo $lang; ?>',UconfigNum=0,Ubusy='';
+		var Up=0,Udg=0,Usty=0,Uini=0,Utem=false,Uplug='',Uplugon=0,Unox='<?php echo $unox; ?>',Udep='<?php echo $Udep; ?>',Upt=[],Upd=[],Uplugact=[],Upluglist=[],UconfigFile=[],Ulang='<?php echo $lang; ?>',UconfigNum=0,Ubusy='';
   	</script>
 </head>
 <body>
@@ -205,7 +205,7 @@ function f_theme()
 		<div id="plugin"></div>
 	</div><!-- .container -->
 <script type="text/javascript">
-function f_get_site(){a=document.getElementById('menu');
+function f_get_site(f){a=document.getElementById('menu');
 jQuery.ajax({type:"POST",url:'uno/central.php',data:{'action':'getSite','unox':Unox},dataType:'json',async:true,success:function(r){
 	Ubusy=r.nom;Usty=r.sty;Utem=(r.tem in window)?r.tem:false;
 	if(Up!=-1){
@@ -217,13 +217,13 @@ jQuery.ajax({type:"POST",url:'uno/central.php',data:{'action':'getSite','unox':U
 		jQuery("#menu").empty();
 		b=document.createElement('ul');b.id='menuSort';b.className='ui-sortable';
 		jQuery.each(r.chap,function(k,v){Upt[k]=v.t;Upd[k]=v.d;
-			c=document.createElement('li');if(k==Up)c.className='bouton current off';else{c.className='bouton unsort';c.onclick=function(){Up=k;f_get_site();};}c.innerHTML=v.t.replace(/\\/,"");
+			c=document.createElement('li');if(k==Up)c.className='bouton current off';else{c.className='bouton unsort';c.onclick=function(){Up=k;f_get_site(1);};}c.innerHTML=v.t.replace(/\\/,"");
 			b.appendChild(c);
 		});a.appendChild(b);
 		jQuery(function(){
 			jQuery("#menuSort").sortable({cancel:'.unsort',stop:function(){
 				b=document.getElementById('menuSort');
-				for(v=0;v<b.children.length;v++){if(b.children[v].className=='bouton current off'){jQuery.post('uno/central.php',{'action':'sauvePlace','unox':Unox,'chap':Up,'place':v},function(r){f_alert(r);Up=v;f_get_site();});break;}}
+				for(v=0;v<b.children.length;v++){if(b.children[v].className=='bouton current off'){jQuery.post('uno/central.php',{'action':'sauvePlace','unox':Unox,'chap':Up,'place':v},function(r){f_alert(r);Up=v;f_get_site(0);});break;}}
 			}});
 			jQuery("#menuSort").disableSelection();
 		});
@@ -231,7 +231,7 @@ jQuery.ajax({type:"POST",url:'uno/central.php',data:{'action':'getSite','unox':U
 		document.getElementById('optOnOff').className="onoff";
 		if(r.pub) document.getElementById('boutonPub').style.display="inline";
 		if(r.edw)document.getElementById('contentP').style.width=r.edw+'px';
-		if(Uini==0)f_get_chap(0);else f_get_chap(Up);
+		if(Uini==0)f_get_chap(0);else if(f!=0) f_get_chap(Up);
 	}else{
 		document.getElementById('tit').value=r.tit.replace(/\\/, "")||'';
 		document.getElementById('desc').value=r.desc.replace(/\\/, "")||'';
@@ -261,7 +261,7 @@ function f_sauve_chap(){jQuery.post('uno/central.php',{
 	'otit':document.getElementById('optTit').checked,
 	'omenu':document.getElementById('optMenu').checked,
 	'odisp':document.getElementById('optDisp').checked,
-	},function(r){f_alert(r);f_get_site();});}
+	},function(r){f_alert(r);f_get_site(0);Udg=0;document.getElementById('boutonSauv').className="bouton";});}
 function f_sauve_config(){var nom=document.getElementById('nom').value;jQuery.post('uno/central.php',{
 	'action':'sauveConfig',
 	'unox':Unox,
@@ -286,19 +286,17 @@ function f_sauve_pass(){if(document.getElementById('user0').value.length>0||docu
 		'pass':document.getElementById('pass').value,
 		'lang':document.getElementById('lang').options[document.getElementById('lang').selectedIndex].value
 	},function(r){f_alert(r);if(r.substr(0,1)!="!")setTimeout(function(){location.reload();},1000);});}
-function f_nouv_chap(){jQuery.post('uno/central.php',{'action':'nouvChap','unox':Unox,'chap':Up,'data':Upd[Up]},function(r){Up++;f_alert(r);f_get_site();});}
-function f_supp_chap(){jQuery.post('uno/central.php',{'action':'suppChap','unox':Unox,'chap':Up,'data':Upd[Up]},function(r){if(Up>0)Up--;else Up=0;f_alert(r);f_get_site();});}
+function f_nouv_chap(){jQuery.post('uno/central.php',{'action':'nouvChap','unox':Unox,'chap':Up,'data':Upd[Up]},function(r){Up++;f_alert(r);f_get_site(1);});}
+function f_supp_chap(){jQuery.post('uno/central.php',{'action':'suppChap','unox':Unox,'chap':Up,'data':Upd[Up]},function(r){if(Up>0)Up--;else Up=0;f_alert(r);f_get_site(1);});}
 function f_publier(){jQuery("#wait").show();jQuery.post('uno/central.php',{'action':'publier','unox':Unox},function(r){document.getElementById('boutonPub').style.display="none";f_alert(r);});}
 function f_suppPub(){jQuery.post('uno/central.php',{'action':'suppPub','unox':Unox},function(r){f_alert(r);});}
 function f_archivage(){jQuery("#wait").show();jQuery.post('uno/central.php',{'action':'archivage','unox':Unox},function(r){f_selectArchive();f_alert(r);});}
 function f_restaure(f){jQuery("#wait").show();jQuery.post('uno/central.php',{'action':'restaure','unox':Unox,'zip':f},function(r){f_alert(r);});}
 function f_selectArchive(){jQuery.post('uno/central.php',{'action':'selectArchive','unox':Unox},function(r){if(r){document.getElementById('boutonRestaure').style.display="inline";document.getElementById('blocArchive').innerHTML=r;}else{document.getElementById('boutonRestaure').style.display="none";document.getElementById('blocArchive').innerHTML=''}});}
 function f_logout(){a=document.getElementById('info');b=document.createElement("form");b.method="POST";b.action="";c=document.createElement("input");c.name="logout";c.type="hidden";c.value=1;b.appendChild(c);a.appendChild(b);b.submit();}
-function f_alert(f){
-// alert(f);
-a=document.getElementById('info');b=document.createElement("span");b.id="alert";if(f.substr(0,1)=="!"){b.style.color="red";f=f.substr(1);}b.innerHTML=f;a.appendChild(b);setTimeout(function(){jQuery("#alert").fadeOut("slow",function(){jQuery("#alert").remove();});jQuery("#info").empty();},2000);jQuery("#wait").hide();}
-function f_config(){document.getElementById('plugins').style.display="none";document.getElementById('apage').style.textDecoration='none';document.getElementById('aplugin').style.textDecoration='none';document.getElementById('aconfig').style.textDecoration='underline';Up=-1;f_get_site();document.getElementById('chaps').style.display="none";document.getElementById('config').style.display="block";f_selectArchive();jQuery("#wait").hide();}
-function f_chap(){document.getElementById('plugins').style.display="none";document.getElementById('apage').style.textDecoration='underline';document.getElementById('aplugin').style.textDecoration='none';document.getElementById('aconfig').style.textDecoration='none';Up=0;f_get_site();document.getElementById('config').style.display="none";document.getElementById('chaps').style.display="block";}
+function f_alert(f){if(f.search('<br />')!=-1){alert(f);jQuery.post('uno/central.php',{'action':'error','unox':Unox,'e':f});}
+	else{a=document.getElementById('info');b=document.createElement("span");b.id="alert";if(f.substr(0,1)=="!"){b.style.color="red";f=f.substr(1);}b.innerHTML=f;a.appendChild(b);setTimeout(function(){jQuery("#alert").fadeOut("slow",function(){jQuery("#alert").remove();});jQuery("#info").empty();},2000);}jQuery("#wait").hide();}
+function f_config(){document.getElementById('plugins').style.display="none";document.getElementById('apage').style.textDecoration='none';document.getElementById('aplugin').style.textDecoration='none';document.getElementById('aconfig').style.textDecoration='underline';Up=-1;f_get_site(0);document.getElementById('chaps').style.display="none";document.getElementById('config').style.display="block";f_selectArchive();jQuery("#wait").hide();}
 function f_chapOption(f){var a=document.getElementById('chapOpt'),b;if(a.style.display=='none'){b='block';f.className='onoff all';}else{b='none';f.className='onoff';}a.style.display=b;window.scrollTo(0,document.body.scrollHeight);}
 function f_listPlugins(){document.getElementById("aplugin").style.display="none";jQuery.ajax({type:"POST",url:'uno/central.php',data:{'action':'plugins','unox':Unox},dataType:'json',async:true,success:function(r){jQuery.each(r,function(k,v){Upluglist[k]=v;});jQuery("#aplugin").show();}});}
 function f_plugins(){Up=-1;a=document.getElementById('listPlugins');document.getElementById('config').style.display="none";document.getElementById('chaps').style.display="none";document.getElementById('plugins').style.display="block";
@@ -344,7 +342,7 @@ window.scrollTo(0,0);
 jQuery(document).ready(function(){
 	f_plugin_hook();f_listPlugins();
 	jQuery('#finderDiv').elfinder({lang:'<?php echo $lang;?>',url:'uno/includes/elfinder/php/connector.php'}).elfinder('instance');jQuery("#finderDiv").elfinder('close');
-	f_get_site();
+	f_get_site(1);
 });
 </script>
 </body>

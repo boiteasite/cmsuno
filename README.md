@@ -286,7 +286,7 @@ THE SOFTWARE.
 Versions
 --------
 
-* V0.9.25 beta - 23/06/2015 : Safety improvement - phase one.
+* V0.9.25 beta - 23/06/2015 : Safety improvement - phase one. Error registration system.
 * V0.9.24 beta - 19/06/2015 : Improved speed of 40%.
 * V0.9.23 beta - 15/06/2015 : Everywhere asynchronous ajax.
 * V0.9.22 beta - 13/06/2015 : Add U in make variables. Add makefile for template.
