@@ -4,7 +4,7 @@ if(!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQU
 if(!isset($_POST['unox']) || $_POST['unox']!=$_SESSION['unox']) {sleep(2);exit;} // appel depuis uno.php
 //
 $lazy = 1;
-include('password.php'); $user=0; $pass=0; // reset
+include('config.php');
 include('includes/lang/lang.php');
 //if (!is_dir('includes/js/ckeditor/')) $Udep = "https://cdn.rawgit.com/boiteasite/cmsuno/master/uno/"; else $Udep = "uno/"; // SEMI HOSTED VERSION
 if (!is_dir('includes/js/ckeditor/')) $Udep = "https://rawgit.com/boiteasite/cmsuno/master/uno/"; else $Udep = "uno/"; // SEMI HOSTED VERSION
@@ -38,8 +38,9 @@ function f_lazy($f)
 	return $out;
 	}
 //
-function f_zip($d,$n)
+function f_zip($d,$n,$e=0)
 	{
+	// $e = 1 : no zip file in arch
 	// zip un dossier $d (/aaaz/bbb/ccc/) avec le nom $n (nnn.zip)
 	if (!extension_loaded('zip') || !file_exists($d)) return false;
 	$zip = new ZipArchive(); if (!$zip->open($n, ZIPARCHIVE::CREATE)) return false;
@@ -54,10 +55,20 @@ function f_zip($d,$n)
 			continue;
 			$r = realpath($r);
 			if (is_dir($r)===true) $zip->addEmptyDir(str_replace($d . '/', '', $r . '/')); 
-			else if (is_file($r)===true) $zip->addFromString(str_replace($d. '/', '', $r), file_get_contents($r));
+			else if (is_file($r)===true)
+				{
+				$ext=explode('.',$r);
+				$ext=$ext[count($ext)-1];
+				if($ext!='zip' || !$e) $zip->addFromString(str_replace($d. '/', '', $r), file_get_contents($r));
+				}
 			}
 		}
-	else if (is_file($d)===true) $zip->addFromString(basename($d), file_get_contents($d));
+	else if (is_file($d)===true)
+		{
+		$ext=explode('.',$r);
+		$ext=$ext[count($ext)-1];
+		if($ext!='zip' || !$e) $zip->addFromString(basename($d), file_get_contents($d));
+		}
 	return $zip->close();
 	}
 //
@@ -113,9 +124,9 @@ if (isset($_POST['action']))
 		}
 	if(!$b)
 		{
-		if(!is_dir('data')) mkdir('data'); if(!is_dir('data/_sdata')) mkdir('data/_sdata',0711);
+		if(!is_dir('data')) mkdir('data'); if(!is_dir('data/_sdata-'.$sdata)) mkdir('data/_sdata-'.$sdata,0711);
 		if(!is_dir('data/index')) mkdir('data/index');
-		if(!is_dir('data/_sdata/index')) mkdir('data/_sdata/index',0711);
+		if(!is_dir('data/_sdata-'.$sdata.'/index')) mkdir('data/_sdata-'.$sdata.'/index',0711);
 		file_put_contents('data/busy.json', '{"nom":"index"}');
 		$Ubusy = 'index';
 		}
@@ -125,9 +136,10 @@ if (isset($_POST['action']))
 		{
 		// ********************************************************************************************
 		case 'getSite':
+		if(file_exists(dirname(__FILE__).'/../files/archive.zip')) unlink(dirname(__FILE__).'/../files/archive.zip');
 		$a = array();
 		$q = @file_get_contents('data/'.$Ubusy.'/site.json');
-		$q1 = @file_get_contents('data/_sdata/ssite.json');
+		$q1 = @file_get_contents('data/_sdata-'.$sdata.'/ssite.json');
 		if($q) $a = json_decode($q,true);
 		if($q1)
 			{
@@ -215,13 +227,26 @@ if (isset($_POST['action']))
 		break;
 		// ********************************************************************************************
 		case 'sauvePass':
+		define('CMSUNO', 'cmsuno');
 		include('password.php');
 		$a = $_POST['user']; $b = $_POST['pass'];
-		if ($_POST['user0']=='' && $_POST['pass0']=='') {$a = $user; $b = $pass;}
-		else if ($_POST['user0']!=$user || $_POST['pass0']!=$pass) {echo '!'._('Wrong current elements'); exit;}
-		$out = '<?php $user = "'.$a.'"; $pass = "'.$b.'"; $lang = "'.$_POST['lang'].'"; ?>';
-		if (file_put_contents('password.php', $out)) echo ($_POST['user0']!='')?_('The login / password were changed'):_('The language was changed');
-		else echo '!'._('Impossible backup');
+		if ($_POST['user0']=='' || $_POST['pass0']=='') // only lang
+			{
+			$config = '<?php $lang = "'.$_POST['lang'].'"; $sdata = "'.$sdata.'"; ?>';
+			if (file_put_contents('config.php', $config)) echo _('The language was changed');
+			else echo '!'._('Impossible backup');
+			}
+		else if ($_POST['user0']!=$user || $_POST['pass0']!=$pass)
+			{
+			echo '!'._('Wrong current elements'); exit;
+			}
+		else
+			{
+			$password = '<?php if(!defined(\'CMSUNO\')) exit(); $user = "'.$a.'"; $pass = "'.$b.'"; ?>';
+			$config = '<?php $lang = "'.$_POST['lang'].'"; $sdata = "'.$sdata.'"; ?>';
+			if (file_put_contents('password.php', $password) && file_put_contents('config.php', $config)) echo _('The login / password were changed');
+			else echo '!'._('Impossible backup');
+			}
 		break;
 		// ********************************************************************************************
 		case 'sauveConfig':
@@ -231,16 +256,16 @@ if (isset($_POST['action']))
 			{
 			if(!is_dir('data/'.$n) && is_dir('data/'.$Ubusy)) f_copyDir('data/'.$Ubusy, 'data/'.$n);
 			else mkdir('data/'.$n, 0755, true);
-			if(!is_dir('data/_sdata/'.$n) && is_dir('data/_sdata/'.$Ubusy)) f_copyDir('data/_sdata/'.$Ubusy, 'data/_sdata/'.$n, 0711);
-			else mkdir('data/_sdata/'.$n, 0711, true);
+			if(!is_dir('data/_sdata-'.$sdata.'/'.$n) && is_dir('data/_sdata-'.$sdata.'/'.$Ubusy)) f_copyDir('data/_sdata-'.$sdata.'/'.$Ubusy, 'data/_sdata-'.$sdata.'/'.$n, 0711);
+			else mkdir('data/_sdata-'.$sdata.'/'.$n, 0711, true);
 			f_rmdirR('data/'.$Ubusy);
 			$Ubusy = $n;
 			file_put_contents('data/busy.json', '{"nom":"'.$Ubusy.'"}');
 			}
-		$q=@file_get_contents('data/_sdata/ssite.json');
+		$q=@file_get_contents('data/_sdata-'.$sdata.'/ssite.json');
 		if($q) $a=json_decode($q,true);
 		else $a = array();
-		$a['mel']=$_POST['mel']; $out1=json_encode($a); file_put_contents('data/_sdata/ssite.json',$out1);
+		$a['mel']=$_POST['mel']; $out1=json_encode($a); file_put_contents('data/_sdata-'.$sdata.'/ssite.json',$out1);
 		$q = file_get_contents('data/'.$Ubusy.'/site.json');
 		$a = json_decode($q,true);
 		$a['tit'] = $_POST['tit'];
@@ -413,17 +438,15 @@ if (isset($_POST['action']))
 		break;
 		// ********************************************************************************************
 		case 'archivage':
-		$d = '../files/unosave';
+		$d = 'data/_sdata-'.$sdata.'/_unosave';
 		$n = $d.'/unosave-'.date('Ymd-Hi').'.zip';
 		if (!file_exists($d)) mkdir($d, 0755, true);
-		if (f_zip('data/',$n)) echo _('Archiving performed');
+		if (f_zip('data/',$n,1)) echo _('Archiving performed');
 		else echo '!'._('Failure');
 		break;
 		// ********************************************************************************************
 		case 'selectArchive':
-		$d = '../files/unosave/';
-	//	$g = glob($d."*.zip"); // fonctionne mal
-		// alternative a glob ******
+		$d = 'data/_sdata-'.$sdata.'/_unosave/';
 		$g=array();
 		if ($h=opendir($d))
 			{
@@ -435,7 +458,6 @@ if (isset($_POST['action']))
 				}
 			closedir($h);
 			}
-			// **************************
 		usort($g,create_function('$a,$b','return filemtime($b)-filemtime($a);'));
 		if ($g)
 			{
@@ -450,13 +472,45 @@ if (isset($_POST['action']))
 		$f = $zip->open($_POST['zip']);
 		if ($f===true)
 			{
+			f_copyDir('data/_sdata-'.$sdata.'/_unosave', '_unosave', 0711);
 			f_rmdirR('data');
 			mkdir('data');
 			$zip->extractTo('data/');
 			$zip->close();
+			mkdir('data/_sdata-'.$sdata.'/_unosave');
+			f_copyDir('_unosave', 'data/_sdata-'.$sdata.'/_unosave', 0711);
+			f_rmdirR('_unosave');
 			echo _('Recovery performed');
 			}
 		else echo '!'._('Failure');
+		break;
+		// ********************************************************************************************
+		case 'archDel':
+		if(unlink($_POST['zip'])) echo _('Backup removed');
+		else echo '!'._('Failure');
+		break;
+		// ********************************************************************************************
+		case 'archDownload':
+		if(file_exists('data/'.$Ubusy.'/site.json'))
+			{
+			$q = file_get_contents('data/'.$Ubusy.'/site.json');
+			$a = json_decode($q,true);
+			if(isset($a['url']) && copy($_POST['zip'], '../files/archive.zip')) echo $a['url'].'/files/archive.zip';
+			exit;
+			}
+		echo '!'._('Failure');
+		break;
+		// ********************************************************************************************
+		case 'filesDownload':
+		if(file_exists(dirname(__FILE__).'/../files/archive.zip')) unlink(dirname(__FILE__).'/../files/archive.zip');
+		if(file_exists('data/'.$Ubusy.'/site.json'))
+			{
+			$q = file_get_contents('data/'.$Ubusy.'/site.json');
+			$a = json_decode($q,true);
+			if(isset($a['url']) && f_zip('../files/', '../files/archive.zip',0)) echo $a['url'].'/files/archive.zip';
+			exit;
+			}
+		echo '!'._('Failure');
 		break;
 		// ********************************************************************************************
 		case 'plugins':

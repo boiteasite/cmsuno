@@ -1,26 +1,35 @@
 <?php
 ini_set('session.use_trans_sid', 0);
 session_start();
-include('uno/password.php');
+if(file_exists('uno/config.php')) include('uno/config.php');
+else
+	{
+	$ch = 'abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ123456789'; $sdata = '';
+	for($v=0;$v<15;++$v) $sdata .= $ch[mt_rand(0, strlen($ch)-1)];
+	$out = '<?php $lang = "en"; $sdata = "'.$sdata.'"; ?>';
+	file_put_contents('uno/config.php', $out);
+	$lang = 'en';
+	}
 include('uno/includes/lang/lang.php');
 //if (!is_dir('uno/includes/js/ckeditor/')) $Udep = "https://cdn.rawgit.com/boiteasite/cmsuno/master/uno/"; else $Udep = "uno/"; // LIGHT HOSTED VERSION
 if (!is_dir('uno/includes/js/ckeditor/')) $Udep = "https://rawgit.com/boiteasite/cmsuno/master/uno/"; else $Udep = "uno/"; // LIGHT HOSTED VERSION
 if (isset($_POST['user']) && isset($_POST['pass']))
 	{
 	session_regenerate_id();
+	define('CMSUNO', 'cmsuno');
+	include('uno/password.php');
 	if ($_POST['user']===utf8_encode($user) && $_POST['pass']===$pass && is_writable(dirname(__FILE__)))
 		{
 		$_SESSION['cmsuno']=true;
 		if(!is_dir('uno/data')) mkdir('uno/data');
-		if(!is_dir('uno/data/_sdata')) mkdir('uno/data/_sdata',0711);
+		if(!is_dir('uno/data/_sdata-'.$sdata)) mkdir('uno/data/_sdata-'.$sdata,0711);
 		if(!is_dir('files')) mkdir('files');
-		if(!is_dir('files/unosave')) mkdir('files/unosave',0711);
+		if(!is_dir('uno/data/_sdata-'.$sdata.'/_unosave')) mkdir('uno/data/_sdata-'.$sdata.'/_unosave',0711);
 		if(!file_exists('uno/.htaccess')) file_put_contents('uno/.htaccess', 'Options -Indexes'."\r\n".'Allow from all');
 		if(!file_exists('uno/data/.htaccess')) file_put_contents('uno/data/.htaccess', 'Options -Indexes'."\r\n".'Allow from all');
-		if(!file_exists('uno/data/_sdata/.htaccess')) file_put_contents('uno/data/_sdata/.htaccess', 'Order Allow,Deny'."\r\n".'Deny from all'); 
-		if(substr(sprintf('%o', fileperms('uno/data/_sdata')), -4)!="0711") @chmod("uno/data/_sdata", 0711);
-		if(!file_exists('files/unosave/.htaccess')) file_put_contents('files/unosave/.htaccess', 'Order Allow,Deny'."\r\n".'Deny from all'); 
-		if(substr(sprintf('%o', fileperms('files/unosave')), -4)!="0711") @chmod("files/unosave", 0711);
+		if(!file_exists('uno/data/index.html')) file_put_contents('uno/data/index.html', '<html></html>');
+		if(!file_exists('uno/data/_sdata-'.$sdata.'/.htaccess')) file_put_contents('uno/data/_sdata-'.$sdata.'/.htaccess', 'Order Allow,Deny'."\r\n".'Deny from all'); 
+		if(substr(sprintf('%o', fileperms('uno/data/_sdata-'.$sdata)), -4)!="0711") @chmod("uno/data/_sdata-".$sdata, 0711);
 		if(!file_exists('uno/data/busy.json')) file_put_contents('uno/data/busy.json', '{"nom":"index"}');
 		}
 	else sleep(2);
@@ -36,7 +45,14 @@ else if (isset($_POST['logout']) && $_POST['logout']==1)
 	echo '<script type="text/javascript">window.location=document.URL; </script>';
 	}
 //
-else if (!isset($_SESSION['cmsuno'])) { ?>
+else if (isset($_SESSION['cmsuno']))
+	{
+	$unox = md5(rand(1000,9999));
+	$_SESSION['unox'] = $unox; // securisation des appels ajax
+	include('uno/edition.php');
+	}
+//
+else { ?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -92,11 +108,4 @@ else if (!isset($_SESSION['cmsuno'])) { ?>
 	</div><!-- .container -->
 </body>
 </html>
-<?php }
-else
-	{
-	$unox = md5(rand(1000,9999));
-	$_SESSION['unox'] = $unox; // securisation des appels ajax
-	include('uno/edition.php');
-	}
-?>
+<?php } ?>

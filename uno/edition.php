@@ -4,8 +4,6 @@ if(!isset($_SESSION['cmsuno']) || !isset($_SESSION['unox']) || !isset($unox) || 
 ?>
 <?php
 $user=0; $pass=0; // reset
-//if (!is_dir('uno/includes/js/ckeditor/')) $Udep = "https://cdn.rawgit.com/boiteasite/cmsuno/master/uno/"; else $Udep = "uno/"; // SEMI HOSTED VERSION
-if (!is_dir('uno/includes/js/ckeditor/')) $Udep = "https://rawgit.com/boiteasite/cmsuno/master/uno/"; else $Udep = "uno/"; // SEMI HOSTED VERSION
 function f_theme()
 	{
 	// liste des themes dans un select
@@ -31,7 +29,7 @@ function f_theme()
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $Udep; ?>includes/css/jquery-ui.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="uno/includes/elfinder/css/elfinder.min.css" />
 	<script type="text/javascript">
-		var Up=0,Udg=0,Usty=0,Uini=0,Utem=false,Uplug='',Uplugon=0,Unox='<?php echo $unox; ?>',Udep='<?php echo $Udep; ?>',Upt=[],Upd=[],Uplugact=[],Upluglist=[],UconfigFile=[],Ulang='<?php echo $lang; ?>',UconfigNum=0,Ubusy='';
+		var Up=0,Udg=0,Usty=0,Uini=0,Utem=false,Uplug='',Uplugon=0,Unox='<?php echo $unox; ?>',Udep='<?php if(isset($Udep)) echo $Udep; else exit; ?>',Upt=[],Upd=[],Uplugact=[],Upluglist=[],UconfigFile=[],Ulang='<?php echo $lang; ?>',UconfigNum=0,Ubusy='';
   	</script>
 </head>
 <body>
@@ -42,8 +40,8 @@ function f_theme()
 			<ul>
 				<li id="wait"><img style="margin:2px 6px 0 0;" src="<?php echo $Udep; ?>includes/img/wait.gif" /></li>
 				<li><a id="apage" style="text-decoration:underline" href=""><?php echo _("Page");?></a></li>
-				<li><a id="aconfig" onClick="f_config();" href="javascript:void(0)"><?php echo _("Settings");?></a></li>
-				<li><a id="aplugin" onClick="f_plugin(0);f_plugAll(document.getElementById('plugOnOff'),1)" href="javascript:void(0)"><?php echo _("Plugins");?></a></li>
+				<li><a id="aconfig" style="display:none;" onClick="f_config();" href="javascript:void(0)"><?php echo _("Settings");?></a></li>
+				<li><a id="aplugin" style="display:none;" onClick="f_plugin(0);f_plugAll(document.getElementById('plugOnOff'),1)" href="javascript:void(0)"><?php echo _("Plugins");?></a></li>
 				<li><a id="avoir" href="index.html" target="_blank"><?php echo _("See the website");?></a></li>
 				<li><a id="alogout" onClick="f_logout();" href="javascript:void(0)"><?php echo _("Log out");?></a></li>
 			</ul>
@@ -143,9 +141,16 @@ function f_theme()
 			<div class="clear"></div>
 		</div>
 		<div class="blocBouton">
+			<div id="archOnOff" class="onoff" onClick="f_archOption(this);"></div>
 			<div class="bouton fr" onClick="f_archivage();" title="<?php echo _("Save all the website");?>"><?php echo _("Make a backup");?></div>
 			<div id="boutonRestaure" class="bouton fl" onClick="f_restaure(document.getElementById('archive').options[document.getElementById('archive').selectedIndex].value);" title="<?php echo _("Restore a backup (delete the current site)");?>"><?php echo _("Restore a backup");?></div>
 			<div id="blocArchive"></div>
+			<div id="archOpt" class="archOpt" style="position:relative;display:none;text-align:left;clear:both;">
+				<div class="bouton" onClick="f_archDel(document.getElementById('archive').options[document.getElementById('archive').selectedIndex].value);" title="<?php echo _("Remove this backup");?>"><?php echo _("Remove this backup");?></div>
+				<div class="bouton" onClick="f_archDownload(document.getElementById('archive').options[document.getElementById('archive').selectedIndex].value);" title="<?php echo _("Download this backup");?>"><?php echo _("Download this backup");?></div>
+				<div class="bouton fr" onClick="f_fileDownload();" title="<?php echo _("Download all Finder files");?>"><?php echo _("Download all Finder files");?></div>
+				<div class="clear"></div>
+			</div>
 		</div>
 		<div class="blocForm">
 			<h2><?php echo _("Change User / Password / Language");?></h2>
@@ -245,10 +250,11 @@ jQuery.ajax({type:"POST",url:'uno/central.php',data:{'action':'getSite','unox':U
 		document.getElementById('mel').value=r.mel||'';
 	}
 	if(r.nom)document.getElementById('avoir').href=r.nom+'.html';
+	jQuery("#aconfig").show();
 }});}
-function f_get_chap(f){Up=f;jQuery.post('uno/central.php',{'action':'getChap','unox':Unox,'data':Upd[Up]},function(r){
-	if(r.length<3)r+='-';CKEDITOR.instances['content'].setData(r.substr(1));
-	var a=r.substr(0,1);if(a==1||a==3||a==5||a==7)document.getElementById('optTit').checked=true;else document.getElementById('optTit').checked=false;if(a==2||a==3||a==6||a==7)document.getElementById('optMenu').checked=true;else document.getElementById('optMenu').checked=false;if(a==4||a==5||a==6||a==7)document.getElementById('optDisp').checked=true;else document.getElementById('optDisp').checked=false;document.getElementById('chapOpt').style.display='none';
+function f_get_chap(f){Up=f;jQuery.post('uno/central.php',{'action':'getChap','unox':Unox,'data':Upd[Up]},function(r1){
+	if(r1.length<3)r1+='-';CKEDITOR.instances['content'].setData(r1.substr(1));
+	var a=r1.substr(0,1);if(a==1||a==3||a==5||a==7)document.getElementById('optTit').checked=true;else document.getElementById('optTit').checked=false;if(a==2||a==3||a==6||a==7)document.getElementById('optMenu').checked=true;else document.getElementById('optMenu').checked=false;if(a==4||a==5||a==6||a==7)document.getElementById('optDisp').checked=true;else document.getElementById('optDisp').checked=false;document.getElementById('chapOpt').style.display='none';
 	Uini=1;Udg=0;jQuery("#wait").hide();document.getElementById('boutonSauv').className="bouton";
 });}
 function f_sauve_chap(){jQuery.post('uno/central.php',{
@@ -292,13 +298,18 @@ function f_publier(){jQuery("#wait").show();jQuery.post('uno/central.php',{'acti
 function f_suppPub(){jQuery.post('uno/central.php',{'action':'suppPub','unox':Unox},function(r){f_alert(r);});}
 function f_archivage(){jQuery("#wait").show();jQuery.post('uno/central.php',{'action':'archivage','unox':Unox},function(r){f_selectArchive();f_alert(r);});}
 function f_restaure(f){jQuery("#wait").show();jQuery.post('uno/central.php',{'action':'restaure','unox':Unox,'zip':f},function(r){f_alert(r);});}
+function f_archDel(f){jQuery("#wait").show();jQuery.post('uno/central.php',{'action':'archDel','unox':Unox,'zip':f},function(r){t=document.getElementById("archive");to=t.options;for(v=0;v<to.length;v++){if(to[v].value==f){t.removeChild(to[v]);}};f_alert(r);});}
+function f_archDownload(f){jQuery("#wait").show();jQuery.post('uno/central.php',{'action':'archDownload','unox':Unox,'zip':f},function(r){jQuery("#wait").hide();if(r.substr(0,1)=="!")f_alert(r);else window.location=r;});}
+function f_fileDownload(){jQuery("#wait").show();jQuery.post('uno/central.php',{'action':'filesDownload','unox':Unox},function(r){jQuery("#wait").hide();if(r.substr(0,1)=="!")f_alert(r);else window.location=r;});}
+
+
 function f_selectArchive(){jQuery.post('uno/central.php',{'action':'selectArchive','unox':Unox},function(r){if(r){document.getElementById('boutonRestaure').style.display="inline";document.getElementById('blocArchive').innerHTML=r;}else{document.getElementById('boutonRestaure').style.display="none";document.getElementById('blocArchive').innerHTML=''}});}
 function f_logout(){a=document.getElementById('info');b=document.createElement("form");b.method="POST";b.action="";c=document.createElement("input");c.name="logout";c.type="hidden";c.value=1;b.appendChild(c);a.appendChild(b);b.submit();}
-function f_alert(f){if(f.search('<br />')!=-1){alert(f);jQuery.post('uno/central.php',{'action':'error','unox':Unox,'e':f});}
-	else{a=document.getElementById('info');b=document.createElement("span");b.id="alert";if(f.substr(0,1)=="!"){b.style.color="red";f=f.substr(1);}b.innerHTML=f;a.appendChild(b);setTimeout(function(){jQuery("#alert").fadeOut("slow",function(){jQuery("#alert").remove();});jQuery("#info").empty();},2000);}jQuery("#wait").hide();}
+function f_alert(f){if(f.search('<br />')!=-1){alert(f);jQuery.post('uno/central.php',{'action':'error','unox':Unox,'e':f});}else{a=document.getElementById('info');b=document.createElement("span");b.id="alert";if(f.substr(0,1)=="!"){b.style.color="red";f=f.substr(1);}b.innerHTML=f;a.appendChild(b);setTimeout(function(){jQuery("#alert").fadeOut("slow",function(){jQuery("#alert").remove();});jQuery("#info").empty();},2000);}jQuery("#wait").hide();}
 function f_config(){document.getElementById('plugins').style.display="none";document.getElementById('apage').style.textDecoration='none';document.getElementById('aplugin').style.textDecoration='none';document.getElementById('aconfig').style.textDecoration='underline';Up=-1;f_get_site(0);document.getElementById('chaps').style.display="none";document.getElementById('config').style.display="block";f_selectArchive();jQuery("#wait").hide();}
 function f_chapOption(f){var a=document.getElementById('chapOpt'),b;if(a.style.display=='none'){b='block';f.className='onoff all';}else{b='none';f.className='onoff';}a.style.display=b;window.scrollTo(0,document.body.scrollHeight);}
-function f_listPlugins(){document.getElementById("aplugin").style.display="none";jQuery.ajax({type:"POST",url:'uno/central.php',data:{'action':'plugins','unox':Unox},dataType:'json',async:true,success:function(r){jQuery.each(r,function(k,v){Upluglist[k]=v;});jQuery("#aplugin").show();}});}
+function f_archOption(f){var a=document.getElementById('archOpt'),b;if(a.style.display=='none'){b='block';f.className='onoff all';}else{b='none';f.className='onoff';}a.style.display=b;}
+function f_listPlugins(){jQuery.ajax({type:"POST",url:'uno/central.php',data:{'action':'plugins','unox':Unox},dataType:'json',async:true,success:function(r){var c=0;jQuery.each(r,function(k,v){++c;Upluglist[k]=v;});if(c!=0)jQuery("#aplugin").show();}});}
 function f_plugins(){Up=-1;a=document.getElementById('listPlugins');document.getElementById('config').style.display="none";document.getElementById('chaps').style.display="none";document.getElementById('plugins').style.display="block";
 	document.getElementById('prePlugin').style.display='block';
 	jQuery(a).empty();jQuery.each(Upluglist,function(k,v){
