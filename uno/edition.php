@@ -4,6 +4,7 @@ if(!isset($_SESSION['cmsuno']) || !isset($_SESSION['unox']) || !isset($unox) || 
 ?>
 <?php
 $user=0; $pass=0; // reset
+if(file_exists(dirname(__FILE__).'/../files/archive.zip')) unlink(dirname(__FILE__).'/../files/archive.zip');
 function f_theme()
 	{
 	// liste des themes dans un select
@@ -222,7 +223,7 @@ jQuery.ajax({type:"POST",url:'uno/central.php',data:{'action':'getSite','unox':U
 		jQuery("#menu").empty();
 		b=document.createElement('ul');b.id='menuSort';b.className='ui-sortable';
 		jQuery.each(r.chap,function(k,v){Upt[k]=v.t;Upd[k]=v.d;
-			c=document.createElement('li');if(k==Up)c.className='bouton current off';else{c.className='bouton unsort';c.onclick=function(){Up=k;f_get_site(1);};}c.innerHTML=v.t.replace(/\\/,"");
+			c=document.createElement('li');if(k==Up)c.className='bouton current off';else{c.className='bouton unsort';c.onclick=function(){Up=k;f_get_site(1);};}if(v.od==1)c.className+=' chapoff';c.innerHTML=v.t.replace(/\\/,"");
 			b.appendChild(c);
 		});a.appendChild(b);
 		jQuery(function(){
