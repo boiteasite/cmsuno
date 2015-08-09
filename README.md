@@ -286,6 +286,7 @@ THE SOFTWARE.
 Versions
 --------
 
+* V0.9.27 beta - 09/08/2015 : Add Spanish.
 * V0.9.26 beta - 25/06/2015 : Safety improvement - phase two.
 * V0.9.25 beta - 23/06/2015 : Safety improvement - phase one. Add error registration system.
 * V0.9.24 beta - 19/06/2015 : Improved speed of 40%.

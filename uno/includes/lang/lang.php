@@ -1,10 +1,11 @@
 <?php
 	$langCode = array(
 		"fr" => "fr_FR.utf8",
-		"en" => "en_US"
+		"en" => "en_US",
+		"es" => "es_ES.utf8"
 		);
 	//	
-	if ($langCode[$lang])
+	if(isset($langCode[$lang]) && $langCode[$lang])
 		{
 		putenv('LC_ALL='.$langCode[$lang]);
 		setlocale(LC_ALL, $langCode[$lang]);
