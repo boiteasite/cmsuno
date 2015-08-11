@@ -11,7 +11,6 @@ $lazy = 1;
 include('config.php');
 include('includes/lang/lang.php');
 if (!is_dir('includes/js/ckeditor/')) $Udep = "https://cdn.rawgit.com/boiteasite/cmsuno/".$Uversion."/uno/"; else $Udep = "uno/"; // LIGHT HOSTED VERSION
-//if (!is_dir('includes/js/ckeditor/')) $Udep = "https://rawgit.com/boiteasite/cmsuno/master/uno/"; else $Udep = "uno/"; // SEMI HOSTED VERSION
 //
 // ********************* functions ***********************************************************************
 function f_lazy($f)
