@@ -15,8 +15,8 @@ else
 	$lang = 'en';
 	}
 include('uno/includes/lang/lang.php');
-//if (!is_dir('uno/includes/js/ckeditor/')) $Udep = "https://cdn.rawgit.com/boiteasite/cmsuno/master/uno/"; else $Udep = "uno/"; // LIGHT HOSTED VERSION
-if (!is_dir('uno/includes/js/ckeditor/')) $Udep = "https://rawgit.com/boiteasite/cmsuno/master/uno/"; else $Udep = "uno/"; // LIGHT HOSTED VERSION
+if (!is_dir('uno/includes/js/ckeditor/')) $Udep = "https://cdn.rawgit.com/boiteasite/cmsuno/".$Uversion."/uno/"; else $Udep = "uno/"; // LIGHT HOSTED VERSION
+//if (!is_dir('uno/includes/js/ckeditor/')) $Udep = "https://rawgit.com/boiteasite/cmsuno/master/uno/"; else $Udep = "uno/"; // LIGHT HOSTED VERSION
 if (isset($_POST['user']) && isset($_POST['pass']))
 	{
 	session_regenerate_id();

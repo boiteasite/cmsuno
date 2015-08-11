@@ -1,4 +1,8 @@
 <?php
+// **********************************
+// CMSUno
+$Uversion = '1.0';
+// **********************************
 session_start(); 
 if(!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH'])!='xmlhttprequest') {sleep(2);exit;} // ajax request
 if(!isset($_POST['unox']) || $_POST['unox']!=$_SESSION['unox']) {sleep(2);exit;} // appel depuis uno.php
@@ -6,8 +10,8 @@ if(!isset($_POST['unox']) || $_POST['unox']!=$_SESSION['unox']) {sleep(2);exit;}
 $lazy = 1;
 include('config.php');
 include('includes/lang/lang.php');
-//if (!is_dir('includes/js/ckeditor/')) $Udep = "https://cdn.rawgit.com/boiteasite/cmsuno/master/uno/"; else $Udep = "uno/"; // SEMI HOSTED VERSION
-if (!is_dir('includes/js/ckeditor/')) $Udep = "https://rawgit.com/boiteasite/cmsuno/master/uno/"; else $Udep = "uno/"; // SEMI HOSTED VERSION
+if (!is_dir('includes/js/ckeditor/')) $Udep = "https://cdn.rawgit.com/boiteasite/cmsuno/".$Uversion."/uno/"; else $Udep = "uno/"; // LIGHT HOSTED VERSION
+//if (!is_dir('includes/js/ckeditor/')) $Udep = "https://rawgit.com/boiteasite/cmsuno/master/uno/"; else $Udep = "uno/"; // SEMI HOSTED VERSION
 //
 // ********************* functions ***********************************************************************
 function f_lazy($f)
