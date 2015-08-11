@@ -36,7 +36,7 @@ function f_theme()
 <body>
 	<div class="blocTop bgNoir">
 		<div class="container">
-			<span class="titre" href="/">CMSUno<? if(isset($version)) echo '&nbsp;<em>'.$version.'</em>'; ?></span>
+			<span class="titre" href="/">CMSUno<? if(isset($Uversion)) echo '&nbsp;<em>'.$Uversion.'</em>'; ?></span>
 			<div id="info"></div>
 			<ul>
 				<li id="wait"><img style="margin:2px 6px 0 0;" src="<?php echo $Udep; ?>includes/img/wait.gif" /></li>

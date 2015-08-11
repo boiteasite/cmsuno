@@ -13,10 +13,10 @@
  * (1) http://ckeditor.com/builder
  *     Visit online builder to build CKEditor from scratch.
  *
- * (2) http://ckeditor.com/builder/e8805d283142c235509451f73985d5d7
+ * (2) http://ckeditor.com/builder/4754594e299bdde54314e9411590972a
  *     Visit online builder to build CKEditor, starting with the same setup as before.
  *
- * (3) http://ckeditor.com/builder/download/e8805d283142c235509451f73985d5d7
+ * (3) http://ckeditor.com/builder/download/4754594e299bdde54314e9411590972a
  *     Straight download link to the latest version of CKEditor (Optimized) with the same setup as before.
  *
  * NOTE:
@@ -42,6 +42,7 @@ var CKBUILDER_CONFIG = {
 		'.jscsrc',
 		'.jshintignore',
 		'.jshintrc',
+		'less',
 		'.mailmap',
 		'node_modules',
 		'package.json',
@@ -95,6 +96,7 @@ var CKBUILDER_CONFIG = {
 	},
 	languages : {
 		'en' : 1,
+		'es' : 1,
 		'fr' : 1
 	}
 };

@@ -1,7 +1,7 @@
 <?php
 // **********************************
 // CMSUno
-$version = '0.9.27';
+$Uversion = '1.0';
 // **********************************
 ini_set('session.use_trans_sid', 0);
 session_start();
@@ -72,7 +72,7 @@ else { ?>
 <body>
 	<div class="blocTop bgNoir">
 		<div class="container">
-			<span class="titre" href="/">CMSUno<? if(isset($version)) echo '&nbsp;<em>'.$version.'</em>'; ?></span>
+			<span class="titre" href="/">CMSUno<? if(isset($Uversion)) echo '&nbsp;<em>'.$Uversion.'</em>'; ?></span>
 			<ul>
 				<?php 
 				if(file_exists('uno/data/busy.json')) { $q = file_get_contents('uno/data/busy.json'); $a = json_decode($q,true); $Ubusy = $a['nom']; }

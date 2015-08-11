@@ -23,10 +23,8 @@ u::::::::::::::u  n::::n    n::::n  o:::::ooooo:::::o
      \____/           \/    \/            \__/
 </pre>
 
-CKEditor 4.4.7
+CKEditor
 --------
-
-Update : 22/05/2015
 
 CMSUno use a custom version of CKEditor made on http://ckeditor.com/ with the Standard Package plus :
 
