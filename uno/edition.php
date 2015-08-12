@@ -154,7 +154,22 @@ function f_theme()
 			</div>
 		</div>
 		<div class="blocForm">
-			<h2><?php echo _("Change User / Password / Language");?></h2>
+			<h2><?php echo _("Change Language");?></h2>
+			<table class="hForm">
+				<tr>
+					<td><label><?php echo _("Language");?></label></td>
+					<td>
+						<select name="lang" id="lang">
+						<?php foreach($langCode as $k=>$r) { echo "<option value='".$k."' ".(($lang==$k)?'selected':'').">".$k."</option>"; } ?>
+						</select>
+					</td>
+					<td>
+						<em><?php echo _("Language for the admin side of the site.");?></em>
+						<div class="bouton" id="boutonPass" onClick="f_sauve_pass();" title="<?php echo _("Save");?>"><?php echo _("Save");?></div>
+					</td>
+				</tr>
+			</table>
+			<h2><?php echo _("Change User / Password");?></h2>
 			<table class="hForm">
 				<tr>
 					<td><label><?php echo _("Current user");?></label></td>
@@ -180,14 +195,6 @@ function f_theme()
 					<td><label><?php echo _("Password");?></label></td>
 					<td><input type="password" class="input" name="pass1" id="pass1" /></td>
 					<td><em><?php echo _("Check. Re-enter the password.");?></em></td>
-				</tr><tr>
-					<td><label><?php echo _("Language");?></label></td>
-					<td>
-						<select name="lang" id="lang">
-						<?php foreach($langCode as $k=>$r) { echo "<option value='".$k."' ".(($lang==$k)?'selected':'').">".$k."</option>"; } ?>
-						</select>
-					</td>
-					<td><em><?php echo _("Language for the admin side of the site.");?></em></td>
 				</tr>
 			</table>
 			<div class="bouton fr" id="boutonPass" onClick="f_sauve_pass();" title="<?php echo _("Save password");?>"><?php echo _("Save");?></div>

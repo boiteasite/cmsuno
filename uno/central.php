@@ -1,8 +1,4 @@
 <?php
-// **********************************
-// CMSUno
-$Uversion = '1.0';
-// **********************************
 session_start(); 
 if(!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH'])!='xmlhttprequest') {sleep(2);exit;} // ajax request
 if(!isset($_POST['unox']) || $_POST['unox']!=$_SESSION['unox']) {sleep(2);exit;} // appel depuis uno.php

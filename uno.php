@@ -1,7 +1,7 @@
 <?php
 // **********************************
 // CMSUno
-$Uversion = '1.0';
+$version = '1.0';
 // **********************************
 ini_set('session.use_trans_sid', 0);
 session_start();
@@ -10,9 +10,15 @@ else
 	{
 	$ch = 'abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ123456789'; $sdata = '';
 	for($v=0;$v<15;++$v) $sdata .= $ch[mt_rand(0, strlen($ch)-1)];
-	$out = '<?php $lang = "en"; $sdata = "'.$sdata.'"; ?>';
+	$out = '<?php $lang = "en"; $sdata = "'.$sdata.'"; $Uversion = "'.(isset($version)?$version:'1.0').'"; ?>';
 	file_put_contents('uno/config.php', $out);
 	$lang = 'en';
+	}
+if(!isset($Uversion) || (isset($version) && $Uversion!=$version))
+	{
+	$out = '<?php $lang = "'.$lang.'"; $sdata = "'.$sdata.'"; $Uversion = "'.(isset($version)?$version:'1.0').'"; ?>';
+	file_put_contents('uno/config.php', $out);
+	$Uversion = (isset($version)?$version:'1.0');
 	}
 include('uno/includes/lang/lang.php');
 if (!is_dir('uno/includes/js/ckeditor/')) $Udep = "https://cdn.rawgit.com/boiteasite/cmsuno/".$Uversion."/uno/"; else $Udep = "uno/"; // LIGHT HOSTED VERSION

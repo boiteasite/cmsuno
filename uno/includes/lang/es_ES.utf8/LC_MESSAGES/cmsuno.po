@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CmsUno\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-09 17:54+0100\n"
-"PO-Revision-Date: 2015-08-09 19:13+0100\n"
+"POT-Creation-Date: 2015-08-12 18:37+0100\n"
+"PO-Revision-Date: 2015-08-12 18:38+0100\n"
 "Last-Translator: jacques Malgrange <contacter@boiteasite.fr>\n"
 "Language-Team: Jacques Malgrange <contacter@boiteasite.fr>\n"
 "Language: \n"
@@ -18,34 +18,34 @@ msgstr ""
 "X-Poedit-Language: Spanish\n"
 "X-Poedit-SearchPath-0: ../../../../..\n"
 
-#: ../../../../../uno.php:41
-#: ../../../../../uno.php:42
-#: ../../../../../uno.php:108
-#: ../../../../../uno.php:109
+#: ../../../../../uno.php:46
+#: ../../../../../uno.php:47
+#: ../../../../../uno.php:113
+#: ../../../../../uno.php:114
 msgid "must writable recursively !"
 msgstr "¡ Debe tener permisos de escritura recursivamente !"
 
-#: ../../../../../uno.php:66
-#: ../../../../../uno.php:103
+#: ../../../../../uno.php:71
+#: ../../../../../uno.php:108
 msgid "Login"
 msgstr "Conexión"
 
-#: ../../../../../uno.php:82
+#: ../../../../../uno.php:87
 #: ../../../../../uno/edition.php:46
 msgid "See the website"
 msgstr "Ver el sitio web"
 
-#: ../../../../../uno.php:91
+#: ../../../../../uno.php:96
 msgid "Administrator"
 msgstr "Administrador"
 
-#: ../../../../../uno.php:97
-#: ../../../../../uno/edition.php:175
-#: ../../../../../uno/edition.php:180
+#: ../../../../../uno.php:102
+#: ../../../../../uno/edition.php:190
+#: ../../../../../uno/edition.php:195
 msgid "Password"
 msgstr "Contraseña"
 
-#: ../../../../../uno/central.php:134
+#: ../../../../../uno/central.php:133
 msgid "Welcome"
 msgstr "Bienvenida"
 
@@ -191,13 +191,13 @@ msgstr "Guardar capítulo"
 
 #: ../../../../../uno/edition.php:72
 #: ../../../../../uno/edition.php:86
-#: ../../../../../uno/edition.php:200
+#: ../../../../../uno/edition.php:207
 msgid "Publish on the web all saved chapters"
 msgstr "Publicar en la web todos los capítulos guardados"
 
 #: ../../../../../uno/edition.php:72
 #: ../../../../../uno/edition.php:86
-#: ../../../../../uno/edition.php:200
+#: ../../../../../uno/edition.php:207
 msgid "Publish"
 msgstr "Publicar"
 
@@ -322,7 +322,8 @@ msgid "Saves settings"
 msgstr "Guardar la configuración"
 
 #: ../../../../../uno/edition.php:141
-#: ../../../../../uno/edition.php:193
+#: ../../../../../uno/edition.php:168
+#: ../../../../../uno/edition.php:200
 msgid "Save"
 msgstr "Guardar"
 
@@ -355,72 +356,76 @@ msgid "Download all Finder files"
 msgstr "descargar todos los archivos del Finder"
 
 #: ../../../../../uno/edition.php:157
-msgid "Change User / Password / Language"
-msgstr "Cambiar de Usuario / Contraseña / Idioma"
+msgid "Change Language"
+msgstr "Cambiar el idioma"
 
 #: ../../../../../uno/edition.php:160
-msgid "Current user"
-msgstr "Usuario actual"
-
-#: ../../../../../uno/edition.php:165
-msgid "Current password"
-msgstr "Contraseña actual"
-
-#: ../../../../../uno/edition.php:170
-msgid "User"
-msgstr "Usuario"
-
-#: ../../../../../uno/edition.php:172
-msgid "Enter a nickname. Avoid words that are too simple (admin, user ...)"
-msgstr "Introducir un apodo. Evitar palabras que son demasiado simples (admin, usuario ...)"
-
-#: ../../../../../uno/edition.php:177
-msgid "Very important for the safety of the site. Use lowercase, uppercase and digit."
-msgstr "Muy importante para la seguridad del sitio. Utilice minúsculas, mayúsculas y dígitos."
-
-#: ../../../../../uno/edition.php:182
-msgid "Check. Re-enter the password."
-msgstr "Compruebe. Volver a introducir la contraseña."
-
-#: ../../../../../uno/edition.php:184
 msgid "Language"
 msgstr "Idioma"
 
-#: ../../../../../uno/edition.php:190
+#: ../../../../../uno/edition.php:167
 msgid "Language for the admin side of the site."
 msgstr "Idioma para la parte de administración del sitio."
 
-#: ../../../../../uno/edition.php:193
+#: ../../../../../uno/edition.php:172
+msgid "Change User / Password"
+msgstr "Cambiar de Usuario / Contraseña"
+
+#: ../../../../../uno/edition.php:175
+msgid "Current user"
+msgstr "Usuario actual"
+
+#: ../../../../../uno/edition.php:180
+msgid "Current password"
+msgstr "Contraseña actual"
+
+#: ../../../../../uno/edition.php:185
+msgid "User"
+msgstr "Usuario"
+
+#: ../../../../../uno/edition.php:187
+msgid "Enter a nickname. Avoid words that are too simple (admin, user ...)"
+msgstr "Introducir un apodo. Evitar palabras que son demasiado simples (admin, usuario ...)"
+
+#: ../../../../../uno/edition.php:192
+msgid "Very important for the safety of the site. Use lowercase, uppercase and digit."
+msgstr "Muy importante para la seguridad del sitio. Utilice minúsculas, mayúsculas y dígitos."
+
+#: ../../../../../uno/edition.php:197
+msgid "Check. Re-enter the password."
+msgstr "Compruebe. Volver a introducir la contraseña."
+
+#: ../../../../../uno/edition.php:200
 msgid "Save password"
 msgstr "Guardar contraseña"
 
-#: ../../../../../uno/edition.php:286
+#: ../../../../../uno/edition.php:293
 msgid "Current elements are missing"
 msgstr "Elementos actuales faltan"
 
-#: ../../../../../uno/edition.php:286
+#: ../../../../../uno/edition.php:293
 msgid "Too short name"
 msgstr "Nombre demasiado corto"
 
-#: ../../../../../uno/edition.php:286
+#: ../../../../../uno/edition.php:293
 msgid "Passwords are different"
 msgstr "Las contraseñas son diferentes"
 
-#: ../../../../../uno/edition.php:286
+#: ../../../../../uno/edition.php:293
 msgid "Too short password"
 msgstr "Contraseña demasiado corta"
 
-#: ../../../../../uno/edition.php:327
-#: ../../../../../uno/edition.php:333
+#: ../../../../../uno/edition.php:334
+#: ../../../../../uno/edition.php:340
 msgid "Enable"
 msgstr "Activar"
 
-#: ../../../../../uno/edition.php:327
-#: ../../../../../uno/edition.php:333
+#: ../../../../../uno/edition.php:334
+#: ../../../../../uno/edition.php:340
 msgid "Disable"
 msgstr "Desactivar"
 
-#: ../../../../../uno/edition.php:350
+#: ../../../../../uno/edition.php:357
 msgid "Select a file"
 msgstr "Seleccionar un archivo"
 
