@@ -43,6 +43,10 @@ The server has nothing to build, the page displays faster than any other CMS.
 
 More details in French [here](http://www.boiteasite.fr/fiches/cmsuno.html).
 
+[DEMO](http://www.boiteasite.fr/fiches/demo/uno.php).
+* login : demo
+* pass : 123456
+
 Installation
 ------------
 
