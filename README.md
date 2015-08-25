@@ -38,7 +38,7 @@ The server has nothing to build, the page displays faster than any other CMS.
 * Use of effective tools, tested and monitored as [CKEditor](http://ckeditor.com/) and [ELFinder](https://github.com/Studio-42/elFinder).
 * Development of plugins easy and effective.
 * Adaptation of open source CSS template fast and easy.
-* Multilingual with Gettext.
+* Multilingual with Gettext. Languages currently available : English, French, Spanish.
 * Less than 1MB. Centralized hosting of part of the code on GitHub servers.
 
 More details in French [here](http://www.boiteasite.fr/fiches/cmsuno.html).
