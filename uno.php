@@ -1,7 +1,7 @@
 <?php
 // **********************************
 // CMSUno
-$version = '1.0';
+$version = '1.1';
 // **********************************
 ini_set('session.use_trans_sid', 0);
 session_start();
@@ -21,7 +21,8 @@ if(!isset($Uversion) || (isset($version) && $Uversion!=$version))
 	$Uversion = (isset($version)?$version:'1.0');
 	}
 include('uno/includes/lang/lang.php');
-if (!is_dir('uno/includes/js/ckeditor/')) $Udep = "https://cdn.rawgit.com/boiteasite/cmsuno/".$Uversion."/uno/"; else $Udep = "uno/"; // LIGHT HOSTED VERSION
+$Urawgit = "https://cdn.rawgit.com/boiteasite/cmsuno/";
+if (!is_dir('uno/includes/js/ckeditor/')) $Udep = $Urawgit.$Uversion."/uno/"; else $Udep = "uno/"; // LIGHT HOSTED VERSION
 if (isset($_POST['user']) && isset($_POST['pass']))
 	{
 	session_regenerate_id();
@@ -56,7 +57,7 @@ else if (isset($_POST['logout']) && $_POST['logout']==1)
 //
 else if (isset($_SESSION['cmsuno']))
 	{
-	$unox = md5(rand(1000,9999));
+	$unox = md5(mt_rand().mt_rand());
 	$_SESSION['unox'] = $unox; // securisation des appels ajax
 	include('uno/edition.php');
 	}
@@ -71,7 +72,7 @@ else { ?>
 	<title>CMSUno - <?php echo _("Login");?></title>
 	<link rel="icon" type="image/png" href="<?php echo $Udep; ?>includes/img/favicon.png" />
 	<link rel="stylesheet" href="<?php echo $Udep; ?>includes/css/uno.css" />
-	<script src="<?php if($Udep!='uno/') echo 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'; else echo 'uno/includes/js/jquery-1.7.2.min.js'; ?>"></script>
+	<script src="<?php if($Udep!='uno/') echo 'https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js'; else echo 'uno/includes/js/jquery-2.1.4.min.js'; ?>"></script>
 	<script type="text/javascript">$(document).ready(function(){$('.alert').delay(2000).fadeOut();});</script>
 </head>
 <body>

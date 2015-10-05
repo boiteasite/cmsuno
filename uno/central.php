@@ -6,7 +6,8 @@ if(!isset($_POST['unox']) || $_POST['unox']!=$_SESSION['unox']) {sleep(2);exit;}
 $lazy = 1;
 include('config.php');
 include('includes/lang/lang.php');
-if (!is_dir('includes/js/ckeditor/')) $Udep = "https://cdn.rawgit.com/boiteasite/cmsuno/".$Uversion."/uno/"; else $Udep = "uno/"; // LIGHT HOSTED VERSION
+$Urawgit = "https://cdn.rawgit.com/boiteasite/cmsuno/";
+if(!is_dir('includes/js/ckeditor/')) $Udep = $Urawgit.$Uversion."/uno/"; else $Udep = "uno/"; // LIGHT HOSTED VERSION
 //
 // ********************* functions ***********************************************************************
 function f_lazy($f)
@@ -96,6 +97,47 @@ function f_rmdirR($dir)
 	return rmdir($dir);
 	}
 //
+function lastVersion($f,$g,$h)
+	{
+	// Version : $f : minimum 2 digit : 1.0, 2.4.5 6 maximum 3 digit
+	// Version 2 => 2.0 (2 digit if 0)
+	// Version 1.4.0 => 1.4 (not 3 digit if 0)
+	$a = explode('.',$f);
+	if(!isset($a[0])) $a[0] = 1;
+	if(!isset($a[1])) $a[1] = 0;
+	if(!isset($a[2])) $a[2] = 0;
+	// next major version ? format : 2.0
+	$b = ($a[0]+1);
+	while(urlExists($g.$b.'.0/'.$h))
+		{
+		$a[0] = ($a[0]+1);
+		$a[1] = 0; $a[2] = 0;
+		$b = ($a[0]+1);
+		}
+	// next version ? format : 1.7
+	$b = ($a[1]+1);
+	while(urlExists($g.$a[0].'.'.$b.'/'.$h))
+		{
+		$a[1] = ($a[1]+1);
+		$a[2] = 0;
+		$b = ($a[1]+1);
+		}
+	// next minor version ? 1.7.3
+	$b = ($a[2]+1);
+	while(urlExists($g.$a[0].'.'.$a[1].'.'.$b.'/'.$h))
+		{
+		$a[2] = ($a[2]+1);
+		$b = ($a[2]+1);
+		}
+	return $a[0].'.'.$a[1].($a[2]?'.'.$a[2]:'');
+	}
+//
+function urlExists($f)
+	{
+	$file_headers = @get_headers($f);
+	if($file_headers[0]=='HTTP/1.1 404 Not Found') return false;
+	else return true;
+	}
 // ********************* actions *************************************************************************
 if (isset($_POST['action']))
 	{
@@ -231,7 +273,7 @@ if (isset($_POST['action']))
 		$a = $_POST['user']; $b = $_POST['pass'];
 		if ($_POST['user0']=='' || $_POST['pass0']=='') // only lang
 			{
-			$config = '<?php $lang = "'.$_POST['lang'].'"; $sdata = "'.$sdata.'"; ?>';
+			$config = '<?php $lang = "'.$_POST['lang'].'"; $sdata = "'.$sdata.'"; $Uversion = "'.(isset($Uversion)?$Uversion:'1.0').'"; ?>';
 			if (file_put_contents('config.php', $config)) echo _('The language was changed');
 			else echo '!'._('Impossible backup');
 			}
@@ -242,7 +284,7 @@ if (isset($_POST['action']))
 		else
 			{
 			$password = '<?php if(!defined(\'CMSUNO\')) exit(); $user = "'.$a.'"; $pass = "'.$b.'"; ?>';
-			$config = '<?php $lang = "'.$_POST['lang'].'"; $sdata = "'.$sdata.'"; ?>';
+			$config = '<?php $lang = "'.$_POST['lang'].'"; $sdata = "'.$sdata.'"; $Uversion = "'.(isset($Uversion)?$Uversion:'1.0').'"; ?>';
 			if (file_put_contents('password.php', $password) && file_put_contents('config.php', $config)) echo _('The login / password were changed');
 			else echo '!'._('Impossible backup');
 			}
@@ -278,7 +320,7 @@ if (isset($_POST['action']))
 		if ($_POST['jq']=="true") $a['jq']=1; else $a['jq']=0;
 		if ($_POST['sty']=="true") $a['sty']=1; else $a['sty']=0;
 		$out = json_encode($a);
-		if (file_put_contents('data/'.$Ubusy.'/site.json', $out)) echo _('Backup performed');
+		if(file_put_contents('data/'.$Ubusy.'/site.json', $out)) echo _('Backup performed');
 		else echo '!'._('Impossible backup');
 		break;
 		// ********************************************************************************************
@@ -362,10 +404,10 @@ if (isset($_POST['action']))
 		$Ucontent = str_replace($u,'',$Ucontent);
 		if (isset($Ua['jq']) && $Ua['jq']==1)
 			{
-			$Uhead .= '<!--[if (!IE)|(gt IE 8)]><!--><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script><!--<![endif]-->'."\r\n"
-				.'<!--[if lte IE 8]><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script><![endif]-->'."\r\n"
+			$Uhead .= '<!--[if (!IE)|(gt IE 8)]><!--><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script><!--<![endif]-->'."\r\n"
+				.'<!--[if lte IE 8]><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><![endif]-->'."\r\n"
 				.'<script type="text/javascript" src="'.$Udep.'includes/js/jquery-migrate-1.2.1.min.js"></script>'."\r\n";
-			if($Udep=='uno/') $Uhead .= '<script type="text/javascript">window.jQuery || document.write(\'<script src="uno/includes/js/jquery-1.11.0.min.js">\x3C/script>\')</script>'."\r\n";
+			if($Udep=='uno/') $Uhead .= '<script type="text/javascript">window.jQuery || document.write(\'<script src="uno/includes/js/jquery-1.11.3.min.js">\x3C/script>\')</script>'."\r\n";
 			}
 		if (isset($Ua['lazy']) && $Ua['lazy']==1)
 			{
@@ -559,6 +601,147 @@ if (isset($_POST['action']))
 		$b=$a['plug']; ksort($b); $a['plug']=$b;
 		$out = json_encode($a);
 		file_put_contents('data/'.$Ubusy.'/site.json', $out);
+		break;
+		// ********************************************************************************************
+		case 'checkUpdate':
+		$u = $_POST['u']; $a = array(); $b = 0; $d = array();
+		if(file_exists('data/update.json'))
+			{
+			$q = file_get_contents('data/update.json');
+			$a = json_decode($q,true);
+			}
+		if(!$u) // CMSUno
+			{
+			if(is_dir('includes/js/ckeditor/')) $c = 1;
+			else $c = 0;
+			$a['uno']['in'] = (isset($Uversion)?$Uversion:'0.9');
+			if(!isset($a['uno']['ext'])) { $a['uno']['ext'] = '0.9'; $b = 1; }
+			if(!isset($a['uno']['host'])) { $a['uno']['host'] = 'https://github.com/boiteasite/cmsuno'; $b = 1; }
+			if(!file_exists('data/update.json') || filemtime('data/update.json')>time()-30 || filemtime('data/update.json')<time()-86400) // Only once a day
+				{
+				$last = lastVersion($a['uno']['ext'], $Urawgit, 'uno/includes/css/uno.css');
+				if($last!=$a['uno']['ext']) { $a['uno']['ext'] = $last; $b = 1; }
+				}
+			if($a['uno']['in']!=$a['uno']['ext']) echo '1|'.$c.'|'.$last;
+			else echo '0|'.$c.'|';
+			}
+		else // Plugin
+			{
+			if(!isset($a['plug'][$u]['in']) || !isset($a['plug'][$u]['host']))
+				{
+				if(file_exists('plugins/'.$u.'/version.json'))
+					{
+					$q = file_get_contents('plugins/'.$u.'/version.json');
+					$d = json_decode($q,true);
+					$a['plug'][$u]['in'] = (isset($d['version'])?$d['version']:'0.9');
+					$a['plug'][$u]['host'] = (isset($d['host'])?$d['host']:'0.9');
+					$a['plug'][$u]['ext'] = (isset($d['version'])?$d['version']:'0.9');
+					}
+				else
+					{
+					$a['plug'][$u]['in'] = '0.9';
+					$a['plug'][$u]['host'] = '';
+					$a['plug'][$u]['ext'] = '0.9';
+					}
+				$b = 1;
+				}
+			if($a['plug'][$u]['host'] && (filemtime('data/update.json')>time()-30 || filemtime('data/update.json')<time()-86400) && strpos($a['plug'][$u]['host'],'github.com')!==false) // Only once a day
+				{
+				$last = lastVersion($a['plug'][$u]['ext'], $a['plug'][$u]['host'].'blob/', 'version.json');
+				if($last!=$a['plug'][$u]['in'])
+					{
+					$a['plug'][$u]['ext'] = $last;
+					$b = 1;
+					echo '1|'.$a['plug'][$u]['in'].'|'.$last;
+					}
+				else echo '0|'.$a['plug'][$u]['in'].'|';
+				}
+			else
+				{
+				if(isset($a['plug'][$u]['ext']) && $a['plug'][$u]['in']!=$a['plug'][$u]['ext']) echo '1|'.$a['plug'][$u]['in'].'|'.$a['plug'][$u]['ext'];
+				else echo '0|'.$a['plug'][$u]['in'].'|';
+				}
+			}
+		if($b) file_put_contents('data/update.json', json_encode($a));
+		break;
+		// ********************************************************************************************
+		case 'update':
+		if(file_exists('data/update.json'))
+			{
+			$u = $_POST['u']; $r = 0;
+			$q = file_get_contents('data/update.json');
+			$a = json_decode($q,true);
+			if($u) // plugin
+				{
+				if(isset($a['plug'][$u]['ext']) && isset($a['plug'][$u]['host']) && strpos($a['plug'][$u]['host'],'github.com')!==false)
+					{
+					$z = $a['plug'][$u]['host'].'archive/'.$a['plug'][$u]['ext'].'.zip';
+					file_put_contents('../files/tmp'.$u.'.zip', fopen($z, 'r'));
+					$zip = new ZipArchive;
+					$f = $zip->open('../files/tmp'.$u.'.zip');
+					if($f===true)
+						{
+						f_rmdirR('plugins/'.$u);
+						$d = trim($zip->getNameIndex(0), '/');
+						$zip->extractTo('plugins/');
+						$zip->close();
+						rename('plugins/'.$d, 'plugins/'.$u);
+						unlink('../files/tmp'.$u.'.zip');
+						$a['plug'][$u]['in'] = $a['plug'][$u]['ext'];
+						file_put_contents('data/update.json', json_encode($a));
+						echo _('New Version Installed').'|'.$a['plug'][$u]['ext'];
+						$r= 1;
+						}
+					}
+				}
+			else
+				{
+				$base = dirname(dirname(__FILE__));
+				// 1. Get new version
+				$z = 'https://github.com/boiteasite/cmsuno/archive/'.$a['uno']['ext'].'.zip';
+				file_put_contents('../files/tmpuno.zip', fopen($z, 'r'));
+				$zip = new ZipArchive;
+				$f = $zip->open('../files/tmpuno.zip');
+				if($f===true)
+					{
+					// 2. Extract in Files
+					$d = trim($zip->getNameIndex(0), '/');
+					$zip->extractTo('../files/');
+					$zip->close();
+					unlink('../files/tmpuno.zip');
+					// 3. Save current datas
+					if(is_dir('data')) { f_copyDir('data', '../files/tmpdata'); f_rmdirR('data'); }
+					if(is_dir('plugins')) { f_copyDir('plugins', '../files/tmpplugins'); f_rmdirR('plugins'); }
+					if(is_dir('template')) { f_copyDir('template', '../files/tmptemplate'); f_rmdirR('template'); }
+					if(file_exists('password.php')) copy('password.php', '../files/tmppassword.php');
+					// 4. Install new version
+					f_rmdirR($base.'/uno');
+					unlink($base.'/uno.php');
+					unlink($base.'/README.md');
+					f_copyDir($base.'/files/'.$d, $base);
+					f_rmdirR($base.'/files/'.$d);
+					f_rmdirR($base.'/uno/data');
+					f_rmdirR($base.'/uno/plugins');
+					f_rmdirR($base.'/uno/template');
+					f_copyDir($base.'/files/tmpdata', $base.'/uno/data'); f_rmdirR($base.'/files/tmpdata');
+					f_copyDir($base.'/files/tmpplugins', $base.'/uno/plugins'); f_rmdirR($base.'/files/tmpplugins');
+					f_copyDir($base.'/files/tmptemplate', $base.'/uno/template'); f_rmdirR($base.'/files/tmptemplate');
+					copy($base.'/files/tmppassword.php', $base.'/uno/password.php'); unlink($base.'/files/tmppassword.php');
+					$config = '<?php $lang = "'.$lang.'"; $sdata = "'.$sdata.'"; $Uversion = "'.$a['uno']['ext'].'"; ?>';
+					file_put_contents($base.'/uno/config.php', $config);
+					echo _('New Version Installed').'|'.$a['uno']['ext'];
+					$r= 1;
+					}
+				}
+			}
+		if(!$r) echo '!'._('Failure');
+		break;
+		// ********************************************************************************************
+		case 'lighter':
+		if(is_dir('includes/js')) f_rmdirR('includes/js');
+		if(is_dir('includes/img')) f_rmdirR('includes/img');
+		if(is_dir('includes/css')) f_rmdirR('includes/css');
+		echo _('CMSUno is in Lightened Version');
 		break;
 		// ********************************************************************************************
 		}

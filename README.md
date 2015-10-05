@@ -38,14 +38,11 @@ The server has nothing to build, the page displays faster than any other CMS.
 * Use of effective tools, tested and monitored as [CKEditor](http://ckeditor.com/) and [ELFinder](https://github.com/Studio-42/elFinder).
 * Development of plugins easy and effective.
 * Adaptation of open source CSS template fast and easy.
-* Multilingual with Gettext. Languages currently available : English, French, Spanish.
+* Multilingual with Gettext.
+* Inline Update button for CMSUno and plugins.
 * Less than 1MB. Centralized hosting of part of the code on GitHub servers.
 
 More details in French [here](http://www.boiteasite.fr/fiches/cmsuno.html).
-
-[DEMO](http://www.boiteasite.fr/fiches/demo/uno.php).
-* login : demo
-* pass : 123456
 
 Installation
 ------------
@@ -259,13 +256,23 @@ CKEDITOR.editorConfig = function(config)
 	};
 ```
 
+### version.json ###
+
+This file is __required__. It allows to update online the plugin.
+
+Example of content :
+
+```
+{"version":"1.0","host":"https://github.com/cmsunoPlugins/foo/"}
+```
+
 License 
 -------
 
 CMSUno is under MIT license.
 
 <pre>
-Copyright (c) <2014> <Jacques Malgrange contacter@boiteasite.fr>
+Copyright (c) <2014-2015> <Jacques Malgrange contacter@boiteasite.fr>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -290,6 +297,10 @@ THE SOFTWARE.
 Versions
 --------
 
+* V1.1 - 05/10/2015 :
+      * CKEditor 4.5.3, ELFinder 2.0, JQuery 2.1.4, JQuery-UI 1.9.2.
+      * Add Inline Update button.
+      
 * V1.0 - 11/08/2015 : First stable version. CKEditor 4.5.2.
 
 * V0.9.27 beta - 09/08/2015 : Add Spanish.

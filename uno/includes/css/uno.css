@@ -59,6 +59,12 @@ code{font-family:monospace;font-size:12px;padding:2px 4px;color:#333;background-
 .hForm td input[type="checkbox"].input{width:auto;border:none;}
 .parking{display:inline-block;height:15px;width:1px;margin:0;padding:0;background-color:transparent;}
 #blocArchive{float:left;margin:10px 0 0 5px;}
+#lighter{min-height:22px;}
+#updateDiv table{margin:10px 0 20px 20px;}
+#updateDiv td{vertical-align:middle;text-align:left;padding-top:12px;padding-bottom:12px}
+#updateDiv td:nth-child(1){text-transform:capitalize;min-width:150px;}
+#updateDiv td:nth-child(2){padding-left:30px;}
+#updateDiv table span{margin-top:-10px;margin-bottom:-10px;}
 #nomPlug{float:left;}
 #prePlugin div{float:right;margin:11px;}
 #prePlugin div label{display:block;float:right;margin:-2px 0 0 10px;width:40px;}
@@ -139,8 +145,8 @@ label.label {float:left;margin:4px 6px 0 0;}
 	background-image:-ms-linear-gradient(top,#f5f5f5,#cfd1cf);
 	background-image:linear-gradient(top,#f5f5f5,#cfd1cf);
 	filter:progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr='#f5f5f5',endColorstr='#cfd1cf');
-	padding:1px;z-index:99;}
-#finderDiv .ui-dialog-titlebar{display:none;}
+	padding:1px;z-index:-1;}
+/*#finderDiv .ui-dialog-titlebar{display:none;}*/
 @media only screen and (min-width: 768px) and (max-width: 959px) {.container {width: 768px;}}
 @media only screen and (max-width: 767px) {.container {width: 300px;}}
 @media only screen and (min-width: 480px) and (max-width: 767px) {.container {width: 420px;}}
