@@ -1,7 +1,7 @@
 <?php
 // **********************************
 // CMSUno
-$version = '1.1';
+$version = '1.1.1';
 // **********************************
 ini_set('session.use_trans_sid', 0);
 session_start();
@@ -39,7 +39,8 @@ if (isset($_POST['user']) && isset($_POST['pass']))
 		if(!file_exists('uno/data/.htaccess')) file_put_contents('uno/data/.htaccess', 'Options -Indexes'."\r\n".'Allow from all');
 		if(!file_exists('uno/data/index.html')) file_put_contents('uno/data/index.html', '<html></html>');
 		if(!file_exists('uno/data/_sdata-'.$sdata.'/.htaccess')) file_put_contents('uno/data/_sdata-'.$sdata.'/.htaccess', 'Order Allow,Deny'."\r\n".'Deny from all'); 
-		if(substr(sprintf('%o', fileperms('uno/data/_sdata-'.$sdata)), -4)!="0711") @chmod("uno/data/_sdata-".$sdata, 0711);
+	//	if(substr(sprintf('%o', fileperms('uno/data/_sdata-'.$sdata)), -4)!="0711") @chmod("uno/data/_sdata-".$sdata, 0711);
+		f_chmodR('uno/data/_sdata-'.$sdata,0600,0711);
 		if(!file_exists('uno/data/busy.json')) file_put_contents('uno/data/busy.json', '{"nom":"index"}');
 		}
 	else sleep(2);
@@ -118,4 +119,19 @@ else { ?>
 	</div><!-- .container -->
 </body>
 </html>
-<?php } ?>
+<?php }
+//
+function f_chmodR($path, $fr=0644, $dr=0755)
+	{
+	if(!file_exists($path)) return(false);
+	if(is_file($path)) @chmod($path, $fr);
+	else if(is_dir($path))
+		{
+		$re = scandir($path);
+		$q = array_slice($re, 2);
+		foreach($q as $r) f_chmodR($path."/".$r, $fr, $dr);
+		@chmod($path, $dr);
+		}
+	return(true);
+	}
+?>

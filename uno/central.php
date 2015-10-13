@@ -97,6 +97,20 @@ function f_rmdirR($dir)
 	return rmdir($dir);
 	}
 //
+function f_chmodR($path, $fr=0644, $dr=0755)
+	{
+	if(!file_exists($path)) return(false);
+	if(is_file($path)) @chmod($path, $fr);
+	else if(is_dir($path))
+		{
+		$re = scandir($path);
+		$q = array_slice($re, 2);
+		foreach($q as $r) f_chmodR($path."/".$r, $fr, $dr);
+		@chmod($path, $dr);
+		}
+	return(true);
+	}
+//
 function lastVersion($f,$g,$h)
 	{
 	// Version : $f : minimum 2 digit : 1.0, 2.4.5 6 maximum 3 digit
@@ -724,6 +738,7 @@ if (isset($_POST['action']))
 					f_rmdirR($base.'/uno/plugins');
 					f_rmdirR($base.'/uno/template');
 					f_copyDir($base.'/files/tmpdata', $base.'/uno/data'); f_rmdirR($base.'/files/tmpdata');
+					f_chmodR($base.'/uno/data/_sdata-'.$sdata,0600,0711);
 					f_copyDir($base.'/files/tmpplugins', $base.'/uno/plugins'); f_rmdirR($base.'/files/tmpplugins');
 					f_copyDir($base.'/files/tmptemplate', $base.'/uno/template'); f_rmdirR($base.'/files/tmptemplate');
 					copy($base.'/files/tmppassword.php', $base.'/uno/password.php'); unlink($base.'/files/tmppassword.php');

@@ -91,7 +91,7 @@ Configuration is limited to the minimum useful.
 Plugins can substantially improve the capabilities of CMSUno.
 Plugin can especially add extra buttons to CKEditor and process the results before publication. In use, it's fantastic.
 
-Plugins are available [here](https://github.com/boiteasite/cmsuno/tree/plugins)
+Plugins are available [here](https://github.com/cmsunoPlugins)
 
 Template Tags
 -------------
@@ -297,9 +297,10 @@ THE SOFTWARE.
 Versions
 --------
 
+* V1.1.1 - 13/10/2015 : chmod secure recursively sdata on login
 * V1.1 - 05/10/2015 :
       * CKEditor 4.5.3, ELFinder 2.0, JQuery 2.1.4, JQuery-UI 1.9.2.
-      * Add Inline Update button.
+      * Add Inline Update button for CMS and Plugins
       
 * V1.0 - 11/08/2015 : First stable version. CKEditor 4.5.2.
 
@@ -310,7 +311,7 @@ Versions
 * V0.9.23 beta - 15/06/2015 : Everywhere asynchronous ajax.
 * V0.9.22 beta - 13/06/2015 : Add U in make variables. Add makefile for template.
 * V0.9.21 beta - 12/06/2015 : Add a gif hourglass.
-* V0.9.20 beta - 31/05/2015 : Fix some bigs.
+* V0.9.20 beta - 31/05/2015 : Fix some bugs.
 * V0.9.19 beta - 22/05/2015 : CKEditor 4.4.7 with widget.
 * V0.9.18 beta - 19/05/2015 : Responsive menu.
 * V0.9.17 beta - 11/05/2015
