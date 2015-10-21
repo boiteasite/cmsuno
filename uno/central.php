@@ -397,6 +397,7 @@ if (isset($_POST['action']))
 				{
 				$w = strtr(utf8_decode($v['t']),'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖØÙÚÛÜİŞßàáâãäåæçèéêëìíîïğñòóôõöøùúûıışÿ','aaaaaaaceeeeiiiidnoooooouuuuybsaaaaaaaceeeeiiiidnoooooouuuyyby');
 				$w = preg_replace('/[^a-zA-Z0-9%]/s','',$w);
+				$Ucontent .= '<div id="'.$w.'BlocChap" class="blocChap">'."\r\n";
 				// menu
 				if(!isset($Ua['chap'][$k]['om']) || $Ua['chap'][$k]['om']==0) $Umenu .= '<li><a href="#'.$w.'"'.($k==0?' class="active"':'').'>'.stripslashes($v['t']).'</a></li>';
 				// titre + class pour menu scrollnav
@@ -406,7 +407,7 @@ if (isset($_POST['action']))
 					else $Ucontent .= '<h2 id="'.$w.'" class="NAV1"><a name="'.$w.'">'.stripslashes($v['t']).'</a></h2>';
 					}
 				else if(!isset($Ua['chap'][$k]['om']) || $Ua['chap'][$k]['om']==0) $Ucontent .= '<h2 id="'.$w.'" class="nav1" style="height:0;padding:0;border:0;margin-bottom:5px;overflow:hidden;"><a name="'.$w.'">'.stripslashes($v['t']).'</a></h2>';
-				$Ucontent .= file_get_contents('data/'.$Ubusy.'/chap'.$v['d'].'.txt');
+				$Ucontent .= file_get_contents('data/'.$Ubusy.'/chap'.$v['d'].'.txt').'</div><!-- .blocChap -->'."\r\n";
 				}
 			}
 		$Utitle = (isset($Ua['tit']))?stripslashes($Ua['tit']):"";
@@ -456,7 +457,7 @@ if (isset($_POST['action']))
 		$Uhtml = str_replace('[[head]]',$Uhead,$Uhtml);
 		$Uhtml = str_replace('[[foot]]',$Ufoot,$Uhtml);
 		$Uhtml = str_replace('[[menu]]',$Umenu,$Uhtml);
-		$Uhtml = str_replace('[[content]]','<div id="pagesContent" class="pagesContent">'."\r\n".$Ucontent."\r\n".'</div>',$Uhtml);
+		$Uhtml = str_replace('[[content]]','<div id="pagesContent" class="pagesContent">'."\r\n".$Ucontent."\r\n".'</div><!-- #pageContent -->',$Uhtml);
 		// HTML et CONTENT
 		$Uhtml = str_replace('[[template]]','uno/template/'.$Ua['tem'].'/',$Uhtml);
 		$Uhtml = str_replace('[[title]]',$Utitle,$Uhtml);

@@ -1,7 +1,7 @@
 <?php
 // **********************************
 // CMSUno
-$version = '1.1.1';
+$version = '1.1.2';
 // **********************************
 ini_set('session.use_trans_sid', 0);
 session_start();

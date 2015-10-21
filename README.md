@@ -297,6 +297,7 @@ THE SOFTWARE.
 Versions
 --------
 
+* V1.1.2 - 21/10/2015 : Offset in uno_menu : JS var Umenuoffset;
 * V1.1.1 - 13/10/2015 : chmod secure recursively sdata on login
 * V1.1 - 05/10/2015 :
       * CKEditor 4.5.3, ELFinder 2.0, JQuery 2.1.4, JQuery-UI 1.9.2.

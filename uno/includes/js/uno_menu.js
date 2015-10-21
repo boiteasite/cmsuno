@@ -1,7 +1,7 @@
 // CMSUno
 // Smooth Menu in vanilla JS
 //
-var u=document.getElementById('nav'),Umenu=u.childNodes,Utt,Ubot,Uv,u1=document.getElementsByClassName("nav1"),u2=u1[0].getBoundingClientRect(),Umg=-u2.top+100-window.pageYOffset;
+var st=(typeof Umenuoffset!=='undefined'?Umenuoffset:0),u=document.getElementById('nav'),Umenu=u.childNodes,Utt,Ubot,Uv,u1=document.getElementsByClassName("nav1"),u2=u1[0].getBoundingClientRect(),Umg=-u2.top+100-window.pageYOffset+st;
 window.onscroll=function(){onScroll()};document.getElementById('navR').checked=false;document.getElementById('navR').style.display="none";
 for(Uv=0;Uv<Umenu.length;Uv++){
 	if(Umenu[Uv].nodeName.toUpperCase()=="LI"&&Umenu[Uv].firstChild.nodeName.toUpperCase()=="A"){
