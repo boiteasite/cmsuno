@@ -60,7 +60,6 @@ function f_init(){
 							if(Uch==1){
 								f_alert('!<?php echo _("do not save ?");?>');
 								Uch=0;
-								alert(Uch);
 							}
 							else{
 								Up=k;
