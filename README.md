@@ -297,14 +297,16 @@ THE SOFTWARE.
 Versions
 --------
 
-* V1.1.2 - 21/10/2015 : Offset in uno_menu : JS var Umenuoffset;
-* V1.1.1 - 13/10/2015 : chmod secure recursively sdata on login
+* V1.1.3 - 05/11/2015 :
+	* Loading speed improvement
+	* Add an icon on finder button
+	* Warning when change chapter without saving
+* V1.1.2 - 21/10/2015 : Offset in uno_menu : JS var Umenuoffset
+* V1.1.1 - 13/10/2015 : Chmod secure recursively sdata on login
 * V1.1 - 05/10/2015 :
       * CKEditor 4.5.3, ELFinder 2.0, JQuery 2.1.4, JQuery-UI 1.9.2.
       * Add Inline Update button for CMS and Plugins
-      
 * V1.0 - 11/08/2015 : First stable version. CKEditor 4.5.2.
-
 * V0.9.27 beta - 09/08/2015 : Add Spanish.
 * V0.9.26 beta - 25/06/2015 : Safety improvement - phase two.
 * V0.9.25 beta - 23/06/2015 : Safety improvement - phase one. Add error registration system.

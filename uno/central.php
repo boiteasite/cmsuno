@@ -608,6 +608,51 @@ if (isset($_POST['action']))
 			echo json_encode($b);
 		break;
 		// ********************************************************************************************
+		case 'init':
+		$q = file_get_contents('data/'.$Ubusy.'/site.json');
+		$a = json_decode($q,true);
+		// 1. pluginsActifs
+		if($Udep=='/uno/') $ck = '../../../';
+		else $ck = substr($_SERVER['PHP_SELF'],0,-11); // 11 : central.php
+		if(isset($a['plug']))
+			{
+			foreach($a['plug'] as $k=>$r)
+				{
+				if(file_exists('plugins/'.$k.'/'.$k.'.php'))
+					{
+					$a['pl'][]=$k;
+					if(file_exists('plugins/'.$k.'/'.$k.'Ckeditor.js')) $a['ck'][]=$ck.'plugins/'.$k.'/'.$k.'Ckeditor.js';
+					}
+				}
+			}
+		// 2. plugins
+		$d = array();
+		if(is_dir('plugins') && $h=opendir('plugins'))
+			{
+			while(false!==($f=readdir($h)))
+				{
+				if($f!='.' && $f!='..' && is_dir('plugins/'.$f)) $d[]=$f;
+				}
+			closedir($h);
+			}		
+		sort($d);
+		foreach($d as $r)
+			{
+			if(isset($a['plug'][basename($r)])) $a['plugins'][]='1'.basename($r);
+			else $a['plugins'][]='0'.basename($r);
+			}
+		// 3. getSite
+		$q1 = @file_get_contents('data/_sdata-'.$sdata.'/ssite.json');
+		if($q1)
+			{
+			$a1 = json_decode($q1,true);
+			$a['mel'] = $a1['mel'];
+			}
+		if(!isset($a['tit'])) $a['tit'] = '';
+		if(!isset($a['desc'])) $a['desc'] = '';
+		echo json_encode($a);
+		break;
+		// ********************************************************************************************
 		case 'onPlug':
 		$q = file_get_contents('data/'.$Ubusy.'/site.json');
 		$a = json_decode($q,true);
