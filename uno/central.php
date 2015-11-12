@@ -203,6 +203,8 @@ if (isset($_POST['action']))
 			}
 		if(!isset($a['tit'])) $a['tit'] = '';
 		if(!isset($a['desc'])) $a['desc'] = '';
+		if(!isset($a['tem'])) $a['tem'] = false;
+		if(!isset($a['ofs'])) $a['ofs'] = 0; // V1.1.4
 		$q = json_encode($a);
 		echo $q; exit;
 		break;
@@ -240,8 +242,9 @@ if (isset($_POST['action']))
 		if (!isset($a['sty'])) $a['sty'] = 0; // default
 		if (!isset($a['edw'])) $a['edw'] = 960; // default
 		if (!isset($a['jq'])) $a['jq'] = 0; // default
+		$c = preg_replace_callback('/(<img[^>]*src=["\'])([^"\']*)/', function($m) { return ''.$m[1].substr($m[2],strpos($m[2],'files/'));}, $_POST['content']); // lien relatif
 		$out = json_encode($a);
-		if (file_put_contents('data/'.$Ubusy.'/site.json', $out) && file_put_contents('data/'.$Ubusy.'/chap'.$_POST['data'].'.txt', $_POST['content'])) echo _('Backup performed');
+		if (file_put_contents('data/'.$Ubusy.'/site.json', $out) && file_put_contents('data/'.$Ubusy.'/chap'.$_POST['data'].'.txt', $c)) echo _('Backup performed');
 		else echo '!'._('Impossible backup');
 		break;
 		// ********************************************************************************************
@@ -330,6 +333,7 @@ if (isset($_POST['action']))
 		$a['tem'] = $_POST['tem'];
 		$a['nom'] = $n;
 		if ($_POST['edw']!='') $a['edw'] = $_POST['edw']; else $a['edw'] = 960;
+		if ($_POST['ofs']!='') $a['ofs'] = $_POST['ofs']; else $a['ofs'] = 0;
 		if ($_POST['lazy']=="true") $a['lazy']=1; else $a['lazy']=0;
 		if ($_POST['jq']=="true") $a['jq']=1; else $a['jq']=0;
 		if ($_POST['sty']=="true") $a['sty']=1; else $a['sty']=0;
@@ -379,17 +383,19 @@ if (isset($_POST['action']))
 		// ********************************************************************************************
 		// SHORTCODE [[foo]] : title, description, template, head, foot, menu, jsmenu, content
 		case 'publier':
-		$Uhead = ''; $Ufoot = ''; $Uonload = ''; $Ucontent = ''; $Umenu = ''; $Ustyle = ''; $Uscript = ''; $Ujsmenu = '<script type="text/javascript" src="'.$Udep.'includes/js/uno_menu.js"></script>';
+		$Uhead = ''; $Ufoot = ''; $Uonload = ''; $Ucontent = ''; $Umenu = ''; $Ustyle = '.blocChap{clear:both}'."\r\n";
+		$Uscript = ''; $Ujsmenu = '<script type="text/javascript" src="'.$Udep.'includes/js/uno_menu.js"></script>';
 		$unoPop=0; // Include JS files
 		$unoUbusy=0; // Include Ubusy in JS
 		if(isset($_POST['Ubusy']) && $_POST['Ubusy'] && file_exists('data/'.$_POST['Ubusy'].'/site.json')) $Ubusy = $_POST['Ubusy'];
 		$q = file_get_contents('data/'.$Ubusy.'/site.json');
 		$Ua = json_decode($q,true);
-		if(!isset($Ua['tem']) || !isset($Ua['url']) || !isset($Ua['tit']) || !isset($Ua['desc']))
+		if(!isset($Ua['tem']) || !isset($Ua['url']) || !isset($Ua['tit']) || !isset($Ua['desc']) || !isset($Ua['ofs']))
 			{
 			echo '!'._('Save Config First');
 			exit;
 			}
+		$Uscript .= 'var Umenuoffset='.intval($Ua['ofs']).';';
 		$Uhtml = file_get_contents('template/'.$Ua['tem'].'/template.html');
 		foreach ($Ua['chap'] as $k=>$v)
 			{
@@ -430,7 +436,7 @@ if (isset($_POST['action']))
 			$Ufoot .= '<script type="text/javascript" src="'.$Udep.'includes/js/echo.min.js"></script>'."\r\n".'<script type="text/javascript">var css=".content img[data-echo]{display:inline;}",head=document.head||document.getElementsByTagName("head")[0],style=document.createElement("style");style.type="text/css";if(style.styleSheet) style.styleSheet.cssText=css;else style.appendChild(document.createTextNode(css));head.appendChild(style);echo.init({offset:900,throttle:250});echo.render();</script>'."\r\n";
 			$Ucontent = f_lazy($Ucontent);
 			}
-		if(file_exists('template/'.$Ua['tem'].'/0make.php')) include('template/'.$Ua['tem'].'/0make.php'); // template Make before plugin
+		if(file_exists('template/'.$Ua['tem'].'/'.$Ua['tem'].'Make0.php')) include('template/'.$Ua['tem'].'/'.$Ua['tem'].'Make0.php'); // template Make before plugin
 		// *** Plugins ***
 		if(isset($Ua['plug'])) for($Uv=1;$Uv<=5;++$Uv) // 1 first, 5 last, no number = 3 && alphabetic order
 			{
@@ -442,7 +448,7 @@ if (isset($_POST['action']))
 				}
 			}
 		// *** / ***
-		if(file_exists('template/'.$Ua['tem'].'/make.php')) include('template/'.$Ua['tem'].'/make.php'); // template Make after plugin
+		if(file_exists('template/'.$Ua['tem'].'/'.$Ua['tem'].'Make.php')) include('template/'.$Ua['tem'].'/'.$Ua['tem'].'Make.php'); // template Make after plugin
 		include('includes/lang/lang.php');
 		if(strpos(strtolower($Uhtml),'charset="utf-8"')===false && strpos(strtolower($Uhtml),"charset='utf-8'")===false) $Uhead .= '<meta charset="utf-8">'."\r\n";
 		$Uhead .= '<style type="text/css">'."\r\n".$Ustyle.'</style>'."\r\n";
@@ -622,6 +628,7 @@ if (isset($_POST['action']))
 					{
 					$a['pl'][]=$k;
 					if(file_exists('plugins/'.$k.'/'.$k.'Ckeditor.js')) $a['ck'][]=$ck.'plugins/'.$k.'/'.$k.'Ckeditor.js';
+					if(!file_exists('plugins/'.$k.'/'.$k.'.js')) file_put_contents('plugins/'.$k.'/'.$k.'.js', '');
 					}
 				}
 			}
@@ -641,7 +648,14 @@ if (isset($_POST['action']))
 			if(isset($a['plug'][basename($r)])) $a['plugins'][]='1'.basename($r);
 			else $a['plugins'][]='0'.basename($r);
 			}
-		// 3. getSite
+		// 3. theme
+		if(file_exists('template/'.$a['tem'].'/'.$a['tem'].'.php'))
+			{
+			$a['pl'][]='_';
+			$a['plugins'][]='9_';
+			if(!file_exists('template/'.$a['tem'].'/'.$a['tem'].'.js')) file_put_contents('template/'.$a['tem'].'/'.$a['tem'].'.js', '');
+			}
+		// 4. getSite
 		$q1 = @file_get_contents('data/_sdata-'.$sdata.'/ssite.json');
 		if($q1)
 			{
@@ -650,6 +664,7 @@ if (isset($_POST['action']))
 			}
 		if(!isset($a['tit'])) $a['tit'] = '';
 		if(!isset($a['desc'])) $a['desc'] = '';
+		if(!isset($a['tem'])) $a['tem'] = false;
 		echo json_encode($a);
 		break;
 		// ********************************************************************************************
@@ -764,17 +779,33 @@ if (isset($_POST['action']))
 				$f = $zip->open('../files/tmpuno.zip');
 				if($f===true)
 					{
-					// 2. Extract in Files
-					$d = trim($zip->getNameIndex(0), '/');
-					$zip->extractTo('../files/');
-					$zip->close();
-					unlink('../files/tmpuno.zip');
+					// 2. check free space : 4 x zip
+					$sp = copy($base.'/files/tmpuno.zip', $base.'/files/tmpuno1.zip');
+					if($sp) $sp = copy($base.'/files/tmpuno.zip', $base.'/files/tmpuno2.zip');
+					if($sp) $sp = copy($base.'/files/tmpuno.zip', $base.'/files/tmpuno3.zip');
+					if($sp) $sp = copy($base.'/files/tmpuno.zip', $base.'/files/tmpuno4.zip');
+					if(!file_exists($base.'/files/tmpuno1.zip') || !file_exists($base.'/files/tmpuno2.zip') || !file_exists($base.'/files/tmpuno3.zip') || !file_exists($base.'/files/tmpuno4.zip')) $sp = false;
+					if(!$sp)
+						{
+						echo '!'._('Not enough disk space');
+						break;
+						}
+					unlink($base.'/files/tmpuno1.zip');
+					unlink($base.'/files/tmpuno2.zip');
+					unlink($base.'/files/tmpuno3.zip');
+					unlink($base.'/files/tmpuno4.zip');
 					// 3. Save current datas
-					if(is_dir('data')) { f_copyDir('data', '../files/tmpdata'); f_rmdirR('data'); }
-					if(is_dir('plugins')) { f_copyDir('plugins', '../files/tmpplugins'); f_rmdirR('plugins'); }
-					if(is_dir('template')) { f_copyDir('template', '../files/tmptemplate'); f_rmdirR('template'); }
-					if(file_exists('password.php')) copy('password.php', '../files/tmppassword.php');
-					// 4. Install new version
+					if(is_dir($base.'/files/.tmb')) f_rmdirR($base.'/files/.tmb'); // free space
+					if(is_dir($base.'/uno/data')) { f_copyDir($base.'/uno/data', $base.'/files/tmpdata'); f_rmdirR($base.'/uno/data'); }
+					if(is_dir($base.'/uno/plugins')) { f_copyDir($base.'/uno/plugins', $base.'/files/tmpplugins'); f_rmdirR($base.'/uno/plugins'); }
+					if(is_dir($base.'/uno/template')) { f_copyDir($base.'/uno/template', $base.'/files/tmptemplate'); f_rmdirR($base.'/uno/template'); }
+					if(file_exists($base.'/uno/password.php')) copy($base.'/uno/password.php', $base.'/files/tmppassword.php');
+					// 4. Extract in Files
+					$d = trim($zip->getNameIndex(0), '/');
+					$zip->extractTo($base.'/files/');
+					$zip->close();
+					unlink($base.'/files/tmpuno.zip');
+					// 5. Install new version
 					f_rmdirR($base.'/uno');
 					unlink($base.'/uno.php');
 					unlink($base.'/README.md');

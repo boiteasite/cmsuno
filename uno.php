@@ -1,7 +1,7 @@
 <?php
 // **********************************
 // CMSUno
-$version = '1.1.3';
+$version = '1.1.4';
 // **********************************
 ini_set('session.use_trans_sid', 0);
 session_start();
@@ -42,6 +42,10 @@ if (isset($_POST['user']) && isset($_POST['pass']))
 	//	if(substr(sprintf('%o', fileperms('uno/data/_sdata-'.$sdata)), -4)!="0711") @chmod("uno/data/_sdata-".$sdata, 0711);
 		f_chmodR('uno/data/_sdata-'.$sdata,0600,0711);
 		if(!file_exists('uno/data/busy.json')) file_put_contents('uno/data/busy.json', '{"nom":"index"}');
+		if(is_dir('files/.tmb')) // clean up - free space
+			{
+			if($h=opendir('files/.tmb')) { while(false!==($f=readdir($h))) { if(is_file('files/.tmb/'.$f)) unlink('files/.tmb/'.$f); } closedir($h); }
+			}
 		}
 	else sleep(2);
 	if(is_dir('files') && is_writable(dirname(__FILE__)) && is_writable(dirname(__FILE__).'/uno')) echo '<script type="text/javascript">window.location=document.URL; </script>';

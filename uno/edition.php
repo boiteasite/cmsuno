@@ -44,7 +44,7 @@ function f_init(){
 			}
 			Ubusy=r['nom'];
 			Usty=r['sty'];
-			Utem=(r['tem'] in window)?r['tem']:false;
+			Utem=r['tem'];
 			var b=document.createElement('ul');
 			b.id='menuSort';
 			b.className='ui-sortable';
@@ -254,6 +254,10 @@ f_init();
 					<td><label><?php echo _("Width page");?> (px)</label></td>
 					<td><input type="text" class="input" name="edw" id="edw" style="width:50px;" maxlength="4" onkeypress="return f_nombre(event)"/></td>
 					<td><em><?php echo _("Adapt the editor width with the observed width of the HTML page. (960 by default)");?></em></td>
+				</tr><tr>
+					<td><label><?php echo _("Menu offset");?> (px)</label></td>
+					<td><input type="text" class="input" name="ofs" id="ofs" style="width:50px;" maxlength="4" onkeypress="return f_nombre(event)"/></td>
+					<td><em><?php echo _("Margin height upon arrival on a chapter after clicking on the menu (0 by default)");?></em></td>
 				</tr>
 			</table>
 			<div class="bouton fr" id="boutonConfig" onClick="f_sauve_config();" title="<?php echo _("Saves settings");?>"><?php echo _("Save");?></div>
@@ -355,7 +359,7 @@ function f_get_site(f){
 		var a=document.getElementById('menu'),b;
 		Ubusy=r.nom;
 		Usty=r.sty;
-		Utem=(r.tem in window)?r.tem:false;
+		Utem=r.tem;
 		if(Up!=-1){
 			jQuery("#menu").empty();
 			b=document.createElement('ul');
@@ -417,6 +421,7 @@ function f_get_site(f){
 				}
 			};
 			document.getElementById('edw').value=r.edw||'';
+			document.getElementById('ofs').value=r.ofs||'';
 			if(r.lazy==1)document.getElementById('lazy').checked=true;
 			else document.getElementById('lazy').checked=false;
 			if(r.jq==1)document.getElementById('jq').checked=true;
@@ -458,7 +463,7 @@ function f_sauve_chap(){
 }
 function f_sauve_config(){
 	var nom=document.getElementById('nom').value;
-	jQuery.post('uno/central.php',{'action':'sauveConfig','unox':Unox,'tit':document.getElementById('tit').value,'desc':document.getElementById('desc').value,'nom':nom,'mel':document.getElementById('mel').value,'tem':document.getElementById("tem").options[document.getElementById("tem").selectedIndex].value,'url':document.getElementById('url').value,'lazy':document.getElementById('lazy').checked,'jq':document.getElementById('jq').checked,'sty':document.getElementById('sty').checked,'edw':document.getElementById('edw').value},function(r){
+	jQuery.post('uno/central.php',{'action':'sauveConfig','unox':Unox,'tit':document.getElementById('tit').value,'desc':document.getElementById('desc').value,'nom':nom,'mel':document.getElementById('mel').value,'tem':document.getElementById("tem").options[document.getElementById("tem").selectedIndex].value,'url':document.getElementById('url').value,'lazy':document.getElementById('lazy').checked,'jq':document.getElementById('jq').checked,'sty':document.getElementById('sty').checked,'edw':document.getElementById('edw').value,'ofs':document.getElementById('ofs').value},function(r){
 		f_alert(r);
 		if(nom.length>0)document.getElementById('avoir').href=nom+'.html';
 	});
@@ -655,7 +660,8 @@ function f_plugins(){
 		b.onclick=function(){
 			f_plugin(v);
 		};
-		b.innerHTML=v.charAt(1).toUpperCase()+v.substr(2);
+		if(v=='9_')b.innerHTML='<?php echo _("My theme");?>';
+		else b.innerHTML=v.charAt(1).toUpperCase()+v.substr(2);
 		if(k==0){
 			b.className="bouton current off";
 			Uplugon=v.substr(0,1);
@@ -664,7 +670,7 @@ function f_plugins(){
 	});
 }
 function f_plugin(f){
-	var a=document.getElementById('listPlugins'),d,v;
+	var a=document.getElementById('listPlugins'),d,v,c;
 	if(f==0){
 		f_plugins();
 		document.getElementById('apage').style.textDecoration='none';
@@ -682,21 +688,33 @@ function f_plugin(f){
 	};
 	d=document.getElementById('onPlug');
 	d.name=f.substr(1);
-	if(f.substr(0,1)=="1"){
+	c=f.substr(0,1);
+	if(c=='1'){
 		d.checked=true;
 		d.nextSibling.innerHTML='<?php echo _("Enable");?>';
 		d.nextSibling.style.color='green';
+	}
+	else if(c=='9'){
+		d.checked=true;
+		d.style.display='none';
+		d.nextSibling.innerHTML='';
 	}
 	else{
 		d.checked=false;
 		d.nextSibling.innerHTML='<?php echo _("Disable");?>';
 		d.nextSibling.style.color='#f79f81';
 	}
-	document.getElementById('nomPlug').innerHTML='Plugin : '+f.substr(1);
+	if(c=='9')document.getElementById('nomPlug').innerHTML='<?php echo _("My theme");?> : '+Utem;
+	else document.getElementById('nomPlug').innerHTML='Plugin : '+f.substr(1);
 	document.getElementById('plugin').innerHTML="";
-	jQuery.post('uno/plugins/'+f.substr(1)+'/'+f.substr(1)+'.php',{'action':'plugin','unox':Unox,'udep':Udep},function(r){
+	if(c!='9')jQuery.post('uno/plugins/'+f.substr(1)+'/'+f.substr(1)+'.php',{'action':'plugin','unox':Unox,'udep':Udep},function(r){
 		document.getElementById('plugin').innerHTML=r;
 		jQuery.getScript('uno/plugins/'+f.substr(1)+'/'+f.substr(1)+'.js');
+		jQuery("#wait").hide();
+	});
+	else jQuery.post('uno/template/'+Utem+'/'+Utem+'.php',{'action':'plugin','unox':Unox,'udep':Udep},function(r){
+		document.getElementById('plugin').innerHTML=r;
+		jQuery.getScript('uno/template/'+Utem+'/'+Utem+'.js');
 		jQuery("#wait").hide();
 	});
 }
@@ -796,7 +814,7 @@ function f_checkUpdate(){
 		window.scrollTo(0,document.body.scrollHeight);
 		jQuery.each(Upluglist,function(k,v){
 			++b;
-			jQuery.post('uno/central.php',{'action':'checkUpdate','unox':Unox,'u':v.substr(1)},function(r){
+			if(v.substr(0,1)!='9')jQuery.post('uno/central.php',{'action':'checkUpdate','unox':Unox,'u':v.substr(1)},function(r){
 				if(r.search('|')!=-1){
 					r=r.split('|');
 					if(r[0]!='1')c.innerHTML+='<tr><td>'+v.substr(1)+' : '+r[1]+'</td><td><?php echo _("Up to date"); ?></td></tr>';
@@ -828,11 +846,15 @@ function f_lighter(){
 		f_alert(r);
 	});
 }
+function f_extraJS(){
+	jQuery.getScript(Udep+"includes/js/jqColorPicker.min.js");
+}
 //
 window.scrollTo(0,0);
 window.onload=function(){
 	jQuery('#finderDiv').elfinder({lang:'<?php echo $lang;?>',url:'uno/includes/elfinder/php/connector.php',useBrowserHistory:false}).elfinder('instance');
 	jQuery('#finderDiv').elfinder('close').css('zIndex',99);
+	f_extraJS();
 	jQuery("#wait").hide();
 }
 </script>

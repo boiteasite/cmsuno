@@ -93,8 +93,13 @@ Plugin can especially add extra buttons to CKEditor and process the results befo
 
 Plugins are available [here](https://github.com/cmsunoPlugins)
 
-Template Tags
--------------
+Template Development
+--------------------
+
+Create a theme is very easy. You just need a folder with the name of your theme and, inside, a file named 'template.html'. That's it.
+The template file is a simple html file with some specifics tags.
+
+### Template Tags ###
 
 * [[content]] : page content
 * [[description]] : meta description
@@ -105,13 +110,6 @@ Template Tags
 * [[template]] : template url
 * [[title]] : page title
 * [[url]] : base site url
-
-As a plugin, you can add a makefile in your template folder :
-
-* 0make.php executed before all plugins (if exists) when publishing.
-* make.php executed after plugins (if exists) when publishing.
-
-You can use both.
 
 Plugin development
 ------------------
@@ -168,6 +166,8 @@ if (isset($_POST['action']))
 ```
 $Ubusy contains the name of the current page. It's because you can create multiple pages with CMSUno
 
+In the same way, you can customize your theme by adding the file __name_of_your_theme.php__ in the theme folder.
+
 ### fooMake.php ###
 
 This file is __not required__.
@@ -204,6 +204,13 @@ Variables usable all have almost the same name as the shortcodes. Here is a non-
 * __$Uname__ : Published HTML file name. By default, it's "index".
 * __$unoPop__ : Set 1 to add unoPop JS and CSS. Small code in pure JS to use nodal window and to get value from url data.
 * __$unoUbusy__ : Set 1 to add JS var Ubusy in the head.
+
+As a plugin, you can add a makefile in your theme folder :
+
+* __name_of_your_themeMake0.php__ executed before all plugins (if exists) when publishing.
+* __name_of_your_themeMake.php__ executed after plugins (if exists) when publishing.
+
+You can use both.
 
 ### foo.js ###
 
@@ -297,6 +304,10 @@ THE SOFTWARE.
 Versions
 --------
 
+* V1.1.4 - 12/11/2015 :
+	* Offset menu setting
+	* Add theme customizing
+	* Add tinyColorPicker
 * V1.1.3 - 05/11/2015 :
 	* Loading speed improvement
 	* Add an icon on finder button

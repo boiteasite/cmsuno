@@ -1,0 +1,146 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: CmsUno\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-12 19:55+0100\n"
+"PO-Revision-Date: 2015-11-12 19:55+0100\n"
+"Last-Translator: jacques Malgrange <contacter@boiteasite.fr>\n"
+"Language-Team: Jacques Malgrange <contacter@boiteasite.fr>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Report-\tmsgstr-Bugs-To: \n"
+"Report-\t\tmsgstr-Bugs-To: \n"
+"X-Poedit-KeywordsList: _\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Country: FRANCE\n"
+"X-Poedit-SourceCharset: iso-8859-1\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-SearchPath-0: ../../..\n"
+
+#: ../../../uno1.php:23
+msgid "Options"
+msgstr "Options"
+
+#: ../../../uno1.php:27
+msgid "Page color"
+msgstr "Couleur de page"
+
+#: ../../../uno1.php:29
+msgid "Background color for the border of your page"
+msgstr "Couleur de fond pour la bordure de la page"
+
+#: ../../../uno1.php:32
+msgid "Wrapper color"
+msgstr "Couleur du cadre"
+
+#: ../../../uno1.php:34
+msgid "Background color for the content of your page"
+msgstr "Couleur de fond pour le cadre de la page"
+
+#: ../../../uno1.php:37
+msgid "Menu color"
+msgstr "Couleur du menu"
+
+#: ../../../uno1.php:39
+msgid "Background color of the menu"
+msgstr "Couleur de fond pour la barre de menu"
+
+#: ../../../uno1.php:42
+msgid "Text menu color on"
+msgstr "Couleur du texte du menu ON"
+
+#: ../../../uno1.php:44
+msgid "Color of the text for the current chapter in the menu"
+msgstr "Couleur du texte du chapitre actif ou survolé à la souris dans le menu"
+
+#: ../../../uno1.php:47
+msgid "Text menu color off"
+msgstr "Couleur du texte du menu OFF"
+
+#: ../../../uno1.php:49
+msgid "Color of the text for the other chapters in the menu"
+msgstr "Couleur du texte des autres chapitres du menu"
+
+#: ../../../uno1.php:52
+msgid "Site Title color"
+msgstr "Couleur du titre"
+
+#: ../../../uno1.php:54
+msgid "Color of the text for the site title"
+msgstr "Couleur du texte du titre du site"
+
+#: ../../../uno1.php:57
+msgid "Chapter Title color"
+msgstr "Couleur des titres de chapitre"
+
+#: ../../../uno1.php:59
+msgid "Color of the text for each chapter title"
+msgstr "Couleur du texte des titres de chaque chapitre"
+
+#: ../../../uno1.php:63
+msgid "Save settings"
+msgstr "Enregistre le contenu"
+
+#: ../../../uno1.php:63
+msgid "Save"
+msgstr "Enregistrer"
+
+#: ../../../uno1.php:78
+msgid "Backup performed"
+msgstr "Sauvegarde effectu&eacute;e"
+
+#: ../../../uno1.php:79
+msgid "Impossible backup"
+msgstr "Sauvegarde impossible"
+
+#~ msgid "Box"
+#~ msgstr "Box"
+
+#~ msgid ""
+#~ "This plugin allows you to add small blocks of content. For example: a "
+#~ "date, an address, a phone number."
+#~ msgstr ""
+#~ "Ce plugin permet d'ajouter des petits blocs de contenu. Par exemple : une "
+#~ "date, une adresse, un numéro de téléphone."
+
+#~ msgid ""
+#~ "It can also add a big HTML content as a sidebar or something else. For "
+#~ "this you should choose HTML editor."
+#~ msgstr ""
+#~ "Vous pouvez également ajouter un gros bloc HTML comme une barre laterale "
+#~ "ou autres. Choisissez alors l'Editeur HTML."
+
+#~ msgid "Just insert the code"
+#~ msgstr "Il suffit d'ins&eacute;rer le code"
+
+#~ msgid "nameofthebox"
+#~ msgstr "nomdubloc"
+
+#~ msgid "in the template or in the page content."
+#~ msgstr "dans le template ou dans le contenu de la page."
+
+#~ msgid "You can create as many box as you need."
+#~ msgstr "Vous pouvez créer autant de blocs que nécessaires."
+
+#~ msgid "Add a box :"
+#~ msgstr "Ajouter un bloc :"
+
+#~ msgid "Name of the box"
+#~ msgstr "Nom du bloc"
+
+#~ msgid "Plain text"
+#~ msgstr "Texte brut"
+
+#~ msgid "HTML Editor"
+#~ msgstr "Editeur HTML"
+
+#~ msgid "Add the box"
+#~ msgstr "Ajoute le bloc"
+
+#~ msgid "Add"
+#~ msgstr "Ajouter"
+
+#~ msgid "Existing boxes :"
+#~ msgstr "Blocs existants :"
