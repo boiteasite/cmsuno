@@ -30,7 +30,9 @@ CMSUno is a free tool to create one-page responsive websites.
 It was designed to be easy to use, comprehensive and particularly rapid in terms of navigation.
 This strong CMS is a great tool to use jQuery plugins available on the web.
 
-| ==> [DEMO](http://www.cmsuno.boiteasite.fr/) <== |
+<p align="center">
+==> <a href="http://www.cmsuno.boiteasite.f"> DEMO </a> <==
+</p>
 
 In a few words:
 
