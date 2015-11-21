@@ -31,7 +31,7 @@ It was designed to be easy to use, comprehensive and particularly rapid in terms
 This strong CMS is a great tool to use jQuery plugins available on the web.
 
 <p align="center">
-==> <a href="http://www.cmsuno.boiteasite.f"> DEMO </a> <==
+==> <a href="http://www.cmsuno.boiteasite.fr"> DEMO </a> <==
 </p>
 
 In a few words:
