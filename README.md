@@ -97,6 +97,39 @@ Plugin can especially add extra buttons to CKEditor and process the results befo
 
 Plugins are available [here](https://github.com/cmsunoPlugins)
 
+#### Official Plugins List ####
+
+* __Box__ : Adds easily editable box with pieces of text or code or HTML that can be inserted into the template with a simple Shortcode. Exemple : address for footer, phone number, sidebar...
+* __Carousel__ : Allows you to add image slider.
+Use [NivoSlider](https://github.com/gilbitron/Nivo-Slider),
+[CarouFredSel](https://github.com/gilbitron/carouFredSel),
+[Kenburning](https://github.com/simbirsk/kenburning-slider),
+[FeatureCarousel](http://www.bkosborne.com/jquery-feature-carousel) and
+[ZoomBox](http://grafikart.github.io/Zoombox) to have numerous possibilities.
+* __Code_display__ : Adds a button in CKEditor to display code. Use [google-code-prettify](https://code.google.com/p/google-code-prettify/).
+* __Contact__ : He allows to create a custom-made contact form with Captcha. Added with a Shortcode in the content of the page or directly in the template.
+* __Fixed_layout__ : This plugin allows to create a page with a fixed background that changes with scrolling. Inspired by [Jquery Fixed Scroll Background](https://github.com/ebaumstarck/JqueryFixedScrollBackground).
+* __Googlemap__ : Adds a button in CKEditor to insert one or more Google-Map in your page.
+* __Markdown__ : Allows you to display the formatted content of one or more MarkDown files in your page. It works with a shortcode and uses Parsedown.php to parse the markdown. Different CSS formats are availables. The wordpress format is also parsed. Allows to create a comprehensive system of paying plugin download with the appearance of wordpress.org.
+* __Multipage__ :  This plugin allows you to create and manage multiple pages in CMSUno. Drag and Drop Menu Manager. Simple and practical for a complete website.
+* __Model__ :  Create template for CKEditor. Very useful. Two default models exist : two columns and three columns. They are adjustable. Ability to create others sophisticated templates. As easy as the Lego game.
+* __Newsletter__ : Great plugin to send a formated newsletter to a list of subscriber. Use PHP mail() or Gmail SMTP. Shortcode to add a subscribe form in the page. Link in the mail to unsubscribe.
+* __Payment__ : Allows you to create a small e-commerce site from CKEditor.
+It adds a "add to cart" button to the editor.
+It adds a complete cart system with order registration, email sending, invoice in PDF, multi-tax, shipping cost, payment by cheque and by bank transfer.
+It can work with other payment plugin (Paypal, Payplug).
+Very usefull and powerfull.
+* __Paypal__ : Very powerful. Adds a button in CKEditor to create  as many Paypal buttons as you need. Pay, Add to Cart, View Cart, Donate and Subscribe are available. Sales are checked and recorded with IPN return. Works also with digital goods and cart plugin.
+* __Payplug__ : Like Paypal. Adds a button in CKEditor to create  as many Payplug buttons. More efficient and economical for sale by CB or Mastercard. Sales are checked and recorded with IPN return. Works also with digital goods and cart plugin.
+* __Scrollnav__ : Replaces the menu with a drop down menu which scrolled with the page. Use [Scrollnav](http://scrollnav.com/)
+* __Support__ : Adds a real complete forum system very suitable for technical support. Coupled with 'Users', 'Markdown' and 'Paypal', you have a complete system to sell your premium plugin very easily with the same appearance and the same functionality as on wordpress.org.
+* __Tem2uno__ : Used to automatically transform a theme from another CMS (GetSimple & b2evolution) for a use in CMSUno.
+* __Unocss__ : Allows to add CSS in the site directly from the Dashboard.
+* __Unoscript__ : Allows to add a script in the site directly from the Dashboard. Example : Google Analytics tracking code.
+* __Users__ : Create a members area with login / registration dropdown form. Integration with a shortcode or directly inside the menu. Login with Ajax and PHP session.
+* __Video_player__ : Adds a button in CKEditor to watch Self-Hosted Videos on the site. Compatible with every browsers and supports. Adds also youtube button.
+
+
 Template Development
 --------------------
 
