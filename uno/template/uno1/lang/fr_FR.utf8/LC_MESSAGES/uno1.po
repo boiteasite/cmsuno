@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CmsUno\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-12 19:55+0100\n"
-"PO-Revision-Date: 2015-11-12 19:55+0100\n"
+"POT-Creation-Date: 2015-11-29 00:15+0100\n"
+"PO-Revision-Date: 2015-11-29 00:15+0100\n"
 "Last-Translator: jacques Malgrange <contacter@boiteasite.fr>\n"
 "Language-Team: Jacques Malgrange <contacter@boiteasite.fr>\n"
 "Language: \n"
@@ -79,19 +79,27 @@ msgstr "Couleur des titres de chapitre"
 msgid "Color of the text for each chapter title"
 msgstr "Couleur du texte des titres de chaque chapitre"
 
-#: ../../../uno1.php:63
+#: ../../../uno1.php:62
+msgid "Enable submenu"
+msgstr "Activer le sous-menu"
+
+#: ../../../uno1.php:64
+msgid "A submenu will be displayed for each chapter containing H2 tags."
+msgstr "Un sous-menu sera visible pour chaque chapitre contenant des balises H2."
+
+#: ../../../uno1.php:68
 msgid "Save settings"
 msgstr "Enregistre le contenu"
 
-#: ../../../uno1.php:63
+#: ../../../uno1.php:68
 msgid "Save"
 msgstr "Enregistrer"
 
-#: ../../../uno1.php:78
+#: ../../../uno1.php:83
 msgid "Backup performed"
 msgstr "Sauvegarde effectu&eacute;e"
 
-#: ../../../uno1.php:79
+#: ../../../uno1.php:84
 msgid "Impossible backup"
 msgstr "Sauvegarde impossible"
 

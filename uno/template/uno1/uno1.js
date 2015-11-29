@@ -8,17 +8,19 @@ function f_save_uno1(){
 	h.push({name:'action',value:'save'});
 	h.push({name:'unox',value:Unox});
 	for(v=0;v<a.length;v++){
-		h.push({name:a[v].name,value:a[v].value});
+		if(a[v].type=='text')h.push({name:a[v].name,value:a[v].value});
+		else if(a[v].type=='checkbox')h.push({name:a[v].name,value:a[v].checked?1:0});
 	}
 	jQuery.post('uno/template/uno1/uno1.php',h,function(r){
 		f_alert(r);
 	});
 }
 function f_load_uno1(){
-	var k;
 	jQuery.getJSON("uno/data/"+Ubusy+"/uno1.json",function(data){
 		jQuery.each(data,function(k,v){
-			document.getElementById(k).value=v;
+			var a=document.getElementById(k);
+			if(a.tagName=='INPUT'&&a.type=='text')a.value=v;
+			else if(a.tagName=='INPUT'&&a.type=='checkbox')a.checked=(v==1?true:false);
 		});
 		jQuery('#themeOption .color').colorPicker();
 	});

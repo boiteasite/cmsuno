@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CmsUno\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-12 19:56+0100\n"
-"PO-Revision-Date: 2015-11-12 19:57+0100\n"
+"POT-Creation-Date: 2015-11-29 00:16+0100\n"
+"PO-Revision-Date: 2015-11-29 00:16+0100\n"
 "Last-Translator: jacques Malgrange <contacter@boiteasite.fr>\n"
 "Language-Team: Jacques Malgrange <contacter@boiteasite.fr>\n"
 "Language: \n"
@@ -79,19 +79,27 @@ msgstr "Colores capítulo títulos"
 msgid "Color of the text for each chapter title"
 msgstr "El color del texto para cada título del capítulo"
 
-#: ../../../uno1.php:63
+#: ../../../uno1.php:62
+msgid "Enable submenu"
+msgstr "Habilitar submenú"
+
+#: ../../../uno1.php:64
+msgid "A submenu will be displayed for each chapter containing H2 tags."
+msgstr "Un submenú aparecerá para cada capítulo contiene etiquetas H2."
+
+#: ../../../uno1.php:68
 msgid "Save settings"
 msgstr "Guardar ajustes"
 
-#: ../../../uno1.php:63
+#: ../../../uno1.php:68
 msgid "Save"
 msgstr "Guardar"
 
-#: ../../../uno1.php:78
+#: ../../../uno1.php:83
 msgid "Backup performed"
 msgstr "Copia de seguridad realizada"
 
-#: ../../../uno1.php:79
+#: ../../../uno1.php:84
 msgid "Impossible backup"
 msgstr "Copia de seguridad Imposible"
 

@@ -15,25 +15,25 @@ function f_lazy($f)
 	global $Udep;
 	$out=''; $src=''; $alt=''; $b=0; $c=0; $v=4;
 	do	{
-		if ($b==0) do { ++$v; } while (substr($f,$v-4,4)!='<img' && $v<strlen($f));
-		if (substr($f,$v-4,4)=='<img') { $out.=(substr($f,$c,$v-$c+1)); $b=1; }
-		else if ($b==1 && (substr($f,$v-5,5)=='src="' || substr($f,$v-5,5)=="src='"))
+		if($b==0) do { ++$v; } while(substr($f,$v-4,4)!='<img' && $v<strlen($f));
+		if(substr($f,$v-4,4)=='<img') { $out.=(substr($f,$c,$v-$c+1)); $b=1; }
+		else if($b==1 && (substr($f,$v-5,5)=='src="' || substr($f,$v-5,5)=="src='"))
 			{
-			do { $src.=substr($f,$v,1); ++$v; } while (substr($f,$v,1)!='"' && substr($f,$v,1)!="'" && $v<strlen($f));
+			do { $src.=substr($f,$v,1); ++$v; } while(substr($f,$v,1)!='"' && substr($f,$v,1)!="'" && $v<strlen($f));
 			$out .= $Udep.'includes/css/a.png" data-echo="'.$src.'"'; // ECHO
 			}
-		else if ($b==1 && (substr($f,$v-5,5)=='alt="' || substr($f,$v-5,5)=="alt='") && substr($f,$v-5,6)!='alt=""' && substr($f,$v-5,6)!="alt=''")
+		else if($b==1 && (substr($f,$v-5,5)=='alt="' || substr($f,$v-5,5)=="alt='") && substr($f,$v-5,6)!='alt=""' && substr($f,$v-5,6)!="alt=''")
 			{
-			do { $out.=substr($f,$v,1); $alt.=substr($f,$v,1); ++$v; } while (substr($f,$v,1)!='"' && substr($f,$v,1)!="'" && $v<strlen($f));
+			do { $out.=substr($f,$v,1); $alt.=substr($f,$v,1); ++$v; } while(substr($f,$v,1)!='"' && substr($f,$v,1)!="'" && $v<strlen($f));
 			$out.=substr($f,$v,1);
 			}
-		else if ($b==1)
+		else if($b==1)
 			{
 			$out.=substr($f,$v,1);
-			if (substr($f,$v,1)=='>') {$out.='<noscript><img src="'.$src.'" style="display:inline;" alt="'.$alt.'"></noscript>'; $c=$v+1; $src=''; $alt=''; $b=0;}
+			if(substr($f,$v,1)=='>') {$out.='<noscript><img src="'.$src.'" style="display:inline;" alt="'.$alt.'"></noscript>'; $c=$v+1; $src=''; $alt=''; $b=0;}
 			}
 		++$v;
-		} while ($v<strlen($f));
+		} while($v<strlen($f));
 		$out.=(substr($f,$c,$v-$c));
 	return $out;
 	}
@@ -42,20 +42,20 @@ function f_zip($d,$n,$e=0)
 	{
 	// $e = 1 : no zip file in arch
 	// zip un dossier $d (/aaaz/bbb/ccc/) avec le nom $n (nnn.zip)
-	if (!extension_loaded('zip') || !file_exists($d)) return false;
-	$zip = new ZipArchive(); if (!$zip->open($n, ZIPARCHIVE::CREATE)) return false;
+	if(!extension_loaded('zip') || !file_exists($d)) return false;
+	$zip = new ZipArchive(); if(!$zip->open($n, ZIPARCHIVE::CREATE)) return false;
 	$d = str_replace('\\', '/', realpath($d));
-	if (is_dir($d)===true)
+	if(is_dir($d)===true)
 		{
 		$f = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($d), RecursiveIteratorIterator::SELF_FIRST);
-		foreach ($f as $r)
+		foreach($f as $r)
 			{
 			$r = str_replace('\\', '/', $r);
 			if(in_array(substr($r, strrpos($r, '/')+1), array('.', '..')))
 			continue;
 			$r = realpath($r);
-			if (is_dir($r)===true) $zip->addEmptyDir(str_replace($d . '/', '', $r . '/')); 
-			else if (is_file($r)===true)
+			if(is_dir($r)===true) $zip->addEmptyDir(str_replace($d . '/', '', $r . '/')); 
+			else if(is_file($r)===true)
 				{
 				$ext=explode('.',$r);
 				$ext=$ext[count($ext)-1];
@@ -63,7 +63,7 @@ function f_zip($d,$n,$e=0)
 				}
 			}
 		}
-	else if (is_file($d)===true)
+	else if(is_file($d)===true)
 		{
 		$ext=explode('.',$r);
 		$ext=$ext[count($ext)-1];
@@ -74,11 +74,11 @@ function f_zip($d,$n,$e=0)
 //
 function f_copyDir($s,$d,$p=0755)
 	{
-	if (is_link($s)) return symlink(readlink($s), $d);
-	if (is_file($s)) return copy($s, $d);
-	if (!is_dir($d)) mkdir($d, $p);
+	if(is_link($s)) return symlink(readlink($s), $d);
+	if(is_file($s)) return copy($s, $d);
+	if(!is_dir($d)) mkdir($d, $p);
 	$dir = dir($s);
-	while (false!==$e=$dir->read())
+	while(false!==$e=$dir->read())
 		{
 		if($e=='.'||$e=='..') continue;
 		f_copyDir($s.'/'.$e, $d.'/'.$e, $p);
@@ -90,7 +90,7 @@ function f_copyDir($s,$d,$p=0755)
 function f_rmdirR($dir)
 	{
 	$files = array_diff(scandir($dir), array('.','..'));
-	foreach ($files as $file)
+	foreach($files as $file)
 		{
 		(is_dir("$dir/$file")) ? f_rmdirR("$dir/$file") : unlink("$dir/$file");
 		}
@@ -153,7 +153,7 @@ function urlExists($f)
 	else return true;
 	}
 // ********************* actions *************************************************************************
-if (isset($_POST['action']))
+if(isset($_POST['action']))
 	{
 	$b = 0;
 	if(file_exists('data/busy.json'))
@@ -212,7 +212,7 @@ if (isset($_POST['action']))
 		case 'getChap':
 		$q = file_get_contents('data/'.$Ubusy.'/chap'.((isset($_POST['data'])&&$_POST['data']!='')?$_POST['data']:'0').'.txt');
 		$q1 = file_get_contents('data/'.$Ubusy.'/site.json'); $a = json_decode($q1,true); $b = 0; $c = 0;
-		foreach ($a['chap'] as $k=>$v)
+		foreach($a['chap'] as $k=>$v)
 			{
 			if($v['d']==$_POST['data']) { $c = $k; break; }
 			}
@@ -225,9 +225,9 @@ if (isset($_POST['action']))
 		case 'sauveChap':
 		$q = file_get_contents('data/'.$Ubusy.'/site.json');
 		$a = json_decode($q,true);
-		foreach ($a['chap'] as $k=>$v)
+		foreach($a['chap'] as $k=>$v)
 			{
-			if ($k==$_POST['chap'])
+			if($k==$_POST['chap'])
 				{
 				$a['chap'][$k]['d'] = $_POST['data'];
 				$a['chap'][$k]['t'] = $_POST['titre'];
@@ -238,13 +238,14 @@ if (isset($_POST['action']))
 				}
 			}
 		$a['pub'] = 1;
-		if (!isset($a['lazy'])) $a['lazy'] = 1; // default
-		if (!isset($a['sty'])) $a['sty'] = 0; // default
-		if (!isset($a['edw'])) $a['edw'] = 960; // default
-		if (!isset($a['jq'])) $a['jq'] = 0; // default
+		if(!isset($a['lazy'])) $a['lazy'] = 1; // default
+		if(!isset($a['sty'])) $a['sty'] = 0; // default
+		if(!isset($a['edw'])) $a['edw'] = 960; // default
+		if(!isset($a['jq'])) $a['jq'] = 0; // default
 		$c = preg_replace_callback('/(<img[^>]*src=["\'])([^"\']*)/', function($m) { return ''.$m[1].substr($m[2],strpos($m[2],'files/'));}, $_POST['content']); // lien relatif
+		if(!is_dir('includes/js/ckeditor/')) $a['git'] = 1; // check here, why not ?
 		$out = json_encode($a);
-		if (file_put_contents('data/'.$Ubusy.'/site.json', $out) && file_put_contents('data/'.$Ubusy.'/chap'.$_POST['data'].'.txt', $c)) echo _('Backup performed');
+		if(file_put_contents('data/'.$Ubusy.'/site.json', $out) && file_put_contents('data/'.$Ubusy.'/chap'.$_POST['data'].'.txt', $c)) echo _('Backup performed');
 		else echo '!'._('Impossible backup');
 		break;
 		// ********************************************************************************************
@@ -254,31 +255,31 @@ if (isset($_POST['action']))
 			$q = file_get_contents('data/'.$Ubusy.'/site.json');
 			$a = json_decode($q,true);
 			$b=0; $a1 = $a['chap'];
-			foreach ($a1 as $k=>$v)
+			foreach($a1 as $k=>$v)
 				{
 				if($_POST['place']<$_POST['chap']) // le chapitre remonte
 					{
-					if ($k==$_POST['place'])
+					if($k==$_POST['place'])
 						{
 						$a['chap'][$k] = $a1[$_POST['chap']];
 						$b=1;
 						}
-					else if ($k==$_POST['chap']) $b=0;
-					if ($b==1) $a['chap'][$k+1] = $v;
+					else if($k==$_POST['chap']) $b=0;
+					if($b==1) $a['chap'][$k+1] = $v;
 					}
 				else
 					{
-					if ($k==$_POST['chap']) $b=1;
-					else if ($k==$_POST['place'])
+					if($k==$_POST['chap']) $b=1;
+					else if($k==$_POST['place'])
 						{
 						$a['chap'][$k] = $a1[$_POST['chap']];
 						$b=0;
 						}
-					if ($b==1) $a['chap'][$k] = $a1[$k+1];
+					if($b==1) $a['chap'][$k] = $a1[$k+1];
 					}
 				}
 			$out = json_encode($a);
-			if (file_put_contents('data/'.$Ubusy.'/site.json', $out)) echo _('Change made');
+			if(file_put_contents('data/'.$Ubusy.'/site.json', $out)) echo _('Change made');
 			else echo '!'._('Error');
 			}
 		else echo _('No change');
@@ -288,13 +289,13 @@ if (isset($_POST['action']))
 		define('CMSUNO', 'cmsuno');
 		include('password.php');
 		$a = $_POST['user']; $b = $_POST['pass'];
-		if ($_POST['user0']=='' || $_POST['pass0']=='') // only lang
+		if($_POST['user0']=='' || $_POST['pass0']=='') // only lang
 			{
 			$config = '<?php $lang = "'.$_POST['lang'].'"; $sdata = "'.$sdata.'"; $Uversion = "'.(isset($Uversion)?$Uversion:'1.0').'"; ?>';
-			if (file_put_contents('config.php', $config)) echo _('The language was changed');
+			if(file_put_contents('config.php', $config)) echo _('The language was changed');
 			else echo '!'._('Impossible backup');
 			}
-		else if ($_POST['user0']!=$user || $_POST['pass0']!=$pass)
+		else if($_POST['user0']!=$user || $_POST['pass0']!=$pass)
 			{
 			echo '!'._('Wrong current elements'); exit;
 			}
@@ -302,7 +303,7 @@ if (isset($_POST['action']))
 			{
 			$password = '<?php if(!defined(\'CMSUNO\')) exit(); $user = "'.$a.'"; $pass = "'.$b.'"; ?>';
 			$config = '<?php $lang = "'.$_POST['lang'].'"; $sdata = "'.$sdata.'"; $Uversion = "'.(isset($Uversion)?$Uversion:'1.0').'"; ?>';
-			if (file_put_contents('password.php', $password) && file_put_contents('config.php', $config)) echo _('The login / password were changed');
+			if(file_put_contents('password.php', $password) && file_put_contents('config.php', $config)) echo _('The login / password were changed');
 			else echo '!'._('Impossible backup');
 			}
 		break;
@@ -332,11 +333,11 @@ if (isset($_POST['action']))
 		if(substr($a['url'],-1)=='/') $a['url'] = substr($a['url'],0,-1);
 		$a['tem'] = $_POST['tem'];
 		$a['nom'] = $n;
-		if ($_POST['edw']!='') $a['edw'] = $_POST['edw']; else $a['edw'] = 960;
-		if ($_POST['ofs']!='') $a['ofs'] = $_POST['ofs']; else $a['ofs'] = 0;
-		if ($_POST['lazy']=="true") $a['lazy']=1; else $a['lazy']=0;
-		if ($_POST['jq']=="true") $a['jq']=1; else $a['jq']=0;
-		if ($_POST['sty']=="true") $a['sty']=1; else $a['sty']=0;
+		if($_POST['edw']!='') $a['edw'] = $_POST['edw']; else $a['edw'] = 960;
+		if($_POST['ofs']!='') $a['ofs'] = $_POST['ofs']; else $a['ofs'] = 0;
+		if($_POST['lazy']=="true") $a['lazy']=1; else $a['lazy']=0;
+		if($_POST['jq']=="true") $a['jq']=1; else $a['jq']=0;
+		if($_POST['sty']=="true") $a['sty']=1; else $a['sty']=0;
 		$out = json_encode($a);
 		if(file_put_contents('data/'.$Ubusy.'/site.json', $out)) echo _('Backup performed');
 		else echo '!'._('Impossible backup');
@@ -346,28 +347,28 @@ if (isset($_POST['action']))
 		$q = file_get_contents('data/'.$Ubusy.'/site.json');
 		$a= json_decode($q,true);
 		$d = 0;
-		while (file_exists('data/'.$Ubusy.'/chap'.$d.'.txt')) {++$d;} // numero de fichier libre
+		while(file_exists('data/'.$Ubusy.'/chap'.$d.'.txt')) {++$d;} // numero de fichier libre
 		$b=0; $a1 = $a['chap'];
-		foreach ($a1 as $k=>$v)
+		foreach($a1 as $k=>$v)
 			{
-			if ($b==0 && $k==$_POST['chap'])
+			if($b==0 && $k==$_POST['chap'])
 				{
 				$a['chap'][$k+1] = array("d"=>$d,"t"=>_("new chapter"));
 				$b=1;
 				}
-			else if ($b==1) $a['chap'][$k+1] = $v; // decallage de +1 des clefs
+			else if($b==1) $a['chap'][$k+1] = $v; // decallage de +1 des clefs
 			}
 		$out = json_encode($a);
-		if (file_put_contents('data/'.$Ubusy.'/site.json', $out) && file_put_contents('data/'.$Ubusy.'/chap'.$d.'.txt',' ')) echo _('Chapter created');
+		if(file_put_contents('data/'.$Ubusy.'/site.json', $out) && file_put_contents('data/'.$Ubusy.'/chap'.$d.'.txt',' ')) echo _('Chapter created');
 		else echo '!'._('Failure');
 		break;
 		// ********************************************************************************************
 		case 'suppChap':
 		$q = file_get_contents('data/'.$Ubusy.'/site.json');
 		$a = json_decode($q,true);
-		foreach ($a['chap'] as $k=>$v)
+		foreach($a['chap'] as $k=>$v)
 			{
-			if ($k==$_POST['chap'])
+			if($k==$_POST['chap'])
 				{
 				unlink('data/'.$Ubusy.'/chap'.($a['chap'][$k]['d']).'.txt'); // supp fichier
 				unset($a['chap'][$k]); // supp element tableau
@@ -377,7 +378,7 @@ if (isset($_POST['action']))
 			}
 		if(empty($a['chap'])) $a['chap'][0]=array("d"=>"0","t"=>"Welcome");
 		$out = json_encode($a);
-		if (file_put_contents('data/'.$Ubusy.'/site.json', $out)) echo _('Deletion complete');
+		if(file_put_contents('data/'.$Ubusy.'/site.json', $out)) echo _('Deletion complete');
 		else echo '!'._('Failure');
 		break;
 		// ********************************************************************************************
@@ -397,40 +398,68 @@ if (isset($_POST['action']))
 			}
 		$Uscript .= 'var Umenuoffset='.intval($Ua['ofs']).';';
 		$Uhtml = file_get_contents('template/'.$Ua['tem'].'/template.html');
-		foreach ($Ua['chap'] as $k=>$v)
+		$Ustyle .= 'h2.nav1 a,h2.nav2 a,h2.nav1 a:hover,h2.nav2 a:hover{color:inherit;text-decoration:none;}'."\r\n";
+		foreach($Ua['chap'] as $k=>$v)
 			{
 			if(!isset($Ua['chap'][$k]['od']) || $Ua['chap'][$k]['od']==0)
 				{
+				$c = file_get_contents('data/'.$Ubusy.'/chap'.$v['d'].'.txt');
 				$w = strtr(utf8_decode($v['t']),'¿¡¬√ƒ≈∆«»… ÀÃÕŒœ–—“”‘’÷ÿŸ⁄€‹›ﬁﬂ‡·‚„‰ÂÊÁËÈÍÎÏÌÓÔÒÚÛÙıˆ¯˘˙˚˝˝˛ˇ','aaaaaaaceeeeiiiidnoooooouuuuybsaaaaaaaceeeeiiiidnoooooouuuyyby');
 				$w = preg_replace('/[^a-zA-Z0-9%]/s','',$w);
 				$Ucontent .= '<div id="'.$w.'BlocChap" class="blocChap">'."\r\n";
 				// menu
-				if(!isset($Ua['chap'][$k]['om']) || $Ua['chap'][$k]['om']==0) $Umenu .= '<li><a href="#'.$w.'"'.($k==0?' class="active"':'').'>'.stripslashes($v['t']).'</a></li>';
-				// titre + class pour menu scrollnav
-				if(!isset($Ua['chap'][$k]['ot']) || $Ua['chap'][$k]['ot']==0)
+				if(!isset($Ua['chap'][$k]['om']) || !$Ua['chap'][$k]['om']) // menu not hidden
 					{
-					if(!isset($Ua['chap'][$k]['om']) || $Ua['chap'][$k]['om']==0) $Ucontent .= '<h2 id="'.$w.'" class="nav1"><a name="'.$w.'">'.stripslashes($v['t']).'</a></h2>';
-					else $Ucontent .= '<h2 id="'.$w.'" class="NAV1"><a name="'.$w.'">'.stripslashes($v['t']).'</a></h2>';
+					$d = array(); $m = '';
+					$Umenu .= '<li><a href="#'.$w.'"'.($k==0?' class="active"':'').'>'.stripslashes($v['t']).'</a>';
+					preg_match_all('/<h2[^>]*>([^<]*)/i', $c, $d); // submenu H2
+					if(isset($d[1][0]) && $d[1][0])
+						{
+						$m = "\r\n\t".'<ul class="subMenu">';
+						$e = 0;
+						foreach($d[1] as $r)
+							{
+							if($r)
+								{
+								++$e;
+								$m .= '<li><a href="#'.$w.'-'.preg_replace('/[^a-zA-Z0-9%]/s','',$r).'-'.$e.'">'.$r.'</a></li>';
+								}
+							}
+						$m .= '</ul>'."\r\n";
+						}
+					$Umenu .= $m.'</li>'."\r\n";
 					}
-				else if(!isset($Ua['chap'][$k]['om']) || $Ua['chap'][$k]['om']==0) $Ucontent .= '<h2 id="'.$w.'" class="nav1" style="height:0;padding:0;border:0;margin-bottom:5px;overflow:hidden;"><a name="'.$w.'">'.stripslashes($v['t']).'</a></h2>';
-				$Ucontent .= file_get_contents('data/'.$Ubusy.'/chap'.$v['d'].'.txt').'</div><!-- .blocChap -->'."\r\n";
+				// titre + class pour menu & submenu
+				$Ucontent .= '<h2 id="'.$w.'" class="nav1'.((isset($Ua['chap'][$k]['om'])&&$Ua['chap'][$k]['om'])?' navOff':'').'" '.((isset($Ua['chap'][$k]['ot'])&&$Ua['chap'][$k]['ot'])?'style="height:0;padding:0;border:0;margin:0;overflow:hidden;"':'').'><a name="'.$w.'">'.stripslashes($v['t']).'</a></h2>'."\r\n";
+				$e = 0;
+				$c = preg_replace_callback('/(<h2[^>]*)(>)([^<]*)/i', function($m)
+					{
+					global $w; global $e;
+					if($m[3])
+						{
+						++$e;
+						$t = $w.'-'.preg_replace('/[^a-zA-Z0-9%]/s','',$m[3]).'-'.$e;
+						return $m[1].' id="'.$t.'" class="nav2"><a name="'.$t.'">'.$m[3].'</a>';
+						}
+					else return $m[1].$m[2];
+					}, $c); // submenu
+				$Ucontent .= $c.'</div><!-- .blocChap -->'."\r\n";
 				}
 			}
 		$Utitle = (isset($Ua['tit']))?stripslashes($Ua['tit']):"";
 		$Udescription = (isset($Ua['desc']))?stripslashes($Ua['desc']):"";
 		$Uname = (isset($Ua['nom']))?stripslashes($Ua['nom']):"";
-		$Ucontent = str_replace('<h2>','<h2 class="nav2">',$Ucontent);
 		$Ucontent = stripslashes($Ucontent);
 		$u = dirname($_SERVER['PHP_SELF']).'/../';
 		$Ucontent = str_replace($u,'',$Ucontent);
-		if (isset($Ua['jq']) && $Ua['jq']==1)
+		if(isset($Ua['jq']) && $Ua['jq']==1)
 			{
-			$Uhead .= '<!--[if (!IE)|(gt IE 8)]><!--><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script><!--<![endif]-->'."\r\n"
+			$Uhead .= '<!--[if(!IE)|(gt IE 8)]><!--><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script><!--<![endif]-->'."\r\n"
 				.'<!--[if lte IE 8]><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><![endif]-->'."\r\n"
 				.'<script type="text/javascript" src="'.$Udep.'includes/js/jquery-migrate-1.2.1.min.js"></script>'."\r\n";
 			if($Udep=='uno/') $Uhead .= '<script type="text/javascript">window.jQuery || document.write(\'<script src="uno/includes/js/jquery-1.11.3.min.js">\x3C/script>\')</script>'."\r\n";
 			}
-		if (isset($Ua['lazy']) && $Ua['lazy']==1)
+		if(isset($Ua['lazy']) && $Ua['lazy']==1)
 			{
 			$Ustyle .= '.content img[data-echo]{display:none;background:#fff url('.$Udep.'includes/css/a.gif) no-repeat center center;}'."\r\n";
 			$Ufoot .= '<script type="text/javascript" src="'.$Udep.'includes/js/echo.min.js"></script>'."\r\n".'<script type="text/javascript">var css=".content img[data-echo]{display:inline;}",head=document.head||document.getElementsByTagName("head")[0],style=document.createElement("style");style.type="text/css";if(style.styleSheet) style.styleSheet.cssText=css;else style.appendChild(document.createTextNode(css));head.appendChild(style);echo.init({offset:900,throttle:250});echo.render();</script>'."\r\n";
@@ -457,7 +486,7 @@ if (isset($_POST['action']))
 		if($Uscript) $Uhead .= '<script type="text/javascript">'.$Uscript.'</script>'."\r\n";
 		$Ufoot .= $Ujsmenu;
 		if($Uonload!='') $Ufoot .= '<script type="text/javascript">window.onload=function(){'.$Uonload.'}</script>'."\r\n";
-		$Umenu = '<label for="navR" class="navR"></label><input type="checkbox" id="navR" />'."\r\n".'<ul id="nav">'.$Umenu.'</ul>';
+		$Umenu = '<label for="navR" class="navR"></label><input type="checkbox" id="navR" />'."\r\n".'<ul id="nav">'."\r\n".$Umenu.'</ul>';
 		// HTML
 		$Uhtml = str_replace('[[url]]',$Ua['url'],$Uhtml);
 		$Uhtml = str_replace('[[head]]',$Uhead,$Uhtml);
@@ -470,9 +499,9 @@ if (isset($_POST['action']))
 		$Uhtml = str_replace('[[description]]',$Udescription,$Uhtml);
 		$Uhtml = str_replace('[[name]]',$Uname,$Uhtml);
 		$Ua['pub'] = 0;
-		if (!isset($Ua['nom'])) $Ua['nom']='index';
+		if(!isset($Ua['nom'])) $Ua['nom']='index';
 		$out = json_encode($Ua);
-		if (file_put_contents('data/'.$Ubusy.'/site.json', $out) && file_put_contents('../'.$Ua['nom'].'.html', $Uhtml)) echo _('The site has been updated');
+		if(file_put_contents('data/'.$Ubusy.'/site.json', $out) && file_put_contents('../'.$Ua['nom'].'.html', $Uhtml)) echo _('The site has been updated');
 		else echo '!'._('Failure');
 		break;
 		// ********************************************************************************************
@@ -502,29 +531,29 @@ if (isset($_POST['action']))
 		case 'archivage':
 		$d = 'data/_sdata-'.$sdata.'/_unosave';
 		$n = $d.'/unosave-'.date('Ymd-Hi').'.zip';
-		if (!file_exists($d)) mkdir($d, 0755, true);
-		if (f_zip('data/',$n,1)) echo _('Archiving performed');
+		if(!file_exists($d)) mkdir($d, 0755, true);
+		if(f_zip('data/',$n,1)) echo _('Archiving performed');
 		else echo '!'._('Failure');
 		break;
 		// ********************************************************************************************
 		case 'selectArchive':
 		$d = 'data/_sdata-'.$sdata.'/_unosave/';
 		$g=array();
-		if ($h=opendir($d))
+		if($h=opendir($d))
 			{
-			while (($file=readdir($h))!==false)
+			while(($file=readdir($h))!==false)
 				{
 				$ext=explode('.',$file);
 				$ext=$ext[count($ext)-1];
-				if ($ext=='zip' && $file!='.' && $file!='..') $g[]=$d.$file;
+				if($ext=='zip' && $file!='.' && $file!='..') $g[]=$d.$file;
 				}
 			closedir($h);
 			}
 		usort($g,create_function('$a,$b','return filemtime($b)-filemtime($a);'));
-		if ($g)
+		if($g)
 			{
 			echo '<select id="archive">';
-			foreach ($g as $r) {$r1=explode("/",$r);	echo '<option value="'.$r.'">'.$r1[count($r1)-1].'</option>'; }
+			foreach($g as $r) {$r1=explode("/",$r);	echo '<option value="'.$r.'">'.$r1[count($r1)-1].'</option>'; }
 			echo '</select>';
 			}
 		break;
@@ -532,7 +561,7 @@ if (isset($_POST['action']))
 		case 'restaure':
 		$zip = new ZipArchive;
 		$f = $zip->open($_POST['zip']);
-		if ($f===true)
+		if($f===true)
 			{
 			f_copyDir('data/_sdata-'.$sdata.'/_unosave', '_unosave', 0711);
 			f_rmdirR('data');
@@ -591,7 +620,7 @@ if (isset($_POST['action']))
 		sort($d);
 		foreach($d as $r)
 			{
-			if (isset($a['plug'][basename($r)])) $b[]='1'.basename($r);
+			if(isset($a['plug'][basename($r)])) $b[]='1'.basename($r);
 			else $b[]='0'.basename($r);
 			}
 		echo json_encode($b);
@@ -772,6 +801,8 @@ if (isset($_POST['action']))
 			else
 				{
 				$base = dirname(dirname(__FILE__));
+				$q1 = file_get_contents('data/'.$Ubusy.'/site.json');
+				$a1 = json_decode($q,true);
 				// 1. Get new version
 				$z = 'https://github.com/boiteasite/cmsuno/archive/'.$a['uno']['ext'].'.zip';
 				file_put_contents('../files/tmpuno.zip', fopen($z, 'r'));
@@ -811,6 +842,12 @@ if (isset($_POST['action']))
 					unlink($base.'/README.md');
 					f_copyDir($base.'/files/'.$d, $base);
 					f_rmdirR($base.'/files/'.$d);
+					if(isset($a1['git']) && $a1['git']) // light version
+						{
+						if(is_dir($base.'/uno/includes/js')) f_rmdirR($base.'/uno/includes/js');
+						if(is_dir($base.'/uno/includes/img')) f_rmdirR($base.'/uno/includes/img');
+						if(is_dir($base.'/uno/includes/css')) f_rmdirR($base.'/uno/includes/css');
+						}
 					f_rmdirR($base.'/uno/data');
 					f_rmdirR($base.'/uno/plugins');
 					f_rmdirR($base.'/uno/template');
@@ -833,6 +870,11 @@ if (isset($_POST['action']))
 		if(is_dir('includes/js')) f_rmdirR('includes/js');
 		if(is_dir('includes/img')) f_rmdirR('includes/img');
 		if(is_dir('includes/css')) f_rmdirR('includes/css');
+		$q = file_get_contents('data/'.$Ubusy.'/site.json');
+		$a = json_decode($q,true);
+		$a['git'] = 1;
+		$out = json_encode($a);
+		file_put_contents('data/'.$Ubusy.'/site.json', $out);
 		echo _('CMSUno is in Lightened Version');
 		break;
 		// ********************************************************************************************

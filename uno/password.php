@@ -1,1 +1,1 @@
-<?php if(!defined('CMSUNO')) exit(); $user = "jack"; $pass = "654321"; ?>
+<?php if(!defined('CMSUNO')) exit(); $user = "cmsuno"; $pass = "654321"; ?>

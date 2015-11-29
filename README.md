@@ -57,13 +57,15 @@ Installation
 4. Chmod 0755 recursively the uno folder.
 5. In your browser, open www.yoursite/uno.php.
 
-Initial login & password : jack & 654321
+Initial login & password : cmsuno & 654321
 
 To reduce the size of CMSUno to less than 1 MB and benefit the speed of GitHub's servers, delete the following folders :
 
 * includes/css
 * includes/img
 * includes/js
+
+or do it with update button.
 
 Use
 ---
@@ -89,6 +91,7 @@ Configuration is limited to the minimum useful.
 * Dynamic loading of images, JQuery...
 * Backup, Restore
 * Change Login & Password
+* Update
 
 ### Plugins ###
 
@@ -341,6 +344,11 @@ THE SOFTWARE.
 Versions
 --------
 
+* V1.1.5 - 29/11/2015 :
+	* CKEditor 4.5.5
+	* Add submenu
+	* Fix bug with hourglass
+	* Update in light version if already lightened
 * V1.1.4 - 12/11/2015 :
 	* Offset menu setting
 	* Add theme customizing

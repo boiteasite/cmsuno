@@ -96,6 +96,9 @@ function f_init(){
 							}
 							else if(Udg<4)Udg++;
 						});
+						CKEDITOR.on('instanceReady',function(evt){
+							document.getElementById('wait').style.display='none';
+						});
 						if(Upluglist.length!=0)document.getElementById('aplugin').style.display='inline';
 						document.getElementById('titreChap').onkeypress=function(){
 							document.getElementById('boutonSauv').className="bouton danger";
@@ -688,6 +691,7 @@ function f_plugin(f){
 	};
 	d=document.getElementById('onPlug');
 	d.name=f.substr(1);
+	d.style.display='inline-block';
 	c=f.substr(0,1);
 	if(c=='1'){
 		d.checked=true;
@@ -813,17 +817,19 @@ function f_checkUpdate(){
 		a.appendChild(c);
 		window.scrollTo(0,document.body.scrollHeight);
 		jQuery.each(Upluglist,function(k,v){
-			++b;
-			if(v.substr(0,1)!='9')jQuery.post('uno/central.php',{'action':'checkUpdate','unox':Unox,'u':v.substr(1)},function(r){
-				if(r.search('|')!=-1){
-					r=r.split('|');
-					if(r[0]!='1')c.innerHTML+='<tr><td>'+v.substr(1)+' : '+r[1]+'</td><td><?php echo _("Up to date"); ?></td></tr>';
-					else c.innerHTML+='<tr id="T'+v.substr(1)+'"><td>'+v.substr(1)+' : '+r[1]+'</td><td><span class="bouton danger" onClick="f_update(\''+v.substr(1)+'\');"><?php echo _("Update"); ?> '+r[2]+'</span></td></tr>';
-					window.scrollTo(0,document.body.scrollHeight);
-				}
-				--b;
-				if(b==0)jQuery("#wait").hide();
-			});
+			if(v.substr(0,1)!='9'){
+				++b;
+				jQuery.post('uno/central.php',{'action':'checkUpdate','unox':Unox,'u':v.substr(1)},function(r){
+					if(r.search('|')!=-1){
+						r=r.split('|');
+						if(r[0]!='1')c.innerHTML+='<tr><td>'+v.substr(1)+' : '+r[1]+'</td><td><?php echo _("Up to date"); ?></td></tr>';
+						else c.innerHTML+='<tr id="T'+v.substr(1)+'"><td>'+v.substr(1)+' : '+r[1]+'</td><td><span class="bouton danger" onClick="f_update(\''+v.substr(1)+'\');"><?php echo _("Update"); ?> '+r[2]+'</span></td></tr>';
+						window.scrollTo(0,document.body.scrollHeight);
+					}
+					--b;
+					if(b==0)jQuery("#wait").hide();
+				});
+			}
 		});
 		if(b==0)jQuery("#wait").hide();
 	});
@@ -855,7 +861,6 @@ window.onload=function(){
 	jQuery('#finderDiv').elfinder({lang:'<?php echo $lang;?>',url:'uno/includes/elfinder/php/connector.php',useBrowserHistory:false}).elfinder('instance');
 	jQuery('#finderDiv').elfinder('close').css('zIndex',99);
 	f_extraJS();
-	jQuery("#wait").hide();
 }
 </script>
 </body>

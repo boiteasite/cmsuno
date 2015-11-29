@@ -58,6 +58,11 @@ if (isset($_POST['action']))
 					<td><input class="color" type="text" style="width:150px;" name="coc" id="coc" /><span class="del" onclick="f_del_uno1(this);"></span></td>
 					<td><em><?php echo _("Color of the text for each chapter title");?></em></td>
 				</tr>
+				<tr>
+					<td><label><?php echo _("Enable submenu");?></label></td>
+					<td><input type="checkbox" class="input" name="sub" id="sub" /></td>
+					<td><em><?php echo _("A submenu will be displayed for each chapter containing H2 tags.");?></em></td>
+				</tr>
 			</table>
 			</form>
 			<div class="bouton fr" onClick="f_save_<?php echo $Utem;?>();" title="<?php echo _("Save settings");?>"><?php echo _("Save");?></div>
