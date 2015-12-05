@@ -7,7 +7,7 @@ var st=(typeof Umenuoffset!=='undefined'?Umenuoffset:0),
 	Utt,
 	Ubot,
 	Uv,
-	u1=document.getElementsByClassName('nav1'),
+	u1=(window.attachEvent&&!window.addEventListener)?document.querySelectorAll('.nav1'):document.getElementsByClassName('nav1'),
 	u2=u1[0].getBoundingClientRect(),
 	Umg=-u2.top+100-(window.pageYOffset!=null?window.pageYOffset:window.document.documentElement.scrollTop)+st;
 window.onscroll=function(){onScroll()};document.getElementById('navR').checked=false;document.getElementById('navR').style.display='none';
