@@ -236,6 +236,7 @@ Variables usable all have almost the same name as the shortcodes. Here is a non-
 * __$Uhead__ : At the end of the block `<head>`. Used to add a script or a CSS file.
 * __$Ufoot__ : At the end of the block `<body>`. Used to add a script.
 * __$Ustyle__ : CSS content added at the end of the block `<head>` in a `<style>` container.
+* __$UstyleSm__ : Idem for small screens. Added at the end of Ustyle (max-device-width: 480px).
 * __$Uscript__ : Short JS content added at the end of the head part in a `<script>` container. Use it, for example, to declare var.
 * __$Uonload__ : Used to add a JS code to be run after the start. ex : $onload = 'alert("hello!");';
 * __$Umenu__ : Page list according to `<ul class="maClasse"><li><a href="#...">MyPage</a></li>...</ul>`.
@@ -344,6 +345,11 @@ THE SOFTWARE.
 Versions
 --------
 
+* V1.1.6 - 17/12/2015 :
+	* Inline CSS in mail template
+	* Add JS var $UstyleSm for small screens like smartphone (max-device-width: 480px)
+	* Fix bug in menu with IE8
+	* Add BR Clear button in CKEditor
 * V1.1.5 - 29/11/2015 :
 	* CKEditor 4.5.5
 	* Add submenu

@@ -384,7 +384,7 @@ if(isset($_POST['action']))
 		// ********************************************************************************************
 		// SHORTCODE [[foo]] : title, description, template, head, foot, menu, jsmenu, content
 		case 'publier':
-		$Uhead = ''; $Ufoot = ''; $Uonload = ''; $Ucontent = ''; $Umenu = ''; $Ustyle = '.blocChap{clear:both}'."\r\n";
+		$Uhead = ''; $Ufoot = ''; $Uonload = ''; $Ucontent = ''; $Umenu = ''; $Ustyle = '.blocChap{clear:both}'."\r\n"; $UstyleSm = '';
 		$Uscript = ''; $Ujsmenu = '<script type="text/javascript" src="'.$Udep.'includes/js/uno_menu.js"></script>';
 		$unoPop=0; // Include JS files
 		$unoUbusy=0; // Include Ubusy in JS
@@ -480,7 +480,7 @@ if(isset($_POST['action']))
 		if(file_exists('template/'.$Ua['tem'].'/'.$Ua['tem'].'Make.php')) include('template/'.$Ua['tem'].'/'.$Ua['tem'].'Make.php'); // template Make after plugin
 		include('includes/lang/lang.php');
 		if(strpos(strtolower($Uhtml),'charset="utf-8"')===false && strpos(strtolower($Uhtml),"charset='utf-8'")===false) $Uhead .= '<meta charset="utf-8">'."\r\n";
-		$Uhead .= '<style type="text/css">'."\r\n".$Ustyle.'</style>'."\r\n";
+		$Uhead .= '<style type="text/css">'."\r\n".$Ustyle."\r\n".($UstyleSm?'@media screen and (max-width:480px){'."\r\n".$UstyleSm.'}'."\r\n":'').'</style>'."\r\n";
 		if($unoPop==1) $Uhead .= '<script type="text/javascript" src="'.$Udep.'includes/js/unoPop.js"></script><link rel="stylesheet" type="text/css" href="'.$Udep.'includes/css/unoPop.css" />'."\r\n";
 		if($unoUbusy==1) $Uscript .= 'var Ubusy="'.$Ubusy.'";';
 		if($Uscript) $Uhead .= '<script type="text/javascript">'.$Uscript.'</script>'."\r\n";
