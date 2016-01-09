@@ -28,6 +28,7 @@ CKEditor
 
 CMSUno use a custom version of CKEditor made on http://ckeditor.com/ with the Standard Package plus :
 
+* BR CLEAR
 * COLOR BUTTON
 * DIV CONTAINER MANAGER
 * FIND / REPLACE

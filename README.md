@@ -320,7 +320,7 @@ License
 CMSUno is under MIT license.
 
 <pre>
-Copyright (c) <2014-2015> <Jacques Malgrange contacter@boiteasite.fr>
+Copyright (c) <2014-2016> <Jacques Malgrange contacter@boiteasite.fr>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -345,6 +345,10 @@ THE SOFTWARE.
 Versions
 --------
 
+* V1.1.7 - 08/01/2016 :
+	* CKEditor 4.5.6
+	* Default theme uno1 customizable
+	* Fix bugs
 * V1.1.6 - 17/12/2015 :
 	* Inline CSS in mail template
 	* Add JS var $UstyleSm for small screens like smartphone (max-device-width: 480px)

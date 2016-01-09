@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CmsUno\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-29 00:16+0100\n"
-"PO-Revision-Date: 2015-11-29 00:16+0100\n"
+"POT-Creation-Date: 2016-01-09 10:38+0100\n"
+"PO-Revision-Date: 2016-01-09 10:38+0100\n"
 "Last-Translator: jacques Malgrange <contacter@boiteasite.fr>\n"
 "Language-Team: Jacques Malgrange <contacter@boiteasite.fr>\n"
 "Language: \n"
@@ -23,85 +23,232 @@ msgstr ""
 msgid "Options"
 msgstr "Opciones"
 
-#: ../../../uno1.php:27
-msgid "Page color"
-msgstr "Color página"
+#: ../../../uno1.php:28
+msgid "Page background"
+msgstr "Fondo de la pagina"
 
-#: ../../../uno1.php:29
-msgid "Background color for the border of your page"
-msgstr "El color de fondo de la frontera de la página"
+#: ../../../uno1.php:36
+msgid "Fixed background image or background color for the border of your page."
+msgstr "Imagen de fondo fijo o color de fondo de la frontera de su página."
 
-#: ../../../uno1.php:32
+#: ../../../uno1.php:39
 msgid "Wrapper color"
 msgstr "color de la envoltura"
 
-#: ../../../uno1.php:34
-msgid "Background color for the content of your page"
-msgstr "Color de fondo para el contenido de su página"
+#: ../../../uno1.php:41
+msgid "Background color for the content of your page."
+msgstr "Color de fondo para el contenido de su página."
 
-#: ../../../uno1.php:37
+#: ../../../uno1.php:44
+msgid "Wrapper width"
+msgstr "Ancho de la envoltura"
+
+#: ../../../uno1.php:46
+msgid "Width for the content of your page. Default : 1024px. Only number."
+msgstr "Ancho para el contenido de su página. Por defecto: 1024px de. Sólo número."
+
+#: ../../../uno1.php:50
+msgid "Logo"
+msgstr "Logo"
+
+#: ../../../uno1.php:52
+msgid "Image logo centered at the top of the page."
+msgstr "Logo imagen centrada en la parte superior de la página."
+
+#: ../../../uno1.php:55
+msgid "Logo height"
+msgstr "Altura logo"
+
+#: ../../../uno1.php:57
+msgid "Logo height in pixel. Only number."
+msgstr "Altura Logo en píxel. Sólo número."
+
+#: ../../../uno1.php:61
+msgid "Menu position"
+msgstr "Posición del menú"
+
+#: ../../../uno1.php:64
+msgid "Top of the page"
+msgstr "Inicio de la página"
+
+#: ../../../uno1.php:65
+msgid "Top of the wrapper"
+msgstr "Parte superior de la envoltura"
+
+#: ../../../uno1.php:68
+msgid "Position of the menu. No difference if you have no logo."
+msgstr "Posición del menú. No hay diferencia si usted no tiene logo."
+
+#: ../../../uno1.php:71
+msgid "Menu font"
+msgstr "Fuente del menú"
+
+#: ../../../uno1.php:74
+#: ../../../uno1.php:127
+#: ../../../uno1.php:170
+msgid "Default"
+msgstr "Defecto"
+
+#: ../../../uno1.php:87
+#: ../../../uno1.php:140
+#: ../../../uno1.php:183
+msgid "See below"
+msgstr "Vea abajo"
+
+#: ../../../uno1.php:90
+msgid "Font for the menu."
+msgstr "Fuente para el menú."
+
+#: ../../../uno1.php:93
 msgid "Menu color"
 msgstr "Color del menú"
 
-#: ../../../uno1.php:39
-msgid "Background color of the menu"
-msgstr "El color de fondo del menú"
+#: ../../../uno1.php:95
+msgid "Background color of the menu."
+msgstr "El color de fondo del menú."
 
-#: ../../../uno1.php:42
+#: ../../../uno1.php:98
 msgid "Text menu color on"
 msgstr "El color del texto del menú ON"
 
-#: ../../../uno1.php:44
-msgid "Color of the text for the current chapter in the menu"
-msgstr "El color del texto para el capítulo actual en el menú"
+#: ../../../uno1.php:100
+msgid "Color of the text for the current chapter in the menu."
+msgstr "El color del texto para el capítulo actual en el menú."
 
-#: ../../../uno1.php:47
+#: ../../../uno1.php:103
 msgid "Text menu color off"
 msgstr "El color del texto del menú OFF"
 
-#: ../../../uno1.php:49
-msgid "Color of the text for the other chapters in the menu"
-msgstr "El color del texto de los otros capítulos en el menú"
+#: ../../../uno1.php:105
+msgid "Color of the text for the other chapters in the menu."
+msgstr "El color del texto de los otros capítulos en el menú."
 
-#: ../../../uno1.php:52
-msgid "Site Title color"
-msgstr "El color del título"
-
-#: ../../../uno1.php:54
-msgid "Color of the text for the site title"
-msgstr "El color del texto para el título del sitio"
-
-#: ../../../uno1.php:57
-msgid "Chapter Title color"
-msgstr "Colores capítulo títulos"
-
-#: ../../../uno1.php:59
-msgid "Color of the text for each chapter title"
-msgstr "El color del texto para cada título del capítulo"
-
-#: ../../../uno1.php:62
+#: ../../../uno1.php:108
 msgid "Enable submenu"
 msgstr "Habilitar submenú"
 
-#: ../../../uno1.php:64
+#: ../../../uno1.php:110
 msgid "A submenu will be displayed for each chapter containing H2 tags."
 msgstr "Un submenú aparecerá para cada capítulo contiene etiquetas H2."
 
-#: ../../../uno1.php:68
+#: ../../../uno1.php:114
+msgid "Site title"
+msgstr "Título del sitio"
+
+#: ../../../uno1.php:117
+msgid "Title in the menu bar"
+msgstr "Título de la barra de menú"
+
+#: ../../../uno1.php:118
+msgid "No title"
+msgstr "Sin título"
+
+#: ../../../uno1.php:121
+msgid "Position for the site title."
+msgstr "Posición para el título del sitio."
+
+#: ../../../uno1.php:124
+msgid "Site title font"
+msgstr "Fuente título sitio"
+
+#: ../../../uno1.php:143
+msgid "Font for the title."
+msgstr "Fuente para el título."
+
+#: ../../../uno1.php:146
+msgid "Site title font size"
+msgstr "Tamaño fuente título"
+
+#: ../../../uno1.php:148
+msgid "Size of the font for the title. Default : 21px. Only number."
+msgstr "Tamaño de la fuente por el título. Por defecto: 21px. Sólo número."
+
+#: ../../../uno1.php:151
+msgid "Site title line height"
+msgstr "Fila Título Altura"
+
+#: ../../../uno1.php:153
+msgid "Adjust the vertical position of the title. Default : 1.2em. Only number and dot."
+msgstr "Ajuste la posición vertical del título. Por defecto: 1.2em. Sólo número y punto."
+
+#: ../../../uno1.php:156
+msgid "Site Title color"
+msgstr "El color del título"
+
+#: ../../../uno1.php:158
+msgid "Color of the text for the site title."
+msgstr "El color del texto para el título del sitio."
+
+#: ../../../uno1.php:162
+msgid "Chapter Title color"
+msgstr "Colores capítulo títulos"
+
+#: ../../../uno1.php:164
+msgid "Color of the text for each chapter title."
+msgstr "El color del texto para cada título del capítulo."
+
+#: ../../../uno1.php:167
+msgid "Content font"
+msgstr "Fuente de contenido"
+
+#: ../../../uno1.php:186
+msgid "Font for the content of the page."
+msgstr "Fuente para el contenido de la página."
+
+#: ../../../uno1.php:189
+msgid "Content font size"
+msgstr "Tamaño fuente contenido"
+
+#: ../../../uno1.php:191
+msgid "Size of the font for the content of the page. Default : 14px. Only number."
+msgstr "Tamaño de la fuente por el contenido de la página. Por defecto: 14px. Sólo número."
+
+#: ../../../uno1.php:194
+msgid "Content font color"
+msgstr "Color fuente contenido "
+
+#: ../../../uno1.php:196
+msgid "Main font color for the content of your page."
+msgstr "Color de la fuente para el contenido de su página."
+
+#: ../../../uno1.php:200
+msgid "Add a Google Font"
+msgstr "Añadir Google Fuente"
+
+#: ../../../uno1.php:203
+msgid "Choose a font <a href='//www.google.com/fonts' target='_blank'>here</a> - Enter just the name in this form (ex : Lora)."
+msgstr "Elija una fuente <a href='//www.google.com/fonts' target='_blank'>aquí</a> - Introduzca sólo el nombre en esta forma (ex : Lora)."
+
+#: ../../../uno1.php:204
+msgid "You can select one or several specific styles separated by a virgule (ex : Lora:700italic,400)."
+msgstr "Puede seleccionar uno o varios estilos específicos separados por una vírgula (ex : Lora:700italic,400)."
+
+#: ../../../uno1.php:210
+msgid "Publish on the web all saved chapters"
+msgstr "Publicar en la web todos los capítulos guardados"
+
+#: ../../../uno1.php:210
+msgid "Publish"
+msgstr "Publicar"
+
+#: ../../../uno1.php:211
 msgid "Save settings"
 msgstr "Guardar ajustes"
 
-#: ../../../uno1.php:68
+#: ../../../uno1.php:211
 msgid "Save"
 msgstr "Guardar"
 
-#: ../../../uno1.php:83
+#: ../../../uno1.php:226
 msgid "Backup performed"
 msgstr "Copia de seguridad realizada"
 
-#: ../../../uno1.php:84
+#: ../../../uno1.php:227
 msgid "Impossible backup"
 msgstr "Copia de seguridad Imposible"
+
+#~ msgid "Page color"
+#~ msgstr "Color página"
 
 #~ msgid "Box"
 #~ msgstr "Box"

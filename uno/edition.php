@@ -156,7 +156,7 @@ f_init();
 <body>
 	<div class="blocTop bgNoir">
 		<div class="container">
-			<span class="titre" href="/">CMSUno<? if(isset($Uversion)) echo '&nbsp;<em>'.$Uversion.'</em>'; ?></span>
+			<span class="titre" href="/"><a href="https://github.com/boiteasite/cmsuno" title="<?php echo _("CMSUno on GitHub");?>" target="_blank">CMSUno<? if(isset($Uversion)) echo '&nbsp;<em>'.$Uversion.'</em>'; ?></a></span>
 			<div id="info"></div>
 			<ul>
 				<li id="wait"><img style="margin:2px 6px 0 0;" src="<?php echo $Udep; ?>includes/img/wait.gif" /></li>

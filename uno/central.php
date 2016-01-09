@@ -113,7 +113,7 @@ function f_chmodR($path, $fr=0644, $dr=0755)
 //
 function lastVersion($f,$g,$h)
 	{
-	// Version : $f : minimum 2 digit : 1.0, 2.4.5 6 maximum 3 digit
+	// Version : $f : minimum 2 digit : 1.0, 2.4.5 maximum 3 digit
 	// Version 2 => 2.0 (2 digit if 0)
 	// Version 1.4.0 => 1.4 (not 3 digit if 0)
 	$a = explode('.',$f);
@@ -243,7 +243,6 @@ if(isset($_POST['action']))
 		if(!isset($a['edw'])) $a['edw'] = 960; // default
 		if(!isset($a['jq'])) $a['jq'] = 0; // default
 		$c = preg_replace_callback('/(<img[^>]*src=["\'])([^"\']*)/', function($m) { return ''.$m[1].substr($m[2],strpos($m[2],'files/'));}, $_POST['content']); // lien relatif
-		if(!is_dir('includes/js/ckeditor/')) $a['git'] = 1; // check here, why not ?
 		$out = json_encode($a);
 		if(file_put_contents('data/'.$Ubusy.'/site.json', $out) && file_put_contents('data/'.$Ubusy.'/chap'.$_POST['data'].'.txt', $c)) echo _('Backup performed');
 		else echo '!'._('Impossible backup');
@@ -321,10 +320,15 @@ if(isset($_POST['action']))
 			$Ubusy = $n;
 			file_put_contents('data/busy.json', '{"nom":"'.$Ubusy.'"}');
 			}
-		$q=@file_get_contents('data/_sdata-'.$sdata.'/ssite.json');
-		if($q) $a=json_decode($q,true);
+		//
+		$q = @file_get_contents('data/_sdata-'.$sdata.'/ssite.json');
+		if($q) $a = json_decode($q,true);
 		else $a = array();
-		$a['mel']=$_POST['mel']; $out1=json_encode($a); file_put_contents('data/_sdata-'.$sdata.'/ssite.json',$out1);
+		$a['mel'] = $_POST['mel'];
+		if(!is_dir('includes/js/ckeditor/')) $a['git'] = 1; // here in case of multipage
+		$out1 = json_encode($a);
+		file_put_contents('data/_sdata-'.$sdata.'/ssite.json',$out1);
+		//
 		$q = file_get_contents('data/'.$Ubusy.'/site.json');
 		$a = json_decode($q,true);
 		$a['tit'] = $_POST['tit'];
@@ -726,7 +730,18 @@ if(isset($_POST['action']))
 				$last = lastVersion($a['uno']['ext'], $Urawgit, 'uno/includes/css/uno.css');
 				if($last!=$a['uno']['ext']) { $a['uno']['ext'] = $last; $b = 1; }
 				}
-			if($a['uno']['in']!=$a['uno']['ext']) echo '1|'.$c.'|'.$last;
+			$bi = explode('.',$a['uno']['in']);
+			$be = explode('.',$a['uno']['ext']);
+			$bi[0] = intval($bi[0]);
+			$be[0] = intval($be[0]);
+			if(!isset($bi[1])) $bi[1] = 0; else $bi[1] = intval($bi[1]);
+			if(!isset($be[1])) $be[1] = 0; else $be[1] = intval($be[1]);
+			if(!isset($bi[2])) $bi[2] = 0; else $bi[2] = intval($bi[2]);
+			if(!isset($be[2])) $be[2] = 0; else $be[2] = intval($be[2]);
+			if($bi[0]<$be[0] || ($bi[0]==$be[0] && $bi[1]<$be[1]) || ($bi[0]==$be[0] && $bi[1]==$be[1] && $bi[2]<$be[2]))
+				{
+				echo '1|'.$c.'|'.$a['uno']['ext'];
+				}
 			else echo '0|'.$c.'|';
 			}
 		else // Plugin
@@ -756,15 +771,21 @@ if(isset($_POST['action']))
 					{
 					$a['plug'][$u]['ext'] = $last;
 					$b = 1;
-					echo '1|'.$a['plug'][$u]['in'].'|'.$last;
 					}
-				else echo '0|'.$a['plug'][$u]['in'].'|';
 				}
-			else
+			$bi = explode('.',$a['plug'][$u]['in']);
+			$be = explode('.',$a['plug'][$u]['ext']);
+			$bi[0] = intval($bi[0]);
+			$be[0] = intval($be[0]);
+			if(!isset($bi[1])) $bi[1] = 0; else $bi[1] = intval($bi[1]);
+			if(!isset($be[1])) $be[1] = 0; else $be[1] = intval($be[1]);
+			if(!isset($bi[2])) $bi[2] = 0; else $bi[2] = intval($bi[2]);
+			if(!isset($be[2])) $be[2] = 0; else $be[2] = intval($be[2]);
+			if($bi[0]<$be[0] || ($bi[0]==$be[0] && $bi[1]<$be[1]) || ($bi[0]==$be[0] && $bi[1]==$be[1] && $bi[2]<$be[2]))
 				{
-				if(isset($a['plug'][$u]['ext']) && $a['plug'][$u]['in']!=$a['plug'][$u]['ext']) echo '1|'.$a['plug'][$u]['in'].'|'.$a['plug'][$u]['ext'];
-				else echo '0|'.$a['plug'][$u]['in'].'|';
+				echo '1|'.$a['plug'][$u]['in'].'|'.$a['plug'][$u]['ext'];
 				}
+			else echo '0|'.$a['plug'][$u]['in'].'|';
 			}
 		if($b) file_put_contents('data/update.json', json_encode($a));
 		break;
@@ -842,11 +863,16 @@ if(isset($_POST['action']))
 					unlink($base.'/README.md');
 					f_copyDir($base.'/files/'.$d, $base);
 					f_rmdirR($base.'/files/'.$d);
-					if(isset($a1['git']) && $a1['git']) // light version
+					$q2 = @file_get_contents('data/_sdata-'.$sdata.'/ssite.json');
+					if($q2)
 						{
-						if(is_dir($base.'/uno/includes/js')) f_rmdirR($base.'/uno/includes/js');
-						if(is_dir($base.'/uno/includes/img')) f_rmdirR($base.'/uno/includes/img');
-						if(is_dir($base.'/uno/includes/css')) f_rmdirR($base.'/uno/includes/css');
+						$a2 = json_decode($q,true);
+						if(isset($a2['git']) && $a2['git']) // light version
+							{
+							if(is_dir($base.'/uno/includes/js')) f_rmdirR($base.'/uno/includes/js');
+							if(is_dir($base.'/uno/includes/img')) f_rmdirR($base.'/uno/includes/img');
+							if(is_dir($base.'/uno/includes/css')) f_rmdirR($base.'/uno/includes/css');
+							}
 						}
 					f_rmdirR($base.'/uno/data');
 					f_rmdirR($base.'/uno/plugins');
@@ -870,11 +896,13 @@ if(isset($_POST['action']))
 		if(is_dir('includes/js')) f_rmdirR('includes/js');
 		if(is_dir('includes/img')) f_rmdirR('includes/img');
 		if(is_dir('includes/css')) f_rmdirR('includes/css');
-		$q = file_get_contents('data/'.$Ubusy.'/site.json');
-		$a = json_decode($q,true);
-		$a['git'] = 1;
+		//
+		$q = @file_get_contents('data/_sdata-'.$sdata.'/ssite.json');
+		if($q) $a = json_decode($q,true);
+		else $a = array();
+		$a['git'] = 1; // here in case of multipage
 		$out = json_encode($a);
-		file_put_contents('data/'.$Ubusy.'/site.json', $out);
+		file_put_contents('data/_sdata-'.$sdata.'/ssite.json',$out);
 		echo _('CMSUno is in Lightened Version');
 		break;
 		// ********************************************************************************************

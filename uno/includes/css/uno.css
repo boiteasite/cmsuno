@@ -48,6 +48,7 @@ code{font-family:monospace;font-size:12px;padding:2px 4px;color:#333;background-
 .tal{text-align:left;}
 .tar{text-align:right;}
 .hForm {position:relative;width:100%;margin:15px 0 5px;}
+.hForm th{border-bottom:1px solid #b6b6b6;}
 .hForm td{padding-right:5px;}
 .hForm td:nth-child(1){width:15%;text-align:right;}
 .hForm td:nth-child(2){max-width:40%;padding:9px 0 0 10px;}
