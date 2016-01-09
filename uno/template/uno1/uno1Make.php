@@ -5,7 +5,7 @@ if (!isset($_SESSION['cmsuno'])) exit();
 if(file_exists('data/'.$Ubusy.'/uno1.json'))
 	{
 	$c = array();
-	$o = ''; $s = '';
+	$o = ''; $gof = 0;
 	$b = array(
 		// ID => SELECTOR, CSS PROPERTY
 		'bgpcolor' => array('body', 'background-color:'),
