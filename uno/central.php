@@ -848,6 +848,7 @@ if(isset($_POST['action']))
 					unlink($base.'/files/tmpuno4.zip');
 					// 3. Save current datas
 					if(is_dir($base.'/files/.tmb')) f_rmdirR($base.'/files/.tmb'); // free space
+					if(is_dir($base.'/uno/includes/elfinder/.tmb')) f_rmdirR($base.'/uno/includes/elfinder/.tmb');
 					if(is_dir($base.'/uno/data')) { f_copyDir($base.'/uno/data', $base.'/files/tmpdata'); f_rmdirR($base.'/uno/data'); }
 					if(is_dir($base.'/uno/plugins')) { f_copyDir($base.'/uno/plugins', $base.'/files/tmpplugins'); f_rmdirR($base.'/uno/plugins'); }
 					if(is_dir($base.'/uno/template')) { f_copyDir($base.'/uno/template', $base.'/files/tmptemplate'); f_rmdirR($base.'/uno/template'); }

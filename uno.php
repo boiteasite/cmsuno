@@ -45,6 +45,7 @@ if (isset($_POST['user']) && isset($_POST['pass']))
 		if(is_dir('files/.tmb')) // clean up - free space
 			{
 			if($h=opendir('files/.tmb')) { while(false!==($f=readdir($h))) { if(is_file('files/.tmb/'.$f)) unlink('files/.tmb/'.$f); } closedir($h); }
+			if($h=opendir('uno/includes/elfinder/.tmb')) { while(false!==($f=readdir($h))) { if(is_file('uno/includes/elfinder/.tmb/'.$f)) unlink('uno/includes/elfinder/.tmb/'.$f); } closedir($h); }
 			}
 		}
 	else sleep(2);
