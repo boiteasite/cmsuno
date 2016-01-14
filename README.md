@@ -110,6 +110,7 @@ Use [NivoSlider](https://github.com/gilbitron/Nivo-Slider),
 [FeatureCarousel](http://www.bkosborne.com/jquery-feature-carousel) and
 [ZoomBox](http://grafikart.github.io/Zoombox) to have numerous possibilities.
 * __Code_display__ : Adds a button in CKEditor to display code. Use [google-code-prettify](https://code.google.com/p/google-code-prettify/).
+* __Comment__ : It allows visitors to add comments in the page. Added with a Shortcode in the content of the page or directly in the template.
 * __Contact__ : It allows to create a custom-made contact form with Captcha. Added with a Shortcode in the content of the page or directly in the template.
 * __Fixed_layout__ : This plugin allows to create a page with a fixed background that changes with scrolling. Inspired by [Jquery Fixed Scroll Background](https://github.com/ebaumstarck/JqueryFixedScrollBackground).
 * __Googlemap__ : Adds a button in CKEditor to insert one or more Google-Map in your page.
