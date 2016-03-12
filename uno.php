@@ -1,7 +1,7 @@
 <?php
 // **********************************
 // CMSUno
-$version = '1.1.7';
+$version = '1.1.8';
 // **********************************
 ini_set('session.use_trans_sid', 0);
 session_start();
@@ -44,8 +44,19 @@ if (isset($_POST['user']) && isset($_POST['pass']))
 		if(!file_exists('uno/data/busy.json')) file_put_contents('uno/data/busy.json', '{"nom":"index"}');
 		if(is_dir('files/.tmb')) // clean up - free space
 			{
-			if($h=opendir('files/.tmb')) { while(false!==($f=readdir($h))) { if(is_file('files/.tmb/'.$f)) unlink('files/.tmb/'.$f); } closedir($h); }
-			if($h=opendir('uno/includes/elfinder/.tmb')) { while(false!==($f=readdir($h))) { if(is_file('uno/includes/elfinder/.tmb/'.$f)) unlink('uno/includes/elfinder/.tmb/'.$f); } closedir($h); }
+			if($h=opendir('files/.tmb'))
+				{
+				while(false!==($f=readdir($h))) if(is_file('files/.tmb/'.$f)) unlink('files/.tmb/'.$f);
+				closedir($h);
+				}
+			}
+		if(is_dir('uno/includes/elfinder/.tmb')) // clean up - free space
+			{
+			if($h=opendir('uno/includes/elfinder/.tmb'))
+				{
+				while(false!==($f=readdir($h))) if(is_file('uno/includes/elfinder/.tmb/'.$f)) unlink('uno/includes/elfinder/.tmb/'.$f);
+				closedir($h);
+				}
 			}
 		}
 	else sleep(2);

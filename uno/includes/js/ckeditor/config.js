@@ -37,5 +37,4 @@ CKEDITOR.editorConfig = function( config ) {
 	config.filebrowserBrowseUrl = 'uno/includes/elfinder/elfinder.html';
 //	config.enterMode = CKEDITOR.ENTER_BR;
 	config.customConfig = "../../js/uno_ckeditor.js";
-	config.extraPlugins = 'brclear';
 };

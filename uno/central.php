@@ -682,7 +682,7 @@ if(isset($_POST['action']))
 			else $a['plugins'][]='0'.basename($r);
 			}
 		// 3. theme
-		if(file_exists('template/'.$a['tem'].'/'.$a['tem'].'.php'))
+		if(isset($a['tem']) && file_exists('template/'.$a['tem'].'/'.$a['tem'].'.php'))
 			{
 			$a['pl'][]='_';
 			$a['plugins'][]='9_';

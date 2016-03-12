@@ -27,7 +27,7 @@ if (isset($_POST['action']))
 				<tr>
 					<td><label><?php echo _("Page background");?></label></td>
 					<td>
-						<input class="color" type="text" style="width:150px;" name="bgp" id="bgp" />
+						<input class="color input" type="text" style="width:150px;" name="bgp" id="bgp" />
 						<select id="Sbgp" name="Sbgp" onChange="f_sel_uno1(this);" >
 							<option value="color" selected>color</option>
 							<option value="img">img</option>
@@ -37,23 +37,23 @@ if (isset($_POST['action']))
 				</tr>
 				<tr>
 					<td><label><?php echo _("Wrapper color");?></label></td>
-					<td><input class="color" type="text" style="width:150px;" name="bgw" id="bgw" /><span class="del" onclick="f_del_uno1(this)"></span></td>
+					<td><input class="color input" type="text" style="width:150px;" name="bgw" id="bgw" /><span class="del" onclick="f_del_uno1(this)"></span></td>
 					<td><em><?php echo _("Background color for the content of your page.");?></em></td>
 				</tr>
 				<tr>
 					<td><label><?php echo _("Wrapper width");?></label></td>
-					<td><input type="text" style="width:50px;" name="wrw" id="wrw" onkeyup="this.value=this.value.replace(/[^\d]+/,'')" /></td>
+					<td><input class="input" type="text" style="width:50px;" name="wrw" id="wrw" onkeyup="this.value=this.value.replace(/[^\d]+/,'')" /></td>
 					<td><em><?php echo _("Width for the content of your page. Default : 1024px. Only number.");?></em></td>
 				</tr>
 				<tr><th colspan=3>&nbsp;</th></tr>
 				<tr>
 					<td><label><?php echo _("Logo");?></label></td>
-					<td><input type="text" style="width:150px;" name="tgo" id="tgo" onclick="f_finder_select('tgo')" /><span class="del" onclick="document.getElementById('tgo').value=''"></span></td>
+					<td><input class="input" type="text" style="width:150px;" name="tgo" id="tgo" onclick="f_finder_select('tgo')" /><span class="del" onclick="document.getElementById('tgo').value=''"></span></td>
 					<td><em><?php echo _("Image logo centered at the top of the page.");?></em></td>
 				</tr>
 				<tr>
 					<td><label><?php echo _("Logo height");?></label></td>
-					<td><input type="text" style="width:50px;" name="tgh" id="tgh" onkeyup="this.value=this.value.replace(/[^\d]+/,'')" /></td>
+					<td><input class="input" type="text" style="width:50px;" name="tgh" id="tgh" onkeyup="this.value=this.value.replace(/[^\d]+/,'')" /></td>
 					<td><em><?php echo _("Logo height in pixel. Only number.");?></em></td>
 				</tr>
 				<tr><th colspan=3>&nbsp;</th></tr>
@@ -91,17 +91,17 @@ if (isset($_POST['action']))
 				</tr>
 				<tr>
 					<td><label><?php echo _("Menu color");?></label></td>
-					<td><input class="color" type="text" style="width:150px;" name="bgm" id="bgm" /><span class="del" onclick="f_del_uno1(this)"></span></td>
+					<td><input class="color input" type="text" style="width:150px;" name="bgm" id="bgm" /><span class="del" onclick="f_del_uno1(this)"></span></td>
 					<td><em><?php echo _("Background color of the menu.");?></em></td>
 				</tr>
 				<tr>
 					<td><label><?php echo _("Text menu color on");?></label></td>
-					<td><input class="color" type="text" style="width:150px;" name="tmc" id="tmc" /><span class="del" onclick="f_del_uno1(this)"></span></td>
+					<td><input class="color input" type="text" style="width:150px;" name="tmc" id="tmc" /><span class="del" onclick="f_del_uno1(this)"></span></td>
 					<td><em><?php echo _("Color of the text for the current chapter in the menu.");?></em></td>
 				</tr>
 				<tr>
 					<td><label><?php echo _("Text menu color off");?></label></td>
-					<td><input class="color" type="text" style="width:150px;" name="tmo" id="tmo" /><span class="del" onclick="f_del_uno1(this)"></span></td>
+					<td><input class="color input" type="text" style="width:150px;" name="tmo" id="tmo" /><span class="del" onclick="f_del_uno1(this)"></span></td>
 					<td><em><?php echo _("Color of the text for the other chapters in the menu.");?></em></td>
 				</tr>
 				<tr>
@@ -144,23 +144,23 @@ if (isset($_POST['action']))
 				</tr>
 				<tr>
 					<td><label><?php echo _("Site title font size");?></label></td>
-					<td><input type="text" style="width:50px;" name="tfs" id="tfs" onkeyup="this.value=this.value.replace(/[^\d]+/,'')" /></td>
+					<td><input class="input" type="text" style="width:50px;" name="tfs" id="tfs" onkeyup="this.value=this.value.replace(/[^\d]+/,'')" /></td>
 					<td><em><?php echo _("Size of the font for the title. Default : 21px. Only number.");?></em></td>
 				</tr>
 				<tr>
 					<td><label><?php echo _("Site title line height");?></label></td>
-					<td><input type="text" style="width:50px;" name="tlh" id="tlh" onkeyup="this.value=this.value.replace(/[^.\d]+/,'')" /></td>
+					<td><input class="input" type="text" style="width:50px;" name="tlh" id="tlh" onkeyup="this.value=this.value.replace(/[^.\d]+/,'')" /></td>
 					<td><em><?php echo _("Adjust the vertical position of the title. Default : 1.2em. Only number and dot.");?></em></td>
 				</tr>
 				<tr>
 					<td><label><?php echo _("Site Title color");?></label></td>
-					<td><input class="color" type="text" style="width:150px;" name="cot" id="cot" /><span class="del" onclick="f_del_uno1(this)"></span></td>
+					<td><input class="color input" type="text" style="width:150px;" name="cot" id="cot" /><span class="del" onclick="f_del_uno1(this)"></span></td>
 					<td><em><?php echo _("Color of the text for the site title.");?></em></td>
 				</tr>
 				<tr><th colspan=3>&nbsp;</th></tr>
 				<tr>
 					<td><label><?php echo _("Chapter Title color");?></label></td>
-					<td><input class="color" type="text" style="width:150px;" name="coc" id="coc" /><span class="del" onclick="f_del_uno1(this)"></span></td>
+					<td><input class="color input" type="text" style="width:150px;" name="coc" id="coc" /><span class="del" onclick="f_del_uno1(this)"></span></td>
 					<td><em><?php echo _("Color of the text for each chapter title.");?></em></td>
 				</tr>
 				<tr>
@@ -187,18 +187,18 @@ if (isset($_POST['action']))
 				</tr>
 				<tr>
 					<td><label><?php echo _("Content font size");?></label></td>
-					<td><input type="text" style="width:50px;" name="cfs" id="cfs" onkeyup="this.value=this.value.replace(/[^\d]+/,'')" /></td>
+					<td><input class="input" type="text" style="width:50px;" name="cfs" id="cfs" onkeyup="this.value=this.value.replace(/[^\d]+/,'')" /></td>
 					<td><em><?php echo _("Size of the font for the content of the page. Default : 14px. Only number.");?></em></td>
 				</tr>
 				<tr>
 					<td><label><?php echo _("Content font color");?></label></td>
-					<td><input class="color" type="text" style="width:150px;" name="cfc" id="cfc" /><span class="del" onclick="f_del_uno1(this)"></span></td>
+					<td><input class="color input" type="text" style="width:150px;" name="cfc" id="cfc" /><span class="del" onclick="f_del_uno1(this)"></span></td>
 					<td><em><?php echo _("Main font color for the content of your page.");?></em></td>
 				</tr>
 				<tr><th colspan=3>&nbsp;</th></tr>
 				<tr>
 					<td><label><?php echo _("Add a Google Font");?></label></td>
-					<td><input type="text" style="width:200px;" name="gof" id="gof" /></td>
+					<td><input class="input" type="text" style="width:200px;" name="gof" id="gof" /></td>
 					<td>
 						<em><?php echo _("Choose a font <a href='//www.google.com/fonts' target='_blank'>here</a> - Enter just the name in this form (ex : Lora).");?><br />
 						<?php echo _("You can select one or several specific styles separated by a virgule (ex : Lora:700italic,400).");?></em>

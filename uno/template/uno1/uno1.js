@@ -47,12 +47,12 @@ function f_load_uno1(){
 }
 function f_del_uno1(f){
 	var g=f.parentNode.firstChild,h=g.id;
-	jQuery(g).parent().empty().append('<input type="text" class="color" style="width:150px;" name="'+h+'" id="'+h+'" /><span class="del" onclick="f_del_uno1(this);"></span>');
+	jQuery(g).parent().empty().append('<input type="text" class="color input" style="width:150px;" name="'+h+'" id="'+h+'" /><span class="del" onclick="f_del_uno1(this);"></span>');
 }
 function f_sel_uno1(f){
 	var i=document.getElementById(f.id.substr(1));
 	if(f.options[f.selectedIndex].value=='color'){
-		i.className='color';
+		i.className='color input';
 		i.onclick=null;
 		i.value='';
 	}
@@ -61,7 +61,7 @@ function f_sel_uno1(f){
 		j.type='text';
 		j.name=i.id;
 		j.id=i.id;
-		j.className='img';
+		j.className='img input';
 		j.style.width='150px';
 		j.onclick=(function(f){return function(){f_finder_select(f)}})(i.id);
 		i.parentNode.replaceChild(j,i);
