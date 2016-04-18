@@ -347,6 +347,9 @@ THE SOFTWARE.
 Versions
 --------
 
+* V1.1.9 - 18/04/2016 :
+	* Cache in htaccess
+	* Fix bugs
 * V1.1.8 - 12/03/2016 :
 	* CKEditor 4.5.7
 	* ELFinder 2.0.6

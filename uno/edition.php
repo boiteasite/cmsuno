@@ -681,7 +681,8 @@ function f_plugin(f){
 		document.getElementById('aconfig').style.textDecoration='none';
 		jQuery("#finderDiv").elfinder('close');
 		document.getElementById('boutonFinder1').className="bouton finder fr";
-		if(Uplugact[0])f='1'+Uplugact[0];
+		if(Uplugact[0]&&Uplugact[0]!='_')f='1'+Uplugact[0];
+		else if(Uplugact[0]=='_')f='9_';
 		else f=Uplugon+a.firstChild.id.substr(1);
 	}
 	d=a.childNodes;
