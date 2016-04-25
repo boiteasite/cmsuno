@@ -127,6 +127,7 @@ Very usefull and powerfull.
 * [__Payplug__](https://github.com/cmsunoPlugins/payplug) : Like Paypal. Adds a button in CKEditor to create  as many Payplug buttons. More efficient and economical for sale by CB or Mastercard. Sales are checked and recorded with IPN return. Works also with digital goods and cart plugin.
 * [__Pdf Creator__](https://github.com/cmsunoPlugins/pdf_creator) : Create PDF from CKEditor content. Custom Shortcode (name, phone...) to save time. Numerous options (page format, font, margin...). Very Usefull. Use [Mpdf](http://www.mpdf1.com/mpdf/index.php)
 * [__Scrollnav__](https://github.com/cmsunoPlugins/scrollnav) : Replaces the menu with a drop down menu which scrolled with the page. Use [Scrollnav](http://scrollnav.com/)
+* [__Sound player__](https://github.com/cmsunoPlugins/sound_player) : Adds a button in CKEditor to listen Self-Hosted musique on the site. Compatible with every browsers and supports.
 * [__Support__](https://github.com/cmsunoPlugins/support) : Adds a real complete forum system very suitable for technical support. Coupled with 'Users', 'Markdown' and 'Paypal', you have a complete system to sell your premium plugin very easily with the same appearance and the same functionality as on wordpress.org.
 * [__Tem2uno__](https://github.com/cmsunoPlugins/tem2uno) : Used to automatically transform a theme from another CMS (GetSimple & b2evolution) for a use in CMSUno.
 * [__Unocss__](https://github.com/cmsunoPlugins/unocss) : Allows to add CSS in the site directly from the Dashboard.
