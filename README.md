@@ -342,13 +342,28 @@ Example of content :
 {"version":"1.0","host":"https://github.com/cmsunoPlugins/foo/"}
 ```
 
+### Data ###
+
+CMSUno don't use MySQL but flat files in json. These files are stored in uno/data/. You can have different files for a plugins
+
+There are two options : "secret"/"not secret" and "available for all pages"/"only for a specific page" (see multipage plugin)
+
+* Not secret - available for all pages : uno/data/mydata.json
+* Not secret - only for this page : uno/data/name-of-the-page/mydata.json (name of the page : $Ubusy in php or Ubusy in JS)
+* Secret - available for all pages : uno/data/_sdata-xxxx/mydata.json
+* Secret - only for this page : uno/data/_sdata-xxxx/name-of-the-page/mydata.json
+
+Name of the page : $Ubusy in php or Ubusy in JS
+xxxx : $sdata in config.php
+the _sdata-xxxx folder is only readable/writable by owner (PHP). You cannot get access to a file from a javascript tag or from a browser.
+
 License 
 -------
 
 CMSUno is under MIT license.
 
 <pre>
-Copyright (c) 2014-2016 Jacques Malgrange contacter@boiteasite.fr
+Copyright (c) 2014-2016 Jacques Malgrange
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
