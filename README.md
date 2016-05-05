@@ -173,7 +173,7 @@ This file should look like this :
 ```
 <?php
 if(!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH'])!='xmlhttprequest') {sleep(2);exit;}
-include('../../password.php'); $user=0; $pass=0; // Lang
+include('../../config.php'); // Lang
 include('lang/lang.php');
 if (isset($_POST['action']))
 	{
@@ -217,13 +217,16 @@ This file is __not required__.
 
 This file is called with an include statement when the user pushed "publish" in the Dashboard.
 The goal is to complete the variables that replace Shortcodes.
-If your plugin works with a Shortcode [[foo]] in the content of the page, there must be this :
+If your plugin works with a Shortcode [[foo]] in the content of the page, the code should be like this :
 
 ```
 <?php if (!isset($_SESSION['cmsuno'])) exit(); ?>
 <?php
 	$my_var = "<div>Hello. I'm the plugin</div>";
-	$content = str_replace('[[foo]]',$my_var,$content);
+	$Ucontent = str_replace('[[foo]]',$my_var,$content);
+	$Uhead .= '<link rel="stylesheet" type="text/css" href="uno/plugins/foo/my-plugin-styles.css" />'."\r\n";
+	$Ufoot .= '<script type="text/javascript" src="uno/plugins/foo/myfoo-min.js"></script>'."\r\n";
+	$unoUbusy = 1;
 ?>
 ```
 The plugins are executed in alphabetical order. If a plugin must be executed before any others, you can add an order of precedence in the name :
@@ -297,14 +300,13 @@ In CKEditor, configuration files work in cascade as Matryoshka doll. Every confi
 It is thus necessary to respect a specific format to not break the chain. Example with your CKEditor plugin ckfoo :
 
 ```
-UconfigNum++;
-CKEDITOR.plugins.addExternal('ckfoo', UconfigFile[UconfigNum-1]+'/../ckfoo/');
-CKEDITOR.editorConfig = function(config)
-	{
+UconfigNum++; // needed
+CKEDITOR.plugins.addExternal('ckfoo', UconfigFile[UconfigNum-1]+'/../ckfoo/'); // needed
+CKEDITOR.editorConfig = function(config) {
 	config.extraPlugins += ',ckfoo';
 	config.toolbarGroups.push('ckfoo');
-	if(UconfigFile.length>UconfigNum)config.customConfig=UconfigFile[UconfigNum];   
-	};
+	if(UconfigFile.length>UconfigNum)config.customConfig=UconfigFile[UconfigNum]; // needed for next plugin
+};
 ```
 
 ### version.json ###
