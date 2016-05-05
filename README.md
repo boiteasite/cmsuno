@@ -140,7 +140,30 @@ Template Development
 --------------------
 
 Create a theme is very easy. You just need a folder with the name of your theme and, inside, a file named 'template.html'. That's it.
-The template file is a simple html file with some specifics tags.
+The template file is a simple html file with some specifics tags. Example :
+
+```
+<!DOCTYPE html>
+<html>
+<head>
+	<title>[[title]]</title>
+	<meta charset="utf-8">
+	<meta name="description" content="[[description]]" />
+	<link rel="stylesheet" href="[[template]]style.css" />
+	[[head]]
+</head>
+<body>
+	<div id="header">
+		<h1>[[title]]</h1>
+		[[menu]]
+	</div><!-- #header -->
+	<div class="content">
+		[[content]]
+	</div><!-- .content -->
+	[[foot]]
+</body>
+</html>
+```
 
 ### Template Tags ###
 
