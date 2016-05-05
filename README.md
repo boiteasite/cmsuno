@@ -357,7 +357,7 @@ Name of the page : $Ubusy in php or Ubusy in JS
 
 xxxx : $sdata in config.php
 
-the _sdata-xxxx folder is only readable/writable by owner (PHP). You cannot get access to a file from a javascript tag or from a browser.
+The _sdata-xxxx folder is only readable/writable by owner (PHP). You cannot get access to a file from a javascript tag or from a browser.
 
 License 
 -------
