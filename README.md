@@ -334,7 +334,7 @@ CKEDITOR.editorConfig = function(config) {
 
 ### version.json ###
 
-This file is __required__. It allows to update online the plugin.
+This file is __required__. It allows to update the plugin online.
 
 Example of content :
 
@@ -344,9 +344,9 @@ Example of content :
 
 ### Data ###
 
-CMSUno don't use MySQL but flat files in json. These files are stored in uno/data/. You can have different files for a plugins
+CMSUno don't use MySQL but flat files in json. These files are stored in uno/data/. You can have different files for the same plugin.
 
-There are two options : "secret"/"not secret" and "available for all pages"/"only for a specific page" (see multipage plugin)
+There are two options : "secret"/"not secret" and "available for all pages"/"only for a specific page" (see multipage plugin) :
 
 * Not secret - available for all pages : uno/data/mydata.json
 * Not secret - only for this page : uno/data/name-of-the-page/mydata.json (name of the page : $Ubusy in php or Ubusy in JS)
@@ -354,7 +354,9 @@ There are two options : "secret"/"not secret" and "available for all pages"/"onl
 * Secret - only for this page : uno/data/_sdata-xxxx/name-of-the-page/mydata.json
 
 Name of the page : $Ubusy in php or Ubusy in JS
+
 xxxx : $sdata in config.php
+
 the _sdata-xxxx folder is only readable/writable by owner (PHP). You cannot get access to a file from a javascript tag or from a browser.
 
 License 
