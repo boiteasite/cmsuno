@@ -30,13 +30,17 @@ code{font-family:monospace;font-size:12px;padding:2px 4px;color:#333;background-
 .blocForm p{margin:10px;font-size:105%;}
 .blocBouton h2 {margin:10px 0 0 20px;}
 .blocInput {padding:8px 0 0;}
-.blocTop {position:fixed;top:0;left:0;z-index:99;margin-bottom:0;width:100%;max-height:40px;overflow:hidden;}
+.blocTop {position:fixed;top:0;left:0;z-index:99;margin-bottom:0;width:100%;max-height:40px;}
+.blocTop .info{max-height:40px;overflow:hidden;}
 .blocTop .titre {display:block;float:left;padding:8px 20px 12px;margin-left:-20px;font-size:20px;font-weight:400;line-height:1;color:#999;}
 .blocTop .titre em{font-size:12px;color:#999;}
-.blocTop ul {float:right;}
-.blocTop li {display:block;float:left;margin:10px 2px;padding:0;border:0;list-style:none;}
+.blocTop ul.topMenu {float:right;}
+.blocTop ul.topMenu > li {display:block;position:relative;float:left;margin:10px 2px;padding:0;border:0;list-style:none;}
 .blocTop a {color:#999;padding:10px;text-decoration:none;}
 .blocTop a:hover{color:#fff;}
+.blocTop ul.topMenu ul{display:none;margin-top:-1px;position:absolute;left:0;top:100%;background-color:#000;padding:12px 0 5px;}
+.blocTop ul.topMenu > li:hover ul{display:block;}
+.blocTop ul.topMenu ul li{display:block;height:auto;padding:3px 3px 3px 0;}
 .bgNoir {background-color:#000;}
 .bgbleu {background-color:#00f;}
 .bgMarine {background-color:#003;}

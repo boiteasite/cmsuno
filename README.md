@@ -332,6 +332,21 @@ CKEDITOR.editorConfig = function(config) {
 };
 ```
 
+### fooHook.js ###
+
+This file is __not required__.
+
+This file is used to apply a JavaScript code to the CMSUno core.
+It can be used to add items in the CMSUno menu bar or whatever.
+
+Example : 
+
+```
+jQuery(document).ready(function(){
+	jQuery('#topMenu').prepend('<li><a href="https://github.com">GitHub</a></li>');
+});
+```
+
 ### version.json ###
 
 This file is __required__. It allows to update the plugin online.
@@ -390,6 +405,9 @@ THE SOFTWARE.
 Versions
 --------
 
+* V1.2 - 24/05/2016 :
+	* CKEditor 4.5.9
+	* Add Uno hook in JS for the plugins
 * V1.1.9 - 18/04/2016 :
 	* Cache in htaccess
 	* Fix bugs

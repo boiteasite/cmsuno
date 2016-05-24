@@ -32,7 +32,10 @@ function f_init(){
 	x.setRequestHeader('Connection','close');
 	x.onreadystatechange=function(){
 		if(x.readyState==4&&x.status==200){
-			var r=JSON.parse(x.responseText),k;
+			var r=JSON.parse(x.responseText),k,j;
+			Ubusy=r['nom'];
+			Usty=r['sty'];
+			Utem=r['tem'];
 			if(r['pl'])for(k in r['pl']){
 				Uplugact[k]=r['pl'][k];
 			}
@@ -41,10 +44,13 @@ function f_init(){
 			}
 			if(r['plugins'])for(k in r['plugins']){
 				Upluglist[k]=r['plugins'][k];
+				if(r['plugins'][k].substr(0,1)=='2'){
+					j=document.createElement("script");
+					j.type="text/javascript";
+					j.src='uno/plugins/'+r['plugins'][k].substr(1)+'/'+r['plugins'][k].substr(1)+'Hook.js';
+					document.body.appendChild(j);
+				}
 			}
-			Ubusy=r['nom'];
-			Usty=r['sty'];
-			Utem=r['tem'];
 			var b=document.createElement('ul');
 			b.id='menuSort';
 			b.className='ui-sortable';
@@ -158,7 +164,7 @@ f_init();
 		<div class="container">
 			<span class="titre" href="/"><a href="https://github.com/boiteasite/cmsuno" title="<?php echo _("CMSUno on GitHub");?>" target="_blank">CMSUno<? if(isset($Uversion)) echo '&nbsp;<em>'.$Uversion.'</em>'; ?></a></span>
 			<div id="info"></div>
-			<ul>
+			<ul id="topMenu" class="topMenu">
 				<li id="wait"><img style="margin:2px 6px 0 0;" src="<?php echo $Udep; ?>includes/img/wait.gif" /></li>
 				<li><a id="apage" style="text-decoration:underline" href=""><?php echo _("Page");?></a></li>
 				<li><a id="aconfig" style="display:none;" onClick="f_config();" href="javascript:void(0)"><?php echo _("Settings");?></a></li>
@@ -694,7 +700,7 @@ function f_plugin(f){
 	d.name=f.substr(1);
 	d.style.display='inline-block';
 	c=f.substr(0,1);
-	if(c=='1'){
+	if(c=='1'||c=='2'){
 		d.checked=true;
 		d.nextSibling.innerHTML='<?php echo _("Enable");?>';
 		d.nextSibling.style.color='green';

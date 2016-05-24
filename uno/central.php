@@ -624,7 +624,11 @@ if(isset($_POST['action']))
 		sort($d);
 		foreach($d as $r)
 			{
-			if(isset($a['plug'][basename($r)])) $b[]='1'.basename($r);
+			if(isset($a['plug'][basename($r)]))
+				{
+				if(file_exists('plugins/'.basename($r).'/'.basename($r).'Hook.js')) $b[]='2'.basename($r); // Hook JS
+				else $b[]='1'.basename($r);
+				}
 			else $b[]='0'.basename($r);
 			}
 		echo json_encode($b);
@@ -678,7 +682,11 @@ if(isset($_POST['action']))
 		sort($d);
 		foreach($d as $r)
 			{
-			if(isset($a['plug'][basename($r)])) $a['plugins'][]='1'.basename($r);
+			if(isset($a['plug'][basename($r)]))
+				{
+				if(file_exists('plugins/'.basename($r).'/'.basename($r).'Hook.js')) $a['plugins'][]='2'.basename($r); // Hook JS
+				else $a['plugins'][]='1'.basename($r);
+				}
 			else $a['plugins'][]='0'.basename($r);
 			}
 		// 3. theme
@@ -847,6 +855,7 @@ if(isset($_POST['action']))
 					unlink($base.'/files/tmpuno3.zip');
 					unlink($base.'/files/tmpuno4.zip');
 					// 3. Save current datas
+					$q2 = @file_get_contents($base.'/uno/data/_sdata-'.$sdata.'/ssite.json');
 					if(is_dir($base.'/files/.tmb')) f_rmdirR($base.'/files/.tmb'); // free space
 					if(is_dir($base.'/uno/includes/elfinder/.tmb')) f_rmdirR($base.'/uno/includes/elfinder/.tmb');
 					if(is_dir($base.'/uno/data')) { f_copyDir($base.'/uno/data', $base.'/files/tmpdata'); f_rmdirR($base.'/uno/data'); }
@@ -864,7 +873,6 @@ if(isset($_POST['action']))
 					unlink($base.'/README.md');
 					f_copyDir($base.'/files/'.$d, $base);
 					f_rmdirR($base.'/files/'.$d);
-					$q2 = @file_get_contents('data/_sdata-'.$sdata.'/ssite.json');
 					if($q2)
 						{
 						$a2 = json_decode($q,true);
