@@ -146,11 +146,22 @@ function lastVersion($f,$g,$h)
 	return $a[0].'.'.$a[1].($a[2]?'.'.$a[2]:'');
 	}
 //
-function urlExists($f)
+function urlExists($u)
 	{
-	$file_headers = @get_headers($f);
-	if($file_headers[0]=='HTTP/1.1 404 Not Found') return false;
-	else return true;
+	$head = get_headers($u);
+	if($head && strpos($head[0],'404')===false) return true;
+	// other try with curl
+	if(!$head && function_exists('curl_version'))
+		{
+		$h = curl_init($u);
+		curl_setopt($h,  CURLOPT_RETURNTRANSFER, TRUE);
+		$res = curl_exec($h);
+		$cod = curl_getinfo($h, CURLINFO_HTTP_CODE);
+		curl_close($h);		
+		if($cod!=404) return true;
+		}
+	// not exists
+	return false;
 	}
 // ********************* actions *************************************************************************
 if(isset($_POST['action']))
