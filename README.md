@@ -405,9 +405,10 @@ THE SOFTWARE.
 Versions
 --------
 
-* V1.2 - 24/05/2016 :
+* V1.2 - 27/05/2016 :
 	* CKEditor 4.5.9
 	* Add Uno hook in JS for the plugins
+	* Change GitHub download URL (update CMSUno) and use Curl if exists
 * V1.1.9 - 18/04/2016 :
 	* Cache in htaccess
 	* Fix bugs

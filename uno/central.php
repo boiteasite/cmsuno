@@ -820,7 +820,16 @@ if(isset($_POST['action']))
 				if(isset($a['plug'][$u]['ext']) && isset($a['plug'][$u]['host']) && strpos($a['plug'][$u]['host'],'github.com')!==false)
 					{
 					$z = $a['plug'][$u]['host'].'archive/'.$a['plug'][$u]['ext'].'.zip';
-					file_put_contents('../files/tmp'.$u.'.zip', fopen($z, 'r'));
+					if(function_exists('curl_version'))
+						{
+						$ch = curl_init();
+						curl_setopt($ch, CURLOPT_URL, $z);
+						curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+						$data = curl_exec ($ch);
+						curl_close ($ch);
+						file_put_contents('../files/tmp'.$u.'.zip', $data);
+						}
+					else file_put_contents('../files/tmp'.$u.'.zip', fopen($z, 'r'));
 					$zip = new ZipArchive;
 					$f = $zip->open('../files/tmp'.$u.'.zip');
 					if($f===true)
@@ -844,11 +853,21 @@ if(isset($_POST['action']))
 				$q1 = file_get_contents('data/'.$Ubusy.'/site.json');
 				$a1 = json_decode($q,true);
 				// 1. Get new version
-				$z = 'https://github.com/boiteasite/cmsuno/archive/'.$a['uno']['ext'].'.zip';
-				file_put_contents('../files/tmpuno.zip', fopen($z, 'r'));
+		//		$z = 'https://github.com/boiteasite/cmsuno/archive/'.$a['uno']['ext'].'.zip';
+				$z = 'https://codeload.github.com/boiteasite/cmsuno/zip/'.$a['uno']['ext'];
+				if(function_exists('curl_version'))
+					{
+					$ch = curl_init();
+					curl_setopt($ch, CURLOPT_URL, $z);
+					curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+					$data = curl_exec ($ch);
+					curl_close ($ch);
+					file_put_contents('../files/tmpuno.zip', $data);
+					}
+				else file_put_contents('../files/tmpuno.zip', fopen($z, 'r'));
 				$zip = new ZipArchive;
 				$f = $zip->open('../files/tmpuno.zip');
-				if($f===true)
+				if($f===true && filesize('../files/tmpuno.zip')>10000)
 					{
 					// 2. check free space : 4 x zip
 					$sp = copy($base.'/files/tmpuno.zip', $base.'/files/tmpuno1.zip');
