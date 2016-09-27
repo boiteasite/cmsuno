@@ -1,7 +1,7 @@
 <?php
 // **********************************
 // CMSUno
-$version = '1.2';
+$version = '1.3';
 // **********************************
 ini_set('session.use_trans_sid', 0);
 session_start();
@@ -21,7 +21,7 @@ if(!isset($Uversion) || (isset($version) && $Uversion!=$version))
 	$Uversion = (isset($version)?$version:'1.0');
 	}
 include('uno/includes/lang/lang.php');
-$Urawgit = "https://cdn.rawgit.com/boiteasite/cmsuno/";
+$Urawgit = "//cdn.rawgit.com/boiteasite/cmsuno/";
 if (!is_dir('uno/includes/js/ckeditor/')) $Udep = $Urawgit.$Uversion."/uno/"; else $Udep = "uno/"; // LIGHT HOSTED VERSION
 if (isset($_POST['user']) && isset($_POST['pass']))
 	{
@@ -79,9 +79,9 @@ if (isset($_POST['user']) && isset($_POST['pass']))
 			}
 		}
 	else sleep(2);
-	if(is_dir('files') && is_writable(dirname(__FILE__)) && is_writable(dirname(__FILE__).'/uno')) echo '<script type="text/javascript">window.location=document.URL; </script>';
-	else if(!is_writable(dirname(__FILE__))) echo '<div style="clear:both;text-align:center;color:red;font-weight:700;padding-top:20px;"><span  style="color:#000;">'.dirname(__FILE__).'</span>&nbsp'._("must writable recursively !").'</div>';
-	else if(!is_writable(dirname(__FILE__).'/uno')) echo '<div style="clear:both;text-align:center;color:red;font-weight:700;padding-top:20px;"><span  style="color:#000;">'.dirname(__FILE__).'/uno</span>&nbsp'._("must writable recursively !").'</div>';
+	if(!is_writable(dirname(__FILE__))) echo '<div style="clear:both;text-align:center;color:red;font-weight:700;padding-top:20px;"><span  style="color:#000;">'.dirname(__FILE__).'</span>&nbsp'.T_("must writable recursively !").'</div>';
+	else if(!is_writable(dirname(__FILE__).'/uno')) echo '<div style="clear:both;text-align:center;color:red;font-weight:700;padding-top:20px;"><span  style="color:#000;">'.dirname(__FILE__).'/uno</span>&nbsp'.T_("must writable recursively !").'</div>';
+	else echo '<script type="text/javascript">window.location=document.URL; </script>';
 	}
 //
 else if (isset($_POST['logout']) && $_POST['logout']==1)
@@ -105,7 +105,7 @@ else { ?>
 <head>
 	<meta charset="utf-8" />
 	<meta name="robots" content="noindex" />
-	<title>CMSUno - <?php echo _("Login");?></title>
+	<title>CMSUno - <?php echo T_("Login");?></title>
 	<link rel="icon" type="image/png" href="<?php echo $Udep; ?>includes/img/favicon.png" />
 	<link rel="stylesheet" href="<?php echo $Udep; ?>includes/css/uno.css" />
 	<script src="<?php if($Udep!='uno/') echo 'https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js'; else echo 'uno/includes/js/jquery-2.1.4.min.js'; ?>"></script>
@@ -114,14 +114,14 @@ else { ?>
 <body>
 	<div class="blocTop bgNoir">
 		<div class="container">
-			<span class="titre" href="/">CMSUno<? if(isset($Uversion)) echo '&nbsp;<em>'.$Uversion.'</em>'; ?></span>
+			<span class="titre" href="/">CMSUno<?php if(isset($Uversion)) echo '&nbsp;<em>'.$Uversion.'</em>'; ?></span>
 			<ul id="topMenu" class="topMenu">
 				<?php 
 				if(file_exists('uno/data/busy.json')) { $q = file_get_contents('uno/data/busy.json'); $a = json_decode($q,true); $Ubusy = $a['nom']; }
 				else $Ubusy = 'index';
 				?>
 				<li id="wait"><img style="margin:2px 6px 0 0;display:none;" src="<?php echo $Udep; ?>includes/img/wait.gif" /></li>
-				<li><a href="<?php echo $Ubusy; ?>.html" target="_blank"><?php echo _("See the website");?></a></li>
+				<li><a href="<?php echo $Ubusy; ?>.html" target="_blank"><?php echo T_("See the website");?></a></li>
 			</ul>
 		</div>
 	</div><!-- .blocTop-->
@@ -130,25 +130,25 @@ else { ?>
 		<form class="blocLogin" method="POST" action="">
 			<img style="margin-bottom:20px;" src="<?php echo $Udep; ?>includes/img/logo-uno220.png" alt="cms uno" />
 			<div class="clearfix">
-				<label><?php echo _("Administrator");?></label>
+				<label><?php echo T_("Administrator");?></label>
 				<div>
 					<input type="text" class="input" name="user" id="username" />
 				</div>
 			</div>
 			<div class="clearfix">
-				<label><?php echo _("Password");?></label>
+				<label><?php echo T_("Password");?></label>
 				<div>
 					<input type="password" class="input" name="pass" id="password" />
 				</div>
 			</div>
 			<div>
-				<input type="submit" class="bouton fr" value="<?php echo _("Login");?>" />
+				<input type="submit" class="bouton fr" value="<?php echo T_("Login");?>" />
 			</div>
 		</form>
 		<div style="clear:both;text-align:center;color:red;font-weight:700;padding-top:20px;">
 		<?php
-			if(!is_writable(dirname(__FILE__))) echo '<span  style="color:#000;">'.dirname(__FILE__).'</span>&nbsp'._("must writable recursively !");
-			else if(!is_writable(dirname(__FILE__).'/uno')) echo '<br /><span  style="color:#000;">'.dirname(__FILE__).'/uno</span>&nbsp'._("must writable recursively !");
+			if(!is_writable(dirname(__FILE__))) echo '<span  style="color:#000;">'.dirname(__FILE__).'</span>&nbsp'.T_("must writable recursively !");
+			else if(!is_writable(dirname(__FILE__).'/uno')) echo '<br /><span  style="color:#000;">'.dirname(__FILE__).'/uno</span>&nbsp'.T_("must writable recursively !");
 		?>
 		</div>
 	</div><!-- .container -->

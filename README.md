@@ -42,7 +42,7 @@ The server has nothing to build, the page displays faster than any other CMS.
 * Use of effective tools, tested and monitored as [CKEditor](http://ckeditor.com/) and [ELFinder](https://github.com/Studio-42/elFinder).
 * Development of plugins easy and effective.
 * Adaptation of open source CSS template fast and easy.
-* Multilingual with Gettext.
+* Multilingual with PHP-Gettext.
 * Inline Update button for CMSUno and plugins.
 * Less than 1MB. Centralized hosting of part of the code on GitHub servers.
 
@@ -206,7 +206,7 @@ if (isset($_POST['action']))
 		case 'plugin': ?>
 		<div class="blocForm">
 			<h2>Foo</h2>
-			<p><?php echo _("This plugin is used to...");?></p>
+			<p><?php echo T_("This plugin is used to...");?></p>
 			<!--   CONFIG FORM IF NEEDED... -->
 			<!-- ... -->
 			?>
@@ -220,8 +220,8 @@ if (isset($_POST['action']))
 		$a['lol'] = $_POST['lol'];
 		$a['yeswecan'] = $_POST['yeswecan'];
 		$out = json_encode($a);
-		if (file_put_contents('../../data/'.$Ubusy.'/foo.json', $out)) echo _('Backup performed');
-		else echo '!'._('Impossible backup');
+		if (file_put_contents('../../data/'.$Ubusy.'/foo.json', $out)) echo T_('Backup performed');
+		else echo '!'.T_('Impossible backup');
 		break;
 		// ***********************
 		}
@@ -405,6 +405,10 @@ THE SOFTWARE.
 Versions
 --------
 
+* V1.3 - 27/09/2016 :
+	* CKEditor 4.5.11
+	* Use PHP-Gettext in place of gettext
+	* Fix ajax issue with some server
 * V1.2 - 27/05/2016 :
 	* CKEditor 4.5.9
 	* Add Uno hook in JS for the plugins

@@ -197,7 +197,7 @@ if(isset($_POST['action']))
 		$Ubusy = 'index';
 		}
 	if(!file_exists('data/'.$Ubusy.'/chap0.txt')) file_put_contents('data/'.$Ubusy.'/chap0.txt', 'blabla...');
-	if(!file_exists('data/'.$Ubusy.'/site.json')) file_put_contents('data/'.$Ubusy.'/site.json', '{"chap":[{"d":"0","t":"'._("Welcome").'"}],"pub":0}');
+	if(!file_exists('data/'.$Ubusy.'/site.json')) file_put_contents('data/'.$Ubusy.'/site.json', '{"chap":[{"d":"0","t":"'.T_("Welcome").'"}],"pub":0}');
 	switch ($_POST['action'])
 		{
 		// ********************************************************************************************
@@ -255,8 +255,8 @@ if(isset($_POST['action']))
 		if(!isset($a['jq'])) $a['jq'] = 0; // default
 		$c = preg_replace_callback('/(<img[^>]*src=["\'])([^"\']*)/', function($m) { return ''.$m[1].substr($m[2],strpos($m[2],'files/'));}, $_POST['content']); // lien relatif
 		$out = json_encode($a);
-		if(file_put_contents('data/'.$Ubusy.'/site.json', $out) && file_put_contents('data/'.$Ubusy.'/chap'.$_POST['data'].'.txt', $c)) echo _('Backup performed');
-		else echo '!'._('Impossible backup');
+		if(file_put_contents('data/'.$Ubusy.'/site.json', $out) && file_put_contents('data/'.$Ubusy.'/chap'.$_POST['data'].'.txt', $c)) echo T_('Backup performed');
+		else echo '!'.T_('Impossible backup');
 		break;
 		// ********************************************************************************************
 		case 'sauvePlace':
@@ -289,10 +289,10 @@ if(isset($_POST['action']))
 					}
 				}
 			$out = json_encode($a);
-			if(file_put_contents('data/'.$Ubusy.'/site.json', $out)) echo _('Change made');
-			else echo '!'._('Error');
+			if(file_put_contents('data/'.$Ubusy.'/site.json', $out)) echo T_('Change made');
+			else echo '!'.T_('Error');
 			}
-		else echo _('No change');
+		else echo T_('No change');
 		break;
 		// ********************************************************************************************
 		case 'sauvePass':
@@ -302,19 +302,19 @@ if(isset($_POST['action']))
 		if($_POST['user0']=='' || $_POST['pass0']=='') // only lang
 			{
 			$config = '<?php $lang = "'.$_POST['lang'].'"; $sdata = "'.$sdata.'"; $Uversion = "'.(isset($Uversion)?$Uversion:'1.0').'"; ?>';
-			if(file_put_contents('config.php', $config)) echo _('The language was changed');
-			else echo '!'._('Impossible backup');
+			if(file_put_contents('config.php', $config)) echo T_('The language was changed');
+			else echo '!'.T_('Impossible backup');
 			}
 		else if($_POST['user0']!=$user || $_POST['pass0']!=$pass)
 			{
-			echo '!'._('Wrong current elements'); exit;
+			echo '!'.T_('Wrong current elements'); exit;
 			}
 		else
 			{
 			$password = '<?php if(!defined(\'CMSUNO\')) exit(); $user = "'.$a.'"; $pass = "'.$b.'"; ?>';
 			$config = '<?php $lang = "'.$_POST['lang'].'"; $sdata = "'.$sdata.'"; $Uversion = "'.(isset($Uversion)?$Uversion:'1.0').'"; ?>';
-			if(file_put_contents('password.php', $password) && file_put_contents('config.php', $config)) echo _('The login / password were changed');
-			else echo '!'._('Impossible backup');
+			if(file_put_contents('password.php', $password) && file_put_contents('config.php', $config)) echo T_('The login / password were changed');
+			else echo '!'.T_('Impossible backup');
 			}
 		break;
 		// ********************************************************************************************
@@ -354,8 +354,8 @@ if(isset($_POST['action']))
 		if($_POST['jq']=="true") $a['jq']=1; else $a['jq']=0;
 		if($_POST['sty']=="true") $a['sty']=1; else $a['sty']=0;
 		$out = json_encode($a);
-		if(file_put_contents('data/'.$Ubusy.'/site.json', $out)) echo _('Backup performed');
-		else echo '!'._('Impossible backup');
+		if(file_put_contents('data/'.$Ubusy.'/site.json', $out)) echo T_('Backup performed');
+		else echo '!'.T_('Impossible backup');
 		break;
 		// ********************************************************************************************
 		case 'nouvChap':
@@ -368,14 +368,14 @@ if(isset($_POST['action']))
 			{
 			if($b==0 && $k==$_POST['chap'])
 				{
-				$a['chap'][$k+1] = array("d"=>$d,"t"=>_("new chapter"));
+				$a['chap'][$k+1] = array("d"=>$d,"t"=>T_("new chapter"));
 				$b=1;
 				}
 			else if($b==1) $a['chap'][$k+1] = $v; // decallage de +1 des clefs
 			}
 		$out = json_encode($a);
-		if(file_put_contents('data/'.$Ubusy.'/site.json', $out) && file_put_contents('data/'.$Ubusy.'/chap'.$d.'.txt',' ')) echo _('Chapter created');
-		else echo '!'._('Failure');
+		if(file_put_contents('data/'.$Ubusy.'/site.json', $out) && file_put_contents('data/'.$Ubusy.'/chap'.$d.'.txt',' ')) echo T_('Chapter created');
+		else echo '!'.T_('Failure');
 		break;
 		// ********************************************************************************************
 		case 'suppChap':
@@ -393,8 +393,8 @@ if(isset($_POST['action']))
 			}
 		if(empty($a['chap'])) $a['chap'][0]=array("d"=>"0","t"=>"Welcome");
 		$out = json_encode($a);
-		if(file_put_contents('data/'.$Ubusy.'/site.json', $out)) echo _('Deletion complete');
-		else echo '!'._('Failure');
+		if(file_put_contents('data/'.$Ubusy.'/site.json', $out)) echo T_('Deletion complete');
+		else echo '!'.T_('Failure');
 		break;
 		// ********************************************************************************************
 		// SHORTCODE [[foo]] : title, description, template, head, foot, menu, jsmenu, content
@@ -408,7 +408,7 @@ if(isset($_POST['action']))
 		$Ua = json_decode($q,true);
 		if(!isset($Ua['tem']) || !isset($Ua['url']) || !isset($Ua['tit']) || !isset($Ua['desc']) || !isset($Ua['ofs']))
 			{
-			echo '!'._('Save Config First');
+			echo '!'.T_('Save Config First');
 			exit;
 			}
 		$Uscript .= 'var Umenuoffset='.intval($Ua['ofs']).';';
@@ -516,8 +516,8 @@ if(isset($_POST['action']))
 		$Ua['pub'] = 0;
 		if(!isset($Ua['nom'])) $Ua['nom']='index';
 		$out = json_encode($Ua);
-		if(file_put_contents('data/'.$Ubusy.'/site.json', $out) && file_put_contents('../'.$Ua['nom'].'.html', $Uhtml)) echo _('The site has been updated');
-		else echo '!'._('Failure');
+		if(file_put_contents('data/'.$Ubusy.'/site.json', $out) && file_put_contents('../'.$Ua['nom'].'.html', $Uhtml)) echo T_('The site has been updated');
+		else echo '!'.T_('Failure');
 		break;
 		// ********************************************************************************************
 		case 'error':
@@ -537,18 +537,18 @@ if(isset($_POST['action']))
 		$Ua = json_decode($q,true);
 		if(file_exists('../'.$Ua['nom'].'.html'))
 			{
-			if(unlink('../'.$Ua['nom'].'.html')) echo _('Publication deleted');
-			else echo '!'._('Failure');
+			if(unlink('../'.$Ua['nom'].'.html')) echo T_('Publication deleted');
+			else echo '!'.T_('Failure');
 			}
-		else echo '!'._('Missing file');
+		else echo '!'.T_('Missing file');
 		break;
 		// ********************************************************************************************
 		case 'archivage':
 		$d = 'data/_sdata-'.$sdata.'/_unosave';
 		$n = $d.'/unosave-'.date('Ymd-Hi').'.zip';
 		if(!file_exists($d)) mkdir($d, 0755, true);
-		if(f_zip('data/',$n,1)) echo _('Archiving performed');
-		else echo '!'._('Failure');
+		if(f_zip('data/',$n,1)) echo T_('Archiving performed');
+		else echo '!'.T_('Failure');
 		break;
 		// ********************************************************************************************
 		case 'selectArchive':
@@ -586,14 +586,14 @@ if(isset($_POST['action']))
 			mkdir('data/_sdata-'.$sdata.'/_unosave');
 			f_copyDir('_unosave', 'data/_sdata-'.$sdata.'/_unosave', 0711);
 			f_rmdirR('_unosave');
-			echo _('Recovery performed');
+			echo T_('Recovery performed');
 			}
-		else echo '!'._('Failure');
+		else echo '!'.T_('Failure');
 		break;
 		// ********************************************************************************************
 		case 'archDel':
-		if(unlink($_POST['zip'])) echo _('Backup removed');
-		else echo '!'._('Failure');
+		if(unlink($_POST['zip'])) echo T_('Backup removed');
+		else echo '!'.T_('Failure');
 		break;
 		// ********************************************************************************************
 		case 'archDownload':
@@ -604,7 +604,7 @@ if(isset($_POST['action']))
 			if(isset($a['url']) && copy($_POST['zip'], '../files/archive.zip')) echo $a['url'].'/files/archive.zip';
 			exit;
 			}
-		echo '!'._('Failure');
+		echo '!'.T_('Failure');
 		break;
 		// ********************************************************************************************
 		case 'filesDownload':
@@ -616,7 +616,7 @@ if(isset($_POST['action']))
 			if(isset($a['url']) && f_zip('../files/', '../files/archive.zip',0)) echo $a['url'].'/files/archive.zip';
 			exit;
 			}
-		echo '!'._('Failure');
+		echo '!'.T_('Failure');
 		break;
 		// ********************************************************************************************
 		case 'plugins':
@@ -842,7 +842,7 @@ if(isset($_POST['action']))
 						unlink('../files/tmp'.$u.'.zip');
 						$a['plug'][$u]['in'] = $a['plug'][$u]['ext'];
 						file_put_contents('data/update.json', json_encode($a));
-						echo _('New Version Installed').'|'.$a['plug'][$u]['ext'];
+						echo T_('New Version Installed').'|'.$a['plug'][$u]['ext'];
 						$r= 1;
 						}
 					}
@@ -877,7 +877,7 @@ if(isset($_POST['action']))
 					if(!file_exists($base.'/files/tmpuno1.zip') || !file_exists($base.'/files/tmpuno2.zip') || !file_exists($base.'/files/tmpuno3.zip') || !file_exists($base.'/files/tmpuno4.zip')) $sp = false;
 					if(!$sp)
 						{
-						echo '!'._('Not enough disk space');
+						echo '!'.T_('Not enough disk space');
 						break;
 						}
 					unlink($base.'/files/tmpuno1.zip');
@@ -923,12 +923,12 @@ if(isset($_POST['action']))
 					copy($base.'/files/tmppassword.php', $base.'/uno/password.php'); unlink($base.'/files/tmppassword.php');
 					$config = '<?php $lang = "'.$lang.'"; $sdata = "'.$sdata.'"; $Uversion = "'.$a['uno']['ext'].'"; ?>';
 					file_put_contents($base.'/uno/config.php', $config);
-					echo _('New Version Installed').'|'.$a['uno']['ext'];
+					echo T_('New Version Installed').'|'.$a['uno']['ext'];
 					$r= 1;
 					}
 				}
 			}
-		if(!$r) echo '!'._('Failure');
+		if(!$r) echo '!'.T_('Failure');
 		break;
 		// ********************************************************************************************
 		case 'lighter':
@@ -942,7 +942,7 @@ if(isset($_POST['action']))
 		$a['git'] = 1; // here in case of multipage
 		$out = json_encode($a);
 		file_put_contents('data/_sdata-'.$sdata.'/ssite.json',$out);
-		echo _('CMSUno is in Lightened Version');
+		echo T_('CMSUno is in Lightened Version');
 		break;
 		// ********************************************************************************************
 		}

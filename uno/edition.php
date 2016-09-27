@@ -42,15 +42,7 @@ function f_init(){
 			if(r['ck'])for(k in r['ck']){
 				UconfigFile[k]=r['ck'][k];
 			}
-			if(r['plugins'])for(k in r['plugins']){
-				Upluglist[k]=r['plugins'][k];
-				if(r['plugins'][k].substr(0,1)=='2'){
-					j=document.createElement("script");
-					j.type="text/javascript";
-					j.src='uno/plugins/'+r['plugins'][k].substr(1)+'/'+r['plugins'][k].substr(1)+'Hook.js';
-					document.body.appendChild(j);
-				}
-			}
+			if(r['plugins'])f_load_plugin_hook(r['plugins']);
 			var b=document.createElement('ul');
 			b.id='menuSort';
 			b.className='ui-sortable';
@@ -64,7 +56,7 @@ function f_init(){
 					function f_clic(k,c){
 						c.onclick=function(){
 							if(Uch==1){
-								f_alert('!<?php echo _("do not save ?");?>');
+								f_alert('!<?php echo T_("do not save ?");?>');
 								Uch=0;
 							}
 							else{
@@ -154,6 +146,20 @@ function f_init(){
 	};
 	x.send(p);
 }
+function f_load_plugin_hook(f){
+	if(window.jQuery){
+		for(k in f){
+			Upluglist[k]=f[k];
+			if(f[k].substr(0,1)=='2'){
+				j=document.createElement("script");
+				j.type="text/javascript";
+				j.src='uno/plugins/'+f[k].substr(1)+'/'+f[k].substr(1)+'Hook.js';
+				document.body.appendChild(j);
+			}
+		}
+	}
+	else setTimeout(function(){f_load_plugin_hook(f)},50);
+}
 f_init();
 </script>
 <link rel="icon" type="image/png" href="<?php echo $Udep; ?>includes/img/favicon.png" />
@@ -162,23 +168,23 @@ f_init();
 <body>
 	<div class="blocTop bgNoir">
 		<div class="container">
-			<span class="titre" href="/"><a href="https://github.com/boiteasite/cmsuno" title="<?php echo _("CMSUno on GitHub");?>" target="_blank">CMSUno<? if(isset($Uversion)) echo '&nbsp;<em>'.$Uversion.'</em>'; ?></a></span>
+			<span class="titre" href="/"><a href="https://github.com/boiteasite/cmsuno" title="<?php echo T_("CMSUno on GitHub");?>" target="_blank">CMSUno<? if(isset($Uversion)) echo '&nbsp;<em>'.$Uversion.'</em>'; ?></a></span>
 			<div id="info"></div>
 			<ul id="topMenu" class="topMenu">
 				<li id="wait"><img style="margin:2px 6px 0 0;" src="<?php echo $Udep; ?>includes/img/wait.gif" /></li>
-				<li><a id="apage" style="text-decoration:underline" href=""><?php echo _("Page");?></a></li>
-				<li><a id="aconfig" style="display:none;" onClick="f_config();" href="javascript:void(0)"><?php echo _("Settings");?></a></li>
-				<li><a id="aplugin" style="display:none;" onClick="f_plugin(0);f_plugAll(document.getElementById('plugOnOff'),1)" href="javascript:void(0)"><?php echo _("Plugins");?></a></li>
-				<li><a id="avoir" href="index.html" target="_blank"><?php echo _("See the website");?></a></li>
-				<li><a id="alogout" onClick="f_logout();" href="javascript:void(0)"><?php echo _("Log out");?></a></li>
+				<li><a id="apage" style="text-decoration:underline" href=""><?php echo T_("Page");?></a></li>
+				<li><a id="aconfig" style="display:none;" onClick="f_config();" href="javascript:void(0)"><?php echo T_("Settings");?></a></li>
+				<li><a id="aplugin" style="display:none;" onClick="f_plugin(0);f_plugAll(document.getElementById('plugOnOff'),1)" href="javascript:void(0)"><?php echo T_("Plugins");?></a></li>
+				<li><a id="avoir" href="index.html" target="_blank"><?php echo T_("See the website");?></a></li>
+				<li><a id="alogout" onClick="f_logout();" href="javascript:void(0)"><?php echo T_("Log out");?></a></li>
 			</ul>
 		</div>
 	</div><!-- .blocTop-->
 
 	<div id="chaps" class="container">
 		<div class="blocBouton">
-			<div class="bouton finder fr" id="boutonFinder0" onClick="f_elfinder(0)" title="<?php echo _("File manager");?>"><img src="<?php echo $Udep; ?>includes/img/finder.png" /></div>
-			<div class="bouton fr" onClick="f_publier();" title="<?php echo _("Publish on the web all saved chapters");?>"><?php echo _("Publish");?></div>
+			<div class="bouton finder fr" id="boutonFinder0" onClick="f_elfinder(0)" title="<?php echo T_("File manager");?>"><img src="<?php echo $Udep; ?>includes/img/finder.png" /></div>
+			<div class="bouton fr" onClick="f_publier();" title="<?php echo T_("Publish on the web all saved chapters");?>"><?php echo T_("Publish");?></div>
 			<div id="menu"></div>
 		</div>
 		<div id="finderDiv"></div>
@@ -189,20 +195,20 @@ f_init();
 		</div>
 		<div class="blocBouton" style="text-align:right;">
 			<div id="optOnOff" class="onoff" onClick="f_chapOption(this);"></div>
-			<div class="bouton fl" onClick="f_supp_chap();" title="<?php echo _("Remove this chapter and title");?>"><?php echo _("Delete Chapter");?></div>
+			<div class="bouton fl" onClick="f_supp_chap();" title="<?php echo T_("Remove this chapter and title");?>"><?php echo T_("Delete Chapter");?></div>
 			<span class="blocInput fl">
-				<label class="label"><?php echo _("Chapter title");?>&nbsp;:</label>
+				<label class="label"><?php echo T_("Chapter title");?>&nbsp;:</label>
 				<input type="text" id="titreChap" name="titre" class="input" style="" />
 			</span>
-			<div class="bouton" onClick="f_nouv_chap();" title="<?php echo _("Inserts a chapter after this one. Have you saved ?");?>"><?php echo _("New chapter");?></div>
-			<div class="bouton" id="boutonSauv" onClick="f_sauve_chap();" title="<?php echo _("Save this chapter and title");?>"><?php echo _("Save Chapter");?></div>
-			<div class="bouton" id="boutonPub" onClick="f_publier();" title="<?php echo _("Publish on the web all saved chapters");?>"><?php echo _("Publish");?></div>
+			<div class="bouton" onClick="f_nouv_chap();" title="<?php echo T_("Inserts a chapter after this one. Have you saved ?");?>"><?php echo T_("New chapter");?></div>
+			<div class="bouton" id="boutonSauv" onClick="f_sauve_chap();" title="<?php echo T_("Save this chapter and title");?>"><?php echo T_("Save Chapter");?></div>
+			<div class="bouton" id="boutonPub" onClick="f_publier();" title="<?php echo T_("Publish on the web all saved chapters");?>"><?php echo T_("Publish");?></div>
 			<div id="chapOpt" class="chapOpt" style="position:relative;display:none;text-align:left;clear:both;">
-				<div class="bouton fr" onClick="f_suppPub();" title="<?php echo _("Destroy the HTML file of this page (not the data)");?>"><?php echo _("Delete Publication");?></div>
+				<div class="bouton fr" onClick="f_suppPub();" title="<?php echo T_("Destroy the HTML file of this page (not the data)");?>"><?php echo T_("Delete Publication");?></div>
 				<div style="padding-top:12px;">
-					<label><?php echo _("No Title");?></label><input type="checkbox" class="input" name="optTit" id="optTit" />
-					<label><?php echo _("Not in menu");?></label><input type="checkbox" class="input" name="optMenu" id="optMenu" />
-					<label><?php echo _("Hidden");?></label><input type="checkbox" class="input" name="optDisp" id="optDisp" />
+					<label><?php echo T_("No Title");?></label><input type="checkbox" class="input" name="optTit" id="optTit" />
+					<label><?php echo T_("Not in menu");?></label><input type="checkbox" class="input" name="optMenu" id="optMenu" />
+					<label><?php echo T_("Hidden");?></label><input type="checkbox" class="input" name="optDisp" id="optDisp" />
 				</div>
 				<div class="clear"></div>
 			</div>
@@ -210,138 +216,138 @@ f_init();
 	</div><!-- .container -->
 	<div id="config" class="container" style="display:none;">
 		<div class="blocForm">
-			<div class="bouton fr" onClick="f_publier();" title="<?php echo _("Publish on the web all saved chapters");?>"><?php echo _("Publish");?></div>
+			<div class="bouton fr" onClick="f_publier();" title="<?php echo T_("Publish on the web all saved chapters");?>"><?php echo T_("Publish");?></div>
 			<h2><?php 
-			echo _("My Card"); ?></h2>
+			echo T_("My Card"); ?></h2>
 			<table class="hForm">
 				<tr>
-					<td><label><?php echo _("Page Title");?></label></td>
+					<td><label><?php echo T_("Page Title");?></label></td>
 					<td><input type="text" class="input" name="tit" id="tit" onkeyup="f_ctit(this);" /><span id="ctit"></span></td>
-					<td><em><?php echo _("Very important. The most important words at the beginning. 65 characters max.");?></em></td>
+					<td><em><?php echo T_("Very important. The most important words at the beginning. 65 characters max.");?></em></td>
 				</tr><tr>
-					<td><label><?php echo _("Page Description");?></label></td>
+					<td><label><?php echo T_("Page Description");?></label></td>
 					<td><input type="text" class="input" name="desc" id="desc" onkeyup="f_cdesc(this);" /><span id="cdesc"></span></td>
-					<td><em><?php echo _("Important for attracting visitors. 156 characters max.");?></em></td>
+					<td><em><?php echo T_("Important for attracting visitors. 156 characters max.");?></em></td>
 				</tr><tr>
-					<td><label><?php echo _("Base URL");?></label></td>
+					<td><label><?php echo T_("Base URL");?></label></td>
 					<td><input type="text" class="input" name="url" id="url" /></td>
-					<td><em><?php echo _("Base URL for this site (URL displayed by the browser without uno.php).");?></em></td>
+					<td><em><?php echo T_("Base URL for this site (URL displayed by the browser without uno.php).");?></em></td>
 				</tr><tr>
-					<td><label><?php echo _("Filename");?></label></td>
+					<td><label><?php echo T_("Filename");?></label></td>
 					<td><input type="text" class="input" style="text-align:right;width:100px;" name="nom" id="nom" />.html</td>
-					<td><em><?php echo _("Created file will be index.html by default.");?></em></td>
+					<td><em><?php echo T_("Created file will be index.html by default.");?></em></td>
 				</tr><tr>
-					<td><label><?php echo _("E-mail");?></label></td>
+					<td><label><?php echo T_("E-mail");?></label></td>
 					<td><input type="text" class="input" name="mel" id="mel" /></td>
-					<td><em><?php echo _("Email address of the site administrator.");?></em></td>
+					<td><em><?php echo T_("Email address of the site administrator.");?></em></td>
 				</tr><tr>
-					<td><label><?php echo _("Theme");?></label></td>
+					<td><label><?php echo T_("Theme");?></label></td>
 					<td>
 						<select name="tem" id="tem">
 						<?php f_theme(); ?>
 						
 						</select>
 					</td>
-					<td><em><?php echo _("Theme to use for this page.");?></em></td>
+					<td><em><?php echo T_("Theme to use for this page.");?></em></td>
 				</tr>
 			</table>
-			<h2><?php echo _("Options");?></h2>
+			<h2><?php echo T_("Options");?></h2>
 			<table class="hForm">
 				<tr>
-					<td><label><?php echo _("LazyLoad");?></label></td>
+					<td><label><?php echo T_("LazyLoad");?></label></td>
 					<td><input type="checkbox" class="input" name="lazy" id="lazy" /></td>
-					<td><em><?php echo _("Dynamic images loading (recommended)");?></em></td>
+					<td><em><?php echo T_("Dynamic images loading (recommended)");?></em></td>
 				</tr><tr>
-					<td><label><?php echo _("Load JQuery");?></label></td>
+					<td><label><?php echo T_("Load JQuery");?></label></td>
 					<td><input type="checkbox" class="input" name="jq" id="jq" /></td>
-					<td><em><?php echo _("Javascript library useful for some plugins. (not recommended if not required)");?></em></td>
+					<td><em><?php echo T_("Javascript library useful for some plugins. (not recommended if not required)");?></em></td>
 				</tr><tr>
-					<td><label><?php echo _("CSS template");?></label></td>
+					<td><label><?php echo T_("CSS template");?></label></td>
 					<td><input type="checkbox" class="input" name="sty" id="sty" /></td>
-					<td><em><?php echo _("Same styles in the editor and page. Ref");?> : <span style='font-weight:700'>style.css</span> <?php echo _("or");?> <span style='font-weight:700'>styles.css</span> <?php echo _("in");?> <span style='font-weight:700'>template/</span> <?php echo _("or");?> <span style='font-weight:700'>template/css/</span>.</em></td>
+					<td><em><?php echo T_("Same styles in the editor and page. Ref");?> : <span style='font-weight:700'>style.css</span> <?php echo T_("or");?> <span style='font-weight:700'>styles.css</span> <?php echo T_("in");?> <span style='font-weight:700'>template/</span> <?php echo T_("or");?> <span style='font-weight:700'>template/css/</span>.</em></td>
 				</tr><tr>
-					<td><label><?php echo _("Width page");?> (px)</label></td>
+					<td><label><?php echo T_("Width page");?> (px)</label></td>
 					<td><input type="text" class="input" name="edw" id="edw" style="width:50px;" maxlength="4" onkeypress="return f_nombre(event)"/></td>
-					<td><em><?php echo _("Adapt the editor width with the observed width of the HTML page. (960 by default)");?></em></td>
+					<td><em><?php echo T_("Adapt the editor width with the observed width of the HTML page. (960 by default)");?></em></td>
 				</tr><tr>
-					<td><label><?php echo _("Menu offset");?> (px)</label></td>
+					<td><label><?php echo T_("Menu offset");?> (px)</label></td>
 					<td><input type="text" class="input" name="ofs" id="ofs" style="width:50px;" maxlength="4" onkeypress="return f_nombre(event)"/></td>
-					<td><em><?php echo _("Margin height upon arrival on a chapter after clicking on the menu (0 by default)");?></em></td>
+					<td><em><?php echo T_("Margin height upon arrival on a chapter after clicking on the menu (0 by default)");?></em></td>
 				</tr>
 			</table>
-			<div class="bouton fr" id="boutonConfig" onClick="f_sauve_config();" title="<?php echo _("Saves settings");?>"><?php echo _("Save");?></div>
+			<div class="bouton fr" id="boutonConfig" onClick="f_sauve_config();" title="<?php echo T_("Saves settings");?>"><?php echo T_("Save");?></div>
 			<div class="clear"></div>
 		</div>
 		<div class="blocBouton">
 			<div id="archOnOff" class="onoff" onClick="f_archOption(this);"></div>
-			<div class="bouton fr" onClick="f_archivage();" title="<?php echo _("Save all the website");?>"><?php echo _("Make a backup");?></div>
-			<div id="boutonRestaure" class="bouton fl" onClick="f_restaure(document.getElementById('archive').options[document.getElementById('archive').selectedIndex].value);" title="<?php echo _("Restore a backup (delete the current site)");?>"><?php echo _("Restore a backup");?></div>
+			<div class="bouton fr" onClick="f_archivage();" title="<?php echo T_("Save all the website");?>"><?php echo T_("Make a backup");?></div>
+			<div id="boutonRestaure" class="bouton fl" onClick="f_restaure(document.getElementById('archive').options[document.getElementById('archive').selectedIndex].value);" title="<?php echo T_("Restore a backup (delete the current site)");?>"><?php echo T_("Restore a backup");?></div>
 			<div id="blocArchive"></div>
 			<div id="archOpt" class="archOpt" style="position:relative;display:none;text-align:left;clear:both;">
-				<div class="bouton" onClick="f_archDel(document.getElementById('archive').options[document.getElementById('archive').selectedIndex].value);" title="<?php echo _("Remove this backup");?>"><?php echo _("Remove this backup");?></div>
-				<div class="bouton" onClick="f_archDownload(document.getElementById('archive').options[document.getElementById('archive').selectedIndex].value);" title="<?php echo _("Download this backup");?>"><?php echo _("Download this backup");?></div>
-				<div class="bouton fr" onClick="f_fileDownload();" title="<?php echo _("Download all Finder files");?>"><?php echo _("Download all Finder files");?></div>
+				<div class="bouton" onClick="f_archDel(document.getElementById('archive').options[document.getElementById('archive').selectedIndex].value);" title="<?php echo T_("Remove this backup");?>"><?php echo T_("Remove this backup");?></div>
+				<div class="bouton" onClick="f_archDownload(document.getElementById('archive').options[document.getElementById('archive').selectedIndex].value);" title="<?php echo T_("Download this backup");?>"><?php echo T_("Download this backup");?></div>
+				<div class="bouton fr" onClick="f_fileDownload();" title="<?php echo T_("Download all Finder files");?>"><?php echo T_("Download all Finder files");?></div>
 				<div class="clear"></div>
 			</div>
 		</div>
 		<div class="blocForm">
-			<h2><?php echo _("Change Language");?></h2>
+			<h2><?php echo T_("Change Language");?></h2>
 			<table class="hForm">
 				<tr>
-					<td><label><?php echo _("Language");?></label></td>
+					<td><label><?php echo T_("Language");?></label></td>
 					<td>
 						<select name="lang" id="lang">
 						<?php foreach($langCode as $k=>$r) { echo "<option value='".$k."' ".(($lang==$k)?'selected':'').">".$k."</option>"; } ?>
 						</select>
 					</td>
 					<td>
-						<em><?php echo _("Language for the admin side of the site.");?></em>
-						<div class="bouton" id="boutonPass" onClick="f_sauve_pass();" title="<?php echo _("Save");?>"><?php echo _("Save");?></div>
+						<em><?php echo T_("Language for the admin side of the site.");?></em>
+						<div class="bouton" id="boutonPass" onClick="f_sauve_pass();" title="<?php echo T_("Save");?>"><?php echo T_("Save");?></div>
 					</td>
 				</tr>
 			</table>
-			<h2><?php echo _("Change User / Password");?></h2>
+			<h2><?php echo T_("Change User / Password");?></h2>
 			<table class="hForm">
 				<tr>
-					<td><label><?php echo _("Current user");?></label></td>
+					<td><label><?php echo T_("Current user");?></label></td>
 					<td><input type="text" class="input" name="user0" id="user0" /></td>
 					<td></td>
 				</tr>
 				<tr>
-					<td><label><?php echo _("Current password");?></label></td>
+					<td><label><?php echo T_("Current password");?></label></td>
 					<td><input type="password" class="input" name="pass0" id="pass0" /></td>
 					<td></td>
 				</tr>
 				<tr>
-					<td><label><?php echo _("User");?></label></td>
+					<td><label><?php echo T_("User");?></label></td>
 					<td><input type="text" class="input" name="user" id="user" /></td>
-					<td><em><?php echo _("Enter a nickname. Avoid words that are too simple (admin, user ...)");?></em></td>
+					<td><em><?php echo T_("Enter a nickname. Avoid words that are too simple (admin, user ...)");?></em></td>
 				</tr>
 				<tr>
-					<td><label><?php echo _("Password");?></label></td>
+					<td><label><?php echo T_("Password");?></label></td>
 					<td><input type="password" class="input" name="pass" id="pass" /></td>
-					<td><em><?php echo _("Very important for the safety of the site. Use lowercase, uppercase and digit.");?></em></td>
+					<td><em><?php echo T_("Very important for the safety of the site. Use lowercase, uppercase and digit.");?></em></td>
 				</tr>
 				<tr>
-					<td><label><?php echo _("Password");?></label></td>
+					<td><label><?php echo T_("Password");?></label></td>
 					<td><input type="password" class="input" name="pass1" id="pass1" /></td>
-					<td><em><?php echo _("Check. Re-enter the password.");?></em></td>
+					<td><em><?php echo T_("Check. Re-enter the password.");?></em></td>
 				</tr>
 			</table>
-			<div class="bouton fr" id="boutonPass" onClick="f_sauve_pass();" title="<?php echo _("Save password");?>"><?php echo _("Save");?></div>
+			<div class="bouton fr" id="boutonPass" onClick="f_sauve_pass();" title="<?php echo T_("Save password");?>"><?php echo T_("Save");?></div>
 			<div class="clear"></div>
 		</div>
 		<div class="blocForm">
-			<div class="bouton fr" id="checkUpdate" onClick="f_checkUpdate();"><?php echo _("Check for update"); ?></div>
-			<h2><?php echo _("Update");?></h2>
+			<div class="bouton fr" id="checkUpdate" onClick="f_checkUpdate();"><?php echo T_("Check for update"); ?></div>
+			<h2><?php echo T_("Update");?></h2>
 			<div id="updateDiv"></div>
 		</div>
 	</div><!-- .container -->
 	<div id="plugins" class="container" style="display:none;">
 		<div class="blocBouton">
 			<div id="plugOnOff" class="onoff" onClick="f_plugAll(this);"></div>
-			<div class="bouton finder fr" id="boutonFinder1" onClick="f_elfinder(1)" title="<?php echo _("File manager");?>"><img src="<?php echo $Udep; ?>includes/img/finder.png" /></div>
-			<div class="bouton fr" onClick="f_publier();" title="<?php echo _("Publish on the web all saved chapters");?>"><?php echo _("Publish");?></div>
+			<div class="bouton finder fr" id="boutonFinder1" onClick="f_elfinder(1)" title="<?php echo T_("File manager");?>"><img src="<?php echo $Udep; ?>includes/img/finder.png" /></div>
+			<div class="bouton fr" onClick="f_publier();" title="<?php echo T_("Publish on the web all saved chapters");?>"><?php echo T_("Publish");?></div>
 			<div id="listPlugins"></div>
 		</div>
 		<div id="finder1"></div>
@@ -383,7 +389,7 @@ function f_get_site(f){
 					c.className='bouton unsort';
 					c.onclick=function(){
 						if(Uch==1){
-							f_alert('!<?php echo _("do not save ?");?>');
+							f_alert('!<?php echo T_("do not save ?");?>');
 							Uch=0;
 						}
 						else{
@@ -480,19 +486,19 @@ function f_sauve_config(){
 function f_sauve_pass(){
 	if(document.getElementById('user0').value.length>0||document.getElementById('pass0').value.length>0||document.getElementById('user').value.length>0||document.getElementById('pass').value.length>0){
 		if(document.getElementById('user0').value.length<1||document.getElementById('pass0').value.length<1){
-			f_alert('!<?php echo _("Current elements are missing");?>');
+			f_alert('!<?php echo T_("Current elements are missing");?>');
 			return;
 		}
 		if(document.getElementById('user').value.length<4){
-			f_alert('!<?php echo _("Too short name");?>');
+			f_alert('!<?php echo T_("Too short name");?>');
 			return;
 		}
 		if(document.getElementById('pass').value!=document.getElementById('pass1').value){
-			f_alert('!<?php echo _("Passwords are different");?>');
+			f_alert('!<?php echo T_("Passwords are different");?>');
 			return;
 		}
 		if(document.getElementById('pass').value.length<6){
-			f_alert('!<?php echo _("Too short password");?>');
+			f_alert('!<?php echo T_("Too short password");?>');
 			return;
 		}
 	}
@@ -669,7 +675,7 @@ function f_plugins(){
 		b.onclick=function(){
 			f_plugin(v);
 		};
-		if(v=='9_')b.innerHTML='<?php echo _("My theme");?>';
+		if(v=='9_')b.innerHTML='<?php echo T_("My theme");?>';
 		else b.innerHTML=v.charAt(1).toUpperCase()+v.substr(2);
 		if(k==0){
 			b.className="bouton current off";
@@ -702,7 +708,7 @@ function f_plugin(f){
 	c=f.substr(0,1);
 	if(c=='1'||c=='2'){
 		d.checked=true;
-		d.nextSibling.innerHTML='<?php echo _("Enable");?>';
+		d.nextSibling.innerHTML='<?php echo T_("Enable");?>';
 		d.nextSibling.style.color='green';
 	}
 	else if(c=='9'){
@@ -712,10 +718,10 @@ function f_plugin(f){
 	}
 	else{
 		d.checked=false;
-		d.nextSibling.innerHTML='<?php echo _("Disable");?>';
+		d.nextSibling.innerHTML='<?php echo T_("Disable");?>';
 		d.nextSibling.style.color='#f79f81';
 	}
-	if(c=='9')document.getElementById('nomPlug').innerHTML='<?php echo _("My theme");?> : '+Utem;
+	if(c=='9')document.getElementById('nomPlug').innerHTML='<?php echo T_("My theme");?> : '+Utem;
 	else document.getElementById('nomPlug').innerHTML='Plugin : '+f.substr(1);
 	document.getElementById('plugin').innerHTML="";
 	if(c!='9')jQuery.post('uno/plugins/'+f.substr(1)+'/'+f.substr(1)+'.php',{'action':'plugin','unox':Unox,'udep':Udep},function(r){
@@ -731,11 +737,11 @@ function f_plugin(f){
 }
 function f_onPlug(f){
 	if(f.checked){
-		f.nextSibling.innerHTML='<?php echo _("Enable");?>';
+		f.nextSibling.innerHTML='<?php echo T_("Enable");?>';
 		f.nextSibling.style.color='green';
 	}
 	else{
-		f.nextSibling.innerHTML='<?php echo _("Disable");?>';
+		f.nextSibling.innerHTML='<?php echo T_("Disable");?>';
 		f.nextSibling.style.color='#f79f81';
 	}
 	jQuery.post('uno/central.php',{'action':'onPlug','unox':Unox,'n':f.name,'c':f.checked},function(){
@@ -796,7 +802,7 @@ function f_elfinder(f){
 	document.getElementById('boutonFinder'+f).className="bouton finder fr";
 }
 function f_finder_select(f){
-	jQuery('<div \>').dialog({modal:true,width:"940px",title:"<?php echo _("Select a file");?>",zIndex: 9999,create:function(e,u){
+	jQuery('<div \>').dialog({modal:true,width:"940px",title:"<?php echo T_("Select a file");?>",zIndex: 9999,create:function(e,u){
 		jQuery(this).elfinder({resizable:false,url:"uno/includes/elfinder/php/connector.php",useBrowserHistory:false,commandsOptions:{getfile:{oncomplete:'destroy'}},getFileCallback:function(file){
 			document.getElementById(f).value=file.url;
 			jQuery('a.ui-dialog-titlebar-close[role="button"]').click();
@@ -814,10 +820,10 @@ function f_checkUpdate(){
 	jQuery("#checkUpdate").hide();
 	jQuery.post('uno/central.php',{'action':'checkUpdate','unox':Unox,'u':0},function(r){
 		r=r.split('|');
-		if(r[1]=='1')d='<div id="lighter" style="float:right"><?php echo _("Remove what is available online ? (recommended)"); ?> <span class="bouton" onClick="f_lighter();"><?php echo _("Lighten"); ?></span></div>';
+		if(r[1]=='1')d='<div id="lighter" style="float:right"><?php echo T_("Remove what is available online ? (recommended)"); ?> <span class="bouton" onClick="f_lighter();"><?php echo T_("Lighten"); ?></span></div>';
 		d+='<table><tr><td>CMSUno</td>';
-		if(r[0]=='0')d+='<td><?php echo _("Up to date"); ?></td>';
-		else d+='<td><span class="bouton danger" onClick="f_update(0);"><?php echo _("Update"); ?> '+r[2]+'</span></td>';
+		if(r[0]=='0')d+='<td><?php echo T_("Up to date"); ?></td>';
+		else d+='<td><span class="bouton danger" onClick="f_update(0);"><?php echo T_("Update"); ?> '+r[2]+'</span></td>';
 		d+='</tr></table>';
 		d+='<hr />';
 		a.innerHTML=d;
@@ -829,8 +835,8 @@ function f_checkUpdate(){
 				jQuery.post('uno/central.php',{'action':'checkUpdate','unox':Unox,'u':v.substr(1)},function(r){
 					if(r.search('|')!=-1){
 						r=r.split('|');
-						if(r[0]!='1')c.innerHTML+='<tr><td>'+v.substr(1)+' : '+r[1]+'</td><td><?php echo _("Up to date"); ?></td></tr>';
-						else c.innerHTML+='<tr id="T'+v.substr(1)+'"><td>'+v.substr(1)+' : '+r[1]+'</td><td><span class="bouton danger" onClick="f_update(\''+v.substr(1)+'\');"><?php echo _("Update"); ?> '+r[2]+'</span></td></tr>';
+						if(r[0]!='1')c.innerHTML+='<tr><td>'+v.substr(1)+' : '+r[1]+'</td><td><?php echo T_("Up to date"); ?></td></tr>';
+						else c.innerHTML+='<tr id="T'+v.substr(1)+'"><td>'+v.substr(1)+' : '+r[1]+'</td><td><span class="bouton danger" onClick="f_update(\''+v.substr(1)+'\');"><?php echo T_("Update"); ?> '+r[2]+'</span></td></tr>';
 						window.scrollTo(0,document.body.scrollHeight);
 					}
 					--b;
@@ -848,7 +854,7 @@ function f_update(f){
 			r=r.split('|');
 			f_alert(r[0]);
 			jQuery("#wait").hide();
-			if(f!=0)document.getElementById('T'+f).innerHTML='<td>'+f+' : '+r[1]+'</td><td><div><?php echo _("Up to date"); ?></div></td>';
+			if(f!=0)document.getElementById('T'+f).innerHTML='<td>'+f+' : '+r[1]+'</td><td><div><?php echo T_("Up to date"); ?></div></td>';
 			else location.reload(true);
 		}
 	});

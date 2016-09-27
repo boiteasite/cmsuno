@@ -7,10 +7,10 @@
 	//	
 	if(isset($langCode[$lang]) && $langCode[$lang])
 		{
-		putenv('LC_ALL='.$langCode[$lang]);
-		setlocale(LC_ALL, $langCode[$lang]);
-		bindtextdomain("cmsuno", dirname(__FILE__));
-		textdomain("cmsuno");
+		require_once(dirname(__FILE__).'/php-gettext/gettext.inc');
+		T_setlocale(LC_MESSAGES, $langCode[$lang]);
+		T_bindtextdomain("cmsuno", dirname(__FILE__));
+		T_bind_textdomain_codeset("cmsuno", "UTF-8");
+		T_textdomain("cmsuno");
 		}
-	// if(file_exists(dirname(__FILE__).'/../extra/extra.php')) include(dirname(__FILE__).'/../extra/extra.php');
 ?>
