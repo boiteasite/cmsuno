@@ -819,7 +819,11 @@ if(isset($_POST['action']))
 				{
 				if(isset($a['plug'][$u]['ext']) && isset($a['plug'][$u]['host']) && strpos($a['plug'][$u]['host'],'github.com')!==false)
 					{
-					$z = $a['plug'][$u]['host'].'archive/'.$a['plug'][$u]['ext'].'.zip';
+					if(strpos($a['plug'][$u]['host'],'https://github.com/cmsunoPlugins/')!==false)
+						{
+						$z = 'https://codeload.github.com/cmsunoPlugins/'.substr($a['plug'][$u]['host'],33).'zip/'.$a['plug'][$u]['ext'];
+						}
+					else $z = $a['plug'][$u]['host'].'archive/'.$a['plug'][$u]['ext'].'.zip';
 					if(function_exists('curl_version'))
 						{
 						$ch = curl_init();

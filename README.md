@@ -405,6 +405,7 @@ THE SOFTWARE.
 Versions
 --------
 
+* V1.3.1 - 14/10/2016 : Change GitHub download URL (update) for plugins
 * V1.3 - 27/09/2016 :
 	* CKEditor 4.5.11
 	* Use PHP-Gettext in place of gettext
