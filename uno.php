@@ -27,8 +27,8 @@ if (isset($_POST['user']) && isset($_POST['pass']))
 	{
 	session_regenerate_id();
 	define('CMSUNO', 'cmsuno');
-	include('uno/password.php');
-	if ($_POST['user']===utf8_encode($user) && $_POST['pass']===$pass && is_writable(dirname(__FILE__)))
+	include('uno/password_helper.php');
+	if (is_writable(dirname(__FILE__)) && timing_safe_and(timing_safe_equals($_POST['user'],utf8_encode($user)),password_check($user,$_POST['pass'],$pass,'uno/password.php')))
 		{
 		$hta = '# CMSUno - HTACCESS auto'."\r\n".
 			'Options -Indexes'."\r\n".

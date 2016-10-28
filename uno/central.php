@@ -297,7 +297,7 @@ if(isset($_POST['action']))
 		// ********************************************************************************************
 		case 'sauvePass':
 		define('CMSUNO', 'cmsuno');
-		include('password.php');
+		include('password_helper.php');
 		$a = $_POST['user']; $b = $_POST['pass'];
 		if($_POST['user0']=='' || $_POST['pass0']=='') // only lang
 			{
@@ -305,16 +305,16 @@ if(isset($_POST['action']))
 			if(file_put_contents('config.php', $config)) echo T_('The language was changed');
 			else echo '!'.T_('Impossible backup');
 			}
-		else if($_POST['user0']!=$user || $_POST['pass0']!=$pass)
+		else if(timing_safe_and(timing_safe_equals($_POST['user0'],$user),password_check($user,$_POST['pass0'],$pass,"password.php")))
 			{
-			echo '!'.T_('Wrong current elements'); exit;
+			$config = '<?php $lang = "'.$_POST['lang'].'"; $sdata = "'.$sdata.'"; $Uversion = "'.(isset($Uversion)?$Uversion:'1.0').'"; ?>';
+			$config_saved = file_put_contents('config.php', $config);
+			if(password_save($a,$b,"password.php") === true && $config_saved) echo T_('The login / password were changed');
+			else echo '!'.T_('Impossible backup');
 			}
 		else
 			{
-			$password = '<?php if(!defined(\'CMSUNO\')) exit(); $user = "'.$a.'"; $pass = "'.$b.'"; ?>';
-			$config = '<?php $lang = "'.$_POST['lang'].'"; $sdata = "'.$sdata.'"; $Uversion = "'.(isset($Uversion)?$Uversion:'1.0').'"; ?>';
-			if(file_put_contents('password.php', $password) && file_put_contents('config.php', $config)) echo T_('The login / password were changed');
-			else echo '!'.T_('Impossible backup');
+			echo '!'.T_('Wrong current elements'); exit;
 			}
 		break;
 		// ********************************************************************************************
