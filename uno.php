@@ -1,7 +1,7 @@
 <?php
 // **********************************
 // CMSUno
-$version = '1.3.1';
+$version = '1.3.2';
 // **********************************
 ini_set('session.use_trans_sid', 0);
 session_start();
@@ -22,13 +22,13 @@ if(!isset($Uversion) || (isset($version) && $Uversion!=$version))
 	}
 include('uno/includes/lang/lang.php');
 $Urawgit = "//cdn.rawgit.com/boiteasite/cmsuno/";
-if (!is_dir('uno/includes/js/ckeditor/')) $Udep = $Urawgit.$Uversion."/uno/"; else $Udep = "uno/"; // LIGHT HOSTED VERSION
-if (isset($_POST['user']) && isset($_POST['pass']))
+if(!is_dir('uno/includes/js/ckeditor/')) $Udep = $Urawgit.$Uversion."/uno/"; else $Udep = "uno/"; // LIGHT HOSTED VERSION
+if(isset($_POST['user']) && isset($_POST['pass']))
 	{
 	session_regenerate_id();
 	define('CMSUNO', 'cmsuno');
 	include('uno/password.php');
-	if ($_POST['user']===utf8_encode($user) && $_POST['pass']===$pass && is_writable(dirname(__FILE__)))
+	if(is_writable(dirname(__FILE__)) && $_POST['user']===$user && f_check_pass($_POST['pass'],$pass,$user))
 		{
 		$hta = '# CMSUno - HTACCESS auto'."\r\n".
 			'Options -Indexes'."\r\n".
@@ -84,14 +84,14 @@ if (isset($_POST['user']) && isset($_POST['pass']))
 	else echo '<script type="text/javascript">window.location=document.URL; </script>';
 	}
 //
-else if (isset($_POST['logout']) && $_POST['logout']==1)
+else if(isset($_POST['logout']) && $_POST['logout']==1)
 	{
 	session_unset();
 	session_destroy();
 	echo '<script type="text/javascript">window.location=document.URL; </script>';
 	}
 //
-else if (isset($_SESSION['cmsuno']))
+else if(isset($_SESSION['cmsuno']))
 	{
 	$unox = md5(mt_rand().mt_rand());
 	$_SESSION['unox'] = $unox; // securisation des appels ajax
@@ -168,5 +168,16 @@ function f_chmodR($path, $fr=0644, $dr=0755)
 		@chmod($path, $dr);
 		}
 	return(true);
+	}
+function f_check_pass($a,$b,$user)
+	{
+	if(substr($b,0,1)=='$' && strlen($b)==60 && password_verify($a,$b)) return true;
+	else if($b===$a)
+		{
+		$pass = password_hash($b, PASSWORD_BCRYPT);
+		file_put_contents('uno/password.php', '<?php if(!defined(\'CMSUNO\')) exit(); $user = "'.$user.'"; $pass = \''.$pass.'\'; ?>');
+		return true;
+		}
+	return false;
 	}
 ?>

@@ -227,9 +227,9 @@ if(isset($_POST['action']))
 			{
 			if($v['d']==$_POST['data']) { $c = $k; break; }
 			}
-		if(isset($a['chap'][$k]['ot']) && $a['chap'][$k]['ot']) $b += 1;
-		if(isset($a['chap'][$k]['om']) && $a['chap'][$k]['om']) $b += 2;
-		if(isset($a['chap'][$k]['od']) && $a['chap'][$k]['od']) $b += 4;
+		if(!empty($a['chap'][$k]['ot'])) $b += 1;
+		if(!empty($a['chap'][$k]['om'])) $b += 2;
+		if(!empty($a['chap'][$k]['od'])) $b += 4;
 		echo strval($b).stripslashes($q); exit;
 		break;
 		// ********************************************************************************************
@@ -305,16 +305,16 @@ if(isset($_POST['action']))
 			if(file_put_contents('config.php', $config)) echo T_('The language was changed');
 			else echo '!'.T_('Impossible backup');
 			}
-		else if($_POST['user0']!=$user || $_POST['pass0']!=$pass)
+		else if($_POST['user0']===$user && password_verify($_POST['pass0'],$pass))
 			{
-			echo '!'.T_('Wrong current elements'); exit;
-			}
-		else
-			{
-			$password = '<?php if(!defined(\'CMSUNO\')) exit(); $user = "'.$a.'"; $pass = "'.$b.'"; ?>';
+			$password = '<?php if(!defined(\'CMSUNO\')) exit(); $user = "'.$a.'"; $pass = \''.password_hash($b, PASSWORD_BCRYPT).'\'; ?>';
 			$config = '<?php $lang = "'.$_POST['lang'].'"; $sdata = "'.$sdata.'"; $Uversion = "'.(isset($Uversion)?$Uversion:'1.0').'"; ?>';
 			if(file_put_contents('password.php', $password) && file_put_contents('config.php', $config)) echo T_('The login / password were changed');
 			else echo '!'.T_('Impossible backup');
+			}
+		else
+			{
+			echo '!'.T_('Wrong current elements'); exit;
 			}
 		break;
 		// ********************************************************************************************
@@ -403,7 +403,7 @@ if(isset($_POST['action']))
 		$Uscript = ''; $Ujsmenu = '<script type="text/javascript" src="'.$Udep.'includes/js/uno_menu.js"></script>';
 		$unoPop=0; // Include JS files
 		$unoUbusy=0; // Include Ubusy in JS
-		if(isset($_POST['Ubusy']) && $_POST['Ubusy'] && file_exists('data/'.$_POST['Ubusy'].'/site.json')) $Ubusy = $_POST['Ubusy'];
+		if(!empty($_POST['Ubusy']) && file_exists('data/'.$_POST['Ubusy'].'/site.json')) $Ubusy = $_POST['Ubusy'];
 		$q = file_get_contents('data/'.$Ubusy.'/site.json');
 		$Ua = json_decode($q,true);
 		if(!isset($Ua['tem']) || !isset($Ua['url']) || !isset($Ua['tit']) || !isset($Ua['desc']) || !isset($Ua['ofs']))
@@ -416,19 +416,19 @@ if(isset($_POST['action']))
 		$Ustyle .= 'h2.nav1 a,h2.nav2 a,h2.nav1 a:hover,h2.nav2 a:hover{color:inherit;text-decoration:none;}'."\r\n";
 		foreach($Ua['chap'] as $k=>$v)
 			{
-			if(!isset($Ua['chap'][$k]['od']) || $Ua['chap'][$k]['od']==0)
+			if(empty($Ua['chap'][$k]['od']))
 				{
 				$c = file_get_contents('data/'.$Ubusy.'/chap'.$v['d'].'.txt');
 				$w = strtr(utf8_decode($v['t']),'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖØÙÚÛÜİŞßàáâãäåæçèéêëìíîïğñòóôõöøùúûıışÿ','aaaaaaaceeeeiiiidnoooooouuuuybsaaaaaaaceeeeiiiidnoooooouuuyyby');
 				$w = preg_replace('/[^a-zA-Z0-9%]/s','',$w);
 				$Ucontent .= '<div id="'.$w.'BlocChap" class="blocChap">'."\r\n";
 				// menu
-				if(!isset($Ua['chap'][$k]['om']) || !$Ua['chap'][$k]['om']) // menu not hidden
+				if(empty($Ua['chap'][$k]['om'])) // menu not hidden
 					{
 					$d = array(); $m = '';
 					$Umenu .= '<li><a href="#'.$w.'"'.($k==0?' class="active"':'').'>'.stripslashes($v['t']).'</a>';
 					preg_match_all('/<h2[^>]*>([^<]*)/i', $c, $d); // submenu H2
-					if(isset($d[1][0]) && $d[1][0])
+					if(!empty($d[1][0]))
 						{
 						$m = "\r\n\t".'<ul class="subMenu">';
 						$e = 0;
@@ -445,7 +445,7 @@ if(isset($_POST['action']))
 					$Umenu .= $m.'</li>'."\r\n";
 					}
 				// titre + class pour menu & submenu
-				$Ucontent .= '<h2 id="'.$w.'" class="nav1'.((isset($Ua['chap'][$k]['om'])&&$Ua['chap'][$k]['om'])?' navOff':'').'" '.((isset($Ua['chap'][$k]['ot'])&&$Ua['chap'][$k]['ot'])?'style="height:0;padding:0;border:0;margin:0;overflow:hidden;"':'').'><a name="'.$w.'">'.stripslashes($v['t']).'</a></h2>'."\r\n";
+				$Ucontent .= '<h2 id="'.$w.'" class="nav1'.((!empty($Ua['chap'][$k]['om']))?' navOff':'').'" '.((!empty($Ua['chap'][$k]['ot']))?'style="height:0;padding:0;border:0;margin:0;overflow:hidden;"':'').'><a name="'.$w.'">'.stripslashes($v['t']).'</a></h2>'."\r\n";
 				$e = 0;
 				$c = preg_replace_callback('/(<h2[^>]*)(>)([^<]*)/i', function($m)
 					{
@@ -467,14 +467,14 @@ if(isset($_POST['action']))
 		$Ucontent = stripslashes($Ucontent);
 		$u = dirname($_SERVER['PHP_SELF']).'/../';
 		$Ucontent = str_replace($u,'',$Ucontent);
-		if(isset($Ua['jq']) && $Ua['jq']==1)
+		if(!empty($Ua['jq']))
 			{
 			$Uhead .= '<!--[if(!IE)|(gt IE 8)]><!--><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script><!--<![endif]-->'."\r\n"
 				.'<!--[if lte IE 8]><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><![endif]-->'."\r\n"
 				.'<script type="text/javascript" src="'.$Udep.'includes/js/jquery-migrate-1.2.1.min.js"></script>'."\r\n";
 			if($Udep=='uno/') $Uhead .= '<script type="text/javascript">window.jQuery || document.write(\'<script src="uno/includes/js/jquery-1.11.3.min.js">\x3C/script>\')</script>'."\r\n";
 			}
-		if(isset($Ua['lazy']) && $Ua['lazy']==1)
+		if(!empty($Ua['lazy']))
 			{
 			$Ustyle .= '.content img[data-echo]{display:none;background:#fff url('.$Udep.'includes/css/a.gif) no-repeat center center;}'."\r\n";
 			$Ufoot .= '<script type="text/javascript" src="'.$Udep.'includes/js/echo.min.js"></script>'."\r\n".'<script type="text/javascript">var css=".content img[data-echo]{display:inline;}",head=document.head||document.getElementsByTagName("head")[0],style=document.createElement("style");style.type="text/css";if(style.styleSheet) style.styleSheet.cssText=css;else style.appendChild(document.createTextNode(css));head.appendChild(style);echo.init({offset:900,throttle:250});echo.render();</script>'."\r\n";
@@ -909,8 +909,8 @@ if(isset($_POST['action']))
 					f_rmdirR($base.'/files/'.$d);
 					if($q2)
 						{
-						$a2 = json_decode($q,true);
-						if(isset($a2['git']) && $a2['git']) // light version
+						$a2 = json_decode($q2,true);
+						if(!empty($a2['git'])) // light version
 							{
 							if(is_dir($base.'/uno/includes/js')) f_rmdirR($base.'/uno/includes/js');
 							if(is_dir($base.'/uno/includes/img')) f_rmdirR($base.'/uno/includes/img');
