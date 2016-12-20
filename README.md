@@ -109,6 +109,7 @@ Use [NivoSlider](https://github.com/gilbitron/Nivo-Slider),
 [Kenburning](https://github.com/simbirsk/kenburning-slider),
 [FeatureCarousel](http://www.bkosborne.com/jquery-feature-carousel) and
 [ZoomBox](http://grafikart.github.io/Zoombox) to have numerous possibilities.
+* [__CKplugins__](https://github.com/cmsunoPlugins/ckplugins) : Add easily CKEditor plugins to CMSUno. You just need to upload the zip file to enable your new features in CKEditor. Add as many CKEditor plugins as you like.
 * [__Code display__](https://github.com/cmsunoPlugins/code_display) : Adds a button in CKEditor to display code. Use [google-code-prettify](https://code.google.com/p/google-code-prettify/).
 * [__Comment__](https://github.com/cmsunoPlugins/comment) : It allows visitors to add comments in the page. Added with a Shortcode in the content of the page or directly in the template.
 * [__Contact__](https://github.com/cmsunoPlugins/contact) : It allows to create a custom-made contact form with Captcha. Added with a Shortcode in the content of the page or directly in the template.
