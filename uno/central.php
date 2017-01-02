@@ -469,9 +469,9 @@ if(isset($_POST['action']))
 		$Ucontent = str_replace($u,'',$Ucontent);
 		if(!empty($Ua['jq']))
 			{
-			$Uhead .= '<!--[if(!IE)|(gt IE 8)]><!--><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script><!--<![endif]-->'."\r\n"
+			$Uhead .= '<!--[if(!IE)|(gt IE 8)]><!--><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script><!--<![endif]-->'."\r\n"
 				.'<!--[if lte IE 8]><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><![endif]-->'."\r\n"
-				.'<script type="text/javascript" src="'.$Udep.'includes/js/jquery-migrate-1.2.1.min.js"></script>'."\r\n";
+				.'<script type="text/javascript" src="'.$Udep.'includes/js/jquery-migrate-1.4.1.min.js"></script>'."\r\n";
 			if($Udep=='uno/') $Uhead .= '<script type="text/javascript">window.jQuery || document.write(\'<script src="uno/includes/js/jquery-1.11.3.min.js">\x3C/script>\')</script>'."\r\n";
 			}
 		if(!empty($Ua['lazy']))
@@ -583,7 +583,7 @@ if(isset($_POST['action']))
 			mkdir('data');
 			$zip->extractTo('data/');
 			$zip->close();
-			mkdir('data/_sdata-'.$sdata.'/_unosave');
+			if(!is_dir('data/_sdata-'.$sdata.'/_unosave')) mkdir('data/_sdata-'.$sdata.'/_unosave');
 			f_copyDir('_unosave', 'data/_sdata-'.$sdata.'/_unosave', 0711);
 			f_rmdirR('_unosave');
 			echo T_('Recovery performed');
@@ -824,6 +824,7 @@ if(isset($_POST['action']))
 						$z = 'https://codeload.github.com/cmsunoPlugins/'.substr($a['plug'][$u]['host'],33).'zip/'.$a['plug'][$u]['ext'];
 						}
 					else $z = $a['plug'][$u]['host'].'archive/'.$a['plug'][$u]['ext'].'.zip';
+					$b = 0;
 					if(function_exists('curl_version'))
 						{
 						$ch = curl_init();
@@ -832,8 +833,9 @@ if(isset($_POST['action']))
 						$data = curl_exec ($ch);
 						curl_close ($ch);
 						file_put_contents('../files/tmp'.$u.'.zip', $data);
+						if(filesize('../files/tmp'.$u.'.zip')>0) $b = 1;
 						}
-					else file_put_contents('../files/tmp'.$u.'.zip', fopen($z, 'r'));
+					if(!$b) file_put_contents('../files/tmp'.$u.'.zip', fopen($z, 'r'));
 					$zip = new ZipArchive;
 					$f = $zip->open('../files/tmp'.$u.'.zip');
 					if($f===true)
@@ -859,6 +861,7 @@ if(isset($_POST['action']))
 				// 1. Get new version
 		//		$z = 'https://github.com/boiteasite/cmsuno/archive/'.$a['uno']['ext'].'.zip';
 				$z = 'https://codeload.github.com/boiteasite/cmsuno/zip/'.$a['uno']['ext'];
+				$b = 0;
 				if(function_exists('curl_version'))
 					{
 					$ch = curl_init();
@@ -867,8 +870,9 @@ if(isset($_POST['action']))
 					$data = curl_exec ($ch);
 					curl_close ($ch);
 					file_put_contents('../files/tmpuno.zip', $data);
+					if(filesize('../files/tmpuno.zip')>0) $b = 1;
 					}
-				else file_put_contents('../files/tmpuno.zip', fopen($z, 'r'));
+				if(!$b) file_put_contents('../files/tmpuno.zip', fopen($z, 'r'));
 				$zip = new ZipArchive;
 				$f = $zip->open('../files/tmpuno.zip');
 				if($f===true && filesize('../files/tmpuno.zip')>10000)
@@ -947,6 +951,101 @@ if(isset($_POST['action']))
 		$out = json_encode($a);
 		file_put_contents('data/_sdata-'.$sdata.'/ssite.json',$out);
 		echo T_('CMSUno is in Lightened Version');
+		break;
+		// ********************************************************************************************
+		case 'pluglist':
+		if(!file_exists('data/plugin-list.json') || filemtime('data/plugin-list.json')<time()-604800) // 7 days
+			{
+			if(!is_dir('../files/tmp/')) mkdir('../files/tmp/');
+			$z = 'https://codeload.github.com/cmsunoPlugins/plugin-list/zip/master';
+			$b = 0;
+			if(function_exists('curl_version'))
+				{
+				$ch = curl_init($z);
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+				$data = curl_exec($ch);
+				curl_close($ch);
+				file_put_contents('../files/plugin-list.zip', $data);
+				if(filesize('../files/plugin-list.zip')>0) $b = 1;
+				}
+			if(!$b) file_put_contents('../files/plugin-list.zip', fopen($z, 'r'));
+			$zip = new ZipArchive;
+			$f = $zip->open('../files/plugin-list.zip');
+			if($f===true)
+				{
+				$zip->extractTo('../files/tmp/');
+				$zip->close();
+				if(file_exists('../files/tmp/plugin-list-master/plugin-list.json')) copy('../files/tmp/plugin-list-master/plugin-list.json', 'data/plugin-list.json');
+				unlink('../files/plugin-list.zip');
+				f_rmdirR('../files/tmp/plugin-list-master/');
+				}
+			}
+		if(file_exists('data/plugin-list.json'))
+			{
+			$q = file_get_contents('data/plugin-list.json');
+			$a = json_decode($q,true);
+			$o = '<div class="blocForm"><h2>'.T_('Add or remove plugins from the CMSUno GitHub list').'</h2>';
+			$o .= '<table class="plugList">';
+			foreach($a as $r)
+				{
+				$b = 0;
+				if(file_exists('plugins/'.$r['p'].'/'.$r['p'].'.php')) $b = 1;
+				$o .= '<tr><td>'.(!empty($r['b'])?'<div class="plugBest"></div>':'').'</td>';
+				$o .= '<td>'.$r['p'].'</td><td>'.$r['d'].'</td>';
+				if($b) $o .= '<td><div class="plugDel" title="'.T_('Remove').'" onClick="f_plugDel(\''.$r['p'].'\')"></div></td>';
+				else $o .= '<td><div class="plugAdd" title="'.T_('Add').'" onClick="f_plugAdd(\''.$r['p'].'\')"></div></td>';
+				$o .= '</tr>';
+				}
+			$o .= '</table></div>';
+			echo $o;
+			}
+		else echo '!'.T_('Failure');
+		break;
+		// ********************************************************************************************
+		case 'plugadd':
+		$q = @file_get_contents('data/_sdata-'.$sdata.'/ssite.json');
+		if($q)
+			{
+			$a = json_decode($q,true);
+			if(!empty($a['plugadd']))
+				{
+				echo '!'.T_('Disabled by Admin');
+				return;
+				}
+			}
+		$p = strip_tags(trim($_POST['plug']));
+		$z = 'https://codeload.github.com/cmsunoPlugins/'.$p.'/zip/master';
+		$b = 0;
+		if(function_exists('curl_version'))
+			{
+			$ch = curl_init($z);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			$data = curl_exec ($ch);
+			curl_close ($ch);
+			file_put_contents('../files/'.$p.'.zip', $data);
+			if(filesize('../files/'.$p.'.zip')>0) $b = 1;
+			}
+		if(!$b) file_put_contents('../files/'.$p.'.zip', fopen($z, 'r'));
+		$zip = new ZipArchive;
+		$f = $zip->open('../files/'.$p.'.zip');
+		if($f===true)
+			{
+			$zip->extractTo('plugins/');
+			$zip->close();
+			rename('plugins/'.$p.'-master', 'plugins/'.$p);
+			unlink('../files/'.$p.'.zip');
+			}
+		echo T_('Plugin added');
+		break;
+		// ********************************************************************************************
+		case 'plugdel':
+		$p = strip_tags(trim($_POST['plug']));
+		if(file_exists('plugins/'.$p.'/'.$p.'.php'))
+			{
+			f_rmdirR('plugins/'.$p.'/');
+			echo T_('Plugin removed');
+			}
+		else echo '!'.T_('Error');
 		break;
 		// ********************************************************************************************
 		}

@@ -1,7 +1,7 @@
 <?php
 // **********************************
 // CMSUno
-$version = '1.3.2';
+$version = '1.4';
 // **********************************
 ini_set('session.use_trans_sid', 0);
 session_start();
@@ -108,8 +108,7 @@ else { ?>
 	<title>CMSUno - <?php echo T_("Login");?></title>
 	<link rel="icon" type="image/png" href="<?php echo $Udep; ?>includes/img/favicon.png" />
 	<link rel="stylesheet" href="<?php echo $Udep; ?>includes/css/uno.css" />
-	<script src="<?php if($Udep!='uno/') echo 'https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js'; else echo 'uno/includes/js/jquery-2.1.4.min.js'; ?>"></script>
-	<script type="text/javascript">$(document).ready(function(){$('.alert').delay(2000).fadeOut();});</script>
+	<script src="<?php if($Udep!='uno/') echo '//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js'; else echo 'uno/includes/js/jquery-3.1.1.min.js'; ?>"></script>
 </head>
 <body>
 	<div class="blocTop bgNoir">

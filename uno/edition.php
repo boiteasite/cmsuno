@@ -164,6 +164,10 @@ f_init();
 </script>
 <link rel="icon" type="image/png" href="<?php echo $Udep; ?>includes/img/favicon.png" />
 <link rel="stylesheet" href="<?php echo $Udep; ?>includes/css/uno.css" />
+<style type="text/css">
+.onoff{background-image:url("<?php echo $Udep; ?>includes/img/onoff16.png")}
+.plugAdd,.plugDel,.plugBest{background-image:url("<?php echo $Udep; ?>includes/img/ui-icons_444444_256x240.png")}
+</style>
 </head>
 <body>
 	<div class="blocTop bgNoir">
@@ -347,6 +351,7 @@ f_init();
 		<div class="blocBouton">
 			<div id="plugOnOff" class="onoff" onClick="f_plugAll(this);"></div>
 			<div class="bouton finder fr" id="boutonFinder1" onClick="f_elfinder(1)" title="<?php echo T_("File manager");?>"><img src="<?php echo $Udep; ?>includes/img/finder.png" /></div>
+			<div class="bouton managePlug fr" id="boutonManagePlug" onClick="f_managePlug(0)" title="<?php echo T_("Add or remove plugins");?>"><img src="<?php echo $Udep; ?>includes/img/plugin.png" /></div>
 			<div class="bouton fr" onClick="f_publier();" title="<?php echo T_("Publish on the web all saved chapters");?>"><?php echo T_("Publish");?></div>
 			<div id="listPlugins"></div>
 		</div>
@@ -360,10 +365,11 @@ f_init();
 			</div>
 		</div>
 		<div id="plugin"></div>
+		<div id="managePlug" style="display:none;"></div>
 	</div><!-- .container -->
 	
-<script type="text/javascript" src="<?php if($Udep=='uno/') echo 'uno/includes/js/jquery-2.1.4.min.js'; else echo 'https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js';?>"></script>
-<script type="text/javascript" src="<?php if($Udep=='uno/') echo 'uno/includes/js/jquery-ui.min.js'; else echo 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js'; ?>"></script>
+<script type="text/javascript" src="<?php if($Udep=='uno/') echo 'uno/includes/js/jquery-3.1.1.min.js'; else echo '//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js';?>"></script>
+<script type="text/javascript" src="<?php if($Udep=='uno/') echo 'uno/includes/js/jquery-ui.min.js'; else echo '//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'; ?>"></script>
 <script type="text/javascript" src="uno/includes/elfinder/js/elfinder.min.js"></script>
 <?php if($lang!='en' && $lang!='') echo '<script type="text/javascript" src="uno/includes/elfinder/js/i18n/elfinder.'.$lang.'.js"></script>'; ?>
 <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $Udep; ?>includes/css/jquery-ui.css" />
@@ -463,7 +469,7 @@ function f_get_chap(f){
 		document.getElementById('chapOpt').style.display='none';
 		Uini=1;
 		Udg=0;
-		jQuery("#wait").hide();
+		document.getElementById('wait').style.display='none';
 		document.getElementById('boutonSauv').className="bouton";
 	});
 }
@@ -525,7 +531,7 @@ function f_supp_chap(){
 	});
 }
 function f_publier(){
-	jQuery("#wait").show();
+	document.getElementById('wait').style.display='block';
 	jQuery.post('uno/central.php',{'action':'publier','unox':Unox},function(r){
 		document.getElementById('boutonPub').style.display="none";
 		f_alert(r);
@@ -537,20 +543,20 @@ function f_suppPub(){
 	});
 }
 function f_archivage(){
-	jQuery("#wait").show();
+	document.getElementById('wait').style.display='block';
 	jQuery.post('uno/central.php',{'action':'archivage','unox':Unox},function(r){
 		f_selectArchive();
 		f_alert(r);
 	});
 }
 function f_restaure(f){
-	jQuery("#wait").show();
+	document.getElementById('wait').style.display='block';
 	jQuery.post('uno/central.php',{'action':'restaure','unox':Unox,'zip':f},function(r){
 		f_alert(r);
 	});
 }
 function f_archDel(f){
-	jQuery("#wait").show();
+	document.getElementById('wait').style.display='block';
 	jQuery.post('uno/central.php',{'action':'archDel','unox':Unox,'zip':f},function(r){
 		var t=document.getElementById("archive"),to=t.options,v;
 		for(v=0;v<to.length;v++){
@@ -562,17 +568,17 @@ function f_archDel(f){
 	});
 }
 function f_archDownload(f){
-	jQuery("#wait").show();
+	document.getElementById('wait').style.display='block';
 	jQuery.post('uno/central.php',{'action':'archDownload','unox':Unox,'zip':f},function(r){
-		jQuery("#wait").hide();
+		document.getElementById('wait').style.display='none';
 		if(r.substr(0,1)=="!")f_alert(r);
 		else window.location=r;
 	});
 }
 function f_fileDownload(){
-	jQuery("#wait").show();
+	document.getElementById('wait').style.display='block';
 	jQuery.post('uno/central.php',{'action':'filesDownload','unox':Unox},function(r){
-		jQuery("#wait").hide();
+		document.getElementById('wait').style.display='none';
 		if(r.substr(0,1)=="!")f_alert(r);
 		else window.location=r;
 	});
@@ -621,7 +627,7 @@ function f_alert(f){
 			jQuery("#info").empty();
 		},2000);
 	}
-	jQuery("#wait").hide();
+	document.getElementById('wait').style.display='none';
 }
 function f_config(){
 	document.getElementById('plugins').style.display="none";
@@ -633,7 +639,7 @@ function f_config(){
 	document.getElementById('chaps').style.display="none";
 	document.getElementById('config').style.display="block";
 	f_selectArchive();
-	jQuery("#wait").hide();
+	document.getElementById('wait').style.display='none';
 }
 function f_chapOption(f){
 	var a=document.getElementById('chapOpt'),b;
@@ -667,6 +673,7 @@ function f_plugins(){
 	document.getElementById('chaps').style.display="none";
 	document.getElementById('plugins').style.display="block";
 	document.getElementById('prePlugin').style.display='block';
+	f_managePlug(2);
 	jQuery(a).empty();
 	jQuery.each(Upluglist,function(k,v){
 		var b=document.createElement("span");
@@ -727,12 +734,12 @@ function f_plugin(f){
 	if(c!='9')jQuery.post('uno/plugins/'+f.substr(1)+'/'+f.substr(1)+'.php',{'action':'plugin','unox':Unox,'udep':Udep},function(r){
 		document.getElementById('plugin').innerHTML=r;
 		jQuery.getScript('uno/plugins/'+f.substr(1)+'/'+f.substr(1)+'.js');
-		jQuery("#wait").hide();
+		document.getElementById('wait').style.display='none';
 	});
 	else jQuery.post('uno/template/'+Utem+'/'+Utem+'.php',{'action':'plugin','unox':Unox,'udep':Udep},function(r){
 		document.getElementById('plugin').innerHTML=r;
 		jQuery.getScript('uno/template/'+Utem+'/'+Utem+'.js');
-		jQuery("#wait").hide();
+		document.getElementById('wait').style.display='none';
 	});
 }
 function f_onPlug(f){
@@ -793,7 +800,7 @@ function f_cdesc(f){
 function f_elfinder(f){
 	var a=document.getElementById('finderDiv');
 	if(f==1)jQuery("#finderDiv").appendTo(jQuery("#finder1"));
-	if(a.style.display!="block"){
+	if(a.style.display=="none"){
 		jQuery("#finderDiv").elfinder('open');
 		document.getElementById('boutonFinder'+f).className="bouton finder fr current";
 		return
@@ -803,11 +810,54 @@ function f_elfinder(f){
 }
 function f_finder_select(f){
 	jQuery('<div \>').dialog({modal:true,width:"940px",title:"<?php echo T_("Select a file");?>",zIndex: 9999,create:function(e,u){
-		jQuery(this).elfinder({resizable:false,url:"uno/includes/elfinder/php/connector.php",useBrowserHistory:false,commandsOptions:{getfile:{oncomplete:'destroy'}},getFileCallback:function(file){
-			document.getElementById(f).value=file.url;
-			jQuery('a.ui-dialog-titlebar-close[role="button"]').click();
-		}}).elfinder('instance')
+		jQuery(this).elfinder({
+			resizable:false,
+			url:"uno/includes/elfinder/php/connector.php",
+			useBrowserHistory:false,
+			commandsOptions:{getfile:{oncomplete:'destroy'}},
+			getFileCallback:function(file){
+				document.getElementById(f).value=file.url;
+				jQuery('button.ui-dialog-titlebar-close').click();
+			}
+		}).elfinder('instance')
 	}});
+}
+function f_managePlug(f){
+	var a=document.getElementById('managePlug'),b=document.getElementById('prePlugin'),c=document.getElementById('plugin');
+	if(f!=2&&(a.style.display=="none"||f==1)){
+		jQuery.post('uno/central.php',{'action':'pluglist','unox':Unox},function(r){
+			if(r.substr(0,1)!='!')a.innerHTML=r;
+			else f_alert(r);
+		});
+		a.style.display="block";
+		b.style.display="none";
+		c.style.display="none";
+		document.getElementById('boutonManagePlug').className="bouton managePlug fr current";
+		return
+	};
+	a.style.display="none";
+	b.style.display="block";
+	c.style.display="block";
+	document.getElementById('boutonManagePlug').className="bouton managePlug fr";
+}
+function f_plugAdd(f){
+	document.getElementById('wait').style.display='block';
+	jQuery.post('uno/central.php',{'action':'plugadd','unox':Unox,'plug':f},function(r){
+		f_alert(r);
+		setTimeout(function(){
+			f_managePlug(1);
+		},1000);
+	});
+}
+function f_plugDel(f){
+	if(confirm("<?php echo T_('Remove'); ?> "+f+" ?")){
+		jQuery.post('uno/central.php',{'action':'plugdel','unox':Unox,'plug':f},function(r){
+			f_alert(r);
+			setTimeout(function(){
+				f_managePlug(1);
+			},1000);
+		});
+	}
 }
 function f_nombre(e){
 	var c=(e.which)?e.which:event.keyCode;
@@ -816,7 +866,7 @@ function f_nombre(e){
 }
 function f_checkUpdate(){
 	var a=document.getElementById('updateDiv'),b=0,c=document.createElement("table"),d='';
-	jQuery("#wait").show();
+	document.getElementById('wait').style.display='block';
 	jQuery("#checkUpdate").hide();
 	jQuery.post('uno/central.php',{'action':'checkUpdate','unox':Unox,'u':0},function(r){
 		r=r.split('|');
@@ -840,20 +890,20 @@ function f_checkUpdate(){
 						window.scrollTo(0,document.body.scrollHeight);
 					}
 					--b;
-					if(b==0)jQuery("#wait").hide();
+					if(b==0)document.getElementById('wait').style.display='none';
 				});
 			}
 		});
-		if(b==0)jQuery("#wait").hide();
+		if(b==0)document.getElementById('wait').style.display='none';
 	});
 }
 function f_update(f){
-	jQuery("#wait").show();
+	document.getElementById('wait').style.display='block';
 	jQuery.post('uno/central.php',{'action':'update','unox':Unox,'u':f},function(r){
 		if(r.search('|')!=-1){
 			r=r.split('|');
 			f_alert(r[0]);
-			jQuery("#wait").hide();
+			document.getElementById('wait').style.display='none';
 			if(f!=0)document.getElementById('T'+f).innerHTML='<td>'+f+' : '+r[1]+'</td><td><div><?php echo T_("Up to date"); ?></div></td>';
 			else location.reload(true);
 		}

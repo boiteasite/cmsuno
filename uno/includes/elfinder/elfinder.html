@@ -2,13 +2,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>CMSUno - ElFinder 2.0</title>
-<link rel="stylesheet" type="text/css" media="screen" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/themes/smoothness/jquery-ui.css" />
+<title>CMSUno - ElFinder 2.1</title>
+<link rel="stylesheet" type="text/css" media="screen" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/themes/smoothness/jquery-ui.css" />
 <link rel="stylesheet" type="text/css" media="screen" href="css/elfinder.min.css" />
 <link rel="stylesheet" type="text/css" media="screen" href="css/theme.css" />
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
-<script type="text/javascript">window.jQuery || document.write('<link rel="stylesheet" type="text/css" media="screen" href="../css/jquery-ui.css" /><script src="../js/jquery-2.1.4.min.js">\x3C/script><script src="../js/jquery-ui.min.js">\x3C/script>')</script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script type="text/javascript">window.jQuery || document.write('<link rel="stylesheet" type="text/css" media="screen" href="../css/jquery-ui.css" /><script src="../js/jquery-3.1.1.min.js">\x3C/script><script src="../js/jquery-ui.min.js">\x3C/script>')</script>
 <script type="text/javascript" src="js/elfinder.min.js"></script>
 </head>
 <body>
@@ -16,11 +16,11 @@
 <script type="text/javascript" charset="utf-8">
 function getUrlParam(p){var r=new RegExp('(?:[\?&]|&amp;)'+p+'=([^&]+)', 'i');var match=window.location.search.match(r);return(match&&match.length>1)?match[1]:'';}
 function elf(f,l){
-	$('#elfinder').elfinder({
+	jQuery('#elfinder').elfinder({
 		url:'php/connector.php',
 		lang:l,
 		getFileCallback:function(file){window.opener.CKEDITOR.tools.callFunction(f,file.url);window.close();},
-		resizable: false
+		resizable:false
 	}).elfinder('instance');
 }
 jQuery(document).ready(function(){

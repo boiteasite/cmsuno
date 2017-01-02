@@ -136,6 +136,7 @@ Very usefull and powerfull.
 * [__Users__](https://github.com/cmsunoPlugins/users) : Create a members area with login / registration dropdown form. Integration with a shortcode or directly inside the menu. Login with Ajax and PHP session.
 * [__Video player__](https://github.com/cmsunoPlugins/video_player) : Adds a button in CKEditor to watch Self-Hosted Videos on the site. Compatible with every browsers and supports. Adds also youtube button.
 
+You can download and install these plugins directly from CMSUno.
 
 Template Development
 --------------------
@@ -381,7 +382,7 @@ License
 CMSUno is under MIT license.
 
 <pre>
-Copyright (c) 2014-2016 Jacques Malgrange
+Copyright (c) 2014-2017 Jacques Malgrange
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -406,6 +407,9 @@ THE SOFTWARE.
 Versions
 --------
 
+* V1.4 - 02/01/2017 :
+	* jQuery 3.1.1, ELFinder 2.1.19, CKEditor 4.6.1
+	* Online install / remove plugins
 * V1.3.2 - 26/11/2016 :
 	* CKEditor 4.6
 	* Password hashed with BCRYPT (thanks to Christian Fiedler)
