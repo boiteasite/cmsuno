@@ -146,7 +146,7 @@ label.label {float:left;margin:4px 6px 0 0;}
 .plugList{margin-top:10px;}
 .plugList tr:nth-child(2n+1){background-color:#ddd;}
 .plugList td{vertical-align:middle;padding:5px;}
-.plugList td:nth-child(1){font-weight:700;text-transform:capitalize;}
+.plugList td:nth-child(2){font-weight:700;text-transform:capitalize;}
 .plugAdd,.plugDel,.plugBest{width:16px;height:16px;}
 .plugAdd{background-position:-32px -128px;cursor:pointer;}
 .plugDel{background-position:-16px -192px;cursor:pointer;}
