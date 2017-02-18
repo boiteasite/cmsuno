@@ -1,33 +1,19 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>CMSUno - ElFinder 2.1</title>
-<link rel="stylesheet" type="text/css" media="screen" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/themes/smoothness/jquery-ui.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="css/elfinder.min.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="css/theme.css" />
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-<script type="text/javascript">window.jQuery || document.write('<link rel="stylesheet" type="text/css" media="screen" href="../css/jquery-ui.css" /><script src="../js/jquery-3.1.1.min.js">\x3C/script><script src="../js/jquery-ui.min.js">\x3C/script>')</script>
-<script type="text/javascript" src="js/elfinder.min.js"></script>
-</head>
-<body>
-<div id="elfinder"></div>
-<script type="text/javascript" charset="utf-8">
-function getUrlParam(p){var r=new RegExp('(?:[\?&]|&amp;)'+p+'=([^&]+)', 'i');var match=window.location.search.match(r);return(match&&match.length>1)?match[1]:'';}
-function elf(f,l){
-	jQuery('#elfinder').elfinder({
-		url:'php/connector.php',
-		lang:l,
-		getFileCallback:function(file){window.opener.CKEDITOR.tools.callFunction(f,file.url);window.close();},
-		resizable:false
-	}).elfinder('instance');
-}
-jQuery(document).ready(function(){
-	var f=getUrlParam('CKEditorFuncNum'),l=getUrlParam('langCode');
-	if(l!='en')$.getScript("js/i18n/elfinder."+l+".js").done(function(){elf(f,l);}).fail(function(){elf(f,'en');});
-	else elf(f,'en');
-});
-</script>
-</body>
+	<head>
+		<meta charset="utf-8">
+		<title>elFinder 2.1.x source version with PHP connector</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2" />
+
+		<!-- Require JS (REQUIRED) -->
+		<!-- Rename "main.default.js" to "main.js" and edit it if you need configure elFInder options or any things -->
+		<script data-main="./main.default.js" src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.3.2/require.min.js"></script>
+
+	</head>
+	<body>
+
+		<!-- Element where elFinder will be created (REQUIRED) -->
+		<div id="elfinder"></div>
+
+	</body>
 </html>

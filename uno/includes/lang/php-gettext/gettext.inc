@@ -1,4 +1,8 @@
 <?php
+/* 
+ * PHP-Gettext
+ * Version 1.0.12 - 2015-11-11
+*/
 /*
    Copyright (c) 2005 Steven Armstrong <sa at c-area dot ch>
    Copyright (c) 2009 Danilo Segan <danilo@kvota.net>

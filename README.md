@@ -131,12 +131,12 @@ Very usefull and powerfull.
 * [__Sound player__](https://github.com/cmsunoPlugins/sound_player) : Adds a button in CKEditor to listen Self-Hosted musique on the site. Compatible with every browsers and supports.
 * [__Support__](https://github.com/cmsunoPlugins/support) : Adds a real complete forum system very suitable for technical support. Coupled with 'Users', 'Markdown' and 'Paypal', you have a complete system to sell your premium plugin very easily with the same appearance and the same functionality as on wordpress.org.
 * [__Tem2uno__](https://github.com/cmsunoPlugins/tem2uno) : Used to automatically transform a theme from another CMS (GetSimple & b2evolution) for a use in CMSUno.
+* [__top button__](https://github.com/cmsunoPlugins/top_button) : Adds a floating button at the bottom right of the page to return smoothly to the top.
 * [__Unocss__](https://github.com/cmsunoPlugins/unocss) : Allows to add CSS in the site directly from the Dashboard.
 * [__Unoscript__](https://github.com/cmsunoPlugins/unoscript) : Allows to add a script in the site directly from the Dashboard. Example : Google Analytics tracking code.
 * [__Users__](https://github.com/cmsunoPlugins/users) : Create a members area with login / registration dropdown form. Integration with a shortcode or directly inside the menu. Login with Ajax and PHP session.
 * [__Video player__](https://github.com/cmsunoPlugins/video_player) : Adds a button in CKEditor to watch Self-Hosted Videos on the site. Compatible with every browsers and supports. Adds also youtube button.
 
-You can download and install these plugins directly from CMSUno.
 
 Template Development
 --------------------
@@ -200,6 +200,7 @@ This file should look like this :
 if(!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH'])!='xmlhttprequest') {sleep(2);exit;}
 include('../../config.php'); // Lang
 include('lang/lang.php');
+$q = file_get_contents('../../data/busy.json'); $a = json_decode($q,true); $Ubusy= $a['nom'];
 if (isset($_POST['action']))
 	{
 	switch ($_POST['action'])
@@ -382,7 +383,7 @@ License
 CMSUno is under MIT license.
 
 <pre>
-Copyright (c) 2014-2017 Jacques Malgrange
+Copyright (c) 2014-2016 Jacques Malgrange
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -407,6 +408,9 @@ THE SOFTWARE.
 Versions
 --------
 
+* V1.4.1 - 18/02/2017 :
+	* ELFinder 2.1.21, CKEditor 4.6.2
+	* Fix PHP-gettext Warning
 * V1.4 - 02/01/2017 :
 	* jQuery 3.1.1, ELFinder 2.1.19, CKEditor 4.6.1
 	* Online install / remove plugins

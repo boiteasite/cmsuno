@@ -958,26 +958,30 @@ if(isset($_POST['action']))
 			{
 			if(!is_dir('../files/tmp/')) mkdir('../files/tmp/');
 			$z = 'https://codeload.github.com/cmsunoPlugins/plugin-list/zip/master';
-			$b = 0;
-			if(function_exists('curl_version'))
+			$b = @get_headers($z);
+			if(!empty($b) && substr($b[0],9,3)==200)
 				{
-				$ch = curl_init($z);
-				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-				$data = curl_exec($ch);
-				curl_close($ch);
-				file_put_contents('../files/plugin-list.zip', $data);
-				if(filesize('../files/plugin-list.zip')>0) $b = 1;
-				}
-			if(!$b) file_put_contents('../files/plugin-list.zip', fopen($z, 'r'));
-			$zip = new ZipArchive;
-			$f = $zip->open('../files/plugin-list.zip');
-			if($f===true)
-				{
-				$zip->extractTo('../files/tmp/');
-				$zip->close();
-				if(file_exists('../files/tmp/plugin-list-master/plugin-list.json')) copy('../files/tmp/plugin-list-master/plugin-list.json', 'data/plugin-list.json');
-				unlink('../files/plugin-list.zip');
-				f_rmdirR('../files/tmp/plugin-list-master/');
+				$b = 0;
+				if(function_exists('curl_version'))
+					{
+					$ch = curl_init($z);
+					curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+					$data = curl_exec($ch);
+					curl_close($ch);
+					file_put_contents('../files/plugin-list.zip', $data);
+					if(filesize('../files/plugin-list.zip')>0) $b = 1;
+					}
+				if(!$b) file_put_contents('../files/plugin-list.zip', fopen($z, 'r'));
+				$zip = new ZipArchive;
+				$f = $zip->open('../files/plugin-list.zip');
+				if($f===true)
+					{
+					$zip->extractTo('../files/tmp/');
+					$zip->close();
+					if(file_exists('../files/tmp/plugin-list-master/plugin-list.json')) copy('../files/tmp/plugin-list-master/plugin-list.json', 'data/plugin-list.json');
+					unlink('../files/plugin-list.zip');
+					f_rmdirR('../files/tmp/plugin-list-master/');
+					}
 				}
 			}
 		if(file_exists('data/plugin-list.json'))
