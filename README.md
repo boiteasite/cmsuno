@@ -118,7 +118,7 @@ Use [NivoSlider](https://github.com/gilbitron/Nivo-Slider),
 * [__Markdown__](https://github.com/cmsunoPlugins/markdown) : Allows you to display the formatted content of one or more MarkDown files in your page. It works with a shortcode and uses Parsedown.php to parse the markdown. Different CSS formats are availables. The wordpress format is also parsed. Allows to create a comprehensive system of paying plugin download with the appearance of wordpress.org.
 * [__Multipage__](https://github.com/cmsunoPlugins/multipage) :  This plugin allows you to create and manage multiple pages in CMSUno. Drag and Drop Menu Manager. Simple and practical for a complete website.
 * [__Model__](https://github.com/cmsunoPlugins/model) :  Create template for CKEditor. Very useful. Two default models exist : two columns and three columns. They are adjustable. Ability to create others sophisticated templates. As easy as the Lego game.
-* [__Newsletter__](https://github.com/cmsunoPlugins/newsletter) : Great plugin to send a formated newsletter to a list of subscriber. Use PHP mail() or Gmail SMTP. Shortcode to add a subscribe form in the page. Link in the mail to unsubscribe.
+* [__Newsletter__](https://github.com/cmsunoPlugins/newsletter) : Great plugin to send a formated newsletter to a list of subscriber. Use PHP mail(), Gmail SMTP or any SMTP provider. Shortcode to add a subscribe form in the page. Link in the mail to unsubscribe. Add PHPMailer to other plugins.
 * [__Payment__](https://github.com/cmsunoPlugins/payment) : Allows you to create a small e-commerce site from CKEditor.
 It adds a "add to cart" button to the editor.
 It adds a complete cart system with order registration, email sending, invoice in PDF, multi-tax, shipping cost, payment by cheque and by bank transfer.
@@ -131,7 +131,7 @@ Very usefull and powerfull.
 * [__Sound player__](https://github.com/cmsunoPlugins/sound_player) : Adds a button in CKEditor to listen Self-Hosted musique on the site. Compatible with every browsers and supports.
 * [__Support__](https://github.com/cmsunoPlugins/support) : Adds a real complete forum system very suitable for technical support. Coupled with 'Users', 'Markdown' and 'Paypal', you have a complete system to sell your premium plugin very easily with the same appearance and the same functionality as on wordpress.org.
 * [__Tem2uno__](https://github.com/cmsunoPlugins/tem2uno) : Used to automatically transform a theme from another CMS (GetSimple & b2evolution) for a use in CMSUno.
-* [__Top button__](https://github.com/cmsunoPlugins/top_button) : Adds a floating button at the bottom right of the page to return smoothly to the top.
+* [__top button__](https://github.com/cmsunoPlugins/top_button) : Adds a floating button at the bottom right of the page to return smoothly to the top.
 * [__Unocss__](https://github.com/cmsunoPlugins/unocss) : Allows to add CSS in the site directly from the Dashboard.
 * [__Unoscript__](https://github.com/cmsunoPlugins/unoscript) : Allows to add a script in the site directly from the Dashboard. Example : Google Analytics tracking code.
 * [__Users__](https://github.com/cmsunoPlugins/users) : Create a members area with login / registration dropdown form. Integration with a shortcode or directly inside the menu. Login with Ajax and PHP session.
@@ -383,7 +383,7 @@ License
 CMSUno is under MIT license.
 
 <pre>
-Copyright (c) 2014-2016 Jacques Malgrange
+Copyright (c) 2014-2017 Jacques Malgrange
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -408,6 +408,9 @@ THE SOFTWARE.
 Versions
 --------
 
+* V1.4.2 - 07/03/2017 :
+	* ELFinder 2.1.22
+	* Add $Ukey in config.php
 * V1.4.1 - 18/02/2017 :
 	* ELFinder 2.1.21, CKEditor 4.6.2
 	* Fix PHP-gettext Warning

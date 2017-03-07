@@ -238,7 +238,7 @@ f_init();
 					<td><em><?php echo T_("Base URL for this site (URL displayed by the browser without uno.php).");?></em></td>
 				</tr><tr>
 					<td><label><?php echo T_("Filename");?></label></td>
-					<td><input type="text" class="input" style="text-align:right;width:100px;" name="nom" id="nom" />.html</td>
+					<td><input type="text" class="input" style="text-align:right;max-width:250px;" name="nom" id="nom" />.html</td>
 					<td><em><?php echo T_("Created file will be index.html by default.");?></em></td>
 				</tr><tr>
 					<td><label><?php echo T_("E-mail");?></label></td>

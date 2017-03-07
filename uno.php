@@ -1,26 +1,28 @@
 <?php
 // **********************************
 // CMSUno
-$version = '1.4.1';
+$version = '1.4.2';
 // **********************************
 // *** DEBUG MODE ***
 	// error_reporting(E_ALL); ini_set('display_errors',1);
 // ******************
 ini_set('session.use_trans_sid', 0);
 session_start();
+if(file_exists('uno/patch.php')) include('uno/patch.php');
 if(file_exists('uno/config.php')) include('uno/config.php');
 else
 	{
-	$ch = 'abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ123456789'; $sdata = '';
+	$ch = 'abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ123456789'; $sdata = ''; $Ukey = '';
 	for($v=0;$v<15;++$v) $sdata .= $ch[mt_rand(0, strlen($ch)-1)];
-	$out = '<?php $lang = "en"; $sdata = "'.$sdata.'"; $Uversion = "'.(isset($version)?$version:'1.0').'"; ?>';
-	@file_put_contents('uno/config.php', $out);
+	for($v=0;$v<63;++$v) $Ukey .= $ch[mt_rand(0, strlen($ch)-1)];
+	$out = '<?php $lang = "en"; $sdata = "'.$sdata.'"; $Ukey = "'.$Ukey.'"; $Uversion = "'.(isset($version)?$version:'1.0').'"; ?>';
+	file_put_contents('uno/config.php', $out);
 	$lang = 'en';
 	}
-if(!isset($Uversion) || (isset($version) && $Uversion!=$version))
+if(!isset($Uversion) ||  $Uversion!=$version)
 	{
-	$out = '<?php $lang = "'.$lang.'"; $sdata = "'.$sdata.'"; $Uversion = "'.(isset($version)?$version:'1.0').'"; ?>';
-	@file_put_contents('uno/config.php', $out);
+	$out = '<?php $lang = "'.$lang.'"; $sdata = "'.$sdata.'"; $Ukey = "'.$Ukey.'"; $Uversion = "'.(isset($version)?$version:'1.0').'"; ?>';
+	file_put_contents('uno/config.php', $out);
 	$Uversion = (isset($version)?$version:'1.0');
 	}
 include('uno/includes/lang/lang.php');
@@ -51,24 +53,24 @@ if(isset($_POST['user']) && isset($_POST['pass']))
 			"\t".'ExpiresByType application/javascript "access plus 7200 seconds"'."\r\n".
 			'</IfModule>'."\r\n";
 		$_SESSION['cmsuno']=true;
-		if(!is_dir('uno/data')) @mkdir('uno/data');
-		if(!is_dir('uno/data/_sdata-'.$sdata)) @mkdir('uno/data/_sdata-'.$sdata,0711);
-		if(!is_dir('files')) @mkdir('files');
-		if(!is_dir('uno/data/_sdata-'.$sdata.'/_unosave')) @mkdir('uno/data/_sdata-'.$sdata.'/_unosave',0711);
-		if(!file_exists('.htaccess')) @file_put_contents('.htaccess', $hta);
-		if(!file_exists('uno/.htaccess')) @file_put_contents('uno/.htaccess', $hta);
-		if(!file_exists('uno/data/.htaccess')) @file_put_contents('uno/data/.htaccess', 'Options -Indexes'."\r\n".'Allow from all');
-		if(!file_exists('uno/data/index.html')) @file_put_contents('uno/data/index.html', '<html></html>');
-		if(!file_exists('uno/data/_sdata-'.$sdata.'/.htaccess')) @file_put_contents('uno/data/_sdata-'.$sdata.'/.htaccess', 'Order Allow,Deny'."\r\n".'Deny from all'); 
+		if(!is_dir('uno/data')) mkdir('uno/data');
+		if(!is_dir('uno/data/_sdata-'.$sdata)) mkdir('uno/data/_sdata-'.$sdata,0711);
+		if(!is_dir('files')) mkdir('files');
+		if(!is_dir('uno/data/_sdata-'.$sdata.'/_unosave')) mkdir('uno/data/_sdata-'.$sdata.'/_unosave',0711);
+		if(!file_exists('.htaccess')) file_put_contents('.htaccess', $hta);
+		if(!file_exists('uno/.htaccess')) file_put_contents('uno/.htaccess', $hta);
+		if(!file_exists('uno/data/.htaccess')) file_put_contents('uno/data/.htaccess', 'Options -Indexes'."\r\n".'Allow from all');
+		if(!file_exists('uno/data/index.html')) file_put_contents('uno/data/index.html', '<html></html>');
+		if(!file_exists('uno/data/_sdata-'.$sdata.'/.htaccess')) file_put_contents('uno/data/_sdata-'.$sdata.'/.htaccess', 'Order Allow,Deny'."\r\n".'Deny from all'); 
 	//	if(substr(sprintf('%o', fileperms('uno/data/_sdata-'.$sdata)), -4)!="0711") @chmod("uno/data/_sdata-".$sdata, 0711);
 		f_chmodR('uno/data/_sdata-'.$sdata,0600,0711);
 		if(!is_readable('files') || !is_writable('files')) f_chmodR('files',0644,0755);
-		if(!file_exists('uno/data/busy.json')) @file_put_contents('uno/data/busy.json', '{"nom":"index"}');
+		if(!file_exists('uno/data/busy.json')) file_put_contents('uno/data/busy.json', '{"nom":"index"}');
 		if(is_dir('files/.tmb')) // clean up - free space
 			{
 			if($h=opendir('files/.tmb'))
 				{
-				while(false!==($f=readdir($h))) if(is_file('files/.tmb/'.$f)) @unlink('files/.tmb/'.$f);
+				while(false!==($f=readdir($h))) if(is_file('files/.tmb/'.$f)) unlink('files/.tmb/'.$f);
 				closedir($h);
 				}
 			}
@@ -76,15 +78,18 @@ if(isset($_POST['user']) && isset($_POST['pass']))
 			{
 			if($h=opendir('uno/includes/elfinder/.tmb'))
 				{
-				while(false!==($f=readdir($h))) if(is_file('uno/includes/elfinder/.tmb/'.$f)) @unlink('uno/includes/elfinder/.tmb/'.$f);
+				while(false!==($f=readdir($h))) if(is_file('uno/includes/elfinder/.tmb/'.$f)) unlink('uno/includes/elfinder/.tmb/'.$f);
 				closedir($h);
 				}
 			}
 		}
 	else sleep(2);
+	if(!is_writable(dirname(__FILE__))) echo '<div style="clear:both;text-align:center;color:red;font-weight:700;padding-top:20px;"><span  style="color:#000;">'.dirname(__FILE__).'</span>&nbsp'.T_("must writable recursively !").'</div>';
+	else if(!is_writable(dirname(__FILE__).'/uno')) echo '<div style="clear:both;text-align:center;color:red;font-weight:700;padding-top:20px;"><span  style="color:#000;">'.dirname(__FILE__).'/uno</span>&nbsp'.T_("must writable recursively !").'</div>';
+	else echo '<script type="text/javascript">window.location=document.URL; </script>';
 	}
 //
-if(isset($_POST['logout']) && $_POST['logout']==1)
+else if(isset($_POST['logout']) && $_POST['logout']==1)
 	{
 	session_unset();
 	session_destroy();
@@ -93,14 +98,9 @@ if(isset($_POST['logout']) && $_POST['logout']==1)
 //
 else if(isset($_SESSION['cmsuno']))
 	{
-	if(!is_writable(dirname(__FILE__))) echo '<div style="clear:both;text-align:center;color:red;font-weight:700;padding-top:20px;"><span  style="color:#000;">'.dirname(__FILE__).'</span>&nbsp'.T_("must writable recursively !").'</div>';
-	else if(!is_writable(dirname(__FILE__).'/uno')) echo '<div style="clear:both;text-align:center;color:red;font-weight:700;padding-top:20px;"><span  style="color:#000;">'.dirname(__FILE__).'/uno</span>&nbsp'.T_("must writable recursively !").'</div>';
-	else
-		{
-		$unox = md5(mt_rand().mt_rand());
-		$_SESSION['unox'] = $unox; // securisation des appels ajax
-		include('uno/edition.php');
-		}
+	$unox = md5(mt_rand().mt_rand());
+	$_SESSION['unox'] = $unox; // securisation des appels ajax
+	include('uno/edition.php');
 	}
 //
 else { ?>
