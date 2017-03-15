@@ -13,4 +13,8 @@ if(!empty($langCode[$lang]))
 	T_bind_textdomain_codeset("cmsuno", "UTF-8");
 	T_textdomain("cmsuno");
 	}
+else if(!function_exists('T_'))
+	{
+	function T_($f) { return $f; }
+	}
 ?>
