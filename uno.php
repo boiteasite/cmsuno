@@ -6,6 +6,7 @@ $version = '1.4.2';
 // *** DEBUG MODE ***
 	// error_reporting(E_ALL); ini_set('display_errors',1);
 // ******************
+$lang = 'en';
 ini_set('session.use_trans_sid', 0);
 session_start();
 if(file_exists('uno/patch.php')) include('uno/patch.php');
@@ -17,9 +18,8 @@ else
 	for($v=0;$v<63;++$v) $Ukey .= $ch[mt_rand(0, strlen($ch)-1)];
 	$out = '<?php $lang = "en"; $sdata = "'.$sdata.'"; $Ukey = "'.$Ukey.'"; $Uversion = "'.(isset($version)?$version:'1.0').'"; ?>';
 	file_put_contents('uno/config.php', $out);
-	$lang = 'en';
 	}
-if(!isset($Uversion) ||  $Uversion!=$version)
+if(!isset($Uversion) || $Uversion!=$version)
 	{
 	$out = '<?php $lang = "'.$lang.'"; $sdata = "'.$sdata.'"; $Ukey = "'.$Ukey.'"; $Uversion = "'.(isset($version)?$version:'1.0').'"; ?>';
 	file_put_contents('uno/config.php', $out);
