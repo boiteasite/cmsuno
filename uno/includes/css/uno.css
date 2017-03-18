@@ -61,7 +61,7 @@ code{font-family:monospace;font-size:12px;padding:2px 4px;color:#333;background-
 .hForm td{padding-right:5px;}
 .hForm td:nth-child(1){width:15%;text-align:right;}
 .hForm td:nth-child(2){max-width:40%;padding:9px 0 0 10px;}
-.hForm td:nth-child(2) input{width:300px;text-align:left;}
+.hForm td:nth-child(2) input[type="text"]{width:300px;text-align:left;}
 .hForm td:nth-child(2) span{padding-left:5px;}
 .hForm td:nth-child(3){text-align:right;}
 .hForm td:nth-child(3) em{font-size:90%;color:#666;padding-left:5px;}
