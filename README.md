@@ -408,6 +408,9 @@ THE SOFTWARE.
 Versions
 --------
 
+* V1.4.3 - 24/04/2017 :
+	* Fix issue in chapter menu : sortable not working
+	* Fix error on install
 * V1.4.2 - 07/03/2017 :
 	* ELFinder 2.1.22
 	* Add $Ukey in config.php

@@ -123,7 +123,7 @@ function f_init(){
 							jQuery("#menuSort").sortable({cancel:'.unsort',stop:function(){
 								var b=document.getElementById('menuSort'),v;
 								for(v=0;v<b.children.length;v++){
-									if(b.children[v].className=='bouton current off'){
+									if(b.children[v].className.indexOf('bouton current off')!=-1){
 										jQuery.post('uno/central.php',{'action':'sauvePlace','unox':Unox,'chap':Up,'place':v},function(r){
 											f_alert(r);
 											Up=v;
@@ -413,7 +413,7 @@ function f_get_site(f){
 				jQuery("#menuSort").sortable({cancel:'.unsort',stop:function(){
 					b=document.getElementById('menuSort');
 					for(var v=0;v<b.children.length;v++){
-						if(b.children[v].className=='bouton current off'){
+						if(b.children[v].className.indexOf('bouton current off')!=-1){
 							jQuery.post('uno/central.php',{'action':'sauvePlace','unox':Unox,'chap':Up,'place':v},function(r){
 								f_alert(r);
 								Up=v;

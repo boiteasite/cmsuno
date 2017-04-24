@@ -3,7 +3,6 @@
 // CMSUno
 // **********************************
 // V1.4.2 : UKEY IN CONFIG
-if(file_exists('uno/config.php')) include('uno/config.php');
 if(empty($Ukey))
 	{
 	$ch = 'abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ123456789'; $Ukey = '';

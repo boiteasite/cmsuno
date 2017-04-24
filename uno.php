@@ -1,7 +1,7 @@
 <?php
 // **********************************
 // CMSUno
-$version = '1.4.2';
+$version = '1.4.3';
 // **********************************
 // *** DEBUG MODE ***
 	// error_reporting(E_ALL); ini_set('display_errors',1);
@@ -9,21 +9,24 @@ $version = '1.4.2';
 $lang = 'en';
 ini_set('session.use_trans_sid', 0);
 session_start();
-if(file_exists('uno/patch.php')) include('uno/patch.php');
-if(file_exists('uno/config.php')) include('uno/config.php');
-else
+if(is_writable(dirname(__FILE__).'/uno'))
 	{
-	$ch = 'abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ123456789'; $sdata = ''; $Ukey = '';
-	for($v=0;$v<15;++$v) $sdata .= $ch[mt_rand(0, strlen($ch)-1)];
-	for($v=0;$v<63;++$v) $Ukey .= $ch[mt_rand(0, strlen($ch)-1)];
-	$out = '<?php $lang = "en"; $sdata = "'.$sdata.'"; $Ukey = "'.$Ukey.'"; $Uversion = "'.(isset($version)?$version:'1.0').'"; ?>';
-	file_put_contents('uno/config.php', $out);
-	}
-if(!isset($Uversion) || $Uversion!=$version)
-	{
-	$out = '<?php $lang = "'.$lang.'"; $sdata = "'.$sdata.'"; $Ukey = "'.$Ukey.'"; $Uversion = "'.(isset($version)?$version:'1.0').'"; ?>';
-	file_put_contents('uno/config.php', $out);
-	$Uversion = (isset($version)?$version:'1.0');
+	if(file_exists('uno/config.php')) include('uno/config.php');
+	else
+		{
+		$ch = 'abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ123456789'; $sdata = ''; $Ukey = '';
+		for($v=0;$v<15;++$v) $sdata .= $ch[mt_rand(0, strlen($ch)-1)];
+		for($v=0;$v<63;++$v) $Ukey .= $ch[mt_rand(0, strlen($ch)-1)];
+		$out = '<?php $lang = "en"; $sdata = "'.$sdata.'"; $Ukey = "'.$Ukey.'"; $Uversion = "'.(isset($version)?$version:'1.0').'"; ?>';
+		file_put_contents('uno/config.php', $out);
+		}
+	if(file_exists('uno/patch.php')) include('uno/patch.php');
+	if(!isset($Uversion) || $Uversion!=$version)
+		{
+		$out = '<?php $lang = "'.$lang.'"; $sdata = "'.$sdata.'"; $Ukey = "'.$Ukey.'"; $Uversion = "'.(isset($version)?$version:'1.0').'"; ?>';
+		file_put_contents('uno/config.php', $out);
+		$Uversion = (isset($version)?$version:'1.0');
+		}
 	}
 include('uno/includes/lang/lang.php');
 $Urawgit = "//cdn.rawgit.com/boiteasite/cmsuno/";
@@ -62,7 +65,6 @@ if(isset($_POST['user']) && isset($_POST['pass']))
 		if(!file_exists('uno/data/.htaccess')) file_put_contents('uno/data/.htaccess', 'Options -Indexes'."\r\n".'Allow from all');
 		if(!file_exists('uno/data/index.html')) file_put_contents('uno/data/index.html', '<html></html>');
 		if(!file_exists('uno/data/_sdata-'.$sdata.'/.htaccess')) file_put_contents('uno/data/_sdata-'.$sdata.'/.htaccess', 'Order Allow,Deny'."\r\n".'Deny from all'); 
-	//	if(substr(sprintf('%o', fileperms('uno/data/_sdata-'.$sdata)), -4)!="0711") @chmod("uno/data/_sdata-".$sdata, 0711);
 		f_chmodR('uno/data/_sdata-'.$sdata,0600,0711);
 		if(!is_readable('files') || !is_writable('files')) f_chmodR('files',0644,0755);
 		if(!file_exists('uno/data/busy.json')) file_put_contents('uno/data/busy.json', '{"nom":"index"}');
