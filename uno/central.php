@@ -656,7 +656,8 @@ if(isset($_POST['action']))
 				if(file_exists('plugins/'.$k.'/'.$k.'.php'))
 					{
 					$b['pl'][]=$k;
-					if(file_exists('plugins/'.$k.'/'.$k.'Ckeditor.js')) $b['ck'][]=$ck.'plugins/'.$k.'/'.$k.'Ckeditor.js';
+					if(file_exists('plugins/'.$k.'/'.$k.'Ckeditor.js.php')) $b['ck'][] = $ck.'plugins/'.$k.'/'.$k.'Ckeditor.js.php';
+					else if(file_exists('plugins/'.$k.'/'.$k.'Ckeditor.js')) $b['ck'][] = $ck.'plugins/'.$k.'/'.$k.'Ckeditor.js';
 					}
 				}
 			echo json_encode($b);
@@ -675,7 +676,8 @@ if(isset($_POST['action']))
 				if(file_exists('plugins/'.$k.'/'.$k.'.php'))
 					{
 					$a['pl'][]=$k;
-					if(file_exists('plugins/'.$k.'/'.$k.'Ckeditor.js')) $a['ck'][]=$ck.'plugins/'.$k.'/'.$k.'Ckeditor.js';
+					if(file_exists('plugins/'.$k.'/'.$k.'Ckeditor.js.php')) $a['ck'][] = $ck.'plugins/'.$k.'/'.$k.'Ckeditor.js.php';
+					else if(file_exists('plugins/'.$k.'/'.$k.'Ckeditor.js')) $a['ck'][] = $ck.'plugins/'.$k.'/'.$k.'Ckeditor.js';
 					if(!file_exists('plugins/'.$k.'/'.$k.'.js')) file_put_contents('plugins/'.$k.'/'.$k.'.js', '');
 					}
 				}
@@ -686,7 +688,7 @@ if(isset($_POST['action']))
 			{
 			while(false!==($f=readdir($h)))
 				{
-				if($f!='.' && $f!='..' && is_dir('plugins/'.$f)) $d[]=$f;
+				if($f!='.' && $f!='..' && is_dir('plugins/'.$f)) $d[] = $f;
 				}
 			closedir($h);
 			}		
@@ -695,16 +697,16 @@ if(isset($_POST['action']))
 			{
 			if(isset($a['plug'][basename($r)]))
 				{
-				if(file_exists('plugins/'.basename($r).'/'.basename($r).'Hook.js')) $a['plugins'][]='2'.basename($r); // Hook JS
-				else $a['plugins'][]='1'.basename($r);
+				if(file_exists('plugins/'.basename($r).'/'.basename($r).'Hook.js')) $a['plugins'][] = '2'.basename($r); // Hook JS
+				else $a['plugins'][] = '1'.basename($r);
 				}
-			else $a['plugins'][]='0'.basename($r);
+			else $a['plugins'][] = '0'.basename($r);
 			}
 		// 3. theme
 		if(isset($a['tem']) && file_exists('template/'.$a['tem'].'/'.$a['tem'].'.php'))
 			{
-			$a['pl'][]='_';
-			$a['plugins'][]='9_';
+			$a['pl'][] = '_';
+			$a['plugins'][] = '9_';
 			if(!file_exists('template/'.$a['tem'].'/'.$a['tem'].'.js')) file_put_contents('template/'.$a['tem'].'/'.$a['tem'].'.js', '');
 			}
 		// 4. getSite

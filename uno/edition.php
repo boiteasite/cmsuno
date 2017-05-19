@@ -28,8 +28,6 @@ function f_init(){
 	x.open('POST','uno/central.php',true);
 	x.setRequestHeader('Content-type','application/x-www-form-urlencoded');
 	x.setRequestHeader('X-Requested-With','XMLHttpRequest');
-	x.setRequestHeader('Content-length',p.length);
-	x.setRequestHeader('Connection','close');
 	x.onreadystatechange=function(){
 		if(x.readyState==4&&x.status==200){
 			var r=JSON.parse(x.responseText),k,j;
@@ -75,8 +73,6 @@ function f_init(){
 			y.open('POST','uno/central.php',true);
 			y.setRequestHeader('Content-type','application/x-www-form-urlencoded');
 			y.setRequestHeader('X-Requested-With','XMLHttpRequest');
-			y.setRequestHeader('Content-length',p.length);
-			y.setRequestHeader('Connection','close');
 			y.onreadystatechange=function(){
 				if(y.readyState==4&&y.status==200){
 					var s=y.responseText,a;

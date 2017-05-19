@@ -316,7 +316,7 @@ function f_load_foo(){
 }
 ```
 
-### fooCkeditor.js ###
+### fooCkeditor.js or fooCkeditor.js.php ###
 
 This file is __not required__.
 
@@ -331,6 +331,15 @@ CKEDITOR.plugins.addExternal('ckfoo', UconfigFile[UconfigNum-1]+'/../ckfoo/'); /
 CKEDITOR.editorConfig = function(config) {
 	config.extraPlugins += ',ckfoo';
 	config.toolbarGroups.push('ckfoo');
+	if(UconfigFile.length>UconfigNum)config.customConfig=UconfigFile[UconfigNum]; // needed for next plugin
+};
+```
+
+If you choose to use the PHP file to change the content before execution, remember that the minimum needed (to do nothing) is :
+
+```
+UconfigNum++; // needed
+CKEDITOR.editorConfig = function(config) {
 	if(UconfigFile.length>UconfigNum)config.customConfig=UconfigFile[UconfigNum]; // needed for next plugin
 };
 ```
@@ -408,6 +417,9 @@ THE SOFTWARE.
 Versions
 --------
 
+* V1.4.4 - 19/05/2017 :
+	* ELFinder 2.1.24 - echo.js 1.7.3
+	* Add mypluginCkeditor.js.php plugin file
 * V1.4.3 - 24/04/2017 :
 	* Fix issue in chapter menu : sortable not working
 	* Fix error on install
