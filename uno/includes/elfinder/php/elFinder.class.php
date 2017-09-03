@@ -14,9 +14,24 @@ class elFinder {
 	/**
 	 * API version number
 	 *
+	 * @var float
+	 **/
+	protected static $ApiVersion = 2.1;
+	
+	/**
+	 * API version number
+	 *
+	 * @deprecated
 	 * @var string
 	 **/
-	protected $version = '2.1';
+	protected $version;
+	
+	/**
+	 * API revision that this connector supports all functions
+	 * 
+	 * @var integer
+	 */
+	protected static $ApiRevision = 28;
 	
 	/**
 	 * Storages (root dirs)
@@ -53,6 +68,30 @@ class elFinder {
 	 */
 	public static $defaultMimefile = '';
 	
+	/**
+	 * A file save destination path when a temporary content URL is required
+	 * on a network volume or the like
+	 * It can be overwritten by volume route setting
+	 * 
+	 * @var string
+	 */
+	public static $tmpLinkPath = '';
+	
+	/**
+	 * A file save destination URL when a temporary content URL is required
+	 * on a network volume or the like
+	 * It can be overwritten by volume route setting
+	 *
+	 * @var string
+	 */
+	public static $tmpLinkUrl = '';
+	
+	/**
+	 * Temporary content URL lifetime (seconds)
+	 * 
+	 * @var integer
+	 */
+	public static $tmpLinkLifeTime = 3600;
 	/**
 	 * elFinder session wrapper object
 	 * 
@@ -352,6 +391,24 @@ class elFinder {
 	 * @author Dmitry (dio) Levashov
 	 */
 	public function __construct($opts) {
+		// define accept constant of server commands path
+		! defined('ELFINDER_TAR_PATH')      && define('ELFINDER_TAR_PATH',      'tar');
+		! defined('ELFINDER_GZIP_PATH')     && define('ELFINDER_GZIP_PATH',     'gzip');
+		! defined('ELFINDER_BZIP2_PATH')    && define('ELFINDER_BZIP2_PATH',    'bzip2');
+		! defined('ELFINDER_XZ_PATH')       && define('ELFINDER_XZ_PATH',       'xz');
+		! defined('ELFINDER_ZIP_PATH')      && define('ELFINDER_ZIP_PATH',      'zip');
+		! defined('ELFINDER_UNZIP_PATH')    && define('ELFINDER_UNZIP_PATH',    'unzip');
+		! defined('ELFINDER_RAR_PATH')      && define('ELFINDER_RAR_PATH',      'rar');
+		! defined('ELFINDER_UNRAR_PATH')    && define('ELFINDER_UNRAR_PATH',    'unrar');
+		! defined('ELFINDER_7Z_PATH')       && define('ELFINDER_7Z_PATH', (substr(PHP_OS, 0, 3) === 'WIN')? '7z' : '7za');
+		! defined('ELFINDER_CONVERT_PATH')  && define('ELFINDER_CONVERT_PATH',  'convert');
+		! defined('ELFINDER_EXIFTRAN_PATH') && define('ELFINDER_EXIFTRAN_PATH', 'exiftran');
+		! defined('ELFINDER_JPEGTRAN_PATH') && define('ELFINDER_JPEGTRAN_PATH', 'jpegtran');
+		! defined('ELFINDER_FFMPEG_PATH')   && define('ELFINDER_FFMPEG_PATH',   'ffmpeg');
+		
+		// for backward compat
+		$this->version = (string)self::$ApiVersion;
+		
 		// set error handler of WARNING, NOTICE
 		$errLevel = E_WARNING | E_NOTICE | E_USER_WARNING | E_USER_NOTICE | E_STRICT | E_RECOVERABLE_ERROR;
 		if (defined('E_DEPRECATED')) {
@@ -388,6 +445,8 @@ class elFinder {
 		if ($this->debug) {
 			error_reporting(defined('ELFINDER_DEBUG_ERRORLEVEL')? ELFINDER_DEBUG_ERRORLEVEL : -1);
 			ini_set('diaplay_errors', '1');
+			// clear output buffer and stop output filters
+			while(ob_get_level() && ob_end_clean()){}
 		}
 
 		if (! interface_exists('elFinderSessionInterface')) {
@@ -436,6 +495,15 @@ class elFinder {
 			if (!is_writable(elFinder::$commonTempPath)) {
 				elFinder::$commonTempPath = '';
 			}
+		}
+		if (! empty($opts['tmpLinkPath'])) {
+			elFinder::$tmpLinkPath = $opts['tmpLinkPath'];
+		}
+		if (! empty($opts['tmpLinkUrl'])) {
+			elFinder::$tmpLinkUrl = $opts['tmpLinkUrl'];
+		}
+		if (! empty($opts['tmpLinkLifeTime'])) {
+			elFinder::$tmpLinkLifeTime = $opts['tmpLinkLifeTime'];
 		}
 		$this->maxArcFilesSize = isset($opts['maxArcFilesSize'])? intval($opts['maxArcFilesSize']) : 0;
 		$this->optionsNetVolumes = (isset($opts['optionsNetVolumes']) && is_array($opts['optionsNetVolumes']))? $opts['optionsNetVolumes'] : array();
@@ -585,7 +653,17 @@ class elFinder {
 	 * @author Dmitry (dio) Levashov
 	 **/
 	public function version() {
-		return $this->version;
+		return self::$ApiVersion;
+	}
+	
+	/**
+	 * Return revision (api) number
+	 *
+	 * @return string
+	 * @author Naoki Sawada
+	 **/
+	public function revision() {
+		return self::$ApiRevision;
 	}
 	
 	/**
@@ -1221,7 +1299,7 @@ class elFinder {
 		}
 		
 		if (!empty($args['init'])) {
-			$result['api'] = $this->version;
+			$result['api'] = sprintf('%.1F%03d', self::$ApiVersion, self::$ApiRevision);
 			$result['uplMaxSize'] = ini_get('upload_max_filesize');
 			$result['uplMaxFile'] = ini_get('max_file_uploads');
 			$result['netDrivers'] = array_keys(self::$netDrivers);
@@ -1474,6 +1552,30 @@ class elFinder {
 				'Connection: close'
 			)
 		);
+		
+		// check 'xsendfile'
+		$xsendfile = $volume->getOption('xsendfile');
+		$path = null;
+		if ($xsendfile) {
+			$info = stream_get_meta_data($fp);
+			if ($path = empty($info['uri'])? null : $info['uri']) {
+				$basePath = rtrim($volume->getOption('xsendfilePath'), DIRECTORY_SEPARATOR);
+				if ($basePath) {
+					$root = rtrim($volume->getRootPath(), DIRECTORY_SEPARATOR);
+					if (strpos($path, $root) === 0) {
+						$path = $basePath . substr($path, strlen($root));
+					} else {
+						$path = null;
+					}
+				}
+			}
+		}
+		if ($path) {
+			$result['header'][] = $xsendfile . ': ' . $path;
+			$result['info']['xsendfile'] = $xsendfile;
+		}
+		
+		// add "Content-Location" if file has url data
 		if (isset($file['url']) && $file['url'] && $file['url'] != 1) {
 			$result['header'][] = 'Content-Location: '.$file['url'];
 		}
@@ -1489,6 +1591,9 @@ class elFinder {
 	 **/
 	protected function size($args) {
 		$size = 0;
+		$files = 0;
+		$dirs = 0;
+		$itemCount = true;
 		
 		foreach ($args['targets'] as $target) {
 			if (($volume = $this->volume($target)) == false
@@ -1497,9 +1602,26 @@ class elFinder {
 				return array('error' => $this->error(self::ERROR_OPEN, '#'.$target));
 			}
 			
-			$size += $volume->size($target);
+			$volRes = $volume->size($target);
+			if (is_array($volRes)) {
+				if (! empty($volRes['size'])) {
+					$size += $volRes['size'];
+				}
+				if ($itemCount) {
+					if (! empty($volRes['files'])) {
+						$files += $volRes['files'];
+					}
+					if (! empty($volRes['dirs'])) {
+						$dirs += $volRes['dirs'];
+					}
+				}
+			} else if (is_numeric($volRes)) {
+				$size += $volRes;
+				$files = $dirs = 'unknown';
+				$itemCount = false;
+			}
 		}
-		return array('size' => $size);
+		return array('size' => $size, 'fileCnt' => $files, 'dirCnt' => $dirs);
 	}
 	
 	/**
@@ -1535,9 +1657,16 @@ class elFinder {
 				}
 				$tgt =& $reset;
 			}
-			return ($res = $this->ensureDirsRecursively($volume, $target, $mkdirs)) === false
-				? array('error' => $this->error(self::ERROR_MKDIR, $name, $volume->error()))
-				: array('added' => $res['stats'], 'hashes' => $res['hashes']);
+			$res = $this->ensureDirsRecursively($volume, $target, $mkdirs);
+			if ($res['error']) {
+				$errors = $volume->error();
+				if ($res['makes']) {
+					$this->rm(array('targets' => $res['makes']));
+				}
+				return array('error' => $this->error(self::ERROR_MKDIR, $res['error'][0], $errors));
+			} else {
+				return array('added' => $res['stats'], 'hashes' => $res['hashes']);
+			}
 		} else {
 			return ($dir = $volume->mkdir($target, $name)) == false
 				? array('error' => $this->error(self::ERROR_MKDIR, $name, $volume->error()))
@@ -1919,18 +2048,18 @@ class elFinder {
 	}
 	
 	/**
-	 * Detect file type extension by local path
+	 * Detect file MIME Type by local path
 	 * 
 	 * @param  string $path Local path
-	 * @return string file type extension with dot
+	 * @return string file MIME Type
 	 * @author Naoki Sawada
 	 */
-	protected function detectFileExtension($path) {
+	protected function detectMimeType($path) {
 		static $type, $finfo, $volume;
 		if (!$type) {
 			$keys = array_keys($this->volumes);
 			$volume = $this->volumes[$keys[0]];
-			
+				
 			if (class_exists('finfo', false)) {
 				$tmpFileInfo = explode(';', finfo_file(finfo_open(FILEINFO_MIME), __FILE__));
 			} else {
@@ -1942,7 +2071,7 @@ class elFinder {
 				$finfo = finfo_open(FILEINFO_MIME);
 			} elseif (function_exists('mime_content_type')
 					&& preg_match($regexp, array_shift(explode(';', mime_content_type(__FILE__))))) {
-				$type = 'mime_content_type';
+						$type = 'mime_content_type';
 			} elseif (function_exists('getimagesize')) {
 				$type = 'getimagesize';
 			} else {
@@ -1964,7 +2093,7 @@ class elFinder {
 		if ($mime) {
 			$mime = explode(';', $mime);
 			$mime = trim($mime[0]);
-			
+				
 			if (in_array($mime, array('application/x-empty', 'inode/x-empty'))) {
 				// finfo return this mime for empty files
 				$mime = 'text/plain';
@@ -1973,8 +2102,21 @@ class elFinder {
 				$mime = 'application/zip';
 			}
 		}
-
-		$ext = $mime? $volume->getExtentionByMime($mime) : '';
+		
+		return $mime? $mime : 'unknown';
+	}
+	
+	/**
+	 * Detect file type extension by local path
+	 * 
+	 * @param  object $volume elFinderVolumeDriver instance
+	 * @param  string $path Local path
+	 * @return string file type extension with dot
+	 * @author Naoki Sawada
+	 */
+	protected function detectFileExtension($volume, $path) {
+		$mime = $this->detectMimeType($path);
+		$ext = $mime !== 'unknown'? $volume->getExtentionByMime($mime) : '';
 		return $ext? ('.' . $ext) : '';
 	}
 	
@@ -2323,7 +2465,7 @@ class elFinder {
 										rename($tmpfname, $tmpfname . $_ext);
 										$tmpfname = $tmpfname . $_ext;
 									}
-									$_b = $this->detectFileExtension($tmpfname);
+									$_b = $this->detectFileExtension($volume, $tmpfname);
 									$_name = $_a.$_b;
 								} else {
 									$_b = '.'.$_b;
@@ -2555,6 +2697,10 @@ class elFinder {
 				$result['warning'] = array_merge($result['warning'], $this->error($dstVolume->error()));
 				continue;
 			}
+			
+			if ($error = $dstVolume->error()) {
+				$result['warning'] = array_merge($result['warning'], $this->error($error));
+			}
 
 			$dirChange = ! empty($file['dirChange']);
 			unset($file['dirChange']);
@@ -2569,6 +2715,8 @@ class elFinder {
 		}
 		if (count($result['warning']) < 1) {
 			unset($result['warning']);
+		} else {
+			$result['sync'] = true;
 		}
 		
 		return $result;
@@ -2597,11 +2745,9 @@ class elFinder {
 		$mime = isset($file['mime'])? $file['mime'] : '';
 		if ($mime && strtolower(substr($mime, 0, 4)) === 'text') {
 			$enc = '';
-			if (! $args['conv'] || $args['conv'] == '1') {
-				// detect encoding
-				if ($content === '') {
-					$enc = '';
-				} else {
+			if ($content !== '') {
+				if (! $args['conv'] || $args['conv'] == '1') {
+					// detect encoding
 					if (function_exists('mb_detect_encoding')) {
 						if ($enc = mb_detect_encoding($content , mb_detect_order(), true)) {
 							$encu = strtoupper($enc);
@@ -2646,20 +2792,22 @@ class elFinder {
 							return array('doconv' => $enc);
 						}
 					}
-				}
-			} 
-			if ($args['conv']) {
-				$enc = $args['conv'];
-				if (strtoupper($enc) !== 'UTF-8') {
-					$_content = $content;
-					$content = iconv($enc, 'UTF-8', $content);
-					if ($content === false && function_exists('mb_convert_encoding')) {
-						$content = mb_convert_encoding($_content, 'UTF-8', $enc);
+				} 
+				if ($args['conv']) {
+					$enc = $args['conv'];
+					if (strtoupper($enc) !== 'UTF-8') {
+						$_content = $content;
+						$content = iconv($enc, 'UTF-8', $content);
+						if ($content === false && function_exists('mb_convert_encoding')) {
+							$content = mb_convert_encoding($_content, 'UTF-8', $enc);
+						}
+					} else {
+						$enc = '';
 					}
-				} else {
-					$enc = '';
 				}
 			}
+		} else {
+			$content = 'data:' . ($mime? $mime : 'application/octet-stream') . ';base64,'.base64_encode($content);
 		}
 		
 		if ($enc !== false) {
@@ -2687,6 +2835,7 @@ class elFinder {
 	 */
 	protected function put($args) {
 		$target = $args['target'];
+		$encoding = isset($args['encoding'])? $args['encoding'] : '';
 		
 		if (($volume = $this->volume($target)) == false
 		|| ($file = $volume->file($target)) == false) {
@@ -2695,10 +2844,23 @@ class elFinder {
 		
 		$this->itemLock($target);
 		
-		if (! empty($args['encoding'])) {
-			$content = iconv('UTF-8', $args['encoding'], $args['content']);
+		if ($encoding === 'scheme') {
+			if (preg_match('~^https?://~i', $args['content'])) {
+				$fp = $this->get_remote_contents($args['content'], 30, 5, 'Mozilla/5.0', tmpfile());
+				if (! $fp) {
+					return  array('error' => self::ERROR_SAVE, $args['content'], self::ERROR_FILE_NOT_FOUND);
+				}
+				$fmeta = stream_get_meta_data($fp);
+				$mime = $this->detectMimeType($fmeta['uri']);
+				$args['content'] = 'data:'.$mime.';base64,'.base64_encode(file_get_contents($fmeta['uri']));
+			}
+			$encoding = '';
+			$args['content'] = "\0" . $args['content'];
+		}
+		if ($encoding) {
+			$content = iconv('UTF-8', $encoding, $args['content']);
 			if ($content === false && function_exists('mb_detect_encoding')) {
-				$content = mb_convert_encoding($args['content'], $args['encoding'], 'UTF-8');
+				$content = mb_convert_encoding($args['content'], $encoding, 'UTF-8');
 			}
 			if ($content !== false) {
 				$args['content'] = $content;
@@ -3044,6 +3206,26 @@ class elFinder {
 				elFinder::$phpErrors[] = "NOTICE: $errstr in $errfile line $errline.";
 				$proc = true;
 				break;
+				
+			case E_STRICT:
+				elFinder::$phpErrors[] = "STRICT: $errstr in $errfile line $errline.";
+				$proc = true;
+				break;
+				
+			case E_RECOVERABLE_ERROR:
+				elFinder::$phpErrors[] = "RECOVERABLE_ERROR: $errstr in $errfile line $errline.";
+				$proc = true;
+				break;
+		}
+		
+		if (defined('E_DEPRECATED')) {
+			switch ($errno) {
+				case E_DEPRECATED:
+				case E_USER_DEPRECATED:
+					elFinder::$phpErrors[] = "DEPRECATED: $errstr in $errfile line $errline.";
+					$proc = true;
+					break;
+			}
 		}
 		
 		return $proc;
@@ -3241,26 +3423,30 @@ class elFinder {
 	 * @param  string  $target  Target hash
 	 * @param  string  $dirs    Array of directory tree to ensure
 	 * @param  string  $path    Relative path form target hash
-	 * @return array|false      array('stats' => array([stat of maked directory]), 'hashes' => array('[path]' => '[hash]'))
+	 * @return array|false      array('stats' => array([stat of maked directory]), 'hashes' => array('[path]' => '[hash]'), 'makes' => array([New directory hashes]), 'error' => array([Error name]))
 	 * @author Naoki Sawada
 	 **/
 	protected function ensureDirsRecursively($volume, $target, $dirs, $path = '') {
-		$res = array('stats' => array(), 'hashes' => array());
+		$res = array('stats' => array(), 'hashes' => array(), 'makes' => array(), 'error' => array());
 		foreach($dirs as $name => $sub) {
 			$name = (string)$name;
-			if ((($parent = $volume->realpath($target)) && ($dir = $volume->dir($volume->getHash($parent, $name)))) || ($dir = $volume->mkdir($target, $name))) {
+			$newDir = null;
+			if ((($parent = $volume->realpath($target)) && ($dir = $volume->dir($volume->getHash($parent, $name)))) || ($newDir = $volume->mkdir($target, $name))) {
 				$_path = $path . '/' . $name;
+				if ($newDir) {
+					$res['makes'][] = $newDir['hash'];
+					$dir = $newDir;
+				}
 				$res['stats'][] = $dir;
 				$res['hashes'][$_path] = $dir['hash'];
 				if (count($sub)) {
-					if ($subRes = $this->ensureDirsRecursively($volume, $dir['hash'], $sub, $_path)) {
-						$res = array_merge_recursive($res, $subRes);
-					} else {
-						return false;
+					$res = array_merge_recursive($res, $this->ensureDirsRecursively($volume, $dir['hash'], $sub, $_path));
+					if ($res['error']) {
+						break;
 					}
 				}
 			} else {
-				return false;
+				$res['error'][] = $name;
 			}
 		}
 		return $res;
@@ -3269,6 +3455,15 @@ class elFinder {
 	/***************************************************************************/
 	/*                           static  utils                                 */
 	/***************************************************************************/
+	
+	/**
+	 * Return full version of API that this connector supports all functions
+	 * 
+	 * @return string
+	 */
+	public static function getApiFullVersion() {
+		return (string)self::$ApiVersion . '.' . (string)self::$ApiRevision;
+	}
 	
 	/**
 	 * Return Is Animation Gif
@@ -3449,6 +3644,7 @@ class elFinder {
 		}
 		$val = trim($val, "bB \t\n\r\0\x0B");
 		$last = strtolower($val[strlen($val) - 1]);
+		$val = (int)$val;
 		switch($last) {
 			case 't':
 				$val *= 1024;
@@ -3459,7 +3655,7 @@ class elFinder {
 			case 'k':
 				$val *= 1024;
 		}
-		return (int)$val;
+		return $val;
 	}
 
 	/**

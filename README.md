@@ -132,6 +132,7 @@ Very usefull and powerfull.
 * [__Support__](https://github.com/cmsunoPlugins/support) : Adds a real complete forum system very suitable for technical support. Coupled with 'Users', 'Markdown' and 'Paypal', you have a complete system to sell your premium plugin very easily with the same appearance and the same functionality as on wordpress.org.
 * [__Tem2uno__](https://github.com/cmsunoPlugins/tem2uno) : Used to automatically transform a theme from another CMS (GetSimple & b2evolution) for a use in CMSUno.
 * [__Top button__](https://github.com/cmsunoPlugins/top_button) : Adds a floating button at the bottom right of the page to return smoothly to the top.
+* [__Transition__](https://github.com/cmsunoPlugins/transition) : Create beautiful transitions between chapters. Use animate.css and jquery.imageScroll.js.
 * [__Unocss__](https://github.com/cmsunoPlugins/unocss) : Allows to add CSS in the site directly from the Dashboard.
 * [__Unoscript__](https://github.com/cmsunoPlugins/unoscript) : Allows to add a script in the site directly from the Dashboard. Example : Google Analytics tracking code.
 * [__Users__](https://github.com/cmsunoPlugins/users) : Create a members area with login / registration dropdown form. Integration with a shortcode or directly inside the menu. Login with Ajax and PHP session.
@@ -417,6 +418,9 @@ THE SOFTWARE.
 Versions
 --------
 
+* V1.4.5 - 03/09/2017 :
+	* jQuery 3.2.1, ELFinder 2.1.28, CKEditor 4.7.2
+	* improve uno_menu.js
 * V1.4.4 - 19/05/2017 :
 	* ELFinder 2.1.24 - echo.js 1.7.3
 	* Add mypluginCkeditor.js.php plugin file
