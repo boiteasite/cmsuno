@@ -277,7 +277,7 @@ Variables usable all have almost the same name as the shortcodes. Here is a non-
 * __$Udescription__ : Website Description (`<meta name="description" content="[[description]]">`).
 * __$Uname__ : Published HTML file name. By default, it's "index".
 * __$unoPop__ : Set 1 to add unoPop JS and CSS. Small code in pure JS to use nodal window and to get value from url data.
-* __$unoUbusy__ : Set 1 to add JS var Ubusy in the head.
+* __$unoUbusy__ : Set 1 to add JS var Ubusy in the head. (See DATA chapter)
 
 As a plugin, you can add a makefile in your theme folder :
 
