@@ -1,10 +1,10 @@
 <?php
 // **********************************
 // CMSUno
-$version = '1.4.5';
+$version = '1.4.6';
 // **********************************
 // *** DEBUG MODE ***
-	// error_reporting(E_ALL); ini_set('display_errors',1);
+	error_reporting(E_ALL); ini_set('display_errors',1);
 // ******************
 $lang = 'en';
 ini_set('session.use_trans_sid', 0);
@@ -158,6 +158,7 @@ else { ?>
 		?>
 		</div>
 	</div><!-- .container -->
+	<script type="text/javascript" src="<?php echo $Udep; ?>includes/js/ckeditor/ckeditor.js"></script>
 </body>
 </html>
 <?php }
@@ -177,6 +178,7 @@ function f_chmodR($path, $fr=0644, $dr=0755)
 	}
 function f_check_pass($a,$b,$user)
 	{
+	if(!function_exists('password_hash')) include('uno/includes/password_hashing.php'); // php 5.5 missing => https://github.com/ircmaxell/password_compat (php>5.3)
 	if(substr($b,0,1)=='$' && strlen($b)==60 && password_verify($a,$b)) return true;
 	else if($b===$a)
 		{

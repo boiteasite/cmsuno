@@ -67,6 +67,10 @@ To reduce the size of CMSUno to less than 1 MB and benefit the speed of GitHub's
 
 or do it with update button.
 
+#### Requirement ####
+
+* PHP >= 5.3
+
 Use
 ---
 
@@ -418,6 +422,11 @@ THE SOFTWARE.
 Versions
 --------
 
+* V1.4.6 - 08/10/2017 :
+	* Include password.php if PHP version prior to 5.5
+	* Preloading (browser cache) ckeditor.js during login page
+	* Add password.php to use with 5.5 <= php < 5.5
+	* ELFinder 2.1.29, CKEditor 4.7.3
 * V1.4.5 - 03/09/2017 :
 	* jQuery 3.2.1, ELFinder 2.1.28, CKEditor 4.7.2
 	* improve uno_menu.js

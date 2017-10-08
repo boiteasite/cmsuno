@@ -37,7 +37,7 @@ CMSUno use a custom version of CKEditor made on http://ckeditor.com/ with the St
 * SHOW BLOCKS
 * WIDGET
 
-SKIN : MOONO
+SKIN : MOONO-LISA
 
 LANG : EN, FR, SP
 
