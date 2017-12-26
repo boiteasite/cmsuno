@@ -39,14 +39,14 @@ In a few words:
 * No page creation in PHP. The site consists of an HTML page that is created when the redactor has finished its work.
 The server has nothing to build, the page displays faster than any other CMS.
 * No SQL. Data stored in JSON. Easier to install, faster to use, very suitable for Ajax transfer.
-* Use of effective tools, tested and monitored as [CKEditor](http://ckeditor.com/) and [ELFinder](https://github.com/Studio-42/elFinder).
+* Use of effective tools, tested and monitored as [CKEditor](https://ckeditor.com/), [ELFinder](https://github.com/Studio-42/elFinder) and [W3.CSS](https://www.w3schools.com/w3css/).
 * Development of plugins easy and effective.
 * Adaptation of open source CSS template fast and easy.
 * Multilingual with PHP-Gettext.
 * Inline Update button for CMSUno and plugins.
 * Less than 1MB. Centralized hosting of part of the code on GitHub servers.
 
-More details in French [here](http://www.boiteasite.fr/fiches/cmsuno.html).
+More details in French [here](http://www.boiteasite.fr/cmsuno.html).
 
 Installation
 ------------
@@ -117,12 +117,14 @@ Use [NivoSlider](https://github.com/gilbitron/Nivo-Slider),
 * [__Code display__](https://github.com/cmsunoPlugins/code_display) : Adds a button in CKEditor to display code. Use [google-code-prettify](https://code.google.com/p/google-code-prettify/).
 * [__Comment__](https://github.com/cmsunoPlugins/comment) : It allows visitors to add comments in the page. Added with a Shortcode in the content of the page or directly in the template.
 * [__Contact__](https://github.com/cmsunoPlugins/contact) : It allows to create a custom-made contact form with Captcha. Added with a Shortcode in the content of the page or directly in the template.
+* [__EdiTheme__](https://github.com/cmsunoPlugins/editheme) : Edit and modify templates directly from CMSUno with syntax highlighting. Use [CodeMirror](https://codemirror.net/).
 * [__Fixed layout__](https://github.com/cmsunoPlugins/fixed_layout) : This plugin allows to create a page with a fixed background that changes with scrolling. Inspired by [Jquery Fixed Scroll Background](https://github.com/ebaumstarck/JqueryFixedScrollBackground).
 * [__Googlemap__](https://github.com/cmsunoPlugins/googlemap) : Adds a button in CKEditor to insert one or more Google-Map in your page.
 * [__Markdown__](https://github.com/cmsunoPlugins/markdown) : Allows you to display the formatted content of one or more MarkDown files in your page. It works with a shortcode and uses Parsedown.php to parse the markdown. Different CSS formats are availables. The wordpress format is also parsed. Allows to create a comprehensive system of paying plugin download with the appearance of wordpress.org.
 * [__Multipage__](https://github.com/cmsunoPlugins/multipage) :  This plugin allows you to create and manage multiple pages in CMSUno. Drag and Drop Menu Manager. Simple and practical for a complete website.
 * [__Model__](https://github.com/cmsunoPlugins/model) :  Create template for CKEditor. Very useful. Two default models exist : two columns and three columns. They are adjustable. Ability to create others sophisticated templates. As easy as the Lego game.
 * [__Newsletter__](https://github.com/cmsunoPlugins/newsletter) : Great plugin to send a formated newsletter to a list of subscriber. Use PHP mail(), Gmail SMTP or any SMTP provider. Shortcode to add a subscribe form in the page. Link in the mail to unsubscribe. Add PHPMailer to other plugins.
+* [__Paycoin__](https://github.com/cmsunoPlugins/paycoin) : Accept Bitcoin payment. Sales are checked and recorded with IPN return. Works also with digital goods and cart plugin.
 * [__Payment__](https://github.com/cmsunoPlugins/payment) : Allows you to create a small e-commerce site from CKEditor.
 It adds a "add to cart" button to the editor.
 It adds a complete cart system with order registration, email sending, invoice in PDF, multi-tax, shipping cost, payment by cheque and by bank transfer.
@@ -178,7 +180,8 @@ The template file is a simple html file with some specifics tags. Example :
 * [[description]] : meta description
 * [[head]] : head content (script, css link...)
 * [[foot]] : foot content (script...)
-* [[menu]] : menu
+* [[menu]] : menu (<UL> <LI> <A>)
+* [[menuW3]] : menu formated with w3.css
 * [[name]] : page file name without .html
 * [[template]] : template url
 * [[title]] : page title
@@ -265,6 +268,7 @@ The plugins are executed in alphabetical order. If a plugin must be executed bef
 * Exemple : fooMake2.php
 * Number between 1 and 5. No number is equivalent to 3
 * the series of 1 first (in alphabetic order) ... the series of 5 are the latest.
+* fooMake0.php can also be used. Unlike the others, it is executed before the menu creation and before name_of_your_themeMake0.php (see below).
 
 Variables usable all have almost the same name as the shortcodes. Here is a non-exhaustive list :
 
@@ -277,6 +281,7 @@ Variables usable all have almost the same name as the shortcodes. Here is a non-
 * __$Uscript__ : Short JS content added at the end of the head part in a `<script>` container. Use it, for example, to declare var.
 * __$Uonload__ : Used to add a JS code to be run after the start. ex : $onload = 'alert("hello!");';
 * __$Umenu__ : Page list according to `<ul class="maClasse"><li><a href="#...">MyPage</a></li>...</ul>`.
+* __$UmenuW3__ : Page list formatted according to the rules of [w3.CSS](https://www.w3schools.com/w3css/w3css_navigation.asp).
 * __$Utitle__ : Website Title. (Used in template : `<title>[[title]]</title>`).
 * __$Udescription__ : Website Description (`<meta name="description" content="[[description]]">`).
 * __$Uname__ : Published HTML file name. By default, it's "index".
@@ -422,10 +427,13 @@ THE SOFTWARE.
 Versions
 --------
 
+* V1.5 - 26/12/2017 :
+	* Add W3.CSS Fully Responsive Framework
+	* ELFinder 2.1.30, CKEditor 4.8
+* V1.4.5 - 03/09/2017 :
 * V1.4.6 - 08/10/2017 :
-	* Include password.php if PHP version prior to 5.5
 	* Preloading (browser cache) ckeditor.js during login page
-	* Add password.php to use with 5.5 <= php < 5.5
+	* Add password.php to use with 5.3 <= php < 5.5
 	* ELFinder 2.1.29, CKEditor 4.7.3
 * V1.4.5 - 03/09/2017 :
 	* jQuery 3.2.1, ELFinder 2.1.28, CKEditor 4.7.2

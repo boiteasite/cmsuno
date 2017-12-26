@@ -22,7 +22,7 @@ function f_theme()
 <title>CMSUno</title>
 <script type="text/javascript" src="<?php echo $Udep; ?>includes/js/ckeditor/ckeditor.js"></script>
 <script type="text/javascript">
-var Up=0,Udg=0,Usty=0,Uini=0,Utem=false,Uplug='',Uplugon=0,Unox='<?php echo $unox; ?>',Udep='<?php if(isset($Udep)) echo $Udep; else exit; ?>',Upt=[],Upd=[],Uplugact=[],Upluglist=[],UconfigFile=[],Ulang='<?php echo $lang; ?>',UconfigNum=0,Ubusy='',Uch=0;
+var Up=0,Udg=0,Usty=0,Uini=0,Utem=false,Uplug='',Uplugon=0,Unox='<?php echo $unox; ?>',Udep='<?php echo $Udep; ?>',Upt=[],Upd=[],Uplugact=[],Upluglist=[],UconfigFile=[],Ulang='<?php echo $lang; ?>',UconfigNum=0,Ubusy='',Uch=0;
 function f_init(){
 	var x=new XMLHttpRequest(),p='action=init&unox='+Unox;
 	x.open('POST','uno/central.php',true);
@@ -54,7 +54,7 @@ function f_init(){
 					function f_clic(k,c){
 						c.onclick=function(){
 							if(Uch==1){
-								f_alert('!<?php echo T_("do not save ?");?>');
+								f_alert("!<?php echo T_("do not save ?");?>");
 								Uch=0;
 							}
 							else{
@@ -84,7 +84,7 @@ function f_init(){
 						CKEDITOR.instances['content'].setData(s.substr(1));
 						CKEDITOR.instances['content'].on('change',function(){
 							if(Udg==4){
-								document.getElementById('boutonSauv').className="bouton danger";
+								document.getElementById('boutonSauv').className='bouton danger';
 								Udg=5;
 								Uch=1;
 							}
@@ -93,30 +93,28 @@ function f_init(){
 						CKEDITOR.on('instanceReady',function(evt){
 							document.getElementById('wait').style.display='none';
 						});
-						if(Upluglist.length!=0)document.getElementById('aplugin').style.display='inline';
+						document.getElementById('aplugin').style.display='inline';
+						document.getElementById('actiBarPlugin').style.display=(Upluglist.length==0?'none':'block');
 						document.getElementById('titreChap').onkeypress=function(){
-							document.getElementById('boutonSauv').className="bouton danger";
+							document.getElementById('boutonSauv').className='bouton danger';
 							Udg=1;
 							Uch=1;
 						};
 						document.getElementById('aconfig').style.display='inline';
 						document.getElementById('menu').appendChild(b);
-						document.getElementById('optOnOff').className="onoff";
-						if(r.pub)document.getElementById('boutonPub').style.display="inline";
+						document.getElementById('optOnOff').className='onoff';
+						if(r.pub)document.getElementById('boutonPub').style.display='inline';
 						if(r.edw)document.getElementById('contentP').style.width=r.edw+'px';
-						document.getElementById('titreChap').value=Upt[Up].replace(/\\/,"");
-						if(a==1||a==3||a==5||a==7)document.getElementById('optTit').checked=true;
-						else document.getElementById('optTit').checked=false;
-						if(a==2||a==3||a==6||a==7)document.getElementById('optMenu').checked=true;
-						else document.getElementById('optMenu').checked=false;
-						if(a==4||a==5||a==6||a==7)document.getElementById('optDisp').checked=true;
-						else document.getElementById('optDisp').checked=false;
+						document.getElementById('titreChap').value=Upt[Up].replace(/\\/,'');
+						document.getElementById('optTit').checked=((a==1||a==3||a==5||a==7)?true:false);
+						document.getElementById('optMenu').checked=((a==2||a==3||a==6||a==7)?true:false);
+						document.getElementById('optDisp').checked=((a==4||a==5||a==6||a==7)?true:false);
 						document.getElementById('chapOpt').style.display='none';
 						Uini=1;
 						Udg=0;
-						document.getElementById('boutonSauv').className="bouton";
+						document.getElementById('boutonSauv').className='bouton';
 						jQuery(function(){
-							jQuery("#menuSort").sortable({cancel:'.unsort',stop:function(){
+							jQuery('#menuSort').sortable({cancel:'.unsort',stop:function(){
 								var b=document.getElementById('menuSort'),v;
 								for(v=0;v<b.children.length;v++){
 									if(b.children[v].className.indexOf('bouton current off')!=-1){
@@ -129,7 +127,7 @@ function f_init(){
 									}
 								};
 							}});
-							jQuery("#menuSort").disableSelection();
+							jQuery('#menuSort').disableSelection();
 						});
 						if(r.nom)document.getElementById('avoir').href=r.nom+'.html';
 					};
@@ -147,8 +145,8 @@ function f_load_plugin_hook(f){
 		for(k in f){
 			Upluglist[k]=f[k];
 			if(f[k].substr(0,1)=='2'){
-				j=document.createElement("script");
-				j.type="text/javascript";
+				j=document.createElement('script');
+				j.type='text/javascript';
 				j.src='uno/plugins/'+f[k].substr(1)+'/'+f[k].substr(1)+'Hook.js';
 				document.body.appendChild(j);
 			}
@@ -227,7 +225,7 @@ f_init();
 				</tr><tr>
 					<td><label><?php echo T_("Page Description");?></label></td>
 					<td><input type="text" class="input" name="desc" id="desc" onkeyup="f_cdesc(this);" /><span id="cdesc"></span></td>
-					<td><em><?php echo T_("Important for attracting visitors. 156 characters max.");?></em></td>
+					<td><em><?php echo T_("Important for attracting visitors. 230 characters max.");?></em></td>
 				</tr><tr>
 					<td><label><?php echo T_("Base URL");?></label></td>
 					<td><input type="text" class="input" name="url" id="url" /></td>
@@ -256,7 +254,11 @@ f_init();
 				<tr>
 					<td><label><?php echo T_("LazyLoad");?></label></td>
 					<td><input type="checkbox" class="input" name="lazy" id="lazy" /></td>
-					<td><em><?php echo T_("Dynamic images loading (recommended)");?></em></td>
+					<td><em><?php echo T_("Dynamic images loading. (recommended)");?></em></td>
+				</tr><tr>
+					<td><label><?php echo T_("Load w3.css");?></label></td>
+					<td><input type="checkbox" class="input" name="w3" id="w3" /></td>
+					<td><em><?php echo T_("W3.css is a modern CSS framework with built-in responsiveness. (recommended)");?></em></td>
 				</tr><tr>
 					<td><label><?php echo T_("Load JQuery");?></label></td>
 					<td><input type="checkbox" class="input" name="jq" id="jq" /></td>
@@ -352,7 +354,7 @@ f_init();
 			<div id="listPlugins"></div>
 		</div>
 		<div id="finder1"></div>
-		<div class="blocBouton">
+		<div id="actiBarPlugin" class="blocBouton">
 			<div id="prePlugin" style="display:none;">
 				<h1 id="nomPlug"></h1>
 				<div>
@@ -372,13 +374,13 @@ f_init();
 <link rel="stylesheet" type="text/css" media="screen" href="uno/includes/elfinder/css/elfinder.min.css" />
 <script type="text/javascript">
 function f_get_site(f){
-	jQuery.ajax({type:"POST",url:'uno/central.php',data:{'action':'getSite','unox':Unox},dataType:'json',async:true,success:function(r){
+	jQuery.ajax({type:'POST',url:'uno/central.php',data:{'action':'getSite','unox':Unox},dataType:'json',async:true,success:function(r){
 		var a=document.getElementById('menu'),b;
 		Ubusy=r.nom;
 		Usty=r.sty;
 		Utem=r.tem;
 		if(Up!=-1){
-			jQuery("#menu").empty();
+			jQuery('#menu').empty();
 			b=document.createElement('ul');
 			b.id='menuSort';
 			b.className='ui-sortable';
@@ -391,7 +393,7 @@ function f_get_site(f){
 					c.className='bouton unsort';
 					c.onclick=function(){
 						if(Uch==1){
-							f_alert('!<?php echo T_("do not save ?");?>');
+							f_alert("!<?php echo T_("do not save ?");?>");
 							Uch=0;
 						}
 						else{
@@ -406,7 +408,7 @@ function f_get_site(f){
 			});
 			a.appendChild(b);
 			jQuery(function(){
-				jQuery("#menuSort").sortable({cancel:'.unsort',stop:function(){
+				jQuery('#menuSort').sortable({cancel:'.unsort',stop:function(){
 					b=document.getElementById('menuSort');
 					for(var v=0;v<b.children.length;v++){
 						if(b.children[v].className.indexOf('bouton current off')!=-1){
@@ -419,19 +421,19 @@ function f_get_site(f){
 						}
 					};
 				}});
-				jQuery("#menuSort").disableSelection();
+				jQuery('#menuSort').disableSelection();
 			});
-			jQuery("input[name='titre']").val(Upt[Up].replace(/\\/,""));
-			document.getElementById('optOnOff').className="onoff";
-			if(r.pub)document.getElementById('boutonPub').style.display="inline";
+			jQuery('input[name="titre"]').val(Upt[Up].replace(/\\/,''));
+			document.getElementById('optOnOff').className='onoff';
+			if(r.pub)document.getElementById('boutonPub').style.display='inline';
 			if(r.edw)document.getElementById('contentP').style.width=r.edw+'px';
 			if(f!=0)f_get_chap(Up);
 		}else{
-			document.getElementById('tit').value=r.tit.replace(/\\/, "")||'';
-			document.getElementById('desc').value=r.desc.replace(/\\/, "")||'';
+			document.getElementById('tit').value=r.tit.replace(/\\/, '')||'';
+			document.getElementById('desc').value=r.desc.replace(/\\/, '')||'';
 			document.getElementById('nom').value=r.nom||'';
 			document.getElementById('url').value=r.url||'<?php echo 'http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']); ?>';
-			var t=document.getElementById("tem"),to=t.options,v;
+			var t=document.getElementById('tem'),to=t.options,v;
 			for(v=0;v<to.length;v++){
 				if(to[v].value==r.tem){
 					to[v].selected=true;v=to.length;
@@ -439,12 +441,10 @@ function f_get_site(f){
 			};
 			document.getElementById('edw').value=r.edw||'';
 			document.getElementById('ofs').value=r.ofs||'';
-			if(r.lazy==1)document.getElementById('lazy').checked=true;
-			else document.getElementById('lazy').checked=false;
-			if(r.jq==1)document.getElementById('jq').checked=true;
-			else document.getElementById('jq').checked=false;
-			if(r.sty==1)document.getElementById('sty').checked=true;
-			else document.getElementById('sty').checked=false;
+			document.getElementById('lazy').checked=(r.lazy==1?true:false);
+			document.getElementById('jq').checked=(r.jq==1?true:false);
+			document.getElementById('w3').checked=(r.w3==1?true:false);
+			document.getElementById('sty').checked=(r.sty==1?true:false);
 			document.getElementById('mel').value=r.mel||'';
 		}
 		if(r.nom)document.getElementById('avoir').href=r.nom+'.html';
@@ -456,17 +456,14 @@ function f_get_chap(f){
 		if(r1.length<3)r1+='-';
 		CKEDITOR.instances['content'].setData(r1.substr(1));
 		var a=r1.substr(0,1);
-		if(a==1||a==3||a==5||a==7)document.getElementById('optTit').checked=true;
-		else document.getElementById('optTit').checked=false;
-		if(a==2||a==3||a==6||a==7)document.getElementById('optMenu').checked=true;
-		else document.getElementById('optMenu').checked=false;
-		if(a==4||a==5||a==6||a==7)document.getElementById('optDisp').checked=true;
-		else document.getElementById('optDisp').checked=false;
+		document.getElementById('optTit').checked=((a==1||a==3||a==5||a==7)?true:false);
+		document.getElementById('optMenu').checked=((a==2||a==3||a==6||a==7)?true:false);
+		document.getElementById('optDisp').checked=((a==4||a==5||a==6||a==7)?true:false);
 		document.getElementById('chapOpt').style.display='none';
 		Uini=1;
 		Udg=0;
 		document.getElementById('wait').style.display='none';
-		document.getElementById('boutonSauv').className="bouton";
+		document.getElementById('boutonSauv').className='bouton';
 	});
 }
 function f_sauve_chap(){
@@ -474,13 +471,13 @@ function f_sauve_chap(){
 		f_alert(r);
 		f_get_site(0);
 		Udg=0;
-		document.getElementById('boutonSauv').className="bouton";
+		document.getElementById('boutonSauv').className='bouton';
 		Uch=0;
 	});
 }
 function f_sauve_config(){
 	var nom=document.getElementById('nom').value;
-	jQuery.post('uno/central.php',{'action':'sauveConfig','unox':Unox,'tit':document.getElementById('tit').value,'desc':document.getElementById('desc').value,'nom':nom,'mel':document.getElementById('mel').value,'tem':document.getElementById("tem").options[document.getElementById("tem").selectedIndex].value,'url':document.getElementById('url').value,'lazy':document.getElementById('lazy').checked,'jq':document.getElementById('jq').checked,'sty':document.getElementById('sty').checked,'edw':document.getElementById('edw').value,'ofs':document.getElementById('ofs').value},function(r){
+	jQuery.post('uno/central.php',{'action':'sauveConfig','unox':Unox,'tit':document.getElementById('tit').value,'desc':document.getElementById('desc').value,'nom':nom,'mel':document.getElementById('mel').value,'tem':document.getElementById('tem').options[document.getElementById('tem').selectedIndex].value,'url':document.getElementById('url').value,'lazy':document.getElementById('lazy').checked,'jq':document.getElementById('jq').checked,'w3':document.getElementById('w3').checked,'sty':document.getElementById('sty').checked,'edw':document.getElementById('edw').value,'ofs':document.getElementById('ofs').value},function(r){
 		f_alert(r);
 		if(nom.length>0)document.getElementById('avoir').href=nom+'.html';
 	});
@@ -529,7 +526,7 @@ function f_supp_chap(){
 function f_publier(){
 	document.getElementById('wait').style.display='block';
 	jQuery.post('uno/central.php',{'action':'publier','unox':Unox},function(r){
-		document.getElementById('boutonPub').style.display="none";
+		document.getElementById('boutonPub').style.display='none';
 		f_alert(r);
 	});
 }
@@ -554,7 +551,7 @@ function f_restaure(f){
 function f_archDel(f){
 	document.getElementById('wait').style.display='block';
 	jQuery.post('uno/central.php',{'action':'archDel','unox':Unox,'zip':f},function(r){
-		var t=document.getElementById("archive"),to=t.options,v;
+		var t=document.getElementById('archive'),to=t.options,v;
 		for(v=0;v<to.length;v++){
 			if(to[v].value==f){
 				t.removeChild(to[v]);
@@ -567,7 +564,7 @@ function f_archDownload(f){
 	document.getElementById('wait').style.display='block';
 	jQuery.post('uno/central.php',{'action':'archDownload','unox':Unox,'zip':f},function(r){
 		document.getElementById('wait').style.display='none';
-		if(r.substr(0,1)=="!")f_alert(r);
+		if(r.substr(0,1)=='!')f_alert(r);
 		else window.location=r;
 	});
 }
@@ -575,28 +572,28 @@ function f_fileDownload(){
 	document.getElementById('wait').style.display='block';
 	jQuery.post('uno/central.php',{'action':'filesDownload','unox':Unox},function(r){
 		document.getElementById('wait').style.display='none';
-		if(r.substr(0,1)=="!")f_alert(r);
+		if(r.substr(0,1)=='!')f_alert(r);
 		else window.location=r;
 	});
 }
 function f_selectArchive(){
 	jQuery.post('uno/central.php',{'action':'selectArchive','unox':Unox},function(r){
 		if(r){
-			document.getElementById('boutonRestaure').style.display="inline";
+			document.getElementById('boutonRestaure').style.display='inline';
 			document.getElementById('blocArchive').innerHTML=r;
 		}
 		else{
-			document.getElementById('boutonRestaure').style.display="none";
+			document.getElementById('boutonRestaure').style.display='none';
 			document.getElementById('blocArchive').innerHTML=''
 		}
 	});
 }
 function f_logout(){
-	var a=document.getElementById('info'),b=document.createElement("form"),c=document.createElement("input");
-	b.method="POST";
-	b.action="";
-	c.name="logout";
-	c.type="hidden";
+	var a=document.getElementById('info'),b=document.createElement('form'),c=document.createElement('input');
+	b.method='POST';
+	b.action='';
+	c.name='logout';
+	c.type='hidden';
 	c.value=1;
 	b.appendChild(c);
 	a.appendChild(b);
@@ -608,32 +605,32 @@ function f_alert(f){
 		jQuery.post('uno/central.php',{'action':'error','unox':Unox,'e':f});
 	}
 	else{
-		var a=document.getElementById('info'),b=document.createElement("span");
-		b.id="alert";
-		if(f.substr(0,1)=="!"){
-			b.style.color="red";
+		var a=document.getElementById('info'),b=document.createElement('span');
+		b.id='alert';
+		if(f.substr(0,1)=='!'){
+			b.style.color='red';
 			f=f.substr(1);
 		}
 		b.innerHTML=f;
 		a.appendChild(b);
 		setTimeout(function(){
-			jQuery("#alert").fadeOut("slow",function(){
-				jQuery("#alert").remove();
+			jQuery('#alert').fadeOut('slow',function(){
+				jQuery('#alert').remove();
 			});
-			jQuery("#info").empty();
+			jQuery('#info').empty();
 		},2000);
 	}
 	document.getElementById('wait').style.display='none';
 }
 function f_config(){
-	document.getElementById('plugins').style.display="none";
+	document.getElementById('plugins').style.display='none';
 	document.getElementById('apage').style.textDecoration='none';
 	document.getElementById('aplugin').style.textDecoration='none';
 	document.getElementById('aconfig').style.textDecoration='underline';
 	Up=-1;
 	f_get_site(0);
-	document.getElementById('chaps').style.display="none";
-	document.getElementById('config').style.display="block";
+	document.getElementById('chaps').style.display='none';
+	document.getElementById('config').style.display='block';
 	f_selectArchive();
 	document.getElementById('wait').style.display='none';
 }
@@ -665,23 +662,23 @@ function f_archOption(f){
 function f_plugins(){
 	Up=-1;
 	var a=document.getElementById('listPlugins');
-	document.getElementById('config').style.display="none";
-	document.getElementById('chaps').style.display="none";
-	document.getElementById('plugins').style.display="block";
+	document.getElementById('config').style.display='none';
+	document.getElementById('chaps').style.display='none';
+	document.getElementById('plugins').style.display='block';
 	document.getElementById('prePlugin').style.display='block';
 	f_managePlug(2);
 	jQuery(a).empty();
 	jQuery.each(Upluglist,function(k,v){
-		var b=document.createElement("span");
-		b.className="bouton";
-		b.id="p"+v.substr(1);
+		var b=document.createElement('span');
+		b.className='bouton';
+		b.id='p'+v.substr(1);
 		b.onclick=function(){
 			f_plugin(v);
 		};
-		if(v=='9_')b.innerHTML='<?php echo T_("My theme");?>';
+		if(v=='9_')b.innerHTML="<?php echo T_("My theme");?>";
 		else b.innerHTML=v.charAt(1).toUpperCase()+v.substr(2);
 		if(k==0){
-			b.className="bouton current off";
+			b.className='bouton current off';
 			Uplugon=v.substr(0,1);
 		}
 		a.appendChild(b);
@@ -694,24 +691,21 @@ function f_plugin(f){
 		document.getElementById('apage').style.textDecoration='none';
 		document.getElementById('aplugin').style.textDecoration='underline';
 		document.getElementById('aconfig').style.textDecoration='none';
-		jQuery("#finderDiv").elfinder('close');
-		document.getElementById('boutonFinder1').className="bouton finder fr";
+		jQuery('#finderDiv').elfinder('close');
+		document.getElementById('boutonFinder1').className='bouton finder fr';
 		if(Uplugact[0]&&Uplugact[0]!='_')f='1'+Uplugact[0];
 		else if(Uplugact[0]=='_')f='9_';
 		else f=Uplugon+a.firstChild.id.substr(1);
 	}
 	d=a.childNodes;
-	for(v=0;v<d.length;v++){
-		if(d[v].id=="p"+f.substr(1))d[v].className="bouton current off";
-		else d[v].className="bouton";
-	};
+	for(v=0;v<d.length;v++)d[v].className=((d[v].id=='p'+f.substr(1))?'bouton current off':'bouton');
 	d=document.getElementById('onPlug');
 	d.name=f.substr(1);
 	d.style.display='inline-block';
 	c=f.substr(0,1);
 	if(c=='1'||c=='2'){
 		d.checked=true;
-		d.nextSibling.innerHTML='<?php echo T_("Enable");?>';
+		d.nextSibling.innerHTML="<?php echo T_("Enable");?>";
 		d.nextSibling.style.color='green';
 	}
 	else if(c=='9'){
@@ -721,12 +715,11 @@ function f_plugin(f){
 	}
 	else{
 		d.checked=false;
-		d.nextSibling.innerHTML='<?php echo T_("Disable");?>';
+		d.nextSibling.innerHTML="<?php echo T_("Disable");?>";
 		d.nextSibling.style.color='#f79f81';
 	}
-	if(c=='9')document.getElementById('nomPlug').innerHTML='<?php echo T_("My theme");?> : '+Utem;
-	else document.getElementById('nomPlug').innerHTML='Plugin : '+f.substr(1);
-	document.getElementById('plugin').innerHTML="";
+	document.getElementById('nomPlug').innerHTML=(c=='9'?'<?php echo T_("My theme");?> : '+Utem:'Plugin : '+f.substr(1));
+	document.getElementById('plugin').innerHTML='';
 	if(c!='9')jQuery.post('uno/plugins/'+f.substr(1)+'/'+f.substr(1)+'.php',{'action':'plugin','unox':Unox,'udep':Udep},function(r){
 		document.getElementById('plugin').innerHTML=r;
 		jQuery.getScript('uno/plugins/'+f.substr(1)+'/'+f.substr(1)+'.js');
@@ -740,24 +733,24 @@ function f_plugin(f){
 }
 function f_onPlug(f){
 	if(f.checked){
-		f.nextSibling.innerHTML='<?php echo T_("Enable");?>';
+		f.nextSibling.innerHTML="<?php echo T_("Enable");?>";
 		f.nextSibling.style.color='green';
 	}
 	else{
-		f.nextSibling.innerHTML='<?php echo T_("Disable");?>';
+		f.nextSibling.innerHTML="<?php echo T_("Disable");?>";
 		f.nextSibling.style.color='#f79f81';
 	}
 	jQuery.post('uno/central.php',{'action':'onPlug','unox':Unox,'n':f.name,'c':f.checked},function(){
 		f_plugin_hook();
 	});
-	var t=((f.checked)?"1":"0")+f.name;
+	var t=((f.checked)?'1':'0')+f.name;
 	document.getElementById('p'+f.name).onclick=function(){
 		f_plugin(t);
 	};
-	if(document.getElementById('plugOnOff').className.search('all')==-1)document.getElementById('p'+f.name).style.display=((f.checked)?"inline-block":"none");
+	if(document.getElementById('plugOnOff').className.search('all')==-1)document.getElementById('p'+f.name).style.display=((f.checked)?'inline-block':'none');
 }
 function f_plugin_hook(){
-	jQuery.ajax({type:"POST",url:'uno/central.php',data:{'action':'pluginsActifs','unox':Unox},dataType:'json',async:true,success:function(r){
+	jQuery.ajax({type:'POST',url:'uno/central.php',data:{'action':'pluginsActifs','unox':Unox},dataType:'json',async:true,success:function(r){
 		if(r.pl)jQuery.each(r.pl,function(k,v){
 			Uplugact[k]=v;
 		});
@@ -770,7 +763,7 @@ function f_plugAll(f,g){
 	var b=0,v;
 	if((f.className.search('all')!=-1)||g){
 		f.className='onoff';
-		jQuery("#listPlugins>span").hide();
+		jQuery('#listPlugins>span').hide();
 		for(v=0;v<Uplugact.length;v++){
 			if(Uplugact[v])document.getElementById('p'+Uplugact[v]).style.display='inline-block';
 			b=1;
@@ -778,37 +771,35 @@ function f_plugAll(f,g){
 	}
 	if(b==0){
 		f.className='onoff all';
-		jQuery("#listPlugins>span").show();
+		jQuery('#listPlugins>span').show();
 	}
 }
 function f_ctit(f){
 	var a=document.getElementById('ctit');
-	if(f.value.length>65)a.style.color="red";
-	else a.style.color="green";
+	a.style.color=(f.value.length>65?'red':'green');
 	a.innerHTML=f.value.length;
 }
 function f_cdesc(f){
 	var a=document.getElementById('cdesc');
-	if(f.value.length>156)a.style.color="red";
-	else a.style.color="green";
+	a.style.color=(f.value.length>230?'red':'green');
 	a.innerHTML=f.value.length;
 }
 function f_elfinder(f){
 	var a=document.getElementById('finderDiv');
-	if(f==1)jQuery("#finderDiv").appendTo(jQuery("#finder1"));
-	if(a.style.display=="none"){
-		jQuery("#finderDiv").elfinder('open');
-		document.getElementById('boutonFinder'+f).className="bouton finder fr current";
+	if(f==1)jQuery('#finderDiv').appendTo(jQuery('#finder1'));
+	if(a.style.display=='none'){
+		jQuery('#finderDiv').elfinder('open');
+		document.getElementById('boutonFinder'+f).className='bouton finder fr current';
 		return
 	};
-	jQuery("#finderDiv").elfinder('close');
-	document.getElementById('boutonFinder'+f).className="bouton finder fr";
+	jQuery('#finderDiv').elfinder('close');
+	document.getElementById('boutonFinder'+f).className='bouton finder fr';
 }
 function f_finder_select(f){
-	jQuery('<div \>').dialog({modal:true,width:"940px",title:"<?php echo T_("Select a file");?>",zIndex: 9999,create:function(e,u){
+	jQuery('<div \>').dialog({modal:true,width:'940px',title:"<?php echo T_("Select a file");?>",zIndex: 9999,create:function(e,u){
 		jQuery(this).elfinder({
 			resizable:false,
-			url:"uno/includes/elfinder/php/connector.php",
+			url:'uno/includes/elfinder/php/connector.php',
 			useBrowserHistory:false,
 			commandsOptions:{getfile:{oncomplete:'destroy'}},
 			getFileCallback:function(file){
@@ -820,21 +811,21 @@ function f_finder_select(f){
 }
 function f_managePlug(f){
 	var a=document.getElementById('managePlug'),b=document.getElementById('prePlugin'),c=document.getElementById('plugin');
-	if(f!=2&&(a.style.display=="none"||f==1)){
+	if(f!=2&&(a.style.display=='none'||f==1)){
 		jQuery.post('uno/central.php',{'action':'pluglist','unox':Unox},function(r){
 			if(r.substr(0,1)!='!')a.innerHTML=r;
 			else f_alert(r);
 		});
-		a.style.display="block";
-		b.style.display="none";
-		c.style.display="none";
-		document.getElementById('boutonManagePlug').className="bouton managePlug fr current";
+		a.style.display='block';
+		b.style.display='none';
+		c.style.display='none';
+		document.getElementById('boutonManagePlug').className='bouton managePlug fr current';
 		return
 	};
-	a.style.display="none";
-	b.style.display="block";
-	c.style.display="block";
-	document.getElementById('boutonManagePlug').className="bouton managePlug fr";
+	a.style.display='none';
+	b.style.display='block';
+	c.style.display='block';
+	document.getElementById('boutonManagePlug').className='bouton managePlug fr';
 }
 function f_plugAdd(f){
 	document.getElementById('wait').style.display='block';
@@ -846,7 +837,7 @@ function f_plugAdd(f){
 	});
 }
 function f_plugDel(f){
-	if(confirm("<?php echo T_('Remove'); ?> "+f+" ?")){
+	if(confirm("<?php echo T_("Remove"); ?> "+f+" ?")){
 		jQuery.post('uno/central.php',{'action':'plugdel','unox':Unox,'plug':f},function(r){
 			f_alert(r);
 			setTimeout(function(){
@@ -861,9 +852,9 @@ function f_nombre(e){
 	return true;
 }
 function f_checkUpdate(){
-	var a=document.getElementById('updateDiv'),b=0,c=document.createElement("table"),d='';
+	var a=document.getElementById('updateDiv'),b=0,c=document.createElement('table'),d='';
 	document.getElementById('wait').style.display='block';
-	jQuery("#checkUpdate").hide();
+	jQuery('#checkUpdate').hide();
 	jQuery.post('uno/central.php',{'action':'checkUpdate','unox':Unox,'u':0},function(r){
 		r=r.split('|');
 		if(r[1]=='1')d='<div id="lighter" style="float:right"><?php echo T_("Remove what is available online ? (recommended)"); ?> <span class="bouton" onClick="f_lighter();"><?php echo T_("Lighten"); ?></span></div>';
@@ -912,7 +903,7 @@ function f_lighter(){
 	});
 }
 function f_extraJS(){
-	jQuery.getScript(Udep+"includes/js/jqColorPicker.min.js");
+	jQuery.getScript(Udep+'includes/js/jqColorPicker.min.js');
 }
 //
 window.scrollTo(0,0);

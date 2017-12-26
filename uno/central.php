@@ -253,6 +253,7 @@ if(isset($_POST['action']))
 		if(!isset($a['sty'])) $a['sty'] = 0; // default
 		if(!isset($a['edw'])) $a['edw'] = 960; // default
 		if(!isset($a['jq'])) $a['jq'] = 0; // default
+		if(!isset($a['w3'])) $a['w3'] = 0; // default
 		$c = preg_replace_callback('/(<img[^>]*src=["\'])([^"\']*)/', function($m) { return ''.$m[1].substr($m[2],strpos($m[2],'files/'));}, $_POST['content']); // lien relatif
 		$out = json_encode($a);
 		if(file_put_contents('data/'.$Ubusy.'/site.json', $out) && file_put_contents('data/'.$Ubusy.'/chap'.$_POST['data'].'.txt', $c)) echo T_('Backup performed');
@@ -298,6 +299,7 @@ if(isset($_POST['action']))
 		case 'sauvePass':
 		define('CMSUNO', 'cmsuno');
 		include('password.php');
+		if(!function_exists('password_hash')) include('uno/includes/password_hashing.php'); // php 5.5 missing => https://github.com/ircmaxell/password_compat (php>5.3)
 		$a = $_POST['user']; $b = $_POST['pass'];
 		if($_POST['user0']=='' || $_POST['pass0']=='') // only lang
 			{
@@ -352,6 +354,7 @@ if(isset($_POST['action']))
 		if($_POST['ofs']!='') $a['ofs'] = $_POST['ofs']; else $a['ofs'] = 0;
 		if($_POST['lazy']=="true") $a['lazy']=1; else $a['lazy']=0;
 		if($_POST['jq']=="true") $a['jq']=1; else $a['jq']=0;
+		if($_POST['w3']=="true") $a['w3']=1; else $a['w3']=0;
 		if($_POST['sty']=="true") $a['sty']=1; else $a['sty']=0;
 		$out = json_encode($a);
 		if(file_put_contents('data/'.$Ubusy.'/site.json', $out)) echo T_('Backup performed');
@@ -399,8 +402,8 @@ if(isset($_POST['action']))
 		// ********************************************************************************************
 		// SHORTCODE [[foo]] : title, description, template, head, foot, menu, jsmenu, content
 		case 'publier':
-		$Uhead = ''; $Ufoot = ''; $Uonload = ''; $Ucontent = ''; $Umenu = ''; $Ustyle = '.blocChap{clear:both}'."\r\n"; $UstyleSm = '';
-		$Uscript = ''; $Ujsmenu = '<script type="text/javascript" src="'.$Udep.'includes/js/uno_menu.js"></script>';
+		$Uhead = ''; $Ufoot = ''; $Uonload = ''; $Ucontent = ''; $Ustyle = '.blocChap{clear:both}'."\r\n"; $UstyleSm = ''; $Uw3 = array();
+		$Uscript = ''; $Umenu = ''; $Ujsmenu = '<script type="text/javascript" src="'.$Udep.'includes/js/uno_menu.js"></script>';
 		$unoPop=0; // Include JS files
 		$unoUbusy=0; // Include Ubusy in JS
 		if(!empty($_POST['Ubusy']) && file_exists('data/'.$_POST['Ubusy'].'/site.json')) $Ubusy = $_POST['Ubusy'];
@@ -411,6 +414,17 @@ if(isset($_POST['action']))
 			echo '!'.T_('Save Config First');
 			exit;
 			}
+		if(!empty($Ua['w3'])) include('w3cssDefault.php');
+		else $Ustyle .= '.w3-hide{display:none!important}.w3-right{float:right!important}.w3-button{cursor:pointer}.w3-container{padding:0 16px}.w3-section{margin:16px 0}'."\r\n";
+		// *** Plugins & Theme make 0 ***
+		if(isset($Ua['plug'])) foreach($Ua['plug'] as $Uk=>$Ur)
+			{
+			if(file_exists('plugins/'.$Uk.'/'.$Uk.'Make0.php')) include('plugins/'.$Uk.'/'.$Uk.'Make0.php');
+			}
+		if(file_exists('template/'.$Ua['tem'].'/'.$Ua['tem'].'Make0.php')) include('template/'.$Ua['tem'].'/'.$Ua['tem'].'Make0.php');
+		// *** / ***
+		$UmenuW3 = '<div id="nav">'."\r\n".'<div class="'.(isset($Uw3['UnoMenu']['large-bar'])?$Uw3['UnoMenu']['large-bar']:'w3-bar').'">'."\r\n";
+		$UmenuW3S = '<div id="navSmall" class="'.(isset($Uw3['UnoMenu']['small-bar'])?$Uw3['UnoMenu']['small-bar']:'w3-bar-block').' '.(isset($Uw3['UnoMenu']['small-hide'])?$Uw3['UnoMenu']['small-hide']:'w3-hide-large w3-hide-medium w3-hide').'">'."\r\n";
 		$Uscript .= 'var Umenuoffset='.intval($Ua['ofs']).';';
 		$Uhtml = file_get_contents('template/'.$Ua['tem'].'/template.html');
 		$Ustyle .= 'h2.nav1 a,h2.nav2 a,h2.nav1 a:hover,h2.nav2 a:hover{color:inherit;text-decoration:none;}'."\r\n";
@@ -421,7 +435,7 @@ if(isset($_POST['action']))
 				$c = file_get_contents('data/'.$Ubusy.'/chap'.$v['d'].'.txt');
 				$w = strtr(utf8_decode($v['t']),'¿¡¬√ƒ≈∆«»… ÀÃÕŒœ–—“”‘’÷ÿŸ⁄€‹›ﬁﬂ‡·‚„‰ÂÊÁËÈÍÎÏÌÓÔÒÚÛÙıˆ¯˘˙˚˝˝˛ˇ','aaaaaaaceeeeiiiidnoooooouuuuybsaaaaaaaceeeeiiiidnoooooouuuyyby');
 				$w = preg_replace('/[^a-zA-Z0-9%]/s','',$w);
-				$Ucontent .= '<div id="'.$w.'BlocChap" class="blocChap">'."\r\n";
+				$Ucontent .= '<div id="'.$w.'BlocChap" class="blocChap '.(isset($Uw3['Uno']['w3-section'])?$Uw3['Uno']['w3-section']:'w3-section').'">'."\r\n";
 				// menu
 				if(empty($Ua['chap'][$k]['om'])) // menu not hidden
 					{
@@ -431,17 +445,23 @@ if(isset($_POST['action']))
 					if(!empty($d[1][0]))
 						{
 						$m = "\r\n\t".'<ul class="subMenu">';
-						$e = 0;
+						$UmenuW3 .= '<div class="'.(isset($Uw3['UnoMenu']['w3-dropdown'])?$Uw3['UnoMenu']['w3-dropdown']:'w3-dropdown-hover').'"><a href="#'.$w.'" class="'.(isset($Uw3['UnoMenu']['large-bar-parent-item'])?$Uw3['UnoMenu']['large-bar-parent-item']:'w3-bar-item w3-button').' '.(isset($Uw3['UnoMenu']['large-hide'])?$Uw3['UnoMenu']['large-hide']:'w3-hide-small').'">'.stripslashes($v['t']).'</a>';
+						$UmenuW3 .= '<div class="'.(isset($Uw3['UnoMenu']['w3-dropdown-content'])?$Uw3['UnoMenu']['w3-dropdown-content']:'w3-dropdown-content').' '.(isset($Uw3['UnoMenu']['w3-bar-block'])?$Uw3['UnoMenu']['w3-bar-block']:'w3-bar-block').'">'."\r\n";
+						$e = 0; $m3 = '';
 						foreach($d[1] as $r)
 							{
 							if($r)
 								{
 								++$e;
 								$m .= '<li><a href="#'.$w.'-'.preg_replace('/[^a-zA-Z0-9%]/s','',$r).'-'.$e.'">'.$r.'</a></li>';
+								$m3 .= '<a href="#'.$w.'-'.preg_replace('/[^a-zA-Z0-9%]/s','',$r).'-'.$e.'" class="'.(isset($Uw3['UnoMenu']['large-bar-sub-item'])?$Uw3['UnoMenu']['large-bar-sub-item']:'w3-bar-item w3-button').'">'.$r.'</a>';
 								}
 							}
 						$m .= '</ul>'."\r\n";
+						$UmenuW3 .= $m3."\r\n".'</div></div>'."\r\n";
 						}
+					else $UmenuW3 .= '<a href="#'.$w.'" class="'.(isset($Uw3['UnoMenu']['large-bar-item'])?$Uw3['UnoMenu']['large-bar-item']:'w3-bar-item w3-button').' '.(isset($Uw3['UnoMenu']['large-hide'])?$Uw3['UnoMenu']['large-hide']:'w3-hide-small').'">'.stripslashes($v['t']).'</a>'."\r\n";
+					$UmenuW3S .= '<a href="#'.$w.'" class="'.(isset($Uw3['UnoMenu']['small-bar-item'])?$Uw3['UnoMenu']['small-bar-item']:'w3-bar-item w3-button').'">'.stripslashes($v['t']).'</a>'."\r\n";
 					$Umenu .= $m.'</li>'."\r\n";
 					}
 				// titre + class pour menu & submenu
@@ -458,7 +478,7 @@ if(isset($_POST['action']))
 						}
 					else return $m[1].$m[2];
 					}, $c); // submenu
-				$Ucontent .= $c.'</div><!-- .blocChap -->'."\r\n";
+				$Ucontent .= $c.'</div><!-- #'.$w.'BlocChap -->'."\r\n"; // Comment = End bloc detection by plugins !
 				}
 			}
 		$Utitle = (isset($Ua['tit']))?stripslashes($Ua['tit']):"";
@@ -470,18 +490,18 @@ if(isset($_POST['action']))
 		if(!empty($Ua['jq']))
 			{
 			$Uhead .= '<!--[if(!IE)|(gt IE 8)]><!--><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><!--<![endif]-->'."\r\n"
-				.'<!--[if lte IE 8]><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><![endif]-->'."\r\n"
-				.'<script type="text/javascript" src="'.$Udep.'includes/js/jquery-migrate-1.4.1.min.js"></script>'."\r\n";
+				.'<!--[if lte IE 8]><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><![endif]-->'."\r\n";
 			if($Udep=='uno/') $Uhead .= '<script type="text/javascript">window.jQuery || document.write(\'<script src="uno/includes/js/jquery-3.2.1.min.js">\x3C/script>\')</script>'."\r\n";
+			$Uhead .= '<script type="text/javascript" src="'.$Udep.'includes/js/jquery-migrate-1.4.1.min.js"></script>'."\r\n";
 			}
+		if(!empty($Ua['w3'])) $Uhead .= '<link rel="stylesheet" href="'.$Udep.'includes/css/w3.css"> '."\r\n";
 		if(!empty($Ua['lazy']))
 			{
-			$Ustyle .= '.content img[data-echo]{display:none;background:#fff url('.$Udep.'includes/css/a.gif) no-repeat center center;}'."\r\n";
-			$Ufoot .= '<script type="text/javascript" src="'.$Udep.'includes/js/echo.min.js"></script>'."\r\n".'<script type="text/javascript">var css=".content img[data-echo]{display:inline;}",head=document.head||document.getElementsByTagName("head")[0],style=document.createElement("style");style.type="text/css";if(style.styleSheet) style.styleSheet.cssText=css;else style.appendChild(document.createTextNode(css));head.appendChild(style);echo.init({offset:900,throttle:250});echo.render();</script>'."\r\n";
+			$Ustyle .= '.pagesContent img[data-echo]{display:none;background:#fff url('.$Udep.'includes/css/a.gif) no-repeat center center;}'."\r\n";
+			$Ufoot .= '<script type="text/javascript" src="'.$Udep.'includes/js/echo.min.js"></script>'."\r\n".'<script type="text/javascript">var css=".pagesContent img[data-echo]{display:inline;}",head=document.head||document.getElementsByTagName("head")[0],style=document.createElement("style");style.type="text/css";if(style.styleSheet) style.styleSheet.cssText=css;else style.appendChild(document.createTextNode(css));head.appendChild(style);echo.init({offset:900,throttle:250});echo.render();</script>'."\r\n";
 			$Ucontent = f_lazy($Ucontent);
 			}
-		if(file_exists('template/'.$Ua['tem'].'/'.$Ua['tem'].'Make0.php')) include('template/'.$Ua['tem'].'/'.$Ua['tem'].'Make0.php'); // template Make before plugin
-		// *** Plugins ***
+		// *** Plugins make 1 -> 5 ***
 		if(isset($Ua['plug'])) for($Uv=1;$Uv<=5;++$Uv) // 1 first, 5 last, no number = 3 && alphabetic order
 			{
 			foreach($Ua['plug'] as $Uk=>$Ur)
@@ -496,18 +516,35 @@ if(isset($_POST['action']))
 		include('includes/lang/lang.php');
 		if(strpos(strtolower($Uhtml),'charset="utf-8"')===false && strpos(strtolower($Uhtml),"charset='utf-8'")===false) $Uhead .= '<meta charset="utf-8">'."\r\n";
 		$Uhead .= '<style type="text/css">'."\r\n".$Ustyle."\r\n".($UstyleSm?'@media screen and (max-width:480px){'."\r\n".$UstyleSm.'}'."\r\n":'').'</style>'."\r\n";
-		if($unoPop==1) $Uhead .= '<script type="text/javascript" src="'.$Udep.'includes/js/unoPop.js"></script><link rel="stylesheet" type="text/css" href="'.$Udep.'includes/css/unoPop.css" />'."\r\n";
+		if($unoPop==1)
+			{
+			$Ufoot .= "<script type=\"text/javascript\">function unoPopFade(f,h){f-=.05;if(f>0)setTimeout(function(){h.style.opacity=f;unoPopFade(f,h);},30);else document.body.removeChild(h);};function unoGvu(p){var r=new RegExp('(?:[\?&]|&amp;)'+p+'=([^&]+)', 'i');var match=window.location.search.match(r);return(match&&match.length>1)?match[1]:'';};";
+			if(!empty($Ua['w3'])) $Ufoot .= "function unoPop(i,t){if(document.getElementById('unoPop')==null){var h=document.createElement('div'),m,n,o;h.id='unoPop';h.className='".(isset($Uw3['modal']['w3-modal'])?$Uw3['modal']['w3-modal']:'w3-modal')." unoPop';h.style.display='block';h.style.zIndex='9999';m=document.createElement('div');m.className='".(isset($Uw3['modal']['w3-modal-content'])?$Uw3['modal']['w3-modal-content']:'w3-modal-content')."';n=document.createElement('header');n.className='".(isset($Uw3['modal']['header'])?$Uw3['modal']['header']:'')."';o=document.createElement('span');o.innerHTML='&nbsp;';n.appendChild(o);o=document.createElement('strong');o.className='".(isset($Uw3['modal']['xclose'])?$Uw3['modal']['xclose'].' ':'')."unoPopClose';o.innerHTML='&times;';o.onclick=function(){document.body.removeChild(document.getElementById('unoPop'))};n.appendChild(o);m.appendChild(n);n=document.createElement('div');n.className='".(isset($Uw3['modal']['content'])?$Uw3['modal']['content']:'')."';n.innerHTML=i;if(i.length<50)n.style.textAlign='center';m.appendChild(n);n=document.createElement('footer');n.className='".(isset($Uw3['modal']['footer'])?$Uw3['modal']['footer']:'')."';o=document.createElement('span');o.innerHTML='&nbsp;';n.appendChild(o);m.appendChild(n);h.appendChild(m);document.body.appendChild(h);if(t!=0)setTimeout(function(){unoPopFade(1,h);},t);}};";
+			else
+				{
+				$Ufoot .= "function unoPop(i,t){if(document.getElementById('unoPop')==null){var h=document.createElement('div'),m,n;h.id='unoPop';h.className='unoPop';m=document.createElement('div');m.className='unoPopContent';n=document.createElement('a');n.className='unoPopClose';n.href='javascript:void(0)';n.onclick=function(){document.body.removeChild(document.getElementById('unoPop'))};m.innerHTML=i;h.appendChild(n);h.appendChild(m);document.body.appendChild(h);if(t!=0)setTimeout(function(){unoPopFade(1,h);},t);}};";
+				$Uhead .= '<link rel="stylesheet" type="text/css" href="'.$Udep.'includes/css/unoPop.css" />'."\r\n";
+				}
+			$Ufoot .= "</script>\r\n";
+			}
 		if($unoUbusy==1) $Uscript .= 'var Ubusy="'.$Ubusy.'";';
-		if($Uscript) $Uhead .= '<script type="text/javascript">'.$Uscript.'</script>'."\r\n";
+		if(strpos($Uhtml,'[[menuW3]]')!==false)
+			{
+			$Uscript .= 'var UactiveMenuClass="'.(!empty($Uw3['UnoMenu']['activeMenuClass'])?$Uw3['UnoMenu']['activeMenuClass']:'active').'";';
+			$UmenuW3 .= '<a href="javascript:void(0)" class="'.(isset($Uw3['UnoMenu']['small-bar-open'])?$Uw3['UnoMenu']['small-bar-open']:'w3-bar-item w3-button').'" onclick="sMenu()">&#9776;</a></div>'."\r\n";
+			$UmenuW3 .= $UmenuW3S.'</div>'."\r\n".'</div><!-- #nav -->';
+			$Uhtml = str_replace('[[menuW3]]',$UmenuW3,$Uhtml);
+			}
+		if(!empty($Uscript)) $Uhead .= '<script type="text/javascript">'.$Uscript.'</script>'."\r\n";
 		$Ufoot .= $Ujsmenu;
 		if($Uonload!='') $Ufoot .= '<script type="text/javascript">window.onload=function(){'.$Uonload.'}</script>'."\r\n";
-		$Umenu = '<label for="navR" class="navR"></label><input type="checkbox" id="navR" />'."\r\n".'<ul id="nav">'."\r\n".$Umenu.'</ul>';
+		$Umenu = '<label for="navR" class="navR"></label><input type="checkbox" id="navR" />'."\r\n".'<ul id="nav">'."\r\n".$Umenu.'</ul><!-- #nav -->';
 		// HTML
 		$Uhtml = str_replace('[[url]]',$Ua['url'],$Uhtml);
 		$Uhtml = str_replace('[[head]]',$Uhead,$Uhtml);
 		$Uhtml = str_replace('[[foot]]',$Ufoot,$Uhtml);
 		$Uhtml = str_replace('[[menu]]',$Umenu,$Uhtml);
-		$Uhtml = str_replace('[[content]]','<div id="pagesContent" class="pagesContent">'."\r\n".$Ucontent."\r\n".'</div><!-- #pageContent -->',$Uhtml);
+		$Uhtml = str_replace('[[content]]','<div id="pagesContent" class="pagesContent '.(isset($Uw3['Uno']['div-pagesContent'])?$Uw3['Uno']['div-pagesContent']:'w3-container').'">'."\r\n".$Ucontent."\r\n".'</div><!-- #pageContent -->',$Uhtml);
 		// HTML et CONTENT
 		$Uhtml = str_replace('[[template]]','uno/template/'.$Ua['tem'].'/',$Uhtml);
 		$Uhtml = str_replace('[[title]]',$Utitle,$Uhtml);

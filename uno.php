@@ -1,10 +1,10 @@
 <?php
 // **********************************
 // CMSUno
-$version = '1.4.6';
+$version = '1.5';
 // **********************************
 // *** DEBUG MODE ***
-	error_reporting(E_ALL); ini_set('display_errors',1);
+	//error_reporting(E_ALL); ini_set('display_errors',1);
 // ******************
 $lang = 'en';
 ini_set('session.use_trans_sid', 0);
@@ -14,23 +14,25 @@ if(is_writable(dirname(__FILE__).'/uno'))
 	if(file_exists('uno/config.php')) include('uno/config.php');
 	else
 		{
-		$ch = 'abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ123456789'; $sdata = ''; $Ukey = '';
-		for($v=0;$v<15;++$v) $sdata .= $ch[mt_rand(0, strlen($ch)-1)];
-		for($v=0;$v<63;++$v) $Ukey .= $ch[mt_rand(0, strlen($ch)-1)];
+		$Sdata = f_setKey('Sdata');
+		$Ukey = f_setKey('Ukey');
 		$out = '<?php $lang = "en"; $sdata = "'.$sdata.'"; $Ukey = "'.$Ukey.'"; $Uversion = "'.(isset($version)?$version:'1.0').'"; ?>';
 		file_put_contents('uno/config.php', $out);
 		}
 	if(file_exists('uno/patch.php')) include('uno/patch.php');
-	if(!isset($Uversion) || $Uversion!=$version)
+	if(empty($Uversion) || $Uversion!=$version || empty($Sdata) || empty($Ukey))
 		{
+		if(empty($Sdata)) $Sdata = f_setKey('Sdata');
+		if(empty($Ukey)) $Ukey = f_setKey('Ukey');
 		$out = '<?php $lang = "'.$lang.'"; $sdata = "'.$sdata.'"; $Ukey = "'.$Ukey.'"; $Uversion = "'.(isset($version)?$version:'1.0').'"; ?>';
 		file_put_contents('uno/config.php', $out);
 		$Uversion = (isset($version)?$version:'1.0');
 		}
 	}
 include('uno/includes/lang/lang.php');
-$Urawgit = "//cdn.rawgit.com/boiteasite/cmsuno/";
-if(!is_dir('uno/includes/js/ckeditor/')) $Udep = $Urawgit.$Uversion."/uno/"; else $Udep = "uno/"; // LIGHT HOSTED VERSION
+$Urawgit = '//cdn.rawgit.com/boiteasite/cmsuno/';
+$Udep = 'uno/';
+if(!is_dir('uno/includes/js/ckeditor/')) $Udep = $Urawgit.$Uversion."/uno/"; // LIGHT HOSTED VERSION
 if(isset($_POST['user']) && isset($_POST['pass']))
 	{
 	session_regenerate_id();
@@ -171,7 +173,7 @@ function f_chmodR($path, $fr=0644, $dr=0755)
 		{
 		$re = scandir($path);
 		$q = array_slice($re, 2);
-		foreach($q as $r) f_chmodR($path."/".$r, $fr, $dr);
+		foreach($q as $r) f_chmodR($path.'/'.$r, $fr, $dr);
 		@chmod($path, $dr);
 		}
 	return(true);
@@ -187,5 +189,12 @@ function f_check_pass($a,$b,$user)
 		return true;
 		}
 	return false;
+	}
+function f_setKey($f)
+	{
+	$b = 'abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ123456789';$a = '';
+	if($f=='Sdata') for($v=0;$v<15;++$v) $a .= $b[mt_rand(0, strlen($b)-1)];
+	else for($v=0;$v<63;++$v) $a .= $b[mt_rand(0, strlen($b)-1)];
+	return $a;
 	}
 ?>

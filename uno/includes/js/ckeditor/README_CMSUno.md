@@ -35,7 +35,6 @@ CMSUno use a custom version of CKEditor made on http://ckeditor.com/ with the St
 * FONT SIZE AND FAMILY
 * JUSTIFY
 * SHOW BLOCKS
-* WIDGET
 
 SKIN : MOONO-LISA
 
