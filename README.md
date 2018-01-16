@@ -117,6 +117,7 @@ Use [NivoSlider](https://github.com/gilbitron/Nivo-Slider),
 * [__Code display__](https://github.com/cmsunoPlugins/code_display) : Adds a button in CKEditor to display code. Use [google-code-prettify](https://code.google.com/p/google-code-prettify/).
 * [__Comment__](https://github.com/cmsunoPlugins/comment) : It allows visitors to add comments in the page. Added with a Shortcode in the content of the page or directly in the template.
 * [__Contact__](https://github.com/cmsunoPlugins/contact) : It allows to create a custom-made contact form with Captcha. Added with a Shortcode in the content of the page or directly in the template.
+* [__Cookiebar__](https://github.com/cmsunoPlugins/cookiebart) : Adds and setup a custom Cookie Consent Warning. Use [cookieconsent](https://cookieconsent.insites.com/).
 * [__EdiTheme__](https://github.com/cmsunoPlugins/editheme) : Edit and modify templates directly from CMSUno with syntax highlighting. Use [CodeMirror](https://codemirror.net/).
 * [__Fixed layout__](https://github.com/cmsunoPlugins/fixed_layout) : This plugin allows to create a page with a fixed background that changes with scrolling. Inspired by [Jquery Fixed Scroll Background](https://github.com/ebaumstarck/JqueryFixedScrollBackground).
 * [__Googlemap__](https://github.com/cmsunoPlugins/googlemap) : Adds a button in CKEditor to insert one or more Google-Map in your page.
@@ -180,7 +181,7 @@ The template file is a simple html file with some specifics tags. Example :
 * [[description]] : meta description
 * [[head]] : head content (script, css link...)
 * [[foot]] : foot content (script...)
-* [[menu]] : menu (<UL> <LI> <A>)
+* [[menu]] : menu (UL LI A)
 * [[menuW3]] : menu formated with w3.css
 * [[name]] : page file name without .html
 * [[template]] : template url
@@ -286,6 +287,7 @@ Variables usable all have almost the same name as the shortcodes. Here is a non-
 * __$Udescription__ : Website Description (`<meta name="description" content="[[description]]">`).
 * __$Uname__ : Published HTML file name. By default, it's "index".
 * __$unoPop__ : Set 1 to add unoPop JS and CSS. Small code in pure JS to use nodal window and to get value from url data.
+* __$Ubusy__ : Current page name (index or other).
 * __$unoUbusy__ : Set 1 to add JS var Ubusy in the head. (See DATA chapter)
 
 As a plugin, you can add a makefile in your theme folder :
@@ -402,7 +404,7 @@ License
 CMSUno is under MIT license.
 
 <pre>
-Copyright (c) 2014-2017 Jacques Malgrange
+Copyright (c) 2014-2018 Jacques Malgrange
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -430,7 +432,6 @@ Versions
 * V1.5 - 26/12/2017 :
 	* Add W3.CSS Fully Responsive Framework
 	* ELFinder 2.1.30, CKEditor 4.8
-* V1.4.5 - 03/09/2017 :
 * V1.4.6 - 08/10/2017 :
 	* Preloading (browser cache) ckeditor.js during login page
 	* Add password.php to use with 5.3 <= php < 5.5
