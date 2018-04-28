@@ -22,20 +22,21 @@ function gTo(f,j){
 	else{window.scrollTo(0,g+1);clearTimeout(Utt);}
 }
 function onScroll(){
-	var s=(window.pageYOffset!=null?window.pageYOffset:window.document.documentElement.scrollTop),c=0,d=0,e,i,v,w,u=(typeof UactiveMenuClass!='undefined'?UactiveMenuClass:'active');
+	var a=0,s=(window.pageYOffset!=null?window.pageYOffset:window.document.documentElement.scrollTop),c=0,d=0,e,i,v,w,u=(typeof UactiveMenuClass!='undefined'?UactiveMenuClass:'active');
 	for(v=Umenu.length-1;v>=0;--v){
 		var b=Umenu[v];
 		if(b.href.indexOf('#')!=-1){
 			if(c)d=c;
 			c=b.href.substring(b.href.search('#')+1);
 			if((v==0||document.getElementById(c).offsetTop<=s+Umg)&&(!d||document.getElementById(d).offsetTop>s+Umg)){
+				a=v;
 				if(b.className.indexOf(u)==-1)b.className+=' '+u;
 				if(b.parentNode.className.indexOf("w3-dropdown-content")!=-1&&b.parentNode.parentNode.firstChild.className.indexOf(u)==-1)b.parentNode.parentNode.firstChild.className+=u;
 			}
 			else{
 				if(b.parentNode.className=='subMenu'){if(b.className.indexOf(u)!=-1)b.className=b.className.replace(u,'');}
 				else for(w=Umenu.length-1;w>=0;--w){
-					if(v!=w&&Umenu[w].className.indexOf(u)!=-1)Umenu[w].className=Umenu[w].className.replace(u,'');
+					if(v!=w&&a!=w&&Umenu[w].className.indexOf(u)!=-1)Umenu[w].className=Umenu[w].className.replace(u,'');
 				}
 			}
 		}

@@ -292,7 +292,11 @@ abstract class elFinderVolumeDriver {
 			'webp:application/octet-stream'=> 'image/webp',
 			'doc:application/vnd.ms-office'=> 'application/msword',
 			'xls:application/vnd.ms-office'=> 'application/vnd.ms-excel',
-			'ppt:application/vnd.ms-office'=> 'application/vnd.ms-powerpoint'
+			'ppt:application/vnd.ms-office'=> 'application/vnd.ms-powerpoint',
+			'yml:text/plain'               => 'text/x-yaml',
+			'docx:application/zip'         => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+			'xlsx:application/zip'         => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet xlsx',
+			'pptx:application/zip'         => 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
 		),
 		// An option to add MimeMap to the `mimeMap` option
 		// Array '[ext]:[detected mime type]' => '[normalized mime]'
@@ -398,6 +402,8 @@ abstract class elFinderVolumeDriver {
 		'archiveMimes' => array(),
 		// Manual config for archivers. See example below. Leave empty for auto detect
 		'archivers'    => array(),
+		// Use Archive function for remote volume
+		'useRemoteArchive' => false,
 		// plugin settings
 		'plugin'       => array(),
 		// Is support parent directory time stamp update on add|remove|rename item
@@ -428,6 +434,7 @@ abstract class elFinderVolumeDriver {
 		// cache control HTTP headers for commands `file` and  `get`
 		'cacheHeaders' => array(
 			'Cache-Control: max-age=3600',
+			'Expires:',
 			'Pragma:'
 		),
 		// Header to use to accelerate sending local files to clients (e.g. 'X-Sendfile', 'X-Accel-Redirect')
@@ -535,131 +542,45 @@ abstract class elFinderVolumeDriver {
 	protected $disabled = array();
 	
 	/**
-	 * default extensions/mimetypes for mimeDetect == 'internal' 
+	 * overwrite extensions/mimetypes to mime.types
 	 *
 	 * @var array
 	 **/
 	protected static $mimetypes = array(
 		// applications
-		'ai'    => 'application/postscript',
-		'eps'   => 'application/postscript',
 		'exe'   => 'application/x-executable',
-		'doc'   => 'application/msword',
-		'dot'   => 'application/msword',
-		'xls'   => 'application/vnd.ms-excel',
-		'xlt'   => 'application/vnd.ms-excel',
-		'xla'   => 'application/vnd.ms-excel',
-		'ppt'   => 'application/vnd.ms-powerpoint',
-		'pps'   => 'application/vnd.ms-powerpoint',
-		'pdf'   => 'application/pdf',
-		'xml'   => 'application/xml',
-		'swf'   => 'application/x-shockwave-flash',
-		'torrent' => 'application/x-bittorrent',
 		'jar'   => 'application/x-jar',
-		// open office (finfo detect as application/zip)
-		'odt'   => 'application/vnd.oasis.opendocument.text',
-		'ott'   => 'application/vnd.oasis.opendocument.text-template',
-		'oth'   => 'application/vnd.oasis.opendocument.text-web',
-		'odm'   => 'application/vnd.oasis.opendocument.text-master',
-		'odg'   => 'application/vnd.oasis.opendocument.graphics',
-		'otg'   => 'application/vnd.oasis.opendocument.graphics-template',
-		'odp'   => 'application/vnd.oasis.opendocument.presentation',
-		'otp'   => 'application/vnd.oasis.opendocument.presentation-template',
-		'ods'   => 'application/vnd.oasis.opendocument.spreadsheet',
-		'ots'   => 'application/vnd.oasis.opendocument.spreadsheet-template',
-		'odc'   => 'application/vnd.oasis.opendocument.chart',
-		'odf'   => 'application/vnd.oasis.opendocument.formula',
-		'odb'   => 'application/vnd.oasis.opendocument.database',
-		'odi'   => 'application/vnd.oasis.opendocument.image',
-		'oxt'   => 'application/vnd.openofficeorg.extension',
-		// MS office 2007 (finfo detect as application/zip)
-		'docx'  => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-		'docm'  => 'application/vnd.ms-word.document.macroEnabled.12',
-		'dotx'  => 'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
-		'dotm'  => 'application/vnd.ms-word.template.macroEnabled.12',
-		'xlsx'  => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-		'xlsm'  => 'application/vnd.ms-excel.sheet.macroEnabled.12',
-		'xltx'  => 'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
-		'xltm'  => 'application/vnd.ms-excel.template.macroEnabled.12',
-		'xlsb'  => 'application/vnd.ms-excel.sheet.binary.macroEnabled.12',
-		'xlam'  => 'application/vnd.ms-excel.addin.macroEnabled.12',
-		'pptx'  => 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-		'pptm'  => 'application/vnd.ms-powerpoint.presentation.macroEnabled.12',
-		'ppsx'  => 'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
-		'ppsm'  => 'application/vnd.ms-powerpoint.slideshow.macroEnabled.12',
-		'potx'  => 'application/vnd.openxmlformats-officedocument.presentationml.template',
-		'potm'  => 'application/vnd.ms-powerpoint.template.macroEnabled.12',
-		'ppam'  => 'application/vnd.ms-powerpoint.addin.macroEnabled.12',
-		'sldx'  => 'application/vnd.openxmlformats-officedocument.presentationml.slide',
-		'sldm'  => 'application/vnd.ms-powerpoint.slide.macroEnabled.12',
 		// archives
 		'gz'    => 'application/x-gzip',
 		'tgz'   => 'application/x-gzip',
-		'bz'    => 'application/x-bzip2',
-		'bz2'   => 'application/x-bzip2',
 		'tbz'   => 'application/x-bzip2',
-		'xz'    => 'application/x-xz',
-		'zip'   => 'application/zip',
 		'rar'   => 'application/x-rar',
-		'tar'   => 'application/x-tar',
-		'7z'    => 'application/x-7z-compressed',
 		// texts
-		'txt'   => 'text/plain',
 		'php'   => 'text/x-php',
-		'html'  => 'text/html',
-		'htm'   => 'text/html',
 		'js'    => 'text/javascript',
-		'css'   => 'text/css',
-		'rtf'   => 'application/rtf',
 		'rtfd'  => 'application/rtfd',
 		'py'    => 'text/x-python',
-		'java'  => 'text/x-java-source',
 		'rb'    => 'text/x-ruby',
 		'sh'    => 'text/x-shellscript',
 		'pl'    => 'text/x-perl',
 		'xml'   => 'text/xml',
-		'sql'   => 'text/x-sql',
 		'c'     => 'text/x-csrc',
 		'h'     => 'text/x-chdr',
 		'cpp'   => 'text/x-c++src',
 		'hh'    => 'text/x-c++hdr',
-		'log'   => 'text/plain',
-		'csv'   => 'text/csv',
 		'md'    => 'text/x-markdown',
 		'markdown' => 'text/x-markdown',
+		'yml'   => 'text/x-yaml',
 		// images
 		'bmp'   => 'image/x-ms-bmp',
-		'jpg'   => 'image/jpeg',
-		'jpeg'  => 'image/jpeg',
-		'gif'   => 'image/gif',
-		'png'   => 'image/png',
-		'tif'   => 'image/tiff',
-		'tiff'  => 'image/tiff',
 		'tga'   => 'image/x-targa',
-		'psd'   => 'image/vnd.adobe.photoshop',
-		//'ai'    => 'image/vnd.adobe.photoshop',
 		'xbm'   => 'image/xbm',
 		'pxm'   => 'image/pxm',
 		//audio
-		'mp3'   => 'audio/mpeg',
-		'mid'   => 'audio/midi',
-		'ogg'   => 'audio/ogg',
-		'oga'   => 'audio/ogg',
-		'm4a'   => 'audio/mp4',
 		'wav'   => 'audio/wav',
-		'wma'   => 'audio/x-ms-wma',
 		// video
-		'avi'   => 'video/x-msvideo',
 		'dv'    => 'video/x-dv',
-		'mp4'   => 'video/mp4',
-		'mpeg'  => 'video/mpeg',
-		'mpg'   => 'video/mpeg',
-		'mov'   => 'video/quicktime',
 		'wm'    => 'video/x-ms-wmv',
-		'flv'   => 'video/x-flv',
-		'mkv'   => 'video/x-matroska',
-		'webm'  => 'video/webm',
-		'ogv'   => 'video/ogg',
 		'ogm'   => 'video/ogg',
 		'm2ts'  => 'video/MP2T',
 		'mts'   => 'video/MP2T',
@@ -1132,13 +1053,6 @@ abstract class elFinderVolumeDriver {
 		}
 		$this->systemRoot = isset($this->options['systemRoot']) ? $this->options['systemRoot'] : $this->separator;
 		
-		// set server encoding
-		if (!empty($this->options['encoding']) && strtoupper($this->options['encoding']) !== 'UTF-8') {
-			$this->encoding = $this->options['encoding'];
-		} else {
-			$this->encoding = null;
-		}
-		
 		// set ARGS
 		$this->ARGS = $_SERVER['REQUEST_METHOD'] === 'POST'? $_POST : $_GET;
 		
@@ -1184,6 +1098,13 @@ abstract class elFinderVolumeDriver {
 		
 		if (!$this->init()) {
 			return false;
+		}
+		
+		// set server encoding
+		if (!empty($this->options['encoding']) && strtoupper($this->options['encoding']) !== 'UTF-8') {
+			$this->encoding = $this->options['encoding'];
+		} else {
+			$this->encoding = null;
 		}
 		
 		// check some options is arrays
@@ -1259,34 +1180,8 @@ abstract class elFinderVolumeDriver {
 		// load mimes from external file for mimeDetect == 'internal'
 		// based on Alexey Sukhotin idea and patch: http://elrte.org/redmine/issues/163
 		// file must be in file directory or in parent one 
-		if ($this->mimeDetect == 'internal' && !self::$mimetypesLoaded) {
-			self::$mimetypesLoaded = true;
-			$this->mimeDetect = 'internal';
-			$file = false;
-			if (!empty($this->options['mimefile']) && file_exists($this->options['mimefile'])) {
-				$file = $this->options['mimefile'];
-			} elseif (elFinder::$defaultMimefile && file_exists(elFinder::$defaultMimefile)) {
-				$file = elFinder::$defaultMimefile;
-			} elseif (file_exists(dirname(__FILE__).DIRECTORY_SEPARATOR.'mime.types')) {
-				$file = dirname(__FILE__).DIRECTORY_SEPARATOR.'mime.types';
-			} elseif (file_exists(dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'mime.types')) {
-				$file = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'mime.types';
-			}
-
-			if ($file && file_exists($file)) {
-				$mimecf = file($file);
-
-				foreach ($mimecf as $line_num => $line) {
-					if (!preg_match('/^\s*#/', $line)) {
-						$mime = preg_split('/\s+/', $line, -1, PREG_SPLIT_NO_EMPTY);
-						for ($i = 1, $size = count($mime); $i < $size ; $i++) {
-							if (!isset(self::$mimetypes[$mime[$i]])) {
-								self::$mimetypes[$mime[$i]] = $mime[0];
-							}
-						}
-					}
-				}
-			}
+		if ($this->mimeDetect === 'internal' && !elFinderVolumeDriver::$mimetypesLoaded) {
+			elFinderVolumeDriver::loadMimeTypes(!empty($this->options['mimefile'])? $this->options['mimefile'] : '');
 		}
 
 		$this->rootName = empty($this->options['alias']) ? $this->basenameCE($this->root) : $this->options['alias'];
@@ -1358,6 +1253,13 @@ abstract class elFinderVolumeDriver {
 			: $this->nameValidator;
 
 		$this->_checkArchivers();
+
+		// enabling archivers['create'] with options['useRemoteArchive']
+		if ($this->options['useRemoteArchive'] && empty($this->archivers['create']) && $this->getTempPath()) {
+			$_archivers = $this->getArchivers();
+			$this->archivers['create'] = $_archivers['create'];
+		}
+
 		// manual control archive types to create
 		if (!empty($this->options['archiveMimes']) && is_array($this->options['archiveMimes'])) {
 			foreach ($this->archivers['create'] as $mime => $v) {
@@ -1531,7 +1433,9 @@ abstract class elFinderVolumeDriver {
 	 */
 	public function getMimeTable() {
 		// load mime.types
-		! elFinderVolumeDriver::$mimetypesLoaded && elFinderVolumeDriver::mimetypeInternalDetect();
+		if (! elFinderVolumeDriver::$mimetypesLoaded) {
+			elFinderVolumeDriver::loadMimeTypes();
+		}
 		return elFinderVolumeDriver::$mimetypes;
 	}
 	
@@ -2626,7 +2530,7 @@ abstract class elFinderVolumeDriver {
 			return $this->setError(elFinder::ERROR_UPLOAD_FILE_SIZE);
 		}
 		
-		return $this->_getContents($this->convEncIn($this->decode($hash), true));
+		return $file['size']? $this->_getContents($this->convEncIn($this->decode($hash), true)) : '';
 	}
 	
 	/**
@@ -2762,7 +2666,8 @@ abstract class elFinderVolumeDriver {
 		}
 		
 		$files = array();
-		
+		$useRemoteArchive = !empty($this->options['useRemoteArchive']);
+
 		foreach ($hashes as $hash) {
 			if (($file = $this->file($hash)) == false) {
 				return $this->setError(elFinder::ERROR_FILE_NOT_FOUND, '#'+$hash);
@@ -2779,7 +2684,7 @@ abstract class elFinderVolumeDriver {
 				}
 			}
 			
-			$files[] = $this->basenameCE($path);
+			$files[] = $useRemoteArchive? $hash : $this->basenameCE($path);
 		}
 		
 		if ($name === '') {
@@ -2790,7 +2695,39 @@ abstract class elFinderVolumeDriver {
 		$name .='.' . $archiver['ext'];
 		$name = $this->uniqueName($dir, $name, '');
 		$this->clearcache();
-		return ($path = $this->convEncOut($this->_archive($this->convEncIn($dir), $this->convEncIn($files), $this->convEncIn($name), $archiver))) ? $this->stat($path) : false;
+		if ($useRemoteArchive) {
+			return ($path = $this->remoteArchive($files, $name, $archiver)) ? $this->stat($path) : false;
+		} else {
+			return ($path = $this->convEncOut($this->_archive($this->convEncIn($dir), $this->convEncIn($files), $this->convEncIn($name), $archiver))) ? $this->stat($path) : false;
+		}
+	}
+
+	/**
+	 * Create an archive from remote items 
+	 *
+	 * @param      string   $hashes  files hashes list
+	 * @param      string   $name    archive name
+	 * @param      string   $arc     archiver options
+	 * @return     string|boolean  path of created archive
+	 */
+	protected function remoteArchive($hashes, $name, $arc) {
+		$resPath = false;
+		$file0 = $this->file($hashes[0]);
+		if ($file0 && ($dir = $this->getItemsInHand($hashes))) {
+			$files = self::localScandir($dir);
+			if ($files) {
+				if ($arc = $this->makeArchive($dir, $files, $name, $arc)) {
+					if ($fp = fopen($arc, 'rb')) {
+						$path = $this->decode($file0['phash']);
+						$stat = array();
+						$resPath = $this->saveCE($fp, $path, $name, $stat);
+						fclose($fp);
+					}
+				}
+			}
+			$this->rmdirRecursive($dir);
+		}
+		return $resPath;
 	}
 	
 	/**
@@ -2931,6 +2868,8 @@ abstract class elFinderVolumeDriver {
 	 * @author Dmitry (dio) Levashov
 	 */
 	public function search($q, $mimes, $hash = null) {
+		$res = array();
+
 		$dir = null;
 		if ($hash) {
 			$dir = $this->decode($hash);
@@ -2971,6 +2910,10 @@ abstract class elFinderVolumeDriver {
 			);
 		}
 		
+		if ($q === '' || $this->commandDisabled('search')) {
+			return $res;
+		}
+
 		// valided regex $this->options['searchExDirReg']
 		if ($this->options['searchExDirReg']) {
 			if (false === preg_match($this->options['searchExDirReg'], '')) {
@@ -2978,9 +2921,17 @@ abstract class elFinderVolumeDriver {
 			}
 		}
 		
-		return ($q === '' || $this->commandDisabled('search'))
-			? array()
-			: $this->doSearch(is_null($dir)? $this->root : $dir, $q, $mimes);
+		// check the leaf root too
+		if (!$mimes && (is_null($dir) || $dir == $this->root)) {
+			$rootStat = $this->stat($this->root);
+			if (!empty($rootStat['phash'])) {
+				if ($this->stripos($rootStat['name'], $q) !== false) {
+					$res = array($rootStat);
+				}
+			}
+		}
+
+		return array_merge($res, $this->doSearch(is_null($dir)? $this->root : $dir, $q, $mimes));
 	}
 	
 	/**
@@ -3667,9 +3618,10 @@ abstract class elFinderVolumeDriver {
 		
 		$ext = '';
 
-		if (preg_match('/\.((tar\.(gz|bz|bz2|z|lzo))|cpio\.gz|ps\.gz|xcf\.(gz|bz2)|[a-z0-9]{1,4})$/i', $name, $m)) {
-			$ext  = '.'.$m[1];
-			$name = substr($name, 0,  strlen($name)-strlen($m[0]));
+		$splits = elFinder::splitFileExtention($name);
+		if ($splits[1]) {
+			$ext  = '.'.$splits[1];
+			$name = $splits[0];
 		} 
 		
 		if ($checkNum && preg_match('/('.preg_quote($suffix, '/').')(\d*)$/i', $name, $m)) {
@@ -3981,11 +3933,10 @@ abstract class elFinderVolumeDriver {
 			}
 		}
 		
-		for ($i = 0, $c = count($this->attributes); $i < $c; $i++) {
-			$attrs = $this->attributes[$i];
-			
+		foreach($this->attributes as $attrs) {
 			if (isset($attrs[$name]) && isset($attrs['pattern']) && preg_match($attrs['pattern'], $relpath)) {
 				$perm = $attrs[$name];
+				break;
 			} 
 		}
 		
@@ -4321,7 +4272,8 @@ abstract class elFinderVolumeDriver {
 			$nameCheck = true;
 		}
 		$ext = (false === $pos = strrpos($name, '.')) ? '' : substr($name, $pos + 1);
-		if (! $nameCheck && is_readable($path) && filesize($path) > 0) {
+		$size = file_exists($path)? filesize($path) : 0;
+		if (! $nameCheck && is_readable($path) && $size > 0) {
 			// detecting by contents
 			if ($this->mimeDetect === 'finfo') {
 				$type = finfo_file($this->finfo, $path);
@@ -4341,6 +4293,9 @@ abstract class elFinderVolumeDriver {
 		if (! $type) {
 			// detecting by filename
 			$type = elFinderVolumeDriver::mimetypeInternalDetect($name);
+			if ($type === 'unknown' && $size === 0) {
+				$type = 'text/plain';
+			}
 		}
 		
 		$type = explode(';', $type);
@@ -4366,6 +4321,42 @@ abstract class elFinderVolumeDriver {
 	}
 	
 	/**
+	 * Load file of mime.types
+	 *
+	 * @param string  $mimeTypesFile  The mime types file
+	 */
+	static protected function loadMimeTypes($mimeTypesFile = '') {
+		if (! elFinderVolumeDriver::$mimetypesLoaded) {
+			elFinderVolumeDriver::$mimetypesLoaded = true;
+			$file = false;
+			if (!empty($mimeTypesFile) && file_exists($mimeTypesFile)) {
+				$file = $mimeTypesFile;
+			} elseif (elFinder::$defaultMimefile && file_exists(elFinder::$defaultMimefile)) {
+				$file = elFinder::$defaultMimefile;
+			} elseif (file_exists(dirname(__FILE__).DIRECTORY_SEPARATOR.'mime.types')) {
+				$file = dirname(__FILE__).DIRECTORY_SEPARATOR.'mime.types';
+			} elseif (file_exists(dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'mime.types')) {
+				$file = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'mime.types';
+			}
+
+			if ($file && file_exists($file)) {
+				$mimecf = file($file);
+
+				foreach ($mimecf as $line_num => $line) {
+					if (!preg_match('/^\s*#/', $line)) {
+						$mime = preg_split('/\s+/', $line, -1, PREG_SPLIT_NO_EMPTY);
+						for ($i = 1, $size = count($mime); $i < $size ; $i++) {
+							if (!isset(self::$mimetypes[$mime[$i]])) {
+								self::$mimetypes[$mime[$i]] = $mime[0];
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/**
 	 * Detect file mimetype using "internal" method or Loading mime.types with $path = ''
 	 *
 	 * @param  string  $path  file path
@@ -4375,24 +4366,7 @@ abstract class elFinderVolumeDriver {
 	static protected function mimetypeInternalDetect($path = '') {
 		// load default MIME table file "mime.types"
 		if (!elFinderVolumeDriver::$mimetypesLoaded) {
-			elFinderVolumeDriver::$mimetypesLoaded = true;
-			$file = elFinder::$defaultMimefile;
-			if ($file === '' || ! is_readable($file)) {
-				$file = dirname(__FILE__).DIRECTORY_SEPARATOR.'mime.types';
-			}
-			if (is_readable($file)) {
-				$mimecf = file($file);
-				foreach ($mimecf as $line_num => $line) {
-					if (!preg_match('/^\s*#/', $line)) {
-						$mime = preg_split('/\s+/', $line, -1, PREG_SPLIT_NO_EMPTY);
-						for ($i = 1, $size = count($mime); $i < $size ; $i++) {
-							if (!isset(elFinderVolumeDriver::$mimetypes[$mime[$i]])) {
-								elFinderVolumeDriver::$mimetypes[$mime[$i]] = $mime[0];
-							}
-						}
-					}
-				}
-			}
+			elFinderVolumeDriver::loadMimeTypes();
 		}
 		$ext = '';
 		if ($path) {
@@ -5258,6 +5232,7 @@ abstract class elFinderVolumeDriver {
 				break;
 
 			case 'gd':
+				elFinder::expandMemoryForGD(array($s, array($size_w, $size_h)));
 				$img = $this->gdImageCreate($path,$s['mime']);
 
 				if ($img && false != ($tmp = imagecreatetruecolor($size_w, $size_h))) {
@@ -5368,6 +5343,7 @@ abstract class elFinderVolumeDriver {
 				break;
 
 			case 'gd':
+				elFinder::expandMemoryForGD(array($s, array($width, $height)));
 				$img = $this->gdImageCreate($path,$s['mime']);
 
 				if ($img && false != ($tmp = imagecreatetruecolor($width, $height))) {
@@ -5505,6 +5481,7 @@ abstract class elFinderVolumeDriver {
 				break;
 
 			case 'gd':
+				elFinder::expandMemoryForGD(array($s, array($width, $height)));
 				$img = $this->gdImageCreate($path,$s['mime']);
 
 				if ($img &&  false != ($tmp = imagecreatetruecolor($width, $height))) {
@@ -5631,6 +5608,7 @@ abstract class elFinderVolumeDriver {
 				break;
 
 			case 'gd':
+				elFinder::expandMemoryForGD(array($s, array($w, $h)));
 				$img = $this->gdImageCreate($path,$s['mime']);
 
 				$degree = 360 - $degree;
@@ -6054,7 +6032,7 @@ abstract class elFinderVolumeDriver {
 				}
 			}
 			unset($o);
-			$this->procExec(ELFINDER_ZIP_PATH . ' -v', $o, $c);
+			$this->procExec(ELFINDER_ZIP_PATH . ' -h', $o, $c);
 			if ($c == 0) {
 				$arcs['create']['application/zip']  = array('cmd' => ELFINDER_ZIP_PATH, 'argc' => '-r9', 'ext' => 'zip');
 			}
@@ -6126,6 +6104,9 @@ abstract class elFinderVolumeDriver {
 		if ($base[0] === $separator && strpos($base, 0, strlen($systemroot)) !== $systemroot) {
 			$base = $systemroot . substr($base, 1);
 		}
+		if ($base !== $systemroot) {
+			$base = rtrim($base, $separator);
+		}
 		
 		// 'Here'
 		if ($path === '' || $path === '.' . $separator) return $base;
@@ -6140,7 +6121,10 @@ abstract class elFinderVolumeDriver {
 		while(preg_match($normreg, $path)) {
 			$path = preg_replace($normreg, '$1', $path, 1);
 		}
-		
+		if ($path !== $systemroot) {
+			$path = rtrim($path, $separator);
+		}
+
 		// Absolute path
 		if ($path[0] === $separator || strpos($path, $systemroot) === 0) {
 			return $path;
@@ -6279,6 +6263,13 @@ abstract class elFinderVolumeDriver {
 		if (is_dir($path)) {
 			foreach (self::localScandir($path) as $name) {
 				$p = $path.DIRECTORY_SEPARATOR.$name;
+				if (!is_readable($p)) {
+					// Perhaps a symbolic link to open_basedir restricted location
+					self::localRmdirRecursive($p);
+					$res['symlinks'][] = $p;
+					$res['rmNames'][] = $name;
+					continue;
+				}
 				if ($chkSymlink && is_link($p)) {
 					self::localRmdirRecursive($p);
 					$res['symlinks'][] = $p;
@@ -6376,6 +6367,22 @@ abstract class elFinderVolumeDriver {
 	 * @author Naoki Sawada
 	 */
 	protected static function localRmdirRecursive($dir) {
+		// try system command
+		if (is_callable('exec')) {
+			$o = '';
+			$r = 1;
+			if (substr(PHP_OS, 0, 3) === 'WIN') {
+				exec('rd /S /Q ' . escapeshellarg($dir), $o, $r);
+				if ($r === 0) {
+					exec('del /F /Q ' . escapeshellarg($dir), $o, $r);
+				}
+			} else {
+				exec('rm -rf ' . escapeshellarg($dir), $o, $r);
+			}
+			if ($r === 0) {
+				return true;
+			}
+		}
 		if (!is_link($dir) && is_dir($dir)) {
 			chmod($dir, 0777);
 			if ($handle = opendir($dir)) {
@@ -6395,7 +6402,7 @@ abstract class elFinderVolumeDriver {
 				closedir($handle);
 			}
 			return rmdir($dir);
-		} elseif (is_file($dir) || is_link($dir)) {
+		} else {
 			chmod($dir, 0666);
 			return unlink($dir);
 		}

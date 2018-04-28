@@ -429,6 +429,10 @@ THE SOFTWARE.
 Versions
 --------
 
+* V1.5.1 - 28/04/2018 :
+	* Fix responsive issue in email template
+	* Add remove accents function
+	* ELFinder 2.1.37, CKEditor 4.9.2
 * V1.5 - 26/12/2017 :
 	* Add W3.CSS Fully Responsive Framework
 	* ELFinder 2.1.30, CKEditor 4.8
