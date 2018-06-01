@@ -429,6 +429,9 @@ THE SOFTWARE.
 Versions
 --------
 
+* V1.5.2 - 01/06/2018 :
+	* ID and CLASS allowed for all tags in CKEditor
+	* ELFinder 2.1.38
 * V1.5.1 - 28/04/2018 :
 	* Fix responsive issue in email template
 	* Add remove accents function

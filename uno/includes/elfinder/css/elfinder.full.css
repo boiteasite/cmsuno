@@ -1,6 +1,6 @@
 /*!
  * elFinder - file manager for web
- * Version 2.1.37 (2018-03-28)
+ * Version 2.1.38 (2018-05-05)
  * http://elfinder.org
  * 
  * Copyright 2009-2018, Studio 42
@@ -338,7 +338,16 @@ div.elfinder-cwd-wrapper-list tr.ui-state-default td span.ui-icon {
 	overflow: auto;
 	padding: 10px;
 }
-.elfinder-dialog .ui-tabs .ui-tabs-nav li a { padding:.2em 1em;}
+.elfinder-dialog .ui-tabs .ui-tabs-nav li a {
+	padding:.2em .8em;
+	display: inline-block;
+}
+.elfinder-touch .elfinder-dialog .ui-tabs .ui-tabs-nav li a {
+	padding:.5em .5em;
+}
+.elfinder-dialog .ui-tabs-selected a {
+	background: inherit;
+}
 
 .elfinder-help-shortcuts {
 	height: auto;
@@ -474,47 +483,54 @@ div.elfinder-cwd-wrapper-list tr.ui-state-default td span.ui-icon {
   /*font-size: 1.2em;*/
 }
 
-.elfinder-help-preference {
-	padding: 10px;
-	height: auto;
-	min-height: 100%;
+/********************** COMMAND "PREFERENCE" ****************************/
+/* fix tabs */
+.elfinder-preference .ui-tabs-panel {
+	padding: 0 10px;
+	overflow: auto;
 	box-sizing: border-box;
+	-webkit-overflow-scrolling: touch;
 }
-
-.elfinder-help-preference dl {
+.elfinder-preference a.ui-state-hover,
+.elfinder-preference label.ui-state-hover {
+	border: none;
+}
+.elfinder-preference dl {
 	width: 100%;
+	display: inline-block;
+	margin: .5em 0;
 }
-.elfinder-help-preference dt {
+.elfinder-preference dt {
 	display: block;
 	width: 200px;
 	clear: left;
 	float: left;
 	max-width: 50%;
 }
-.elfinder-rtl .elfinder-help-preference dt {
+.elfinder-rtl .elfinder-preference dt {
 	clear: right;
 	float: right;
 }
-.elfinder-help-preference dd {
+.elfinder-preference dd {
 	margin-bottom: 1em;
 }
-.elfinder-help-preference dt label {
+.elfinder-preference dt label {
 	cursor: pointer;
 }
-.elfinder-help-preference dd label,
-.elfinder-help-preference dd input[type=checkbox] {
+.elfinder-preference dd label,
+.elfinder-preference dd input[type=checkbox] {
 	white-space: nowrap;
 	display: inline-block;
 	cursor: pointer;
 }
-.elfinder-help-preference dt.elfinder-help-checkboxes {
+.elfinder-preference dt.elfinder-preference-checkboxes {
 	width: 100%;
 	max-width: none;
 }
-.elfinder-help-preference dd.elfinder-help-checkboxes {
+.elfinder-preference dd.elfinder-preference-checkboxes {
 	padding-top: 3ex;
 }
-.elfinder-help-preference select {
+.elfinder-preference select {
 	max-width: 100%;
 }
 
@@ -597,6 +613,18 @@ div.elfinder-cwd-wrapper-list tr.ui-state-default td span.ui-icon {
 	visibility: visible;
 	font-size: 18px;
 	font-family: Verdana,Arial,Helvetica,sans-serif;
+}
+
+/* prevent auto zoom on iOS */
+.elfinder-ios input,
+.elfinder-ios select,
+.elfinder-ios textarea {
+	font-size: 16px !important;
+}
+
+/* full screen mode */
+.elfinder.elfinder-fullscreen > .ui-resizable-handle {
+	display: none;
 }
 
 .elfinder-font-mono {
@@ -930,12 +958,53 @@ div.elfinder-cwd-wrapper-list tr.ui-state-default td span.ui-icon {
 
 /* container */
 .elfinder-cwd { 
-	position:relative;
+	position:absolute;
+	top: 0;
 	cursor:default;
 	padding:0;
 	margin:0;
 	-ms-touch-action: auto;
 	touch-action: auto;
+	min-width: 100%;
+}
+.elfinder-ltr .elfinder-cwd {
+	left: 0;
+}
+.elfinder-rtl .elfinder-cwd {
+	right: 0;
+}
+
+.elfinder-cwd.elfinder-table-header-sticky {
+	position: -webkit-sticky;
+	position: -ms-sticky;
+	position: sticky;
+	top: 0;
+	left: auto;
+	right: auto;
+	width: -webkit-max-content;
+	width: -moz-max-content;
+	width: -ms-max-content;
+	width: max-content;
+	height: 0;
+	overflow: visible;
+}
+
+.elfinder-cwd.elfinder-table-header-sticky table {
+	border-top: 2px solid;
+	padding-top: 0;
+}
+
+.elfinder-cwd.elfinder-table-header-sticky td {
+	display: inline-block;
+}
+
+.elfinder-droppable-active .elfinder-cwd.elfinder-table-header-sticky table {
+	border-top: 2px solid transparent;
+}
+
+/* fixed table header container */
+.elfinder-cwd-fixheader .elfinder-cwd {
+	position: relative;
 }
 
 /* container active on dropenter */
@@ -1025,19 +1094,11 @@ div.elfinder-cwd-wrapper-list tr.ui-state-default td span.ui-icon {
 	padding-bottom:2px;
 	cursor:default;
 	border:none;
-/*	overflow:hidden;*/
 	position:relative;
 }
-
-/*.elfinder-cwd-view-icons .elfinder-cwd-file .elfinder-cwd-select {
-	top: 0px;
-	left: 0px;
-}*/
-
-/*.elfinder-rtl .elfinder-cwd-view-icons .elfinder-cwd-file .elfinder-cwd-select {
-	left: auto;
-	right: 7px;
-}*/
+.elfinder-cwd-view-icons .elfinder-cwd-file .ui-state-active {
+	border:none;
+}
 
 /* ltr/rtl enviroment */
 .elfinder-ltr .elfinder-cwd-view-icons .elfinder-cwd-file { float:left;  margin:0 3px 2px 0; }
@@ -1182,7 +1243,7 @@ div.elfinder-cwd-wrapper-list tr.ui-state-default td span.ui-icon {
 .elfinder-cwd .elfinder-navbar-root-network.elfinder-droppable-active .elfinder-cwd-icon,
 .elfinder-cwd-view-list .elfinder-navbar-root-network td .elfinder-cwd-icon  {
 	background-image:url("../img/toolbar.png");
-	background-position: 0 71.65%; /* Don't forget change % when toolbar.png edited */
+	background-position: 0 70.5%; /* Don't forget change % when toolbar.png edited */
 	background-size: cover;
 }
 .elfinder-cwd .elfinder-navbar-root-network.elfinder-droppable-active .elfinder-cwd-icon {
@@ -1595,7 +1656,7 @@ div.elfinder-cwd-wrapper-list tr.ui-state-default td span.ui-icon {
 }
 
 .elfinder-touch .elfinder-cwd thead .elfinder-cwd-selectall {
-	padding-top: 5px;
+	padding-top: 4px;
 }
 
 .elfinder .elfinder-cwd table thead tr { border-left:0 solid; border-top:0 solid; border-right:0 solid; }
@@ -1608,6 +1669,11 @@ div.elfinder-cwd-wrapper-list tr.ui-state-default td span.ui-icon {
 }
 .elfinder-rtl .elfinder-cwd.elfinder-has-checkbox table thead td:first-child {
 	padding: 4px 22px 4px 14px;
+}
+.elfinder-touch .elfinder-cwd table thead td,
+.elfinder-touch .elfinder-cwd.elfinder-has-checkbox table thead td:first-child {
+	padding-top: 8px;
+	padding-bottom: 8px;
 }
 
 .elfinder .elfinder-cwd table thead td.ui-state-active {
@@ -1649,10 +1715,6 @@ tr.elfinder-cwd-file td .elfinder-cwd-select {
 
 .elfinder-touch .elfinder-cwd tr td {
 	padding: 10px 12px;
-}
-
-.elfinder-touch .elfinder-cwd table thead td {
-	padding: 8px 14px;
 }
 
 .elfinder-touch .elfinder-cwd tr.elfinder-cwd-file td {
@@ -1709,10 +1771,10 @@ tr.elfinder-cwd-file td .elfinder-cwd-select {
 /* table header resize handle */
 .elfinder-cwd-view-list thead td .ui-resizable-handle {
 	height: 100%;
-	top: 3px;
+	top: 6px;
 }
 .elfinder-touch .elfinder-cwd-view-list thead td .ui-resizable-handle {
-	top: -5px;
+	top: -4px;
 	margin: 10px;
 }
 .elfinder-cwd-view-list thead td .ui-resizable-e {
@@ -1731,6 +1793,43 @@ tr.elfinder-cwd-file td .elfinder-cwd-select {
 /* empty message */
 .elfinder-cwd-wrapper-empty .elfinder-cwd-view-list.elfinder-cwd:after {
 	margin-top: 0;
+}
+
+/* overlay message board */
+.elfinder-cwd-message-board {
+	position: absolute;
+	position: -webkit-sticky;
+	position: sticky;
+	width: 100%;
+	height: calc(100% - 0.01px); /* for Firefox scroll problem */
+	top: 0;
+	left: 0;
+	margin: 0;
+	padding: 0;
+	pointer-events: none;
+	background-color: transparent;
+}
+/* overlay message board for trash */
+.elfinder-cwd-wrapper-trash .elfinder-cwd-message-board {
+	background-image: url(../img/trashmesh.png);
+}
+.elfinder-cwd-message-board .elfinder-cwd-trash {
+	position: absolute;
+	bottom: 0;
+	font-size: 30px;
+	width: 100%;
+	text-align: right;
+	display: none;
+}
+.elfinder-rtl .elfinder-cwd-message-board .elfinder-cwd-trash {
+	text-align: left;
+}
+.elfinder-mobile .elfinder-cwd-message-board .elfinder-cwd-trash {
+	font-size: 20px;
+}
+.elfinder-cwd-wrapper-trash .elfinder-cwd-message-board .elfinder-cwd-trash {
+	display: block;
+	opacity: .3;
 }
 
 /* File: /css/dialog.css */
@@ -2566,6 +2665,12 @@ button.elfinder-info-button {
 	left: 0;
 	position: absolute;
 }
+.elfinder-quicklook-cover.elfinder-quicklook-coverbg {
+	/* background need to catch mouse event over browser plugin (eg PDF preview) */
+	background-color: #fff;
+	opacity: 0.000001;
+	filter:Alpha(Opacity=0.0001);
+}
 
 /* quicklook titlebar */
 .elfinder-quicklook-titlebar {
@@ -2745,7 +2850,7 @@ button.elfinder-info-button {
 	left: -14px;
 }
 .elfinder-ltr .elfinder-quicklook .elfinder-cwd-icon:after {
-	left: -40px;
+	left: -20px;
 }
 .elfinder-ltr .elfinder-navdock .elfinder-quicklook .elfinder-cwd-icon:after {
     left: -12px;
@@ -2756,7 +2861,7 @@ button.elfinder-info-button {
 }
 .elfinder-rtl .elfinder-quicklook .elfinder-cwd-icon:after {
 	left: auto;
-	right: 40px;
+	right: 46px;
 }
 
 /* image in preview */
@@ -3287,6 +3392,7 @@ embed.elfinder-quicklook-preview-audio {
 .elfinder-button-icon-selectall { background-position: 0 -928px; }
 .elfinder-button-icon-selectnone { background-position: 0 -944px; }
 .elfinder-button-icon-selectinvert { background-position: 0 -960px; }
+.elfinder-button-icon-opennew   { background-position: 0 -976px; }
 
 /* button with dropdown menu*/
 .elfinder .elfinder-menubutton { overflow:visible; }

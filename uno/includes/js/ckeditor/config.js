@@ -26,6 +26,6 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'styles' },
 		{ name: 'about' }
 	];
-
+	config.extraAllowedContent = '*[id](*)'; // id & class allowed
 	config.customConfig = "../../js/uno_ckeditor.js"; // CMSUNO
 };
