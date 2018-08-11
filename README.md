@@ -429,6 +429,9 @@ THE SOFTWARE.
 Versions
 --------
 
+* V1.5.3 - 11/08/2018 :
+	* Fix persistent XSS vulnerability in title
+	* ELFinder 2.1.40, CKEditor 4.10.0, jQuery 3.3.1
 * V1.5.2 - 01/06/2018 :
 	* ID and CLASS allowed for all tags in CKEditor
 	* ELFinder 2.1.38

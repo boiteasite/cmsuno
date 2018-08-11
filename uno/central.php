@@ -240,8 +240,8 @@ if(isset($_POST['action']))
 			{
 			if($k==$_POST['chap'])
 				{
-				$a['chap'][$k]['d'] = $_POST['data'];
-				$a['chap'][$k]['t'] = $_POST['titre'];
+				$a['chap'][$k]['d'] = strip_tags($_POST['data']);
+				$a['chap'][$k]['t'] = strip_tags($_POST['titre']);
 				$a['chap'][$k]['ot'] = ($_POST['otit']=='true'?1:0);
 				$a['chap'][$k]['om'] = ($_POST['omenu']=='true'?1:0);
 				$a['chap'][$k]['od'] = ($_POST['odisp']=='true'?1:0);
@@ -344,14 +344,14 @@ if(isset($_POST['action']))
 		//
 		$q = file_get_contents('data/'.$Ubusy.'/site.json');
 		$a = json_decode($q,true);
-		$a['tit'] = $_POST['tit'];
-		$a['desc'] = $_POST['desc'];
-		$a['url'] = $_POST['url'];
+		$a['tit'] = strip_tags($_POST['tit']);
+		$a['desc'] = strip_tags($_POST['desc']);
+		$a['url'] = strip_tags($_POST['url']);
 		if(substr($a['url'],-1)=='/') $a['url'] = substr($a['url'],0,-1);
 		$a['tem'] = $_POST['tem'];
 		$a['nom'] = $n;
-		if($_POST['edw']!='') $a['edw'] = $_POST['edw']; else $a['edw'] = 960;
-		if($_POST['ofs']!='') $a['ofs'] = $_POST['ofs']; else $a['ofs'] = 0;
+		if(intval($_POST['edw'])) $a['edw'] = intval($_POST['edw']); else $a['edw'] = 960;
+		if(intval($_POST['ofs'])) $a['ofs'] = intval($_POST['ofs']); else $a['ofs'] = 0;
 		if($_POST['lazy']=="true") $a['lazy']=1; else $a['lazy']=0;
 		if($_POST['jq']=="true") $a['jq']=1; else $a['jq']=0;
 		if($_POST['w3']=="true") $a['w3']=1; else $a['w3']=0;
@@ -433,7 +433,6 @@ if(isset($_POST['action']))
 			if(empty($Ua['chap'][$k]['od']))
 				{
 				$c = file_get_contents('data/'.$Ubusy.'/chap'.$v['d'].'.txt');
-		//		$w = strtr(utf8_decode($v['t']),'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖØÙÚÛÜİŞßàáâãäåæçèéêëìíîïğñòóôõöøùúûıışÿ','aaaaaaaceeeeiiiidnoooooouuuuybsaaaaaaaceeeeiiiidnoooooouuuyyby');
 				$w = remove_accents($v['t']);
 				$w = preg_replace('/[^a-zA-Z0-9%]/s','',$w);
 				$Ucontent .= '<div id="'.$w.'BlocChap" class="blocChap '.(isset($Uw3['Uno']['w3-section'])?$Uw3['Uno']['w3-section']:'w3-section').'">'."\r\n";
@@ -490,9 +489,9 @@ if(isset($_POST['action']))
 		$Ucontent = str_replace($u,'',$Ucontent);
 		if(!empty($Ua['jq']))
 			{
-			$Uhead .= '<!--[if(!IE)|(gt IE 8)]><!--><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><!--<![endif]-->'."\r\n"
+			$Uhead .= '<!--[if(!IE)|(gt IE 8)]><!--><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script><!--<![endif]-->'."\r\n"
 				.'<!--[if lte IE 8]><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><![endif]-->'."\r\n";
-			if($Udep=='uno/') $Uhead .= '<script type="text/javascript">window.jQuery || document.write(\'<script src="uno/includes/js/jquery-3.2.1.min.js">\x3C/script>\')</script>'."\r\n";
+			if($Udep=='uno/') $Uhead .= '<script type="text/javascript">window.jQuery || document.write(\'<script src="uno/includes/js/jquery-3.3.1.min.js">\x3C/script>\')</script>'."\r\n";
 			$Uhead .= '<script type="text/javascript" src="'.$Udep.'includes/js/jquery-migrate-1.4.1.min.js"></script>'."\r\n";
 			}
 		if(!empty($Ua['w3'])) $Uhead .= '<link rel="stylesheet" href="'.$Udep.'includes/css/w3.css"> '."\r\n";
