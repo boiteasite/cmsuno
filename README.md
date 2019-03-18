@@ -404,7 +404,7 @@ License
 CMSUno is under MIT license.
 
 <pre>
-Copyright (c) 2014-2018 Jacques Malgrange
+Copyright (c) 2014-2019 Jacques Malgrange
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -429,11 +429,13 @@ THE SOFTWARE.
 Versions
 --------
 
+* V1.5.5 - 18/03/2019 :
+	* ELFinder 2.1.48, CKEditor 4.11.3
 * V1.5.4 - 21/11/2018 :
 	* ELFinder 2.1.42, CKEditor 4.11.1
 * V1.5.3 - 11/08/2018 :
 	* Fix persistent XSS vulnerability in title
-	* ELFinder 2.1.40, CKEditor 4.10.0
+	* ELFinder 2.1.40, CKEditor 4.10.0, jQuery 3.3.1
 * V1.5.2 - 01/06/2018 :
 	* ID and CLASS allowed for all tags in CKEditor
 	* ELFinder 2.1.38
