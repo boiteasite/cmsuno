@@ -429,6 +429,9 @@ THE SOFTWARE.
 Versions
 --------
 
+* V1.5.7 - 16/12/2019 :
+	* ELFinder 2.1.51, CKEditor 4.13.1
+	* Fix jumping up and down menu issue
 * V1.5.6 - 17/04/2019 :
 	* ELFinder 2.1.49, CKEditor 4.11.4
 	* Fix plugin buttons issue
