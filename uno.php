@@ -1,7 +1,7 @@
 <?php
 // **********************************
 // CMSUno
-$version = '1.5.7';
+$version = '1.6';
 // **********************************
 // *** DEBUG MODE ***
 	//error_reporting(E_ALL); ini_set('display_errors',1);
@@ -9,37 +9,32 @@ $version = '1.5.7';
 $lang = 'en';
 ini_set('session.use_trans_sid', 0);
 session_start();
-if(is_writable(dirname(__FILE__).'/uno'))
-	{
+if(is_writable(dirname(__FILE__).'/uno')) {
 	if(file_exists('uno/config.php')) include('uno/config.php');
-	else
-		{
+	else {
 		$Sdata = f_setKey('Sdata');
 		$Ukey = f_setKey('Ukey');
 		$out = '<?php $lang = "en"; $sdata = "'.$sdata.'"; $Ukey = "'.$Ukey.'"; $Uversion = "'.(isset($version)?$version:'1.0').'"; ?>';
 		file_put_contents('uno/config.php', $out);
-		}
+	}
 	if(file_exists('uno/patch.php')) include('uno/patch.php');
-	if(empty($Uversion) || $Uversion!=$version || empty($Sdata) || empty($Ukey))
-		{
+	if(empty($Uversion) || $Uversion!=$version || empty($Sdata) || empty($Ukey)) {
 		if(empty($Sdata)) $Sdata = f_setKey('Sdata');
 		if(empty($Ukey)) $Ukey = f_setKey('Ukey');
 		$out = '<?php $lang = "'.$lang.'"; $sdata = "'.$sdata.'"; $Ukey = "'.$Ukey.'"; $Uversion = "'.(isset($version)?$version:'1.0').'"; ?>';
 		file_put_contents('uno/config.php', $out);
 		$Uversion = (isset($version)?$version:'1.0');
-		}
 	}
+}
 include('uno/includes/lang/lang.php');
 $Urawgit = '//cdn.rawgit.com/boiteasite/cmsuno/';
 $Udep = 'uno/';
 if(!is_dir('uno/includes/js/ckeditor/')) $Udep = $Urawgit.$Uversion."/uno/"; // LIGHT HOSTED VERSION
-if(isset($_POST['user']) && isset($_POST['pass']))
-	{
+if(isset($_POST['user']) && isset($_POST['pass'])) {
 	session_regenerate_id();
 	define('CMSUNO', 'cmsuno');
 	include('uno/password.php');
-	if(is_writable(dirname(__FILE__)) && $_POST['user']===$user && f_check_pass($_POST['pass'],$pass,$user))
-		{
+	if(is_writable(dirname(__FILE__)) && $_POST['user']===$user && f_check_pass($_POST['pass'],$pass,$user)) {
 		$hta = '# CMSUno - HTACCESS auto'."\r\n".
 			'Options -Indexes'."\r\n".
 			'Allow from all'."\r\n\r\n".
@@ -70,42 +65,36 @@ if(isset($_POST['user']) && isset($_POST['pass']))
 		f_chmodR('uno/data/_sdata-'.$sdata,0600,0711);
 		if(!is_readable('files') || !is_writable('files')) f_chmodR('files',0644,0755);
 		if(!file_exists('uno/data/busy.json')) file_put_contents('uno/data/busy.json', '{"nom":"index"}');
-		if(is_dir('files/.tmb')) // clean up - free space
-			{
-			if($h=opendir('files/.tmb'))
-				{
+		if(is_dir('files/.tmb')) { // clean up - free space
+			if($h=opendir('files/.tmb')) {
 				while(false!==($f=readdir($h))) if(is_file('files/.tmb/'.$f)) unlink('files/.tmb/'.$f);
 				closedir($h);
-				}
-			}
-		if(is_dir('uno/includes/elfinder/.tmb')) // clean up - free space
-			{
-			if($h=opendir('uno/includes/elfinder/.tmb'))
-				{
-				while(false!==($f=readdir($h))) if(is_file('uno/includes/elfinder/.tmb/'.$f)) unlink('uno/includes/elfinder/.tmb/'.$f);
-				closedir($h);
-				}
 			}
 		}
+		if(is_dir('uno/includes/elfinder/.tmb')) { // clean up - free space
+			if($h=opendir('uno/includes/elfinder/.tmb')) {
+				while(false!==($f=readdir($h))) if(is_file('uno/includes/elfinder/.tmb/'.$f)) unlink('uno/includes/elfinder/.tmb/'.$f);
+				closedir($h);
+			}
+		}
+	}
 	else sleep(2);
 	if(!is_writable(dirname(__FILE__))) echo '<div style="clear:both;text-align:center;color:red;font-weight:700;padding-top:20px;"><span  style="color:#000;">'.dirname(__FILE__).'</span>&nbsp'.T_("must writable recursively !").'</div>';
 	else if(!is_writable(dirname(__FILE__).'/uno')) echo '<div style="clear:both;text-align:center;color:red;font-weight:700;padding-top:20px;"><span  style="color:#000;">'.dirname(__FILE__).'/uno</span>&nbsp'.T_("must writable recursively !").'</div>';
 	else echo '<script type="text/javascript">window.location=document.URL; </script>';
-	}
+}
 //
-else if(isset($_POST['logout']) && $_POST['logout']==1)
-	{
+else if(isset($_POST['logout']) && $_POST['logout']==1) {
 	session_unset();
 	session_destroy();
 	echo '<script type="text/javascript">window.location=document.URL; </script>';
-	}
+}
 //
-else if(isset($_SESSION['cmsuno']))
-	{
+else if(isset($_SESSION['cmsuno'])) {
 	$unox = md5(mt_rand().mt_rand());
 	$_SESSION['unox'] = $unox; // securisation des appels ajax
 	include('uno/edition.php');
-	}
+}
 //
 else { ?>
 
@@ -117,7 +106,7 @@ else { ?>
 	<title>CMSUno - <?php echo T_("Login");?></title>
 	<link rel="icon" type="image/png" href="<?php echo $Udep; ?>includes/img/favicon.png" />
 	<link rel="stylesheet" href="<?php echo $Udep; ?>includes/css/uno.css" />
-	<script src="<?php if($Udep!='uno/') echo '//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'; else echo 'uno/includes/js/jquery-3.3.1.min.js'; ?>"></script>
+	<script src="<?php if($Udep!='uno/') echo '//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js'; else echo 'uno/includes/js/jquery-3.4.1.min.js'; ?>"></script>
 </head>
 <body>
 	<div class="blocTop bgNoir">
@@ -165,36 +154,31 @@ else { ?>
 </html>
 <?php }
 //
-function f_chmodR($path, $fr=0644, $dr=0755)
-	{
+function f_chmodR($path, $fr=0644, $dr=0755) {
 	if(!file_exists($path)) return(false);
 	if(is_file($path)) @chmod($path, $fr);
-	else if(is_dir($path))
-		{
+	else if(is_dir($path)) {
 		$re = scandir($path);
 		$q = array_slice($re, 2);
 		foreach($q as $r) f_chmodR($path.'/'.$r, $fr, $dr);
 		@chmod($path, $dr);
-		}
-	return(true);
 	}
-function f_check_pass($a,$b,$user)
-	{
+	return(true);
+}
+function f_check_pass($a,$b,$user) {
 	if(!function_exists('password_hash')) include('uno/includes/password_hashing.php'); // php 5.5 missing => https://github.com/ircmaxell/password_compat (php>5.3)
 	if(substr($b,0,1)=='$' && strlen($b)==60 && password_verify($a,$b)) return true;
-	else if($b===$a)
-		{
+	else if($b===$a) {
 		$pass = password_hash($b, PASSWORD_BCRYPT);
 		file_put_contents('uno/password.php', '<?php if(!defined(\'CMSUNO\')) exit(); $user = "'.$user.'"; $pass = \''.$pass.'\'; ?>');
 		return true;
-		}
-	return false;
 	}
-function f_setKey($f)
-	{
+	return false;
+}
+function f_setKey($f) {
 	$b = 'abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ123456789';$a = '';
 	if($f=='Sdata') for($v=0;$v<15;++$v) $a .= $b[mt_rand(0, strlen($b)-1)];
 	else for($v=0;$v<63;++$v) $a .= $b[mt_rand(0, strlen($b)-1)];
 	return $a;
-	}
+}
 ?>

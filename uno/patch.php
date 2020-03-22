@@ -11,6 +11,12 @@ if(empty($Ukey))
 	$out = '<?php $lang = "'.$lang.'"; $sdata = "'.$sdata.'"; $Ukey = "'.$Ukey.'"; $Uversion = "'.$Uversion.'"; ?>';
 	file_put_contents('uno/config.php', $out);
 	}
+// V1.6 : Umaster in busy
+if(file_exists('uno/data/busy.json')) {
+	$q = file_get_contents('uno/data/busy.json');
+	$a = json_decode($q,true);
+	if($a['nom'] && empty($a['master'])) file_put_contents('uno/data/busy.json', '{"nom":"'.$a['nom'].'","master":"'.$a['nom'].'"}');
+}
 //
 // END PATCH - ONLY ONCE
 @copy(dirname(__FILE__).'/patch.php', dirname(__FILE__).'/patch_off.php');

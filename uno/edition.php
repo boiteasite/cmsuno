@@ -5,14 +5,13 @@ if(!isset($_SESSION['cmsuno']) || !isset($_SESSION['unox']) || !isset($unox) || 
 <?php
 $user=0; $pass=0; // reset
 if(file_exists(dirname(__FILE__).'/../files/archive.zip')) unlink(dirname(__FILE__).'/../files/archive.zip');
-function f_theme()
-	{
+function f_theme() {
 	// liste des themes dans un select
 	$t = "uno/template/";
 	$d = opendir($t);
 	while(($f = readdir($d))!==false) { if(is_dir($t.$f) && file_exists($t.$f.'/template.html') && $f!="." && $f!="..") echo '<option value="'.$f.'">'.$f.'</option>'; }
 	closedir($d);
-	}
+}
 ?>
 
 <html>
@@ -366,7 +365,7 @@ f_init();
 		<div id="managePlug" style="display:none;"></div>
 	</div><!-- .container -->
 	
-<script type="text/javascript" src="<?php if($Udep=='uno/') echo 'uno/includes/js/jquery-3.3.1.min.js'; else echo '//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js';?>"></script>
+<script type="text/javascript" src="<?php if($Udep=='uno/') echo 'uno/includes/js/jquery-3.4.1.min.js'; else echo '//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js';?>"></script>
 <script type="text/javascript" src="<?php if($Udep=='uno/') echo 'uno/includes/js/jquery-ui.min.js'; else echo '//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'; ?>"></script>
 <script type="text/javascript" src="uno/includes/elfinder/js/elfinder.min.js"></script>
 <?php if($lang!='en' && $lang!='') echo '<script type="text/javascript" src="uno/includes/elfinder/js/i18n/elfinder.'.$lang.'.js"></script>'; ?>

@@ -18,11 +18,10 @@ function access($attr, $path, $data, $volume) {
 // ** CMSUno
 $u = $_SERVER['PHP_SELF'];
 $q = explode('/',$u); $u = '/';
-foreach($q as $r)
-	{
+foreach($q as $r) {
 	if($r=='uno') break;
 	else if($r!='') $u .= $r.'/';
-	}
+}
 // ***
 $opts = array(
 	// 'debug' => true,

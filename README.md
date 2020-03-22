@@ -288,6 +288,7 @@ Variables usable all have almost the same name as the shortcodes. Here is a non-
 * __$Uname__ : Published HTML file name. By default, it's "index".
 * __$unoPop__ : Set 1 to add unoPop JS and CSS. Small code in pure JS to use nodal window and to get value from url data.
 * __$Ubusy__ : Current page name (index or other).
+* __$Umaster__ : Idem Ubusy if only one page. If multipage actived (plugin), Umaster is the page to get config for all pages (ex: contact form...)
 * __$unoUbusy__ : Set 1 to add JS var Ubusy in the head. (See DATA chapter)
 
 As a plugin, you can add a makefile in your theme folder :
@@ -404,7 +405,7 @@ License
 CMSUno is under MIT license.
 
 <pre>
-Copyright (c) 2014-2019 Jacques Malgrange
+Copyright (c) 2014-2020 Jacques Malgrange
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -429,6 +430,9 @@ THE SOFTWARE.
 Versions
 --------
 
+* V1.6 - 22/03/2020 :
+	* ELFinder 2.1.55, CKEditor 4.14, jQuery 3.4.1
+	* Add Umaster : Master page (not like Ubusy wich is active page). Used in multipage to get global plugin config.
 * V1.5.7 - 16/12/2019 :
 	* ELFinder 2.1.51, CKEditor 4.13.1
 	* Fix jumping up and down menu issue
