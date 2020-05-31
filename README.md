@@ -430,7 +430,7 @@ THE SOFTWARE.
 Versions
 --------
 
-* V1.6.1 - 22/03/2020 :
+* V1.6.1 - 31/05/2020 :
 	* ELFinder 2.1.56
 	* Add CSRF Token on login form.
 	* Fix HTTPS issue.
