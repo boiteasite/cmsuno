@@ -1,7 +1,7 @@
 <?php
 // **********************************
 // CMSUno
-$version = '1.6';
+$version = '1.6.1';
 // **********************************
 // *** DEBUG MODE ***
 	//error_reporting(E_ALL); ini_set('display_errors',1);
@@ -30,11 +30,11 @@ include('uno/includes/lang/lang.php');
 $Urawgit = '//cdn.rawgit.com/boiteasite/cmsuno/';
 $Udep = 'uno/';
 if(!is_dir('uno/includes/js/ckeditor/')) $Udep = $Urawgit.$Uversion."/uno/"; // LIGHT HOSTED VERSION
-if(isset($_POST['user']) && isset($_POST['pass'])) {
+if(!empty($_POST['user']) && !empty($_POST['pass']) && !empty($_POST['unox']) && !empty($_SESSION)) {
 	session_regenerate_id();
 	define('CMSUNO', 'cmsuno');
 	include('uno/password.php');
-	if(is_writable(dirname(__FILE__)) && $_POST['user']===$user && f_check_pass($_POST['pass'],$pass,$user)) {
+	if(is_writable(dirname(__FILE__)) && $_POST['user']===$user && f_check_pass($_POST['pass'],$pass,$user) && $_SESSION['unox']===$_POST['unox']) {
 		$hta = '# CMSUno - HTACCESS auto'."\r\n".
 			'Options -Indexes'."\r\n".
 			'Allow from all'."\r\n\r\n".
@@ -96,7 +96,11 @@ else if(isset($_SESSION['cmsuno'])) {
 	include('uno/edition.php');
 }
 //
-else { ?>
+else { 
+	$unox = md5(mt_rand().mt_rand());
+	$_SESSION['unox'] = $unox; // securisation connexion (CSRF)
+
+?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -125,6 +129,7 @@ else { ?>
 
 	<div class="container">
 		<form class="blocLogin" method="POST" action="">
+			<input type="hidden" name="unox" value="<?php echo $unox; ?>" \>
 			<img style="margin-bottom:20px;" src="<?php echo $Udep; ?>includes/img/logo-uno220.png" alt="cms uno" />
 			<div class="clearfix">
 				<label><?php echo T_("Administrator");?></label>

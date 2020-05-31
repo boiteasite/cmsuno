@@ -430,6 +430,10 @@ THE SOFTWARE.
 Versions
 --------
 
+* V1.6.1 - 22/03/2020 :
+	* ELFinder 2.1.56
+	* Add CSRF Token on login form.
+	* Fix HTTPS issue.
 * V1.6 - 22/03/2020 :
 	* ELFinder 2.1.55, CKEditor 4.14, jQuery 3.4.1
 	* Add Umaster : Master page (not like Ubusy wich is active page). Used in multipage to get global plugin config.
