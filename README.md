@@ -430,6 +430,8 @@ THE SOFTWARE.
 Versions
 --------
 
+* V1.6.2 - 21/06/2020 :
+	* Fix update issue when SSL certificate has expired.
 * V1.6.1 - 31/05/2020 :
 	* ELFinder 2.1.56
 	* Add CSRF Token on login form.

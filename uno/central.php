@@ -131,12 +131,14 @@ function lastVersion($f,$g,$h) {
 }
 //
 function urlExists($u) {
-	$head = get_headers($u);
+	$head = @get_headers($u);
 	if($head && strpos($head[0],'404')===false) return true;
 	// other try with curl
 	if(!$head && function_exists('curl_version')) {
 		$h = curl_init($u);
-		curl_setopt($h,  CURLOPT_RETURNTRANSFER, TRUE);
+		curl_setopt($h, CURLOPT_SSL_VERIFYHOST, 0); // avoid error 60 : certificate problem: certificate has expired
+		curl_setopt($h, CURLOPT_SSL_VERIFYPEER, 0); // IDEM
+		curl_setopt($h, CURLOPT_RETURNTRANSFER, TRUE);
 		$res = curl_exec($h);
 		$cod = curl_getinfo($h, CURLINFO_HTTP_CODE);
 		curl_close($h);		
@@ -463,10 +465,21 @@ if(isset($_POST['action'])) {
 		if(strpos(strtolower($Uhtml),'charset="utf-8"')===false && strpos(strtolower($Uhtml),"charset='utf-8'")===false) $Uhead .= '<meta charset="utf-8">'."\r\n";
 		$Uhead .= '<style type="text/css">'."\r\n".$Ustyle."\r\n".($UstyleSm?'@media screen and (max-width:480px){'."\r\n".$UstyleSm.'}'."\r\n":'').'</style>'."\r\n";
 		if($unoPop==1) {
-			$Ufoot .= "<script type=\"text/javascript\">function unoPopFade(f,h){f-=.05;if(f>0)setTimeout(function(){h.style.opacity=f;unoPopFade(f,h);},30);else document.body.removeChild(h);};function unoGvu(p){var r=new RegExp('(?:[\?&]|&amp;)'+p+'=([^&]+)', 'i');var match=window.location.search.match(r);return(match&&match.length>1)?match[1]:'';};";
-			if(!empty($Ua['w3'])) $Ufoot .= "function unoPop(i,t){if(document.getElementById('unoPop')==null){var h=document.createElement('div'),m,n,o;h.id='unoPop';h.className='".(isset($Uw3['modal']['w3-modal'])?$Uw3['modal']['w3-modal']:'w3-modal')." unoPop';h.style.display='block';h.style.zIndex='9999';m=document.createElement('div');m.className='".(isset($Uw3['modal']['w3-modal-content'])?$Uw3['modal']['w3-modal-content']:'w3-modal-content')."';n=document.createElement('header');n.className='".(isset($Uw3['modal']['header'])?$Uw3['modal']['header']:'')."';o=document.createElement('span');o.innerHTML='&nbsp;';n.appendChild(o);o=document.createElement('strong');o.className='".(isset($Uw3['modal']['xclose'])?$Uw3['modal']['xclose'].' ':'')."unoPopClose';o.innerHTML='&times;';o.onclick=function(){document.body.removeChild(document.getElementById('unoPop'));t=0;};n.appendChild(o);m.appendChild(n);n=document.createElement('div');n.className='".(isset($Uw3['modal']['content'])?$Uw3['modal']['content']:'')."';n.innerHTML=i;if(i.length<50)n.style.textAlign='center';m.appendChild(n);n=document.createElement('footer');n.className='".(isset($Uw3['modal']['footer'])?$Uw3['modal']['footer']:'')."';o=document.createElement('span');o.innerHTML='&nbsp;';n.appendChild(o);m.appendChild(n);h.appendChild(m);document.body.appendChild(h);if(t!=0)setTimeout(function(){unoPopFade(1,h);},t);}};";
+			$Ufoot .= "<script type=\"text/javascript\">";
+			$Ufoot .= "function unoPopFade(f,h){f-=.05;if(f>0)setTimeout(function(){h.style.opacity=f;unoPopFade(f,h);},30);else document.body.removeChild(h);};";
+			$Ufoot .= "function unoGvu(p){var r=new RegExp('(?:[\?&]|&amp;)'+p+'=([^&]+)', 'i');var match=window.location.search.match(r);return(match&&match.length>1)?match[1]:'';};";
+			if(!empty($Ua['w3'])) {
+				$Ufoot .= "function unoPop(i,t){if(document.getElementById('unoPop')==null){var h=document.createElement('div'),m,n,o;h.id='unoPop';h.className='".(isset($Uw3['modal']['w3-modal'])?$Uw3['modal']['w3-modal']:'w3-modal')." unoPop';h.style.display='block';h.style.zIndex='9999';";
+				$Ufoot .= "m=document.createElement('div');m.className='".(isset($Uw3['modal']['w3-modal-content'])?$Uw3['modal']['w3-modal-content']:'w3-modal-content')."';";
+				$Ufoot .= "n=document.createElement('header');n.className='".(isset($Uw3['modal']['header'])?$Uw3['modal']['header']:'')."';";
+				$Ufoot .= "o=document.createElement('span');o.innerHTML='&nbsp;';n.appendChild(o);o=document.createElement('strong');o.className='".(isset($Uw3['modal']['xclose'])?$Uw3['modal']['xclose'].' ':'')."unoPopClose';o.innerHTML='&times;';o.onclick=function(){var a=document.getElementById('unoPop');if(a!=null)a.parentNode.removeChild(a)};n.appendChild(o);m.appendChild(n);";
+				$Ufoot .= "n=document.createElement('div');n.className='".(isset($Uw3['modal']['content'])?$Uw3['modal']['content']:'')."';n.innerHTML=i;if(i.length<50)n.style.textAlign='center';m.appendChild(n);";
+				$Ufoot .= "n=document.createElement('footer');n.className='".(isset($Uw3['modal']['footer'])?$Uw3['modal']['footer']:'')."';";
+				$Ufoot .= "o=document.createElement('span');o.innerHTML='&nbsp;';n.appendChild(o);m.appendChild(n);h.appendChild(m);document.body.appendChild(h);";
+				$Ufoot .= "if(t!=0)setTimeout(function(){unoPopFade(1,h);},t);}};";
+			}
 			else {
-				$Ufoot .= "function unoPop(i,t){if(document.getElementById('unoPop')==null){var h=document.createElement('div'),m,n;h.id='unoPop';h.className='unoPop';m=document.createElement('div');m.className='unoPopContent';n=document.createElement('a');n.className='unoPopClose';n.href='javascript:void(0)';n.onclick=function(){document.body.removeChild(document.getElementById('unoPop'));t=0;};m.innerHTML=i;h.appendChild(n);h.appendChild(m);document.body.appendChild(h);if(t!=0)setTimeout(function(){unoPopFade(1,h);},t);}};";
+				$Ufoot .= "function unoPop(i,t){if(document.getElementById('unoPop')==null){var h=document.createElement('div'),m,n;h.id='unoPop';h.className='unoPop';m=document.createElement('div');m.className='unoPopContent';n=document.createElement('a');n.className='unoPopClose';n.href='javascript:void(0)';n.onclick=function(){var a=document.getElementById('unoPop');if(a!=null)a.parentNode.removeChild(a)};m.innerHTML=i;h.appendChild(n);h.appendChild(m);document.body.appendChild(h);if(t!=0)setTimeout(function(){unoPopFade(1,h);},t);}};";
 				$Uhead .= '<link rel="stylesheet" type="text/css" href="'.$Udep.'includes/css/unoPop.css" />'."\r\n";
 			}
 			$Ufoot .= "</script>\r\n";
