@@ -3,7 +3,7 @@
 //
 var st=(typeof Umenuoffset!=='undefined'?Umenuoffset:0),
 	u=document.getElementById('nav'),
-	Umenu=u.getElementsByTagName('A'),
+	Umenu=(u!==null?u.getElementsByTagName('A'):''),
 	Utt,
 	Uv,
 	u1=(window.attachEvent&&!window.addEventListener)?document.querySelectorAll('.nav1'):document.getElementsByClassName('nav1'),

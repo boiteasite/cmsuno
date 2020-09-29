@@ -1,7 +1,7 @@
 <?php
 // **********************************
 // CMSUno
-$version = '1.6.2';
+$version = '1.6.3';
 // **********************************
 // *** DEBUG MODE ***
 	//error_reporting(E_ALL); ini_set('display_errors',1);
@@ -110,7 +110,7 @@ else {
 	<title>CMSUno - <?php echo T_("Login");?></title>
 	<link rel="icon" type="image/png" href="<?php echo $Udep; ?>includes/img/favicon.png" />
 	<link rel="stylesheet" href="<?php echo $Udep; ?>includes/css/uno.css" />
-	<script src="<?php if($Udep!='uno/') echo '//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js'; else echo 'uno/includes/js/jquery-3.4.1.min.js'; ?>"></script>
+	<script src="<?php if($Udep!='uno/') echo '//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'; else echo 'uno/includes/js/jquery-3.5.1.min.js'; ?>"></script>
 </head>
 <body>
 	<div class="blocTop bgNoir">
@@ -175,7 +175,7 @@ function f_check_pass($a,$b,$user) {
 	if(substr($b,0,1)=='$' && strlen($b)==60 && password_verify($a,$b)) return true;
 	else if($b===$a) {
 		$pass = password_hash($b, PASSWORD_BCRYPT);
-		file_put_contents('uno/password.php', '<?php if(!defined(\'CMSUNO\')) exit(); $user = "'.$user.'"; $pass = \''.$pass.'\'; ?>');
+		file_put_contents('uno/password.php', '<?php if(!defined(\'CMSUNO\')) exit(); $user = "'.$user.'"; $pass = \''.$pass.'\';'."\r\n".'// Lost password? Enter the new one in clear text here in $pass and log in again. ?>');
 		return true;
 	}
 	return false;

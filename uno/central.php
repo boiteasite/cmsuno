@@ -270,20 +270,29 @@ if(isset($_POST['action'])) {
 		define('CMSUNO', 'cmsuno');
 		include('password.php');
 		if(!function_exists('password_hash')) include('uno/includes/password_hashing.php'); // php 5.5 missing => https://github.com/ircmaxell/password_compat (php>5.3)
-		$a = $_POST['user']; $b = $_POST['pass'];
-		if($_POST['user0']=='' || $_POST['pass0']=='') { // only lang
-			$config = '<?php $lang = "'.$_POST['lang'].'"; $sdata = "'.$sdata.'"; $Uversion = "'.(isset($Uversion)?$Uversion:'1.0').'"; ?>';
-			if(file_put_contents('config.php', $config)) echo T_('The language was changed');
-			else echo '!'.T_('Impossible backup');
-		}
-		else if($_POST['user0']===$user && password_verify($_POST['pass0'],$pass)) {
-			$password = '<?php if(!defined(\'CMSUNO\')) exit(); $user = "'.$a.'"; $pass = \''.password_hash($b, PASSWORD_BCRYPT).'\'; ?>';
-			$config = '<?php $lang = "'.$_POST['lang'].'"; $sdata = "'.$sdata.'"; $Uversion = "'.(isset($Uversion)?$Uversion:'1.0').'"; ?>';
-			if(file_put_contents('password.php', $password) && file_put_contents('config.php', $config)) echo T_('The login / password were changed');
-			else echo '!'.T_('Impossible backup');
+		$a = filter_var(strip_tags($_POST['user']),FILTER_SANITIZE_URL);
+		$b = filter_var(strip_tags($_POST['pass']),FILTER_SANITIZE_URL);
+		$a0 = filter_var(strip_tags($_POST['user0']),FILTER_SANITIZE_URL);
+		$b0 = filter_var(strip_tags($_POST['pass0']),FILTER_SANITIZE_URL);
+		$l = preg_replace("/[^a-z]+/","",$_POST['lang']);
+		if($a!=$_POST['user'] || $b!=$_POST['pass'] || $a0!=$_POST['user0'] || $b0!=$_POST['pass0']) {
+			echo '!'.T_('Wrong current elements'); exit;
 		}
 		else {
-			echo '!'.T_('Wrong current elements'); exit;
+			if($a0=='' || $b0=='') { // only lang
+				$config = '<?php $lang = "'.$l.'"; $sdata = "'.$sdata.'"; $Uversion = "'.(isset($Uversion)?$Uversion:'1.0').'"; ?>';
+				if(file_put_contents('config.php', $config)) echo T_('The language was changed');
+				else echo '!'.T_('Impossible backup');
+			}
+			else if($a0===$user && password_verify($b0,$pass)) {
+				$password = '<?php if(!defined(\'CMSUNO\')) exit(); $user = "'.$a.'"; $pass = \''.password_hash($b, PASSWORD_BCRYPT).'\'; ?>';
+				$config = '<?php $lang = "'.$l.'"; $sdata = "'.$sdata.'"; $Uversion = "'.(isset($Uversion)?$Uversion:'1.0').'"; ?>';
+				if(file_put_contents('password.php', $password) && file_put_contents('config.php', $config)) echo T_('The login / password were changed');
+				else echo '!'.T_('Impossible backup');
+			}
+			else {
+				echo '!'.T_('Wrong current elements'); exit;
+			}
 		}
 		break;
 		// ********************************************************************************************
@@ -440,9 +449,9 @@ if(isset($_POST['action'])) {
 		$u = dirname($_SERVER['PHP_SELF']).'/../';
 		$Ucontent = str_replace($u,'',$Ucontent);
 		if(!empty($Ua['jq'])) {
-			$Uhead .= '<!--[if(!IE)|(gt IE 8)]><!--><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script><!--<![endif]-->'."\r\n"
+			$Uhead .= '<!--[if(!IE)|(gt IE 8)]><!--><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script><!--<![endif]-->'."\r\n"
 				.'<!--[if lte IE 8]><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><![endif]-->'."\r\n";
-			if($Udep=='uno/') $Uhead .= '<script type="text/javascript">window.jQuery || document.write(\'<script src="uno/includes/js/jquery-3.4.1.min.js">\x3C/script>\')</script>'."\r\n";
+			if($Udep=='uno/') $Uhead .= '<script type="text/javascript">window.jQuery || document.write(\'<script src="uno/includes/js/jquery-3.5.1.min.js">\x3C/script>\')</script>'."\r\n";
 			$Uhead .= '<script type="text/javascript" src="'.$Udep.'includes/js/jquery-migrate-1.4.1.min.js"></script>'."\r\n";
 		}
 		if(!empty($Ua['w3'])) $Uhead .= '<link rel="stylesheet" href="'.$Udep.'includes/css/w3.css"> '."\r\n";
