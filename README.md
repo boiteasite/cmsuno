@@ -202,8 +202,10 @@ This file is __required__.
 
 This file is called in __AJAX__.
 It is used to display the PLUGIN tab in Dashboard. It's done with `$_POST["action"] = "plugin"`.
+
 POST var : _action_, _unox_ (ajax token), _udep_ (dependencies local or GitHub).
-This file should look like this :
+T
+his file should look like this :
 
 ```
 <?php
