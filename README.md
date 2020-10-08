@@ -187,6 +187,7 @@ The template file is a simple html file with some specifics tags. Example :
 * [[template]] : template url
 * [[title]] : page title
 * [[url]] : base site url
+* [[my plugin tag...]] : Some plugins have or create specifics tags (Box...). You can create templates tags in plugins. See _fooMake.php_
 
 Plugin development
 ------------------
@@ -199,9 +200,9 @@ Your plugin should be in uno/plugins/foo/ (with a plugin called __foo__).
 
 This file is __required__.
 
-This file is called in AJAX.
+This file is called in __AJAX__.
 It is used to display the PLUGIN tab in Dashboard. It's done with `$_POST["action"] = "plugin"`.
-
+POST var : _action_, _unox_ (ajax token), _udep_ (dependencies local or GitHub).
 This file should look like this :
 
 ```
@@ -250,7 +251,7 @@ In the same way, you can customize your theme by adding the file __name_of_your_
 
 This file is __not required__.
 
-This file is called with an include statement when the user pushed "publish" in the Dashboard.
+This file is called with an __include__ statement from _central.php (case 'publier')_ when the user pushed "publish" in the Dashboard.
 The goal is to complete the variables that replace Shortcodes.
 If your plugin works with a Shortcode [[foo]] in the content of the page, the code should be like this :
 
