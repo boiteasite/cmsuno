@@ -204,8 +204,8 @@ This file is called in __AJAX__.
 It is used to display the PLUGIN tab in Dashboard. It's done with `$_POST["action"] = "plugin"`.
 
 POST var : _action_, _unox_ (ajax token), _udep_ (dependencies local or GitHub).
-T
-his file should look like this :
+
+This file should look like this :
 
 ```
 <?php
@@ -408,7 +408,7 @@ License
 CMSUno is under MIT license.
 
 <pre>
-Copyright (c) 2014-2020 Jacques Malgrange
+Copyright (c) 2014-2021 Jacques Malgrange
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -200,30 +200,35 @@ if(isset($_POST['action'])) {
 		break;
 		// ********************************************************************************************
 		case 'getChap':
-		$q = file_get_contents('data/'.$Ubusy.'/chap'.((isset($_POST['data'])&&$_POST['data']!='')?$_POST['data']:'0').'.txt');
-		$q1 = file_get_contents('data/'.$Ubusy.'/site.json'); $a = json_decode($q1,true); $b = 0; $c = 0;
-		foreach($a['chap'] as $k=>$v) {
-			if($v['d']==$_POST['data']) { $c = $k; break; }
+		$q = file_get_contents('data/'.$Ubusy.'/chap'.((isset($_POST['data'])&&$_POST['data']!='')?intval($_POST['data']):'0').'.txt');
+		$q1 = file_get_contents('data/'.$Ubusy.'/site.json'); $a = json_decode($q1,true); $b = 0;
+		if(!empty($a['chap'])) {
+			foreach($a['chap'] as $k=>$v) {
+				if(isset($v['d']) && $v['d']==$_POST['data']) break;
+			}
+			if(!empty($a['chap'][$k]['ot'])) $b += 1;
+			if(!empty($a['chap'][$k]['om'])) $b += 2;
+			if(!empty($a['chap'][$k]['od'])) $b += 4;
 		}
-		if(!empty($a['chap'][$k]['ot'])) $b += 1;
-		if(!empty($a['chap'][$k]['om'])) $b += 2;
-		if(!empty($a['chap'][$k]['od'])) $b += 4;
 		echo strval($b).stripslashes($q); exit;
 		break;
 		// ********************************************************************************************
 		case 'sauveChap':
 		$q = file_get_contents('data/'.$Ubusy.'/site.json');
 		$a = json_decode($q,true);
-		foreach($a['chap'] as $k=>$v) {
-			if($k==$_POST['chap']) {
-				$a['chap'][$k]['d'] = strip_tags($_POST['data']);
-				$a['chap'][$k]['t'] = strip_tags($_POST['titre']);
-				$a['chap'][$k]['ot'] = ($_POST['otit']=='true'?1:0);
-				$a['chap'][$k]['om'] = ($_POST['omenu']=='true'?1:0);
-				$a['chap'][$k]['od'] = ($_POST['odisp']=='true'?1:0);
-				break;
+		if(!empty($a['chap'])) {
+			foreach($a['chap'] as $k=>$v) {
+				if($k==$_POST['chap']) {
+					$a['chap'][$k]['d'] = strip_tags($_POST['data']);
+					$a['chap'][$k]['t'] = strip_tags($_POST['titre']);
+					$a['chap'][$k]['ot'] = ($_POST['otit']=='true'?1:0);
+					$a['chap'][$k]['om'] = ($_POST['omenu']=='true'?1:0);
+					$a['chap'][$k]['od'] = ($_POST['odisp']=='true'?1:0);
+					break;
+				}
 			}
 		}
+		else $a['chap'] = array("d"=>"0","t"=>T_("Welcome"));
 		$a['pub'] = 1;
 		if(!isset($a['lazy'])) $a['lazy'] = 1; // default
 		if(!isset($a['sty'])) $a['sty'] = 0; // default
@@ -654,6 +659,7 @@ if(isset($_POST['action'])) {
 		case 'init':
 		$q = file_get_contents('data/'.$Ubusy.'/site.json');
 		$a = json_decode($q,true);
+		if(empty($a['chap'])) $a = restaureSite($Ubusy);
 		// 1. pluginsActifs
 		if($Udep=='/uno/') $ck = '../../../';
 		else $ck = substr($_SERVER['PHP_SELF'],0,-11); // 11 : central.php
@@ -1002,6 +1008,25 @@ if(isset($_POST['action'])) {
 	clearstatcache();
 	exit;
 }
+//
+function restaureSite($busy) {
+	$a = array("pub"=>0);
+	$files = glob('data/'.$busy.'/chap*.txt');
+	if($files) foreach($files as $file) {
+		// {"d":"0","t":"Pr\u00e9sentation","ot":0,"om":0,"od":0}
+		$f = substr($file, strrpos($file, '/') + 5);
+		$f = substr($f,0,strpos($f, '.'));
+		$a['chap'][] = array("d"=>$f, "t"=>"Restaure ".$f, "ot"=>0, "om"=>0, "od"=>0);
+	}
+	else {
+		if(!file_exists('data/'.$busy.'/chap0.txt')) file_put_contents('data/'.$busy.'/chap0.txt', 'Restaure...');
+		$a['chap'][] = array("d"=>0, "t"=>"Restaure 0", "ot"=>0, "om"=>0, "od"=>0);
+	} 	
+	$out = json_encode($a);
+	file_put_contents('data/'.$busy.'/site.json', $out);
+	return $a;
+}
+//
 function remove_accents($s) {
     if(!preg_match('/[\x80-\xff]/',$s)) return $s;
     $c = array(
