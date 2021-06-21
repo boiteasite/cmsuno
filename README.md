@@ -433,6 +433,8 @@ THE SOFTWARE.
 Versions
 --------
 
+* V1.7 - 21/06/2021 :
+	* ELFinder 2.1.59, CKEditor 4.16.1, jQuery 3.6.0
 * V1.6.3 - 29/09/2020 :
 	* Fix XSS vulnerability when user change password.
 	* ELFinder 2.1.57, CKEditor 4.15, jQuery 3.5.1
