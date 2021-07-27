@@ -433,6 +433,9 @@ THE SOFTWARE.
 Versions
 --------
 
+* V1.7.1 - 27/07/2021 :
+	* Fix XSS vulnerability in uno1 template.
+	* Add "confirm ?" to Delete Chapter button.
 * V1.7 - 21/06/2021 :
 	* ELFinder 2.1.59, CKEditor 4.16.1, jQuery 3.6.0
 * V1.6.3 - 29/09/2020 :

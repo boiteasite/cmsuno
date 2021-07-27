@@ -20,7 +20,7 @@ function f_save_uno1(){
 	});
 }
 function f_load_uno1(){
-	jQuery.getJSON("uno/data/"+Ubusy+"/uno1.json",function(data){
+	jQuery.getJSON("uno/data/"+Ubusy+"/uno1.json?r="+Math.random(),function(data){
 		jQuery.each(data,function(k,v){
 			var a=document.getElementById(k),i;
 			if(a!==null){

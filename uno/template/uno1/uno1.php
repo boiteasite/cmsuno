@@ -219,7 +219,7 @@ if (isset($_POST['action']))
 			{
 			if($k!='action' && $k!='unox')
 				{
-				$a[$k]=$v;
+				$a[$k]=trim(strip_tags($v));
 				}
 			}
 		$out = json_encode($a);

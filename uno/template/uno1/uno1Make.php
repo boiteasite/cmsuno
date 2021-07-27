@@ -38,10 +38,10 @@ if(file_exists('data/'.$Ubusy.'/uno1.json'))
 		if(isset($b[$k1]) && $v)
 			{
 			$b1 = (isset($c[$b[$k1][0]])?$c[$b[$k1][0]]:'');
-			if(substr($b[$k1][1],-1)==':') $c[$b[$k1][0]] = $b1 . $b[$k1][1].$v.';';
-			else if(substr($b[$k1][1],-3)=='url') $c[$b[$k1][0]] = $b1 . $b[$k1][1].'("'.$v.'");';
-			else if(substr($b[$k1][1],-2)=='px') $c[$b[$k1][0]] = $b1 . substr($b[$k1][1],0,-2).$v.'px;';
-			else if(substr($b[$k1][1],-2)=='em') $c[$b[$k1][0]] = $b1 . substr($b[$k1][1],0,-2).$v.'em;';
+			if(substr($b[$k1][1],-1)==':') $c[$b[$k1][0]] = $b1 . $b[$k1][1].strip_tags($v).';';
+			else if(substr($b[$k1][1],-3)=='url') $c[$b[$k1][0]] = $b1 . $b[$k1][1].'("'.strip_tags($v).'");';
+			else if(substr($b[$k1][1],-2)=='px') $c[$b[$k1][0]] = $b1 . substr($b[$k1][1],0,-2).filter_var($v,FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION).'px;';
+			else if(substr($b[$k1][1],-2)=='em') $c[$b[$k1][0]] = $b1 . substr($b[$k1][1],0,-2).filter_var($v,FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION).'em;';
 			else if(substr($b[$k1][1],-1)==';') $c[$b[$k1][0]] = $b1 . $b[$k1][1];
 			}
 		else if($k=='sub' && $v==1) $Ustyle .= 'li:hover ul.subMenu{display:block;}'."\r\n";

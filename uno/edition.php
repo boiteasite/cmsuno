@@ -515,12 +515,14 @@ function f_nouv_chap(){
 	});
 }
 function f_supp_chap(){
-	jQuery.post('uno/central.php',{'action':'suppChap','unox':Unox,'chap':Up,'data':Upd[Up]},function(r){
-		if(Up>0)Up--;
-		else Up=0;
-		f_alert(r);
-		f_get_site(1);
-	});
+	if(confirm("<?php echo T_("Delete Chapter"); ?> ?")){
+		jQuery.post('uno/central.php',{'action':'suppChap','unox':Unox,'chap':Up,'data':Upd[Up]},function(r){
+			if(Up>0)Up--;
+			else Up=0;
+			f_alert(r);
+			f_get_site(1);
+		});
+	}
 }
 function f_publier(){
 	document.getElementById('wait').style.display='block';
