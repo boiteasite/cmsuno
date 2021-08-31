@@ -365,7 +365,7 @@ f_init();
 		<div id="managePlug" style="display:none;"></div>
 	</div><!-- .container -->
 	
-<script type="text/javascript" src="<?php if($Udep=='uno/') echo 'uno/includes/js/jquery-3.6.0.min.js'; else echo '//ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js';?>"></script>
+<script type="text/javascript" src="<?php if($Udep=='uno/') echo 'uno/includes/js/jquery.min.js'; else echo '//ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js';?>"></script>
 <script type="text/javascript" src="<?php if($Udep=='uno/') echo 'uno/includes/js/jquery-ui.min.js'; else echo '//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'; ?>"></script>
 <script type="text/javascript" src="uno/includes/elfinder/js/elfinder.min.js"></script>
 <?php if($lang!='en' && $lang!='') echo '<script type="text/javascript" src="uno/includes/elfinder/js/i18n/elfinder.'.$lang.'.js"></script>'; ?>
