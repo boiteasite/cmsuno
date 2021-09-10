@@ -6,7 +6,8 @@ if(!isset($_POST['unox']) || $_POST['unox']!=$_SESSION['unox']) {sleep(2);exit;}
 $lazy = 1;
 include('config.php');
 include('includes/lang/lang.php');
-$Urawgit = "https://cdn.rawgit.com/boiteasite/cmsuno/";
+// $Urawgit = "https://cdn.rawgit.com/boiteasite/cmsuno/";
+$Urawgit = "https://cdn.jsdelivr.net/gh/boiteasite/cmsuno@";
 if(!is_dir('includes/js/ckeditor/')) $Udep = $Urawgit.$Uversion."/uno/"; else $Udep = "uno/"; // LIGHT HOSTED VERSION
 //
 // ********************* functions ***********************************************************************
@@ -136,12 +137,14 @@ function urlExists($u) {
 	// other try with curl
 	if(!$head && function_exists('curl_version')) {
 		$h = curl_init($u);
+		curl_setopt($h, CURLOPT_CONNECTTIMEOUT, 10);
+		curl_setopt($h, CURLOPT_TIMEOUT, 15);
 		curl_setopt($h, CURLOPT_SSL_VERIFYHOST, 0); // avoid error 60 : certificate problem: certificate has expired
 		curl_setopt($h, CURLOPT_SSL_VERIFYPEER, 0); // IDEM
 		curl_setopt($h, CURLOPT_RETURNTRANSFER, TRUE);
 		$res = curl_exec($h);
 		$cod = curl_getinfo($h, CURLINFO_HTTP_CODE);
-		curl_close($h);		
+		curl_close($h);	
 		if($cod!=404) return true;
 	}
 	// not exists
