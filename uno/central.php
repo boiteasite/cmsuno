@@ -275,7 +275,8 @@ if(isset($_POST['action'])) {
 		define('CMSUNO', 'cmsuno');
 		include('password.php');
 		if(!function_exists('password_hash')) include('uno/includes/password_hashing.php'); // php 5.5 missing => https://github.com/ircmaxell/password_compat (php>5.3)
-		$a = filter_var(strip_tags($_POST['user']),FILTER_SANITIZE_URL);
+		$a = filter_var(strip_tags($_POST['user']),FILTER_SANITIZE_EMAIL);
+		$a = str_replace("'","",$a);
 		$b = filter_var(strip_tags($_POST['pass']),FILTER_SANITIZE_URL);
 		$a0 = filter_var(strip_tags($_POST['user0']),FILTER_SANITIZE_URL);
 		$b0 = filter_var(strip_tags($_POST['pass0']),FILTER_SANITIZE_URL);
@@ -454,8 +455,7 @@ if(isset($_POST['action'])) {
 		$u = dirname($_SERVER['PHP_SELF']).'/../';
 		$Ucontent = str_replace($u,'',$Ucontent);
 		if(!empty($Ua['jq'])) {
-			$Uhead .= '<!--[if(!IE)|(gt IE 8)]><!--><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script><!--<![endif]-->'."\r\n"
-				.'<!--[if lte IE 8]><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><![endif]-->'."\r\n";
+			$Uhead .= '<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>'."\r\n";
 			if($Udep=='uno/') $Uhead .= '<script type="text/javascript">window.jQuery || document.write(\'<script src="uno/includes/js/jquery.min.js">\x3C/script>\')</script>'."\r\n";
 			$Uhead .= '<script type="text/javascript" src="'.$Udep.'includes/js/jquery-migrate-1.4.1.min.js"></script>'."\r\n";
 		}
