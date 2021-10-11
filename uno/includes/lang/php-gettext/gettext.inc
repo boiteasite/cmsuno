@@ -159,6 +159,16 @@ function locale_emulation() {
  * Checks if the current locale is supported on this system.
  */
 function _check_locale_and_function($function=false) {
+	//
+    // *********** CMSUNO - FORCED MODE **********************************************
+		//
+		// FORCE ONLY this script PHP-GETTEXT, not the PHP included module if exists.
+		//
+		global $forceGettext;
+		if(!empty($forceGettext)) return false;
+		//
+    // *******************************************************************************
+    //
     global $EMULATEGETTEXT;
     if ($function and !function_exists($function))
         return false;

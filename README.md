@@ -433,6 +433,10 @@ THE SOFTWARE.
 Versions
 --------
 
+* V1.7.4 - 11/10/2021 :
+	* Change update an resources URL : cdn.rawgit.com => cdn.jsdelivr.net.
+	* Add option to force embedded Gettext script.
+	* Fix issues.
 * V1.7.3 - 10/09/2021 :
 	* End support IE8.
 	* Fix vulnerability in user name change form.

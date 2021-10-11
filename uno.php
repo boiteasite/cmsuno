@@ -1,7 +1,7 @@
 <?php
 // **********************************
 // CMSUno
-$version = '1.7.3';
+$version = '1.7.4';
 // **********************************
 // *** DEBUG MODE ***
 	//error_reporting(E_ALL); ini_set('display_errors',1);
@@ -12,14 +12,14 @@ session_start();
 if(is_writable(dirname(__FILE__).'/uno')) {
 	if(file_exists('uno/config.php')) include('uno/config.php');
 	else {
-		$Sdata = f_setKey('Sdata');
+		$sdata = f_setKey('Sdata');
 		$Ukey = f_setKey('Ukey');
 		$out = '<?php $lang = "en"; $sdata = "'.$sdata.'"; $Ukey = "'.$Ukey.'"; $Uversion = "'.(isset($version)?$version:'1.0').'"; ?>';
 		file_put_contents('uno/config.php', $out);
 	}
 	if(file_exists('uno/patch.php')) include('uno/patch.php');
-	if(empty($Uversion) || $Uversion!=$version || empty($Sdata) || empty($Ukey)) {
-		if(empty($Sdata)) $Sdata = f_setKey('Sdata');
+	if(0&&(empty($Uversion) || $Uversion!=$version || empty($sdata) || empty($Ukey))) {
+		if(empty($sdata)) $sdata = f_setKey('Sdata');
 		if(empty($Ukey)) $Ukey = f_setKey('Ukey');
 		$out = '<?php $lang = "'.$lang.'"; $sdata = "'.$sdata.'"; $Ukey = "'.$Ukey.'"; $Uversion = "'.(isset($version)?$version:'1.0').'"; ?>';
 		file_put_contents('uno/config.php', $out);

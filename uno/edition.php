@@ -303,10 +303,15 @@ f_init();
 					</td>
 					<td>
 						<em><?php echo T_("Language for the admin side of the site.");?></em>
-						<div class="bouton" id="boutonPass" onClick="f_sauve_pass();" title="<?php echo T_("Save");?>"><?php echo T_("Save");?></div>
 					</td>
+				</tr><tr>
+					<td><label><?php echo T_("Embedded Gettext");?></label></td>
+					<td><input type="checkbox" class="input" name="gt" id="gt" <?php if(!empty($forceGettext)) echo 'checked '; ?>/></td>
+					<td><em><?php echo T_("Force the use of the GETTEXT module of CMSUNO (not recommended if PHP-Gettext works)");?></em></td>
 				</tr>
 			</table>
+			<div class="bouton fr" id="boutonPass" onClick="f_sauve_pass();" title="<?php echo T_("Save");?>"><?php echo T_("Save");?></div>
+			<div class="clear"></div>
 			<h2><?php echo T_("Change User / Password");?></h2>
 			<table class="hForm">
 				<tr>
@@ -500,7 +505,7 @@ function f_sauve_pass(){
 			return;
 		}
 	}
-	jQuery.post('uno/central.php',{'action':'sauvePass','unox':Unox,'user0':document.getElementById('user0').value,'pass0':document.getElementById('pass0').value,'user':document.getElementById('user').value,'pass':document.getElementById('pass').value,'lang':document.getElementById('lang').options[document.getElementById('lang').selectedIndex].value},function(r){
+	jQuery.post('uno/central.php',{'action':'sauvePass','unox':Unox,'user0':document.getElementById('user0').value,'pass0':document.getElementById('pass0').value,'user':document.getElementById('user').value,'pass':document.getElementById('pass').value,'lang':document.getElementById('lang').options[document.getElementById('lang').selectedIndex].value,'gt':document.getElementById('gt').checked},function(r){
 		f_alert(r);
 		if(r.substr(0,1)!="!")setTimeout(function(){
 			location.reload();

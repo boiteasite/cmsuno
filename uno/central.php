@@ -284,18 +284,19 @@ if(isset($_POST['action'])) {
 		$a0 = filter_var(strip_tags($_POST['user0']),FILTER_SANITIZE_URL);
 		$b0 = filter_var(strip_tags($_POST['pass0']),FILTER_SANITIZE_URL);
 		$l = preg_replace("/[^a-z]+/","",$_POST['lang']);
+		if(!empty($_POST['gt']) && $_POST['gt']=="true") $gt = 1; else $gt = 0;
 		if($a!=$_POST['user'] || $b!=$_POST['pass'] || $a0!=$_POST['user0'] || $b0!=$_POST['pass0']) {
 			echo '!'.T_('Wrong current elements'); exit;
 		}
 		else {
 			if($a0=='' || $b0=='') { // only lang
-				$config = '<?php $lang = "'.$l.'"; $sdata = "'.$sdata.'"; $Uversion = "'.(isset($Uversion)?$Uversion:'1.0').'"; ?>';
+				$config = '<?php $lang = "'.$l.'"; $sdata = "'.$sdata.'"; $Ukey = "'.$Ukey.'"; $Uversion = "'.(isset($Uversion)?$Uversion:'1.0').'"; $forceGettext = '.$gt.'; ?>';
 				if(file_put_contents('config.php', $config)) echo T_('The language was changed');
 				else echo '!'.T_('Impossible backup');
 			}
 			else if($a0===$user && password_verify($b0,$pass)) {
 				$password = '<?php if(!defined(\'CMSUNO\')) exit(); $user = "'.$a.'"; $pass = \''.password_hash($b, PASSWORD_BCRYPT).'\'; ?>';
-				$config = '<?php $lang = "'.$l.'"; $sdata = "'.$sdata.'"; $Uversion = "'.(isset($Uversion)?$Uversion:'1.0').'"; ?>';
+				$config = '<?php $lang = "'.$l.'"; $sdata = "'.$sdata.'"; $Ukey = "'.$Ukey.'"; $Uversion = "'.(isset($Uversion)?$Uversion:'1.0').'"; $forceGettext = '.$gt.'; ?>';
 				if(file_put_contents('password.php', $password) && file_put_contents('config.php', $config)) echo T_('The login / password were changed');
 				else echo '!'.T_('Impossible backup');
 			}
@@ -895,7 +896,7 @@ if(isset($_POST['action'])) {
 					f_copyDir($base.'/files/tmpplugins', $base.'/uno/plugins'); f_rmdirR($base.'/files/tmpplugins');
 					f_copyDir($base.'/files/tmptemplate', $base.'/uno/template'); f_rmdirR($base.'/files/tmptemplate');
 					copy($base.'/files/tmppassword.php', $base.'/uno/password.php'); unlink($base.'/files/tmppassword.php');
-					$config = '<?php $lang = "'.$lang.'"; $sdata = "'.$sdata.'"; $Uversion = "'.$a['uno']['ext'].'"; ?>';
+					$config = '<?php $lang = "'.$lang.'"; $sdata = "'.$sdata.'"; $Uversion = "'.$a['uno']['ext'].'"; $forceGettext = '.$forceGettext.'; ?>';
 					file_put_contents($base.'/uno/config.php', $config);
 					echo T_('New Version Installed').'|'.$a['uno']['ext'];
 					$r= 1;
