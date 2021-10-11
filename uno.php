@@ -27,7 +27,8 @@ if(is_writable(dirname(__FILE__).'/uno')) {
 	}
 }
 include('uno/includes/lang/lang.php');
-$Urawgit = '//cdn.rawgit.com/boiteasite/cmsuno/';
+//$Urawgit = '//cdn.rawgit.com/boiteasite/cmsuno/';
+$Urawgit = 'https://cdn.jsdelivr.net/gh/boiteasite/cmsuno@';
 $Udep = 'uno/';
 if(!is_dir('uno/includes/js/ckeditor/')) $Udep = $Urawgit.$Uversion."/uno/"; // LIGHT HOSTED VERSION
 if(!empty($_POST['user']) && !empty($_POST['pass']) && !empty($_POST['unox']) && !empty($_SESSION)) {
