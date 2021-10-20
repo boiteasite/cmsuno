@@ -48,6 +48,8 @@ The server has nothing to build, the page displays faster than any other CMS.
 
 More details in French [here](http://www.boiteasite.fr/cmsuno.html).
 
+<a href="https://www.buymeacoffee.com/j.malgrange" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
+
 Installation
 ------------
 
