@@ -48,10 +48,6 @@ The server has nothing to build, the page displays faster than any other CMS.
 
 More details in French [here](http://www.boiteasite.fr/cmsuno.html).
 
-<p align="right">
-	<a href="https://www.buymeacoffee.com/j.malgrange" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
-</p>
-
 Installation
 ------------
 
@@ -437,6 +433,8 @@ THE SOFTWARE.
 Versions
 --------
 
+* V1.7.5 - 03/12/2021 :
+	* ELFinder 2.1.60, CKEditor 4.17.1
 * V1.7.4 - 11/10/2021 :
 	* Change update an resources URL : cdn.rawgit.com => cdn.jsdelivr.net.
 	* Add option to force embedded Gettext script.

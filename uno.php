@@ -1,7 +1,7 @@
 <?php
 // **********************************
 // CMSUno
-$version = '1.7.4';
+$version = '1.7.5';
 // **********************************
 // *** DEBUG MODE ***
 	//error_reporting(E_ALL); ini_set('display_errors',1);
