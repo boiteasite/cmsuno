@@ -408,7 +408,7 @@ License
 CMSUno is under MIT license.
 
 <pre>
-Copyright (c) 2014-2021 Jacques Malgrange
+Copyright (c) 2014-2022 Jacques Malgrange
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -433,6 +433,8 @@ THE SOFTWARE.
 Versions
 --------
 
+* V1.7.6 - 28/04/2022 :
+	* ELFinder 2.1.61, CKEditor 4.18.0
 * V1.7.5 - 03/12/2021 :
 	* ELFinder 2.1.60, CKEditor 4.17.1
 * V1.7.4 - 11/10/2021 :
