@@ -433,6 +433,8 @@ THE SOFTWARE.
 Versions
 --------
 
+* V1.7.7 - 05/08/2022 :
+	* CKEditor 4.19.1
 * V1.7.6 - 28/04/2022 :
 	* ELFinder 2.1.61, CKEditor 4.18.0
 * V1.7.5 - 03/12/2021 :
