@@ -26,13 +26,15 @@ u::::::::::::::u  n::::n    n::::n  o:::::ooooo:::::o
 Presentation
 ------------
 
-CMSUno is a free tool to create one-page responsive websites.
+CMSUno is a free tool to create __one-page__ responsive websites.
 It was designed to be easy to use, comprehensive and particularly rapid in terms of navigation.
 This strong CMS is a great tool to use jQuery plugins available on the web.
 
 <p align="center">
 ==> <a href="http://www.cmsuno.boiteasite.fr"> DEMO </a> <==
 </p>
+
+It is very well adapted to __SEO__ and allows to get a score close to 100 on Google PageSpeed Insights.
 
 In a few words:
 
