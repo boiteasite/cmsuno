@@ -23,10 +23,10 @@ $Uw3 = array(
 'modal'=>array(
 	'w3-modal'=>'w3-modal',
 	'w3-modal-content'=>'w3-modal-content w3-card-4',
-	'header'=>'w3-container w3-padding-large w3-teal',
+	'header'=>'w3-container w3-padding-large w3-dark-grey',
 	'xclose'=>'w3-button w3-display-topright',
-	'content'=>'w3-container w3-padding',
-	'footer'=>'w3-container w3-padding-small w3-teal'
+	'content'=>'w3-container w3-padding w3-pale-yellow',
+	'footer'=>'w3-container w3-padding-small w3-dark-grey'
 ),
 'grid'=>array(
 	'w3-row'=>'w3-row',
