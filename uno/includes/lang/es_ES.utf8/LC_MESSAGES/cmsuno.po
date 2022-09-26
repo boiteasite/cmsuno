@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CmsUno\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-11 17:40+0200\n"
-"PO-Revision-Date: 2021-10-11 17:41+0200\n"
+"POT-Creation-Date: 2022-09-26 17:11+0200\n"
+"PO-Revision-Date: 2022-09-26 17:11+0200\n"
 "Last-Translator: malgrange <jacques.malgrange@gmail.com>\n"
 "Language-Team: Jacques Malgrange <contacter@boiteasite.fr>\n"
 "Language: es_ES\n"
@@ -17,31 +17,58 @@ msgstr ""
 "X-Generator: Poedit 1.8.7.1\n"
 "X-Poedit-SearchPath-0: ../../../../..\n"
 
-#: ../../../../../uno.php:83 ../../../../../uno.php:84
-#: ../../../../../uno.php:153 ../../../../../uno.php:154
+#: ../../../../../uno.php:77 ../../../../../uno.php:78
+#: ../../../../../uno.php:206 ../../../../../uno.php:207
 msgid "must writable recursively !"
 msgstr "¡ Debe tener permisos de escritura recursivamente !"
 
-#: ../../../../../uno.php:111 ../../../../../uno.php:148
+#: ../../../../../uno.php:108 ../../../../../uno.php:187
+msgid "Lost password"
+msgstr "Contraseña perdida"
+
+#: ../../../../../uno.php:119 ../../../../../uno/central.php:289
+#: ../../../../../uno/central.php:304
+msgid "Wrong current elements"
+msgstr "Elementos actuales incorrectos"
+
+#: ../../../../../uno.php:125 ../../../../../uno/central.php:244
+#: ../../../../../uno/central.php:295 ../../../../../uno/central.php:301
+#: ../../../../../uno/central.php:346
+msgid "Impossible backup"
+msgstr "Salvaguardar imposible"
+
+#: ../../../../../uno.php:146 ../../../../../uno.php:189
 msgid "Login"
 msgstr "Conexión"
 
-#: ../../../../../uno.php:119 ../../../../../uno/edition.php:168
+#: ../../../../../uno.php:154 ../../../../../uno/edition.php:169
 msgid "CMSUno on GitHub"
 msgstr "CMSUno en GitHub"
 
-#: ../../../../../uno.php:126 ../../../../../uno/edition.php:175
+#: ../../../../../uno.php:161 ../../../../../uno/edition.php:177
 msgid "See the website"
 msgstr "Ver el sitio web"
 
-#: ../../../../../uno.php:136
+#: ../../../../../uno.php:172
 msgid "Administrator"
 msgstr "Administrador"
 
-#: ../../../../../uno.php:142 ../../../../../uno/edition.php:333
-#: ../../../../../uno/edition.php:338
+#: ../../../../../uno.php:180 ../../../../../uno/edition.php:336
+#: ../../../../../uno/edition.php:341
 msgid "Password"
 msgstr "Contraseña"
+
+#: ../../../../../uno.php:193
+msgid "New password"
+msgstr "Nueva contraseña"
+
+#: ../../../../../uno.php:199 ../../../../../uno/edition.php:346
+msgid "Save password"
+msgstr "Guardar contraseña"
+
+#: ../../../../../uno.php:208
+msgid "A recovery link has been sent by email"
+msgstr "Se ha enviado un enlace de recuperación por email."
 
 #: ../../../../../uno/central.php:184 ../../../../../uno/central.php:234
 msgid "Welcome"
@@ -50,11 +77,6 @@ msgstr "Bienvenida"
 #: ../../../../../uno/central.php:243 ../../../../../uno/central.php:345
 msgid "Backup performed"
 msgstr "Salvaguardar realizada"
-
-#: ../../../../../uno/central.php:244 ../../../../../uno/central.php:295
-#: ../../../../../uno/central.php:301 ../../../../../uno/central.php:346
-msgid "Impossible backup"
-msgstr "Salvaguardar imposible"
 
 #: ../../../../../uno/central.php:271
 msgid "Change made"
@@ -67,10 +89,6 @@ msgstr "Error"
 #: ../../../../../uno/central.php:274
 msgid "No change"
 msgstr "No cambio"
-
-#: ../../../../../uno/central.php:289 ../../../../../uno/central.php:304
-msgid "Wrong current elements"
-msgstr "Elementos actuales incorrectos"
 
 #: ../../../../../uno/central.php:294
 msgid "The language was changed"
@@ -145,7 +163,7 @@ msgstr "CMSUno está en aligerado versión"
 msgid "Add or remove plugins from the CMSUno GitHub list"
 msgstr "Añadir o eliminar plugins de la lista CMSUno GitHub"
 
-#: ../../../../../uno/central.php:960 ../../../../../uno/edition.php:846
+#: ../../../../../uno/central.php:960 ../../../../../uno/edition.php:849
 msgid "Remove"
 msgstr "Eliminar"
 
@@ -165,196 +183,197 @@ msgstr "Plugin está instalado"
 msgid "Plugin removed"
 msgstr "Plugin está eliminado"
 
-#: ../../../../../uno/edition.php:56 ../../../../../uno/edition.php:400
+#: ../../../../../uno/edition.php:57 ../../../../../uno/edition.php:403
 msgid "do not save ?"
 msgstr "no guarde ?"
 
-#: ../../../../../uno/edition.php:172
+#: ../../../../../uno/edition.php:174
 msgid "Page"
 msgstr "Página"
 
-#: ../../../../../uno/edition.php:173
+#: ../../../../../uno/edition.php:175
 msgid "Settings"
 msgstr "Ajustes"
 
-#: ../../../../../uno/edition.php:174
+#: ../../../../../uno/edition.php:176
 msgid "Plugins"
 msgstr "Plugins"
 
-#: ../../../../../uno/edition.php:176
+#: ../../../../../uno/edition.php:178
 msgid "Log out"
 msgstr "Desconexión"
 
-#: ../../../../../uno/edition.php:183 ../../../../../uno/edition.php:355
+#: ../../../../../uno/edition.php:186 ../../../../../uno/edition.php:358
 msgid "File manager"
 msgstr "Gestor de archivos"
 
-#: ../../../../../uno/edition.php:184 ../../../../../uno/edition.php:202
-#: ../../../../../uno/edition.php:216 ../../../../../uno/edition.php:357
+#: ../../../../../uno/edition.php:187 ../../../../../uno/edition.php:205
+#: ../../../../../uno/edition.php:219 ../../../../../uno/edition.php:360
 msgid "Publish on the web all saved chapters"
 msgstr "Publicar en la web todos los capítulos guardados"
 
-#: ../../../../../uno/edition.php:184 ../../../../../uno/edition.php:202
-#: ../../../../../uno/edition.php:216 ../../../../../uno/edition.php:357
+#: ../../../../../uno/edition.php:187 ../../../../../uno/edition.php:205
+#: ../../../../../uno/edition.php:219 ../../../../../uno/edition.php:360
 msgid "Publish"
 msgstr "Publicar"
 
-#: ../../../../../uno/edition.php:195
+#: ../../../../../uno/edition.php:198
 msgid "Remove this chapter and title"
 msgstr "Eliminar este capítulo y título"
 
-#: ../../../../../uno/edition.php:195 ../../../../../uno/edition.php:523
+#: ../../../../../uno/edition.php:198 ../../../../../uno/edition.php:526
 msgid "Delete Chapter"
 msgstr "Eliminar capítulo"
 
-#: ../../../../../uno/edition.php:197
+#: ../../../../../uno/edition.php:200
 msgid "Chapter title"
 msgstr "Título del capítulo"
 
-#: ../../../../../uno/edition.php:200
+#: ../../../../../uno/edition.php:203
 msgid "Inserts a chapter after this one. Have you saved ?"
 msgstr "Inserta un capítulo después de éste. ¿Te has salvado?"
 
-#: ../../../../../uno/edition.php:200
+#: ../../../../../uno/edition.php:203
 msgid "New chapter"
 msgstr "Nuevo capítulo"
 
-#: ../../../../../uno/edition.php:201
+#: ../../../../../uno/edition.php:204
 msgid "Save this chapter and title"
 msgstr "Guardar este capítulo y título"
 
-#: ../../../../../uno/edition.php:201
+#: ../../../../../uno/edition.php:204
 msgid "Save Chapter"
 msgstr "Guardar capítulo"
 
-#: ../../../../../uno/edition.php:204
+#: ../../../../../uno/edition.php:207
 msgid "Destroy the HTML file of this page (not the data)"
 msgstr "Destruir el archivo HTML de la página (no los datos)"
 
-#: ../../../../../uno/edition.php:204
+#: ../../../../../uno/edition.php:207
 msgid "Delete Publication"
 msgstr "Eliminar publicación"
 
-#: ../../../../../uno/edition.php:206
+#: ../../../../../uno/edition.php:209
 msgid "No Title"
 msgstr "Sin título"
 
-#: ../../../../../uno/edition.php:207
+#: ../../../../../uno/edition.php:210
 msgid "Not in menu"
 msgstr "No en el menú"
 
-#: ../../../../../uno/edition.php:208
+#: ../../../../../uno/edition.php:211
 msgid "Hidden"
 msgstr "Oculto"
 
-#: ../../../../../uno/edition.php:218
+#: ../../../../../uno/edition.php:221
 msgid "My Card"
 msgstr "Mi ficha"
 
-#: ../../../../../uno/edition.php:221
+#: ../../../../../uno/edition.php:224
 msgid "Page Title"
 msgstr "Título de la página"
 
-#: ../../../../../uno/edition.php:223
+#: ../../../../../uno/edition.php:226
 msgid ""
-"Very important. The most important words at the beginning. 65 characters max."
+"Very important. The most important words at the beginning. 60 characters max."
 msgstr ""
-"Muy importante. Las palabras más importantes al principio. 65 caracteres máx."
+"Muy importante. Las palabras más importantes al principio. 60 caracteres máx."
 
-#: ../../../../../uno/edition.php:225
+#: ../../../../../uno/edition.php:228
 msgid "Page Description"
 msgstr "Descripción de la página"
 
-#: ../../../../../uno/edition.php:227
-msgid "Important for attracting visitors. 230 characters max."
-msgstr "Importante para atraer visitantes. 230 caracteres como máximo."
+#: ../../../../../uno/edition.php:230
+msgid "Important for attracting visitors. 160 characters max."
+msgstr "Importante para atraer visitantes. 160 caracteres como máximo."
 
-#: ../../../../../uno/edition.php:229
+#: ../../../../../uno/edition.php:232
 msgid "Base URL"
 msgstr "URL base"
 
-#: ../../../../../uno/edition.php:231
+#: ../../../../../uno/edition.php:234
 msgid "Base URL for this site (URL displayed by the browser without uno.php)."
 msgstr "URL base para este sitio (URL mostrada por el navegador sin uno.php)."
 
-#: ../../../../../uno/edition.php:233
+#: ../../../../../uno/edition.php:236
 msgid "Filename"
 msgstr "Nombre del archivo"
 
-#: ../../../../../uno/edition.php:235
+#: ../../../../../uno/edition.php:238
 msgid "Created file will be index.html by default."
 msgstr "El archivo creado será index.html por defecto."
 
-#: ../../../../../uno/edition.php:237
+#: ../../../../../uno/edition.php:240
 msgid "E-mail"
 msgstr "Email"
 
-#: ../../../../../uno/edition.php:239
+#: ../../../../../uno/edition.php:242
 msgid "Email address of the site administrator."
 msgstr "Correo electrónico del administrador del sitio."
 
-#: ../../../../../uno/edition.php:241
+#: ../../../../../uno/edition.php:244
 msgid "Theme"
 msgstr "Tema"
 
-#: ../../../../../uno/edition.php:248
+#: ../../../../../uno/edition.php:251
 msgid "Theme to use for this page."
 msgstr "Tema a utilizar para esta página."
 
-#: ../../../../../uno/edition.php:251
+#: ../../../../../uno/edition.php:254
 msgid "Options"
 msgstr "Opciones"
 
-#: ../../../../../uno/edition.php:254
+#: ../../../../../uno/edition.php:257
 msgid "LazyLoad"
 msgstr "LazyLoad"
 
-#: ../../../../../uno/edition.php:256
+#: ../../../../../uno/edition.php:259
 msgid "Dynamic images loading. (recommended)"
 msgstr "Carga de imágenes dinámicas (recomendado)"
 
-#: ../../../../../uno/edition.php:258
+#: ../../../../../uno/edition.php:261
 msgid "Load w3.css"
 msgstr "Cargar w3.css"
 
-#: ../../../../../uno/edition.php:260
+#: ../../../../../uno/edition.php:263
 msgid ""
-"W3.css is a modern CSS framework with built-in responsiveness. (recommended)"
+"W3.css is a modern CSS framework with built-in responsiveness. (Used by some "
+"themes and plugins)"
 msgstr ""
 "W3.css es un marco de CSS moderno con capacidad de respuesta incorporada. "
-"(recomendado)"
+"(Usado por algunos temas y complementos)"
 
-#: ../../../../../uno/edition.php:262
+#: ../../../../../uno/edition.php:265
 msgid "Load JQuery"
 msgstr "Cargar JQuery"
 
-#: ../../../../../uno/edition.php:264
+#: ../../../../../uno/edition.php:267
 msgid ""
 "Javascript library useful for some plugins. (not recommended if not required)"
 msgstr ""
 "Javascript útil para algunos plugins. (no se recomienda si no es necesario)"
 
-#: ../../../../../uno/edition.php:266
+#: ../../../../../uno/edition.php:269
 msgid "CSS template"
 msgstr "CSS template"
 
-#: ../../../../../uno/edition.php:268
+#: ../../../../../uno/edition.php:271
 msgid "Same styles in the editor and page. Ref"
 msgstr "Mismos estilos en el editor y en la página. Ref"
 
-#: ../../../../../uno/edition.php:268
+#: ../../../../../uno/edition.php:271
 msgid "or"
 msgstr "o"
 
-#: ../../../../../uno/edition.php:268
+#: ../../../../../uno/edition.php:271
 msgid "in"
 msgstr "en"
 
-#: ../../../../../uno/edition.php:270
+#: ../../../../../uno/edition.php:273
 msgid "Width page"
 msgstr "Ancho página"
 
-#: ../../../../../uno/edition.php:272
+#: ../../../../../uno/edition.php:275
 msgid ""
 "Adapt the editor width with the observed width of the HTML page. (960 by "
 "default)"
@@ -362,11 +381,11 @@ msgstr ""
 "Adaptar el ancho del editor con el ancho observado en la página HTML. (960 "
 "por defecto)"
 
-#: ../../../../../uno/edition.php:274
+#: ../../../../../uno/edition.php:277
 msgid "Menu offset"
 msgstr "Menú Offset"
 
-#: ../../../../../uno/edition.php:276
+#: ../../../../../uno/edition.php:279
 msgid ""
 "Margin height upon arrival on a chapter after clicking on the menu (0 by "
 "default)"
@@ -374,60 +393,60 @@ msgstr ""
 "Margen de altura al llegar a un capítulo después de hacer clic en el menú (0 "
 "por defecto)"
 
-#: ../../../../../uno/edition.php:279
+#: ../../../../../uno/edition.php:282
 msgid "Saves settings"
 msgstr "Guardar la configuración"
 
-#: ../../../../../uno/edition.php:279 ../../../../../uno/edition.php:313
-#: ../../../../../uno/edition.php:343
+#: ../../../../../uno/edition.php:282 ../../../../../uno/edition.php:316
+#: ../../../../../uno/edition.php:346
 msgid "Save"
 msgstr "Guardar"
 
-#: ../../../../../uno/edition.php:284
+#: ../../../../../uno/edition.php:287
 msgid "Save all the website"
 msgstr "Guardar todo el sitio web"
 
-#: ../../../../../uno/edition.php:284
+#: ../../../../../uno/edition.php:287
 msgid "Make a backup"
 msgstr "Hacer una salvaguardar"
 
-#: ../../../../../uno/edition.php:285
+#: ../../../../../uno/edition.php:288
 msgid "Restore a backup (delete the current site)"
 msgstr "Restaurar una salvaguardar (eliminar el sitio actual)"
 
-#: ../../../../../uno/edition.php:285
+#: ../../../../../uno/edition.php:288
 msgid "Restore a backup"
 msgstr "Restaurar salvaguardar"
 
-#: ../../../../../uno/edition.php:288
+#: ../../../../../uno/edition.php:291
 msgid "Remove this backup"
 msgstr "Eliminar esta salvaguardar"
 
-#: ../../../../../uno/edition.php:289
+#: ../../../../../uno/edition.php:292
 msgid "Download this backup"
 msgstr "Descargar este salvaguardar"
 
-#: ../../../../../uno/edition.php:290
+#: ../../../../../uno/edition.php:293
 msgid "Download all Finder files"
 msgstr "descargar todos los archivos del Finder"
 
-#: ../../../../../uno/edition.php:295
+#: ../../../../../uno/edition.php:298
 msgid "Change Language"
 msgstr "Cambiar el idioma"
 
-#: ../../../../../uno/edition.php:298
+#: ../../../../../uno/edition.php:301
 msgid "Language"
 msgstr "Idioma"
 
-#: ../../../../../uno/edition.php:305
+#: ../../../../../uno/edition.php:308
 msgid "Language for the admin side of the site."
 msgstr "Idioma para la parte de administración del sitio."
 
-#: ../../../../../uno/edition.php:308
+#: ../../../../../uno/edition.php:311
 msgid "Embedded Gettext"
 msgstr "Gettext incrustado"
 
-#: ../../../../../uno/edition.php:310
+#: ../../../../../uno/edition.php:313
 msgid ""
 "Force the use of the GETTEXT module of CMSUNO (not recommended if PHP-"
 "Gettext works)"
@@ -435,29 +454,29 @@ msgstr ""
 "Forzar el uso del módulo GETTEXT de CMSUNO (no recomendado si PHP-Gettext "
 "funciona)"
 
-#: ../../../../../uno/edition.php:315
+#: ../../../../../uno/edition.php:318
 msgid "Change User / Password"
 msgstr "Cambiar de Usuario / Contraseña"
 
-#: ../../../../../uno/edition.php:318
+#: ../../../../../uno/edition.php:321
 msgid "Current user"
 msgstr "Usuario actual"
 
-#: ../../../../../uno/edition.php:323
+#: ../../../../../uno/edition.php:326
 msgid "Current password"
 msgstr "Contraseña actual"
 
-#: ../../../../../uno/edition.php:328
+#: ../../../../../uno/edition.php:331
 msgid "User"
 msgstr "Usuario"
 
-#: ../../../../../uno/edition.php:330
+#: ../../../../../uno/edition.php:333
 msgid "Enter a nickname. Avoid words that are too simple (admin, user ...)"
 msgstr ""
 "Introducir un apodo. Evitar palabras que son demasiado simples (admin, "
 "usuario ...)"
 
-#: ../../../../../uno/edition.php:335
+#: ../../../../../uno/edition.php:338
 msgid ""
 "Very important for the safety of the site. Use lowercase, uppercase and "
 "digit."
@@ -465,69 +484,65 @@ msgstr ""
 "Muy importante para la seguridad del sitio. Utilice minúsculas, mayúsculas y "
 "dígitos."
 
-#: ../../../../../uno/edition.php:340
+#: ../../../../../uno/edition.php:343
 msgid "Check. Re-enter the password."
 msgstr "Compruebe. Volver a introducir la contraseña."
 
-#: ../../../../../uno/edition.php:343
-msgid "Save password"
-msgstr "Guardar contraseña"
-
-#: ../../../../../uno/edition.php:347
+#: ../../../../../uno/edition.php:350
 msgid "Check for update"
 msgstr "Buscar actualizaciones"
 
-#: ../../../../../uno/edition.php:348 ../../../../../uno/edition.php:869
-#: ../../../../../uno/edition.php:882
+#: ../../../../../uno/edition.php:351 ../../../../../uno/edition.php:872
+#: ../../../../../uno/edition.php:885
 msgid "Update"
 msgstr "Actualización"
 
-#: ../../../../../uno/edition.php:356
+#: ../../../../../uno/edition.php:359
 msgid "Add or remove plugins"
 msgstr "Añadir o eliminar plugins"
 
-#: ../../../../../uno/edition.php:492
+#: ../../../../../uno/edition.php:495
 msgid "Current elements are missing"
 msgstr "Elementos actuales faltan"
 
-#: ../../../../../uno/edition.php:496
+#: ../../../../../uno/edition.php:499
 msgid "Too short name"
 msgstr "Nombre demasiado corto"
 
-#: ../../../../../uno/edition.php:500
+#: ../../../../../uno/edition.php:503
 msgid "Passwords are different"
 msgstr "Las contraseñas son diferentes"
 
-#: ../../../../../uno/edition.php:504
+#: ../../../../../uno/edition.php:507
 msgid "Too short password"
 msgstr "Contraseña demasiado corta"
 
-#: ../../../../../uno/edition.php:684 ../../../../../uno/edition.php:727
+#: ../../../../../uno/edition.php:687 ../../../../../uno/edition.php:730
 msgid "My theme"
 msgstr "Mi tema"
 
-#: ../../../../../uno/edition.php:714 ../../../../../uno/edition.php:742
+#: ../../../../../uno/edition.php:717 ../../../../../uno/edition.php:745
 msgid "Enable"
 msgstr "Activar"
 
-#: ../../../../../uno/edition.php:724 ../../../../../uno/edition.php:746
+#: ../../../../../uno/edition.php:727 ../../../../../uno/edition.php:749
 msgid "Disable"
 msgstr "Desactivar"
 
-#: ../../../../../uno/edition.php:805
+#: ../../../../../uno/edition.php:808
 msgid "Select a file"
 msgstr "Seleccionar un archivo"
 
-#: ../../../../../uno/edition.php:866
+#: ../../../../../uno/edition.php:869
 msgid "Remove what is available online ? (recommended)"
 msgstr "Eliminar lo que está disponible en línea? (recomendado)"
 
-#: ../../../../../uno/edition.php:866
+#: ../../../../../uno/edition.php:869
 msgid "Lighten"
 msgstr "Aligerar"
 
-#: ../../../../../uno/edition.php:868 ../../../../../uno/edition.php:881
-#: ../../../../../uno/edition.php:900
+#: ../../../../../uno/edition.php:871 ../../../../../uno/edition.php:884
+#: ../../../../../uno/edition.php:903
 msgid "Up to date"
 msgstr "Actualizado"
 

@@ -122,11 +122,10 @@ Use [NivoSlider](https://github.com/gilbitron/Nivo-Slider),
 * [__Cookiebar__](https://github.com/cmsunoPlugins/cookiebart) : Adds and setup a custom Cookie Consent Warning. Use [cookieconsent](https://cookieconsent.insites.com/).
 * [__EdiTheme__](https://github.com/cmsunoPlugins/editheme) : Edit and modify templates directly from CMSUno with syntax highlighting. Use [CodeMirror](https://codemirror.net/).
 * [__Fixed layout__](https://github.com/cmsunoPlugins/fixed_layout) : This plugin allows to create a page with a fixed background that changes with scrolling. Inspired by [Jquery Fixed Scroll Background](https://github.com/ebaumstarck/JqueryFixedScrollBackground).
-* [__Fontawesome__](https://github.com/cmsunoPlugins/fontawesome) : Adds a button in CKEditor to insert FontAwesome icons on the site.
 * [__Googlemap__](https://github.com/cmsunoPlugins/googlemap) : Adds a button in CKEditor to insert one or more Google-Map in your page.
 * [__Markdown__](https://github.com/cmsunoPlugins/markdown) : Allows you to display the formatted content of one or more MarkDown files in your page. It works with a shortcode and uses Parsedown.php to parse the markdown. Different CSS formats are availables. The wordpress format is also parsed. Allows to create a comprehensive system of paying plugin download with the appearance of wordpress.org.
-* [__Model__](https://github.com/cmsunoPlugins/model) :  Create template for CKEditor. Very useful. Two default models exist : two columns and three columns. They are adjustable. Ability to create others sophisticated templates. As easy as the Lego game.
 * [__Multipage__](https://github.com/cmsunoPlugins/multipage) :  This plugin allows you to create and manage multiple pages in CMSUno. Drag and Drop Menu Manager. Simple and practical for a complete website.
+* [__Model__](https://github.com/cmsunoPlugins/model) :  Create template for CKEditor. Very useful. Two default models exist : two columns and three columns. They are adjustable. Ability to create others sophisticated templates. As easy as the Lego game.
 * [__Newsletter__](https://github.com/cmsunoPlugins/newsletter) : Great plugin to send a formated newsletter to a list of subscriber. Use PHP mail(), Gmail SMTP or any SMTP provider. Shortcode to add a subscribe form in the page. Link in the mail to unsubscribe. Add PHPMailer to other plugins.
 * [__Paycoin__](https://github.com/cmsunoPlugins/paycoin) : Accept Bitcoin payment. Sales are checked and recorded with IPN return. Works also with digital goods and cart plugin.
 * [__Payment__](https://github.com/cmsunoPlugins/payment) : Allows you to create a small e-commerce site from CKEditor.
@@ -436,6 +435,13 @@ THE SOFTWARE.
 Versions
 --------
 
+* V1.8 - 26/09/2022 :
+	* Improved responsive display.
+	* Admin Password can be restored.
+	* Update HTML title and description size recommendations.
+	* Remove CSS prefixed properties (webkit...) no longer used.
+	* Fix some issues in cmsuno and uno1 theme.
+	* jQuery 3.6.1
 * V1.7.7 - 05/08/2022 :
 	* CKEditor 4.19.1
 * V1.7.6 - 28/04/2022 :
@@ -571,21 +577,4 @@ Versions
 * V0.9.20 beta - 31/05/2015 : Fix some bugs.
 * V0.9.19 beta - 22/05/2015 : CKEditor 4.4.7 with widget.
 * V0.9.18 beta - 19/05/2015 : Responsive menu.
-* V0.9.17 beta - 11/05/2015
-* V0.9.16 beta - 29/03/2015
-* V0.9.15 beta - 24/03/2015
-* V0.9.14 beta - 21/03/2015
-* V0.9.13 beta - 13/03/2015
-* V0.9.12 beta - 10/03/2015
-* V0.9.11 beta - 28/02/2015
-* V0.9.10 beta - 22/02/2015
-* V0.9.9 beta - 12/02/2015
-* V0.9.8 beta - 02/02/2015
-* V0.9.7 beta - 15/01/2015
-* V0.9.6 beta - 13/01/2015
-* V0.9.5 beta - 10/01/2015
-* V0.9.4 beta - 06/01/2015
-* V0.9.3 beta - 09/12/2014
-* V0.9.2 beta - 29/11/2014
-* V0.9.1 beta - 23/11/2014
 * CMSUno Version 0.9 beta - 26/10/2014

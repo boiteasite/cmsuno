@@ -31,11 +31,11 @@ function f_load_uno1(){
 					if(k.substr(0,1)=='S'&&document.getElementById(k.substr(1))){
 						i=document.getElementById(k.substr(1));
 						if(v=='color'){
-							i.className='color';
+							i.className='color input';
 							i.onclick=null;
 						}
 						else if(v=='img'){
-							i.className='img';
+							i.className='input';
 							i.onclick=(function(f){return function(){f_finder_select(f.substr(1))}})(k);
 						}
 					}
@@ -46,15 +46,15 @@ function f_load_uno1(){
 	});
 }
 function f_del_uno1(f){
-	var g=f.parentNode.firstChild,h=g.id;
-	jQuery(g).parent().empty().append('<input type="text" class="color input" style="width:150px;" name="'+h+'" id="'+h+'" /><span class="del" onclick="f_del_uno1(this);"></span>');
+	jQuery(f).prev().val('').css({"background-color":"#fff","color":"#555"});
 }
 function f_sel_uno1(f){
-	var i=document.getElementById(f.id.substr(1));
+	var i=document.getElementById(f.id.substr(1)),j;
 	if(f.options[f.selectedIndex].value=='color'){
 		i.className='color input';
 		i.onclick=null;
 		i.value='';
+		jQuery(i).colorPicker();
 	}
 	else{
 		j=document.createElement('input');

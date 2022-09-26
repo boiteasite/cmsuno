@@ -10,10 +10,8 @@ $q = file_get_contents('../../data/busy.json'); $a = json_decode($q,true); $Ubus
 $q = file_get_contents('../../data/'.$Ubusy.'/site.json'); $a = json_decode($q,true); $Utem = $a['tem'];
 if(!file_exists('../../data/'.$Ubusy.'/'.$Utem.'.json')) file_put_contents('../../data/'.$Ubusy.'/'.$Utem.'.json', '[]');
 // ********************* actions *************************************************************************
-if (isset($_POST['action']))
-	{
-	switch ($_POST['action'])
-		{
+if (isset($_POST['action'])) {
+	switch ($_POST['action']) {
 		// ********************************************************************************************
 		case 'plugin': ?>
 		<style>
@@ -27,7 +25,7 @@ if (isset($_POST['action']))
 				<tr>
 					<td><label><?php echo T_("Page background");?></label></td>
 					<td>
-						<input class="color input" type="text" style="width:150px;" name="bgp" id="bgp" />
+						<input class="color input" type="text" style="width:150px;" name="bgp" id="bgp" /><span class="del" onclick="f_del_uno1(this)"></span>
 						<select id="Sbgp" name="Sbgp" onChange="f_sel_uno1(this);" >
 							<option value="color" selected>color</option>
 							<option value="img">img</option>
@@ -215,20 +213,18 @@ if (isset($_POST['action']))
 		// ********************************************************************************************
 		case 'save':
 		$a = array();
-		foreach($_POST as $k=>$v)
-			{
-			if($k!='action' && $k!='unox')
-				{
+		foreach($_POST as $k=>$v) {
+			if($k!='action' && $k!='unox') {
 				$a[$k]=trim(strip_tags($v));
-				}
 			}
+		}
 		$out = json_encode($a);
 		if (file_put_contents('../../data/'.$Ubusy.'/'.$Utem.'.json', $out)) echo T_('Backup performed');
 		else echo '!'.T_('Impossible backup');
 		break;
 		// ********************************************************************************************
-		}
+	}
 	clearstatcache();
 	exit;
-	}
+}
 ?>

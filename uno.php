@@ -1,24 +1,20 @@
 <?php
 // **********************************
 // CMSUno
-$version = '1.7.7';
+$version = '1.8';
 // **********************************
 // *** DEBUG MODE ***
-	//error_reporting(E_ALL); ini_set('display_errors',1);
+	// error_reporting(E_ALL); ini_set('display_errors',1);
 // ******************
 $lang = 'en';
+$Urawgit = 'https://cdn.jsdelivr.net/gh/boiteasite/cmsuno@';
+$Udep = 'uno/';
 ini_set('session.use_trans_sid', 0);
 session_start();
 if(is_writable(dirname(__FILE__).'/uno')) {
 	if(file_exists('uno/config.php')) include('uno/config.php');
-	else {
-		$sdata = f_setKey('Sdata');
-		$Ukey = f_setKey('Ukey');
-		$out = '<?php $lang = "en"; $sdata = "'.$sdata.'"; $Ukey = "'.$Ukey.'"; $Uversion = "'.(isset($version)?$version:'1.0').'"; ?>';
-		file_put_contents('uno/config.php', $out);
-	}
 	if(file_exists('uno/patch.php')) include('uno/patch.php');
-	if(0&&(empty($Uversion) || $Uversion!=$version || empty($sdata) || empty($Ukey))) {
+	if(empty($Uversion) || $Uversion!=$version || empty($sdata) || empty($Ukey)) {
 		if(empty($sdata)) $sdata = f_setKey('Sdata');
 		if(empty($Ukey)) $Ukey = f_setKey('Ukey');
 		$out = '<?php $lang = "'.$lang.'"; $sdata = "'.$sdata.'"; $Ukey = "'.$Ukey.'"; $Uversion = "'.(isset($version)?$version:'1.0').'"; ?>';
@@ -27,14 +23,11 @@ if(is_writable(dirname(__FILE__).'/uno')) {
 	}
 }
 include('uno/includes/lang/lang.php');
-//$Urawgit = '//cdn.rawgit.com/boiteasite/cmsuno/';
-$Urawgit = 'https://cdn.jsdelivr.net/gh/boiteasite/cmsuno@';
-$Udep = 'uno/';
 if(!is_dir('uno/includes/js/ckeditor/')) $Udep = $Urawgit.$Uversion."/uno/"; // LIGHT HOSTED VERSION
-if(!empty($_POST['user']) && !empty($_POST['pass']) && !empty($_POST['unox']) && !empty($_SESSION)) {
-	session_regenerate_id();
-	define('CMSUNO', 'cmsuno');
-	include('uno/password.php');
+session_regenerate_id();
+define('CMSUNO', 'cmsuno');
+require('uno/password.php');
+if(!empty($_POST['user']) && !empty($_POST['pass']) && !empty($_POST['unox']) && !empty($_SESSION) && empty($_POST['newpass'])) {
 	if(is_writable(dirname(__FILE__)) && $_POST['user']===$user && f_check_pass($_POST['pass'],$pass,$user) && $_SESSION['unox']===$_POST['unox']) {
 		$hta = '# CMSUno - HTACCESS auto'."\r\n".
 			'Options -Indexes'."\r\n".
@@ -78,6 +71,7 @@ if(!empty($_POST['user']) && !empty($_POST['pass']) && !empty($_POST['unox']) &&
 				closedir($h);
 			}
 		}
+		if(file_exists('uno/data/_sdata-'.$sdata.'/restore.txt')) unlink('uno/data/_sdata-'.$sdata.'/restore.txt');
 	}
 	else sleep(2);
 	if(!is_writable(dirname(__FILE__))) echo '<div style="clear:both;text-align:center;color:red;font-weight:700;padding-top:20px;"><span  style="color:#000;">'.dirname(__FILE__).'</span>&nbsp'.T_("must writable recursively !").'</div>';
@@ -93,31 +87,72 @@ else if(isset($_POST['logout']) && $_POST['logout']==1) {
 //
 else if(isset($_SESSION['cmsuno'])) {
 	$unox = md5(mt_rand().mt_rand());
-	$_SESSION['unox'] = $unox; // securisation des appels ajax
+	$_SESSION['unox'] = $unox; // ajax security
 	include('uno/edition.php');
 }
 //
-else { 
+else {
+	$a = explode("?", $_SERVER['REQUEST_URI']);
+	$home = $a[0];
+	if(!empty($_POST['lost'])) {
+		if(file_exists('uno/data/_sdata-'.$sdata.'/ssite.json')) $qs = @file_get_contents('uno/data/_sdata-'.$sdata.'/ssite.json');
+		if(!empty($qs)) {
+			$a = json_decode($qs,true);
+			$mel = (isset($a['mel'])?$a['mel']:'');
+			$header = 'MIME-Version: 1.0'."\r\n".'Content-type: text/html; charset=iso-8859-1'."\r\n";
+			$res = md5(mt_rand().mt_rand());
+			file_put_contents('uno/data/_sdata-'.$sdata.'/restore.txt',$res);
+			$link = strtok((isset($_SERVER['HTTPS'])&&$_SERVER['HTTPS']==='on'?"https":"http")."://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], "?") .'?res='.$res;
+			$msg = '<html><body><p>USER : '.$user.'</p><a href="'.$link.'">'.$link.'</a></body></html>';
+			if(filter_var($mel, FILTER_VALIDATE_EMAIL)) {
+				mail($mel, T_("Lost password"), $msg, $header);
+				$lost = 1;
+			}
+		}
+	}
+	else if(!empty($_GET['res'])) { 
+		if(file_exists('uno/data/_sdata-'.$sdata.'/restore.txt')) $res = file_get_contents('uno/data/_sdata-'.$sdata.'/restore.txt');
+		if(!empty($res) && strlen($res)===32 && $res===$_GET['res']) {
+			if(isset($user) && !empty($_POST['user']) && !empty($_POST['newpass']) && !empty($_POST['unox']) && !empty($_SESSION['unox']) && $_SESSION['unox']===$_POST['unox']) {
+				if(!function_exists('password_hash')) include('uno/includes/password_hashing.php'); // php 5.5 missing => https://github.com/ircmaxell/password_compat (php>5.3)
+				$b = filter_var(strip_tags($_POST['newpass']),FILTER_SANITIZE_URL);
+				if($b!==$_POST['newpass'] || strlen($b)<6 || $_POST['user']!==$user) $errpass = T_('Wrong current elements');
+				else {
+					$password = '<?php if(!defined(\'CMSUNO\')) exit(); $user = "'.$user.'"; $pass = \''.password_hash($b, PASSWORD_BCRYPT).'\'; ?>';
+					if(file_put_contents('uno/password.php', $password)) {
+						if(file_exists('uno/data/_sdata-'.$sdata.'/restore.txt')) unlink('uno/data/_sdata-'.$sdata.'/restore.txt');
+					}
+					else $errpass = T_('Impossible backup');
+				}
+				if(empty($errpass)) echo '<script type="text/javascript">var u=document.URL.split("?")[0];window.location=u;</script>';
+				else {
+					echo '<script type="text/javascript">alert("'.$errpass.'");</script>';
+					$restore = 1;
+				}
+			}
+			else $restore = 1; // password Form Field
+		}
+	}
 	$unox = md5(mt_rand().mt_rand());
-	$_SESSION['unox'] = $unox; // securisation connexion (CSRF)
-
+	$_SESSION['unox'] = $unox; // secure connection (CSRF)
 ?>
 
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="<?php echo $lang; ?>">
 <head>
 	<meta charset="utf-8" />
 	<meta name="robots" content="noindex" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
 	<title>CMSUno - <?php echo T_("Login");?></title>
 	<link rel="icon" type="image/png" href="<?php echo $Udep; ?>includes/img/favicon.png" />
 	<link rel="stylesheet" href="<?php echo $Udep; ?>includes/css/uno.css" />
-	<script src="<?php if($Udep!='uno/') echo '//ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'; else echo 'uno/includes/js/jquery.min.js'; ?>"></script>
+	<script src="<?php if($Udep!='uno/') echo '//ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js'; else echo 'uno/includes/js/jquery.min.js'; ?>"></script>
 </head>
 <body>
 	<div class="blocTop bgNoir">
 		<div class="container">
 			<span class="titre"><a href="https://github.com/boiteasite/cmsuno" title="<?php echo T_("CMSUno on GitHub");?>" target="_blank">CMSUno<?php if(isset($Uversion)) echo '&nbsp;<em>'.$Uversion.'</em>'; ?></a></span>
-			<ul id="topMenu" class="topMenu">
+			<ul id="topMenu" class="topMenu topMenuUno">
 				<?php 
 				if(file_exists('uno/data/busy.json')) { $q = file_get_contents('uno/data/busy.json'); $a = json_decode($q,true); $Ubusy = $a['nom']; }
 				else $Ubusy = 'index';
@@ -127,10 +162,10 @@ else {
 			</ul>
 		</div>
 	</div><!-- .blocTop-->
-
 	<div class="container">
-		<form class="blocLogin" method="POST" action="">
-			<input type="hidden" name="unox" value="<?php echo $unox; ?>" \>
+		<form name="login" class="blocLogin" method="POST" action="<?php if(empty($restore)) echo $home; ?>">
+			<input type="hidden" name="unox" value="<?php echo $unox; ?>" />
+			<input type="hidden" name="lost" value="0" />
 			<img style="margin-bottom:20px;" src="<?php echo $Udep; ?>includes/img/logo-uno220.png" alt="cms uno" />
 			<div class="clearfix">
 				<label><?php echo T_("Administrator");?></label>
@@ -138,6 +173,8 @@ else {
 					<input type="text" class="input" name="user" id="username" />
 				</div>
 			</div>
+			<?php if(empty($restore)) { ?>
+			
 			<div class="clearfix">
 				<label><?php echo T_("Password");?></label>
 				<div>
@@ -145,14 +182,31 @@ else {
 				</div>
 			</div>
 			<div>
+				<a onClick="document.forms['login'].elements['lost'].value=1;document.forms['login'].submit();" href="javascript:void(0)" style="display:inline-block;margin-top:10px;">
+					<i><?php echo T_("Lost password");?></i>
+				</a>
 				<input type="submit" class="bouton fr" value="<?php echo T_("Login");?>" />
+			<?php } else { ?>
+
+			<div class="clearfix">
+				<label><?php echo T_("New password");?></label>
+				<div>
+					<input type="password" class="input" name="newpass" id="newpassword" />
+				</div>
+			</div>
+			<div>
+				<input type="submit" class="bouton fr" value="<?php echo T_("Save password");?>" />
+			<?php } ?>
+			
 			</div>
 		</form>
 		<div style="clear:both;text-align:center;color:red;font-weight:700;padding-top:20px;">
-		<?php
-			if(!is_writable(dirname(__FILE__))) echo '<span  style="color:#000;">'.dirname(__FILE__).'</span>&nbsp'.T_("must writable recursively !");
-			else if(!is_writable(dirname(__FILE__).'/uno')) echo '<br /><span  style="color:#000;">'.dirname(__FILE__).'/uno</span>&nbsp'.T_("must writable recursively !");
-		?>
+	<?php
+		if(!is_writable(dirname(__FILE__))) echo '<span  style="color:#000;">'.dirname(__FILE__).'</span>&nbsp'.T_("must writable recursively !");
+		else if(!is_writable(dirname(__FILE__).'/uno')) echo '<br /><span  style="color:#000;">'.dirname(__FILE__).'/uno</span>&nbsp'.T_("must writable recursively !");
+		else if(!empty($lost)) echo '<span  style="color:#000;">'.T_("A recovery link has been sent by email").'</span>';
+	?>
+		
 		</div>
 	</div><!-- .container -->
 	<script type="text/javascript" src="<?php echo $Udep; ?>includes/js/ckeditor/ckeditor.js"></script>

@@ -14,10 +14,11 @@ function f_theme() {
 }
 ?>
 
-<html>
+<html lang="<?php echo $lang; ?>">
 <head>
 <meta charset="utf-8" />
 <meta name="robots" content="noindex" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
 <title>CMSUno</title>
 <script type="text/javascript" src="<?php echo $Udep; ?>includes/js/ckeditor/ckeditor.js"></script>
 <script type="text/javascript">
@@ -166,15 +167,17 @@ f_init();
 	<div class="blocTop bgNoir">
 		<div class="container">
 			<span class="titre"><a href="https://github.com/boiteasite/cmsuno" title="<?php echo T_("CMSUno on GitHub");?>" target="_blank">CMSUno<?php if(isset($Uversion)) echo '&nbsp;<em>'.$Uversion.'</em>'; ?></a></span>
-			<div id="info"></div>
-			<ul id="topMenu" class="topMenu">
-				<li id="wait"><img style="margin:2px 6px 0 0;" src="<?php echo $Udep; ?>includes/img/wait.gif" /></li>
+			<div id="info" class="navitem"></div>
+			<label id="hamburgerLabel" for="hamburgerInput">&#9776;</label>
+			<input type="checkbox" id="hamburgerInput" />
+			<ul id="topMenu" class="topMenu topMenuEdition">
 				<li><a id="apage" style="text-decoration:underline" href=""><?php echo T_("Page");?></a></li>
-				<li><a id="aconfig" style="display:none;" onClick="f_config();" href="javascript:void(0)"><?php echo T_("Settings");?></a></li>
-				<li><a id="aplugin" style="display:none;" onClick="f_plugin(0);f_plugAll(document.getElementById('plugOnOff'),1)" href="javascript:void(0)"><?php echo T_("Plugins");?></a></li>
-				<li><a id="avoir" href="index.html" target="_blank"><?php echo T_("See the website");?></a></li>
+				<li><a id="aconfig" style="display:none;" onClick="f_config();jQuery('#hamburgerInput').prop('checked',false);" href="javascript:void(0)"><?php echo T_("Settings");?></a></li>
+				<li><a id="aplugin" style="display:none;" onClick="f_plugin(0);f_plugAll(document.getElementById('plugOnOff'),1);jQuery('#hamburgerInput').prop('checked',false);" href="javascript:void(0)"><?php echo T_("Plugins");?></a></li>
+				<li><a id="avoir" href="index.html" onClick="jQuery('#hamburgerInput').prop('checked',false);" target="_blank"><?php echo T_("See the website");?></a></li>
 				<li><a id="alogout" onClick="f_logout();" href="javascript:void(0)"><?php echo T_("Log out");?></a></li>
 			</ul>
+			<div id="wait" class="navitem wait"><img style="margin:2px 6px 0 0;" src="<?php echo $Udep; ?>includes/img/wait.gif" /></div>
 		</div>
 	</div><!-- .blocTop-->
 
@@ -220,11 +223,11 @@ f_init();
 				<tr>
 					<td><label><?php echo T_("Page Title");?></label></td>
 					<td><input type="text" class="input" name="tit" id="tit" onkeyup="f_ctit(this);" /><span id="ctit"></span></td>
-					<td><em><?php echo T_("Very important. The most important words at the beginning. 65 characters max.");?></em></td>
+					<td><em><?php echo T_("Very important. The most important words at the beginning. 60 characters max.");?></em></td>
 				</tr><tr>
 					<td><label><?php echo T_("Page Description");?></label></td>
 					<td><input type="text" class="input" name="desc" id="desc" onkeyup="f_cdesc(this);" /><span id="cdesc"></span></td>
-					<td><em><?php echo T_("Important for attracting visitors. 230 characters max.");?></em></td>
+					<td><em><?php echo T_("Important for attracting visitors. 160 characters max.");?></em></td>
 				</tr><tr>
 					<td><label><?php echo T_("Base URL");?></label></td>
 					<td><input type="text" class="input" name="url" id="url" /></td>
@@ -257,7 +260,7 @@ f_init();
 				</tr><tr>
 					<td><label><?php echo T_("Load w3.css");?></label></td>
 					<td><input type="checkbox" class="input" name="w3" id="w3" /></td>
-					<td><em><?php echo T_("W3.css is a modern CSS framework with built-in responsiveness. (recommended)");?></em></td>
+					<td><em><?php echo T_("W3.css is a modern CSS framework with built-in responsiveness. (Used by some themes and plugins)");?></em></td>
 				</tr><tr>
 					<td><label><?php echo T_("Load JQuery");?></label></td>
 					<td><input type="checkbox" class="input" name="jq" id="jq" /></td>
@@ -370,7 +373,7 @@ f_init();
 		<div id="managePlug" style="display:none;"></div>
 	</div><!-- .container -->
 	
-<script type="text/javascript" src="<?php if($Udep=='uno/') echo 'uno/includes/js/jquery.min.js'; else echo '//ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js';?>"></script>
+<script type="text/javascript" src="<?php if($Udep=='uno/') echo 'uno/includes/js/jquery.min.js'; else echo '//ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js';?>"></script>
 <script type="text/javascript" src="<?php if($Udep=='uno/') echo 'uno/includes/js/jquery-ui.min.js'; else echo '//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'; ?>"></script>
 <script type="text/javascript" src="uno/includes/elfinder/js/elfinder.min.js"></script>
 <?php if($lang!='en' && $lang!='') echo '<script type="text/javascript" src="uno/includes/elfinder/js/i18n/elfinder.'.$lang.'.js"></script>'; ?>
@@ -782,12 +785,12 @@ function f_plugAll(f,g){
 }
 function f_ctit(f){
 	var a=document.getElementById('ctit');
-	a.style.color=(f.value.length>65?'red':'green');
+	a.style.color=(f.value.length>60?'red':'green');
 	a.innerHTML=f.value.length;
 }
 function f_cdesc(f){
 	var a=document.getElementById('cdesc');
-	a.style.color=(f.value.length>230?'red':'green');
+	a.style.color=(f.value.length>160?'red':'green');
 	a.innerHTML=f.value.length;
 }
 function f_elfinder(f){

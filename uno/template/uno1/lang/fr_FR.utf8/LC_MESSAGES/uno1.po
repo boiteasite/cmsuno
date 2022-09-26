@@ -2,21 +2,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CmsUno\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-08 23:25+0100\n"
-"PO-Revision-Date: 2016-01-08 23:29+0100\n"
-"Last-Translator: jacques Malgrange <contacter@boiteasite.fr>\n"
+"POT-Creation-Date: 2022-09-26 16:38+0200\n"
+"PO-Revision-Date: 2022-09-26 16:38+0200\n"
+"Last-Translator: malgrange <jacques.malgrange@gmail.com>\n"
 "Language-Team: Jacques Malgrange <contacter@boiteasite.fr>\n"
-"Language: \n"
+"Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-\tmsgstr-Bugs-To: \n"
-"Report-\t\tmsgstr-Bugs-To: \n"
-"X-Poedit-KeywordsList: _\n"
+"Report-\tmsgid-Bugs-To: \n"
+"X-Poedit-KeywordsList: _;T_\n"
 "X-Poedit-Basepath: .\n"
-"X-Poedit-Country: FRANCE\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
-"X-Poedit-Language: French\n"
+"X-Generator: Poedit 1.8.7.1\n"
 "X-Poedit-SearchPath-0: ../../..\n"
 
 #: ../../../uno1.php:23
@@ -45,7 +43,8 @@ msgstr "Largeur du cadre"
 
 #: ../../../uno1.php:46
 msgid "Width for the content of your page. Default : 1024px. Only number."
-msgstr "Largeur du contenu de la page. Par défaut : 1024px. Uniquement des chiffres."
+msgstr ""
+"Largeur du contenu de la page. Par défaut : 1024px. Uniquement des chiffres."
 
 #: ../../../uno1.php:50
 msgid "Logo"
@@ -83,15 +82,11 @@ msgstr "Position du menu. Pas de différence si pas de logo."
 msgid "Menu font"
 msgstr "Police du menu"
 
-#: ../../../uno1.php:74
-#: ../../../uno1.php:127
-#: ../../../uno1.php:170
+#: ../../../uno1.php:74 ../../../uno1.php:127 ../../../uno1.php:170
 msgid "Default"
 msgstr "Défaut"
 
-#: ../../../uno1.php:87
-#: ../../../uno1.php:140
-#: ../../../uno1.php:183
+#: ../../../uno1.php:87 ../../../uno1.php:140 ../../../uno1.php:183
 msgid "See below"
 msgstr "Voir ci-dessous"
 
@@ -113,7 +108,8 @@ msgstr "Couleur du texte du menu ON"
 
 #: ../../../uno1.php:100
 msgid "Color of the text for the current chapter in the menu."
-msgstr "Couleur du texte du chapitre actif ou survolé à la souris dans le menu."
+msgstr ""
+"Couleur du texte du chapitre actif ou survolé à la souris dans le menu."
 
 #: ../../../uno1.php:103
 msgid "Text menu color off"
@@ -129,7 +125,8 @@ msgstr "Activer le sous-menu"
 
 #: ../../../uno1.php:110
 msgid "A submenu will be displayed for each chapter containing H2 tags."
-msgstr "Un sous-menu sera visible pour chaque chapitre contenant des balises H2."
+msgstr ""
+"Un sous-menu sera visible pour chaque chapitre contenant des balises H2."
 
 #: ../../../uno1.php:114
 msgid "Site title"
@@ -161,15 +158,20 @@ msgstr "Taille de police du titre"
 
 #: ../../../uno1.php:148
 msgid "Size of the font for the title. Default : 21px. Only number."
-msgstr "Taille de la police pour le titre. Par défaut: 21px. Uniquement des chiffres."
+msgstr ""
+"Taille de la police pour le titre. Par défaut: 21px. Uniquement des chiffres."
 
 #: ../../../uno1.php:151
 msgid "Site title line height"
 msgstr "Hauteur de ligne du titre"
 
 #: ../../../uno1.php:153
-msgid "Adjust the vertical position of the title. Default : 1.2em. Only number and dot."
-msgstr "Ajuster la position verticale du titre. Par défaut: 1.2em. Uniquement chiffres et point."
+msgid ""
+"Adjust the vertical position of the title. Default : 1.2em. Only number and "
+"dot."
+msgstr ""
+"Ajuster la position verticale du titre. Par défaut: 1.2em. Uniquement "
+"chiffres et point."
 
 #: ../../../uno1.php:156
 msgid "Site Title color"
@@ -200,8 +202,11 @@ msgid "Content font size"
 msgstr "Taille de police du contenu"
 
 #: ../../../uno1.php:191
-msgid "Size of the font for the content of the page. Default : 14px. Only number."
-msgstr "Taille de la police pour le contenu de la page. Par défaut: 14px. Uniquement des chiffres."
+msgid ""
+"Size of the font for the content of the page. Default : 14px. Only number."
+msgstr ""
+"Taille de la police pour le contenu de la page. Par défaut: 14px. Uniquement "
+"des chiffres."
 
 #: ../../../uno1.php:194
 msgid "Content font color"
@@ -216,12 +221,20 @@ msgid "Add a Google Font"
 msgstr "Ajouter une police Google"
 
 #: ../../../uno1.php:203
-msgid "Choose a font <a href='//www.google.com/fonts' target='_blank'>here</a> - Enter just the name in this form (ex : Lora)."
-msgstr "Choisir une police <a href='//www.google.com/fonts' target='_blank'>ici</a> - Entrer juste le nom (Ex : Lora)."
+msgid ""
+"Choose a font <a href='//www.google.com/fonts' target='_blank'>here</a> - "
+"Enter just the name in this form (ex : Lora)."
+msgstr ""
+"Choisir une police <a href='//www.google.com/fonts' target='_blank'>ici</a> "
+"- Entrer juste le nom (Ex : Lora)."
 
 #: ../../../uno1.php:204
-msgid "You can select one or several specific styles separated by a virgule (ex : Lora:700italic,400)."
-msgstr "Vous pouvez choisir un ou plusieurs styles spécifiques séparés par une virgule (ex : Lora:700italic,400)."
+msgid ""
+"You can select one or several specific styles separated by a virgule (ex : "
+"Lora:700italic,400)."
+msgstr ""
+"Vous pouvez choisir un ou plusieurs styles spécifiques séparés par une "
+"virgule (ex : Lora:700italic,400)."
 
 #: ../../../uno1.php:210
 msgid "Publish on the web all saved chapters"
@@ -246,56 +259,3 @@ msgstr "Sauvegarde effectu&eacute;e"
 #: ../../../uno1.php:227
 msgid "Impossible backup"
 msgstr "Sauvegarde impossible"
-
-#~ msgid "Page color"
-#~ msgstr "Couleur de page"
-
-#~ msgid "Box"
-#~ msgstr "Box"
-
-#~ msgid ""
-#~ "This plugin allows you to add small blocks of content. For example: a "
-#~ "date, an address, a phone number."
-#~ msgstr ""
-#~ "Ce plugin permet d'ajouter des petits blocs de contenu. Par exemple : une "
-#~ "date, une adresse, un numéro de téléphone."
-
-#~ msgid ""
-#~ "It can also add a big HTML content as a sidebar or something else. For "
-#~ "this you should choose HTML editor."
-#~ msgstr ""
-#~ "Vous pouvez également ajouter un gros bloc HTML comme une barre laterale "
-#~ "ou autres. Choisissez alors l'Editeur HTML."
-
-#~ msgid "Just insert the code"
-#~ msgstr "Il suffit d'ins&eacute;rer le code"
-
-#~ msgid "nameofthebox"
-#~ msgstr "nomdubloc"
-
-#~ msgid "in the template or in the page content."
-#~ msgstr "dans le template ou dans le contenu de la page."
-
-#~ msgid "You can create as many box as you need."
-#~ msgstr "Vous pouvez créer autant de blocs que nécessaires."
-
-#~ msgid "Add a box :"
-#~ msgstr "Ajouter un bloc :"
-
-#~ msgid "Name of the box"
-#~ msgstr "Nom du bloc"
-
-#~ msgid "Plain text"
-#~ msgstr "Texte brut"
-
-#~ msgid "HTML Editor"
-#~ msgstr "Editeur HTML"
-
-#~ msgid "Add the box"
-#~ msgstr "Ajoute le bloc"
-
-#~ msgid "Add"
-#~ msgstr "Ajouter"
-
-#~ msgid "Existing boxes :"
-#~ msgstr "Blocs existants :"
