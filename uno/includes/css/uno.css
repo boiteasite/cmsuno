@@ -162,4 +162,5 @@ label.label{float:left;margin:4px 6px 0 0;}
 	#onPlug{width:auto;}
 	.hForm td:nth-child(2) input[type="text"]{width:auto;}
 	#finderDiv{width:100%!important;box-sizing:border-box;box-shadow:none;left:0;top:50px;}
+	.ui-dialog{max-width:100%!important;box-sizing:border-box;}
 }
