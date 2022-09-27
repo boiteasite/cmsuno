@@ -156,6 +156,9 @@ label.label{float:left;margin:4px 6px 0 0;}
 	#hamburgerInput:checked ~ #topMenu{display:block;background-color:#000;}
 	#config .hForm tr,#plugin .hForm tr{display:block;margin-bottom:10px;}
 	#config .hForm td:nth-child(3),#plugin .hForm td:nth-child(3){display:block;text-align:left;font-style:italic;width:100%;}
+	#prePlugin div{margin:11px 2px;}
+	#prePlugin div label{margin-left:1px;width:auto;}
+	h1#nomPlug{font-size:22px;max-width:240px;overflow:hidden;}
 	#onPlug{width:auto;}
 	.hForm td:nth-child(2) input[type="text"]{width:auto;}
 	#finderDiv{width:100%!important;box-sizing:border-box;box-shadow:none;left:0;top:50px;}
