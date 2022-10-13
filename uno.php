@@ -1,7 +1,7 @@
 <?php
 // **********************************
 // CMSUno
-$version = '1.8';
+$version = '1.8.1';
 // **********************************
 // *** DEBUG MODE ***
 	// error_reporting(E_ALL); ini_set('display_errors',1);
@@ -114,7 +114,6 @@ else {
 		if(file_exists('uno/data/_sdata-'.$sdata.'/restore.txt')) $res = file_get_contents('uno/data/_sdata-'.$sdata.'/restore.txt');
 		if(!empty($res) && strlen($res)===32 && $res===$_GET['res']) {
 			if(isset($user) && !empty($_POST['user']) && !empty($_POST['newpass']) && !empty($_POST['unox']) && !empty($_SESSION['unox']) && $_SESSION['unox']===$_POST['unox']) {
-				if(!function_exists('password_hash')) include('uno/includes/password_hashing.php'); // php 5.5 missing => https://github.com/ircmaxell/password_compat (php>5.3)
 				$b = filter_var(strip_tags($_POST['newpass']),FILTER_SANITIZE_URL);
 				if($b!==$_POST['newpass'] || strlen($b)<6 || $_POST['user']!==$user) $errpass = T_('Wrong current elements');
 				else {
@@ -162,6 +161,7 @@ else {
 			</ul>
 		</div>
 	</div><!-- .blocTop-->
+
 	<div class="container">
 		<form name="login" class="blocLogin" method="POST" action="<?php if(empty($restore)) echo $home; ?>">
 			<input type="hidden" name="unox" value="<?php echo $unox; ?>" />
@@ -182,9 +182,13 @@ else {
 				</div>
 			</div>
 			<div>
+				<?php if(empty($lost)) { ?>
+				
 				<a onClick="document.forms['login'].elements['lost'].value=1;document.forms['login'].submit();" href="javascript:void(0)" style="display:inline-block;margin-top:10px;">
 					<i><?php echo T_("Lost password");?></i>
 				</a>
+				<?php } ?>
+				
 				<input type="submit" class="bouton fr" value="<?php echo T_("Login");?>" />
 			<?php } else { ?>
 
@@ -205,6 +209,7 @@ else {
 		if(!is_writable(dirname(__FILE__))) echo '<span  style="color:#000;">'.dirname(__FILE__).'</span>&nbsp'.T_("must writable recursively !");
 		else if(!is_writable(dirname(__FILE__).'/uno')) echo '<br /><span  style="color:#000;">'.dirname(__FILE__).'/uno</span>&nbsp'.T_("must writable recursively !");
 		else if(!empty($lost)) echo '<span  style="color:#000;">'.T_("A recovery link has been sent by email").'</span>';
+		if(defined('PHP_VERSION') && version_compare(PHP_VERSION,'5.5.0')<0) echo '<span  style="color:#000;">'.T_("Your PHP is too old. CMSUno requires at least PHP 5.5. Your version :").'&nbsp;</span>'.PHP_VERSION;
 	?>
 		
 		</div>
@@ -226,7 +231,6 @@ function f_chmodR($path, $fr=0644, $dr=0755) {
 	return(true);
 }
 function f_check_pass($a,$b,$user) {
-	if(!function_exists('password_hash')) include('uno/includes/password_hashing.php'); // php 5.5 missing => https://github.com/ircmaxell/password_compat (php>5.3)
 	if(substr($b,0,1)=='$' && strlen($b)==60 && password_verify($a,$b)) return true;
 	else if($b===$a) {
 		$pass = password_hash($b, PASSWORD_BCRYPT);

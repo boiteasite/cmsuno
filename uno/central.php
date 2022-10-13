@@ -277,7 +277,6 @@ if(isset($_POST['action'])) {
 		case 'sauvePass':
 		define('CMSUNO', 'cmsuno');
 		include('password.php');
-		if(!function_exists('password_hash')) include('uno/includes/password_hashing.php'); // php 5.5 missing => https://github.com/ircmaxell/password_compat (php>5.3)
 		$a = filter_var(strip_tags($_POST['user']),FILTER_SANITIZE_EMAIL);
 		$a = str_replace("'","",$a);
 		$b = filter_var(strip_tags($_POST['pass']),FILTER_SANITIZE_URL);
@@ -466,7 +465,7 @@ if(isset($_POST['action'])) {
 		if(!empty($Ua['w3'])) $Uhead .= '<link rel="stylesheet" href="'.$Udep.'includes/css/w3.css"> '."\r\n";
 		if(!empty($Ua['lazy'])) {
 			$Ustyle .= '.pagesContent img[data-echo]{display:none;background:#fff url('.$Udep.'includes/css/a.gif) no-repeat center center;}'."\r\n";
-			$Ufoot .= '<script type="text/javascript" src="'.$Udep.'includes/js/echo.min.js"></script>'."\r\n".'<script type="text/javascript">var css=".pagesContent img[data-echo]{display:inline;}",head=document.head||document.getElementsByTagName("head")[0],style=document.createElement("style");style.type="text/css";if(style.styleSheet) style.styleSheet.cssText=css;else style.appendChild(document.createTextNode(css));head.appendChild(style);echo.init({offset:900,throttle:250});echo.render();</script>'."\r\n";
+			$Ufoot .= '<script type="text/javascript" src="'.$Udep.'includes/js/echo.min.js"></script>'."\r\n".'<script type="text/javascript">var css=".pagesContent img[data-echo]{display:inline;}",head=document.head||document.getElementsByTagName("head")[0],style=document.createElement("style");style.type="text/css";if(style.styleSheet) style.styleSheet.cssText=css;else style.appendChild(document.createTextNode(css));head.appendChild(style);echo.init({offset:900,throttle:150});echo.render();</script>'."\r\n";
 			$Ucontent = f_lazy($Ucontent);
 		}
 		// *** Plugins make 1 -> 5 ***

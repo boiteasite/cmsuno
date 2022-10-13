@@ -71,7 +71,7 @@ or do it with update button.
 
 #### Requirement ####
 
-* PHP >= 5.3
+* PHP >= 5.5
 
 Use
 ---
@@ -123,6 +123,7 @@ Use [NivoSlider](https://github.com/gilbitron/Nivo-Slider),
 * [__EdiTheme__](https://github.com/cmsunoPlugins/editheme) : Edit and modify templates directly from CMSUno with syntax highlighting. Use [CodeMirror](https://codemirror.net/).
 * [__Fixed layout__](https://github.com/cmsunoPlugins/fixed_layout) : This plugin allows to create a page with a fixed background that changes with scrolling. Inspired by [Jquery Fixed Scroll Background](https://github.com/ebaumstarck/JqueryFixedScrollBackground).
 * [__Googlemap__](https://github.com/cmsunoPlugins/googlemap) : Adds a button in CKEditor to insert one or more Google-Map in your page.
+* [__Image size__](https://github.com/cmsunoPlugins/image_size) : Automatic resizing of images added to your page to fit the display, optimize loading and improve SEO.
 * [__Markdown__](https://github.com/cmsunoPlugins/markdown) : Allows you to display the formatted content of one or more MarkDown files in your page. It works with a shortcode and uses Parsedown.php to parse the markdown. Different CSS formats are availables. The wordpress format is also parsed. Allows to create a comprehensive system of paying plugin download with the appearance of wordpress.org.
 * [__Multipage__](https://github.com/cmsunoPlugins/multipage) :  This plugin allows you to create and manage multiple pages in CMSUno. Drag and Drop Menu Manager. Simple and practical for a complete website.
 * [__Model__](https://github.com/cmsunoPlugins/model) :  Create template for CKEditor. Very useful. Two default models exist : two columns and three columns. They are adjustable. Ability to create others sophisticated templates. As easy as the Lego game.
@@ -435,6 +436,10 @@ THE SOFTWARE.
 Versions
 --------
 
+* V1.8.1 - 13/10/2022 :
+	* CKEditor 4.20.0.
+	* Fix hidden activation checkbox.
+	* Remove password hashing script. PHP >= 5.5 is now require.
 * V1.8 - 26/09/2022 :
 	* Improved responsive display.
 	* Admin Password can be restored.

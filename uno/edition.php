@@ -41,6 +41,7 @@ function f_init(){
 				UconfigFile[k]=r['ck'][k];
 			}
 			if(r['plugins'])f_load_plugin_hook(r['plugins']);
+			else document.getElementById('actiBarPlugin').style.display=(Upluglist.length==0?'none':'block');
 			var b=document.createElement('ul');
 			b.id='menuSort';
 			b.className='ui-sortable';
@@ -94,7 +95,6 @@ function f_init(){
 							document.getElementById('wait').style.display='none';
 						});
 						document.getElementById('aplugin').style.display='inline';
-						document.getElementById('actiBarPlugin').style.display=(Upluglist.length==0?'none':'block');
 						document.getElementById('titreChap').onkeypress=function(){
 							document.getElementById('boutonSauv').className='bouton danger';
 							Udg=1;
@@ -151,6 +151,7 @@ function f_load_plugin_hook(f){
 				document.body.appendChild(j);
 			}
 		}
+		document.getElementById('actiBarPlugin').style.display=(Upluglist.length==0?'none':'block');
 	}
 	else setTimeout(function(){f_load_plugin_hook(f)},50);
 }
@@ -180,7 +181,6 @@ f_init();
 			<div id="wait" class="navitem wait"><img style="margin:2px 6px 0 0;" src="<?php echo $Udep; ?>includes/img/wait.gif" /></div>
 		</div>
 	</div><!-- .blocTop-->
-
 	<div id="chaps" class="container">
 		<div class="blocBouton">
 			<div class="bouton finder fr" id="boutonFinder0" onClick="f_elfinder(0)" title="<?php echo T_("File manager");?>"><img src="<?php echo $Udep; ?>includes/img/finder.png" /></div>
