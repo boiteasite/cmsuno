@@ -300,7 +300,7 @@ f_init();
 				<tr>
 					<td><label><?php echo T_("Language");?></label></td>
 					<td>
-						<select name="lang" id="lang">
+						<select name="lang" id="lang" onchange="document.getElementById('user0').value='';document.getElementById('pass0').value='';">
 						<?php foreach($langCode as $k=>$r) { echo "<option value='".$k."' ".(($lang==$k)?'selected':'').">".$k."</option>"; } ?>
 						</select>
 					</td>
@@ -319,12 +319,12 @@ f_init();
 			<table class="hForm">
 				<tr>
 					<td><label><?php echo T_("Current user");?></label></td>
-					<td><input type="text" class="input" name="user0" id="user0" /></td>
+					<td><input type="text" class="input" name="user0" id="user0" autocomplete="off" /></td>
 					<td></td>
 				</tr>
 				<tr>
 					<td><label><?php echo T_("Current password");?></label></td>
-					<td><input type="password" class="input" name="pass0" id="pass0" /></td>
+					<td><input type="password" class="input" name="pass0" id="pass0" autocomplete="off" /></td>
 					<td></td>
 				</tr>
 				<tr>
