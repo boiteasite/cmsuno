@@ -46,7 +46,8 @@ The server has nothing to build, the page displays faster than any other CMS.
 * Adaptation of open source CSS template fast and easy.
 * Multilingual with PHP-Gettext.
 * Inline Update button for CMSUno and plugins.
-* Less than 1MB. Centralized hosting of part of the code on GitHub servers.
+* Fully usable from a smartphone (manage your site on the go).
+* Less than 2MB. Centralized hosting of part of the code on GitHub servers.
 
 More details in French [here](http://www.boiteasite.fr/cmsuno.html).
 
