@@ -62,7 +62,7 @@ Installation
 
 Initial login & password : cmsuno & 654321
 
-To reduce the size of CMSUno to less than 1 MB and benefit the speed of GitHub's servers, delete the following folders :
+To reduce the size of CMSUno to less than 2MB and benefit the speed of GitHub's servers, delete the following folders :
 
 * includes/css
 * includes/img
