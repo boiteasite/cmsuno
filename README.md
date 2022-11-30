@@ -249,13 +249,13 @@ if (isset($_POST['action']))
 		// Others cases are AJAX self-call via foo.js (see below).
 		// ***********************
 		case 'save': // IF NEEDED FOR SAVING CONFIG IN JSON FILE
-		$q = @file_get_contents('../../data/'.$Ubusy.'/foo.json');
+		$q = @file_get_contents('../../data/foo.json');
 		if($q) $a = json_decode($q,true);
 		else $a = Array();
 		$a['lol'] = $_POST['lol'];
 		$a['yeswecan'] = $_POST['yeswecan'];
 		$out = json_encode($a);
-		if (file_put_contents('../../data/'.$Ubusy.'/foo.json', $out)) echo T_('Backup performed');
+		if (file_put_contents('../../data/foo.json', $out)) echo T_('Backup performed');
 		else echo '!'.T_('Impossible backup');
 		break;
 		// ***********************
@@ -265,7 +265,6 @@ if (isset($_POST['action']))
 	}
 ?>
 ```
-$Ubusy contains the name of the current page. It's because you can create multiple pages with CMSUno
 
 In the same way, you can customize your theme by adding the file __name_of_your_theme.php__ in the theme folder.
 
