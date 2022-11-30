@@ -208,30 +208,45 @@ This file is __required__.
 This file is called in __AJAX__.
 It is used to display the PLUGIN tab in Dashboard. It's done with `$_POST["action"] = "plugin"`.
 
-POST var : _action_, _unox_ (ajax token), _udep_ (dependencies local or GitHub).
+POST var available (Ajax environment) : 
+* _action_,
+* _unox_ (ajax token),
+* _udep_ (dependencies local or GitHub),
+* _ubusy_ (Current page name / data folder).
 
 This file should look like this :
 
 ```
 <?php
-if(!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH'])!='xmlhttprequest') {sleep(2);exit;}
+session_start(); 
+if(!isset($_POST['unox']) || $_POST['unox']!=$_SESSION['unox']) {sleep(2);exit;} // appel depuis uno.php
 include('../../config.php'); // Lang
 include('lang/lang.php');
-$q = file_get_contents('../../data/busy.json'); $a = json_decode($q,true); $Ubusy= $a['nom'];
+$Ubusy = (isset($_POST['ubusy'])?preg_replace("/[^A-Za-z0-9-_]/",'',$_POST['ubusy']):'');
 if (isset($_POST['action']))
 	{
 	switch ($_POST['action'])
 		{
+		// ***********************
+		//"plugin" case is AJAX Call from CMSUno Core.
 		// ***********************
 		case 'plugin': ?>
 		<div class="blocForm">
 			<h2>Foo</h2>
 			<p><?php echo T_("This plugin is used to...");?></p>
 			<!--   CONFIG FORM IF NEEDED... -->
+			<input name="lol" type="text" />
+			<select name="yeswecan">
+				<option>...</option>
+				
+			</select>
+			<input type="button" onClick="save_foo();" />
 			<!-- ... -->
 			?>
 		</div>
 		<?php break;
+		// ***********************
+		// Others cases are AJAX self-call via foo.js (see below).
 		// ***********************
 		case 'save': // IF NEEDED FOR SAVING CONFIG IN JSON FILE
 		$q = @file_get_contents('../../data/'.$Ubusy.'/foo.json');
@@ -254,12 +269,56 @@ $Ubusy contains the name of the current page. It's because you can create multip
 
 In the same way, you can customize your theme by adding the file __name_of_your_theme.php__ in the theme folder.
 
+### foo.js ###
+
+This file is __not required__.
+
+This is the complement of _foo.php_.
+
+If it exists, this file is loaded at the same time as _foo.php_.
+It is useful for example to load or save JSON data in AJAX :
+
+```
+function save_foo(){
+	let lol=document.getElementById("fooLol").value;
+	let yeswecan=document.getElementById("fooYes").options[document.getElementById("fooYes").selectedIndex].value;
+	let x=new FormData();
+	x.set('action','save');
+	x.set('unox',Unox);
+	x.set('lol',lol);
+	x.set('yeswecan',yeswecan);
+	fetch('uno/plugins/foo/foo.php',{method:'post',body:x})
+	.then(r=>r.text())
+	.then(r=>f_alert(r));
+}
+function load_foo(){
+	fetch("uno/data/"+Ubusy+"/foo.json?r="+Math.random())
+	.then(r=>r.json())
+	.then(function(data){
+		if(data.lol!=undefined)document.getElementById('fooLol').value=data.lol;
+		if(data.yeswecan){
+			let t=document.getElementById("fooYes"),to,v;
+			to=t.options;
+			for(v=0;v<to.length;v++){
+				if(to[v].value==data.yeswecan){
+					to[v].selected=true;
+					v=to.length;
+				}
+			}
+		}
+	}
+}
+load_foo();
+```
+```f_alert('happy');``` displays a green notification in the top bar. If the text starts with '!', the notification is red : ```f_alert('!not happy');```
+
 ### fooMake.php ###
 
 This file is __not required__.
 
 This file is called with an __include__ statement from _central.php (case 'publier')_ when the user pushed "publish" in the Dashboard.
-The goal is to complete the variables that replace Shortcodes.
+The goal is to participate in the writing of the HTML page by replacing, for example, the custom shortcodes with the created content.
+
 If your plugin works with a Shortcode [[foo]] in the content of the page, the code should be like this :
 
 ```
@@ -278,6 +337,8 @@ The plugins are executed in alphabetical order. If a plugin must be executed bef
 * Number between 1 and 5. No number is equivalent to 3
 * the series of 1 first (in alphabetic order) ... the series of 5 are the latest.
 * fooMake0.php can also be used. Unlike the others, it is executed before the menu creation and before name_of_your_themeMake0.php (see below).
+
+A same plugin can have several fooMake files with different numbers.
 
 Variables usable all have almost the same name as the shortcodes. Here is a non-exhaustive list :
 
@@ -305,37 +366,6 @@ As a plugin, you can add a makefile in your theme folder :
 * __name_of_your_themeMake.php__ executed after plugins (if exists) when publishing.
 
 You can use both.
-
-### foo.js ###
-
-This file is __not required__.
-
-If it exists, this file is loaded at the same time as foo.php.
-It is useful for example to load or save JSON data in AJAX :
-
-```
-function f_save_foo(){
-	jQuery(document).ready(function(){
-		var lol=document.getElementById("fooLol").value;
-		var yeswecan=document.getElementById("fooYes").options[document.getElementById("fooYes").selectedIndex].value;
-		jQuery.post('uno/plugins/foo/foo.php',{'action':'save','lol':lol,'yeswecan':yeswecan},function(r){
-			f_alert(r);
-		});
-	});
-}
-function f_load_foo(){
-	jQuery(document).ready(function(){
-		jQuery.getJSON("uno/data/"+Ubusy+"/foo.json?r="+Math.random(),function(r){
-			if(r.lol!=undefined)document.getElementById('fooLol').value=r.lol;
-			if(r.yeswecan){
-				t=document.getElementById("fooYes");
-				to=t.options;
-				for(v=0;v<to.length;v++){if(to[v].value==r.yeswecan){to[v].selected=true;v=to.length;}}
-			}
-		});
-	});
-}
-```
 
 ### fooCkeditor.js or fooCkeditor.js.php ###
 
@@ -375,9 +405,10 @@ It can be used to add items in the CMSUno menu bar or whatever.
 Example : 
 
 ```
-jQuery(document).ready(function(){
-	jQuery('#topMenu').prepend('<li><a href="https://github.com">GitHub</a></li>');
-});
+document.getElementById('topMenu').insertAdjacentHTML(
+	'beforeend',
+	'<li><a href="https://github.com">GitHub</a></li>'
+);
 ```
 
 ### version.json ###
@@ -396,10 +427,10 @@ CMSUno don't use MySQL but flat files in json. These files are stored in uno/dat
 
 There are two options : "secret"/"not secret" and "available for all pages"/"only for a specific page" (see multipage plugin) :
 
-* Not secret - available for all pages : uno/data/mydata.json
-* Not secret - only for this page : uno/data/name-of-the-page/mydata.json (name of the page : $Ubusy in php or Ubusy in JS)
-* Secret - available for all pages : uno/data/_sdata-xxxx/mydata.json
-* Secret - only for this page : uno/data/_sdata-xxxx/name-of-the-page/mydata.json
+* <u>Not secret</u> - available for all pages : uno/data/mydata.json
+* <u>Not secret - only for this page</u> : uno/data/name-of-the-page/mydata.json (name of the page : $Ubusy in php or Ubusy in JS)
+* <u>Secret</u> - available for all pages : uno/data/_sdata-xxxx/mydata.json
+* <u>Secret - only for this page</u> : uno/data/_sdata-xxxx/name-of-the-page/mydata.json
 
 Name of the page : $Ubusy in php or Ubusy in JS
 
@@ -438,6 +469,11 @@ THE SOFTWARE.
 Versions
 --------
 
+* V1.9 - 30/11/2022 :
+	* Replacement of jQuery code with Vanilla JavaScript in the back-office. JQuery still available for finder and plugins. ES6 Browser (Update post 2016) is now needed in back-office. No change for the visitors of your site.
+	* Replace jQuery colorPicker with pure JavaScript colorPicker. Now, use  ```colorPick(".MySelector");```  in place of   ```jQuery('.MySelector').colorPicker();```
+	* Button to go back to the previous version of CMSUno (Previous Update).
+	* Displays the hourglass during the loading of the plugin display.
 * V1.8.1 - 13/10/2022 :
 	* CKEditor 4.20.0.
 	* Fix hidden activation checkbox.

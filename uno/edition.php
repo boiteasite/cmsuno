@@ -21,142 +21,6 @@ function f_theme() {
 <meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
 <title>CMSUno</title>
 <script type="text/javascript" src="<?php echo $Udep; ?>includes/js/ckeditor/ckeditor.js"></script>
-<script type="text/javascript">
-var Up=0,Udg=0,Usty=0,Uini=0,Utem=false,Uplug='',Uplugon=0,Unox='<?php echo $unox; ?>',Udep='<?php echo $Udep; ?>',Upt=[],Upd=[],Uplugact=[],Upluglist=[],UconfigFile=[],Ulang='<?php echo $lang; ?>',UconfigNum=0,Ubusy='',Uch=0;
-function f_init(){
-	var x=new XMLHttpRequest(),p='action=init&unox='+Unox;
-	x.open('POST','uno/central.php',true);
-	x.setRequestHeader('Content-type','application/x-www-form-urlencoded');
-	x.setRequestHeader('X-Requested-With','XMLHttpRequest');
-	x.onreadystatechange=function(){
-		if(x.readyState==4&&x.status==200){
-			var r=JSON.parse(x.responseText),k,j;
-			Ubusy=r['nom'];
-			Usty=r['sty'];
-			Utem=r['tem'];
-			if(r['pl'])for(k in r['pl']){
-				Uplugact[k]=r['pl'][k];
-			}
-			if(r['ck'])for(k in r['ck']){
-				UconfigFile[k]=r['ck'][k];
-			}
-			if(r['plugins'])f_load_plugin_hook(r['plugins']);
-			else document.getElementById('actiBarPlugin').style.display=(Upluglist.length==0?'none':'block');
-			var b=document.createElement('ul');
-			b.id='menuSort';
-			b.className='ui-sortable';
-			for(k in r['chap']){
-				Upt[k]=r['chap'][k]['t'];
-				Upd[k]=r['chap'][k]['d'];
-				var c=document.createElement('li');
-				if(k==Up)c.className='bouton current off';
-				else{
-					c.className='bouton unsort';
-					function f_clic(k,c){
-						c.onclick=function(){
-							if(Uch==1){
-								f_alert("!<?php echo T_("do not save ?");?>");
-								Uch=0;
-							}
-							else{
-								Up=k;
-								f_get_site(1);
-							}
-						};
-					};
-					f_clic(k,c);
-				}
-				if(r['chap'][k]['od']==1)c.className+=' chapoff';
-				c.innerHTML=r['chap'][k]['t'].replace(/\\/,"");
-				b.appendChild(c);
-			};
-			var y=new XMLHttpRequest(),q='action=getChap&unox='+Unox+'&data='+Upd[Up];
-			y.open('POST','uno/central.php',true);
-			y.setRequestHeader('Content-type','application/x-www-form-urlencoded');
-			y.setRequestHeader('X-Requested-With','XMLHttpRequest');
-			y.onreadystatechange=function(){
-				if(y.readyState==4&&y.status==200){
-					var s=y.responseText,a;
-					if(s.length<3)r1+='-';
-					a=s.substr(0,1);
-					var ok=function(){
-						if(Usty==0||!Utem)CKEDITOR.replace('content');
-						else CKEDITOR.replace('content',{contentsCss:['uno/template/'+Utem+'/style.css','uno/template/'+Utem+'/styles.css','uno/template/'+Utem+'/css/style.css','uno/template/'+Utem+'/css/style.css']});
-						CKEDITOR.instances['content'].setData(s.substr(1));
-						CKEDITOR.instances['content'].on('change',function(){
-							if(Udg==4){
-								document.getElementById('boutonSauv').className='bouton danger';
-								Udg=5;
-								Uch=1;
-							}
-							else if(Udg<4)Udg++;
-						});
-						CKEDITOR.on('instanceReady',function(evt){
-							document.getElementById('wait').style.display='none';
-						});
-						document.getElementById('aplugin').style.display='inline';
-						document.getElementById('titreChap').onkeypress=function(){
-							document.getElementById('boutonSauv').className='bouton danger';
-							Udg=1;
-							Uch=1;
-						};
-						document.getElementById('aconfig').style.display='inline';
-						document.getElementById('menu').appendChild(b);
-						document.getElementById('optOnOff').className='onoff';
-						if(r.pub)document.getElementById('boutonPub').style.display='inline';
-						if(r.edw)document.getElementById('contentP').style.width=r.edw+'px';
-						document.getElementById('titreChap').value=Upt[Up].replace(/\\/,'');
-						document.getElementById('optTit').checked=((a==1||a==3||a==5||a==7)?true:false);
-						document.getElementById('optMenu').checked=((a==2||a==3||a==6||a==7)?true:false);
-						document.getElementById('optDisp').checked=((a==4||a==5||a==6||a==7)?true:false);
-						document.getElementById('chapOpt').style.display='none';
-						Uini=1;
-						Udg=0;
-						document.getElementById('boutonSauv').className='bouton';
-						jQuery(function(){
-							jQuery('#menuSort').sortable({cancel:'.unsort',stop:function(){
-								var b=document.getElementById('menuSort'),v;
-								for(v=0;v<b.children.length;v++){
-									if(b.children[v].className.indexOf('bouton current off')!=-1){
-										jQuery.post('uno/central.php',{'action':'sauvePlace','unox':Unox,'chap':Up,'place':v},function(r){
-											f_alert(r);
-											Up=v;
-											f_get_site(0);
-										});
-										break;
-									}
-								};
-							}});
-							jQuery('#menuSort').disableSelection();
-						});
-						if(r.nom)document.getElementById('avoir').href=r.nom+'.html';
-					};
-					if(document.readyState=='loading')document.addEventListener('DOMContentLoaded',function(event){ok();},false);
-					else ok();
-				}
-			}
-			y.send(q);
-		}
-	};
-	x.send(p);
-}
-function f_load_plugin_hook(f){
-	if(window.jQuery){
-		for(k in f){
-			Upluglist[k]=f[k];
-			if(f[k].substr(0,1)=='2'){
-				j=document.createElement('script');
-				j.type='text/javascript';
-				j.src='uno/plugins/'+f[k].substr(1)+'/'+f[k].substr(1)+'Hook.js';
-				document.body.appendChild(j);
-			}
-		}
-		document.getElementById('actiBarPlugin').style.display=(Upluglist.length==0?'none':'block');
-	}
-	else setTimeout(function(){f_load_plugin_hook(f)},50);
-}
-f_init();
-</script>
 <link rel="icon" type="image/png" href="<?php echo $Udep; ?>includes/img/favicon.png" />
 <link rel="stylesheet" href="<?php echo $Udep; ?>includes/css/uno.css" />
 <style type="text/css">
@@ -173,9 +37,9 @@ f_init();
 			<input type="checkbox" id="hamburgerInput" />
 			<ul id="topMenu" class="topMenu topMenuEdition">
 				<li><a id="apage" style="text-decoration:underline" href=""><?php echo T_("Page");?></a></li>
-				<li><a id="aconfig" style="display:none;" onClick="f_config();jQuery('#hamburgerInput').prop('checked',false);" href="javascript:void(0)"><?php echo T_("Settings");?></a></li>
-				<li><a id="aplugin" style="display:none;" onClick="f_plugin(0);f_plugAll(document.getElementById('plugOnOff'),1);jQuery('#hamburgerInput').prop('checked',false);" href="javascript:void(0)"><?php echo T_("Plugins");?></a></li>
-				<li><a id="avoir" href="index.html" onClick="jQuery('#hamburgerInput').prop('checked',false);" target="_blank"><?php echo T_("See the website");?></a></li>
+				<li><a id="aconfig" style="display:none;" onClick="f_config();document.getElementById('hamburgerInput').checked=false;" href="javascript:void(0)"><?php echo T_("Settings");?></a></li>
+				<li><a id="aplugin" style="display:none;" onClick="f_plugin(0);f_plugAll(document.getElementById('plugOnOff'),1);document.getElementById('hamburgerInput').checked=false;" href="javascript:void(0)"><?php echo T_("Plugins");?></a></li>
+				<li><a id="avoir" href="index.html" onClick="document.getElementById('hamburgerInput').checked=false;" target="_blank"><?php echo T_("See the website");?></a></li>
 				<li><a id="alogout" onClick="f_logout();" href="javascript:void(0)"><?php echo T_("Log out");?></a></li>
 			</ul>
 			<div id="wait" class="navitem wait"><img style="margin:2px 6px 0 0;" src="<?php echo $Udep; ?>includes/img/wait.gif" /></div>
@@ -373,25 +237,178 @@ f_init();
 		<div id="managePlug" style="display:none;"></div>
 	</div><!-- .container -->
 	
-<script type="text/javascript" src="<?php if($Udep=='uno/') echo 'uno/includes/js/jquery.min.js'; else echo '//ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js';?>"></script>
-<script type="text/javascript" src="<?php if($Udep=='uno/') echo 'uno/includes/js/jquery-ui.min.js'; else echo '//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'; ?>"></script>
-<script type="text/javascript" src="uno/includes/elfinder/js/elfinder.min.js"></script>
-<?php if($lang!='en' && $lang!='') echo '<script type="text/javascript" src="uno/includes/elfinder/js/i18n/elfinder.'.$lang.'.js"></script>'; ?>
-<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $Udep; ?>includes/css/jquery-ui.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="uno/includes/elfinder/css/elfinder.min.css" />
 <script type="text/javascript">
+var Up=0,Udg=0,Usty=0,Uini=0,Utem=false,Uplug='',Uplugon=0,Unox='<?php echo $unox; ?>',Udep='<?php echo $Udep; ?>',Upt=[],Upd=[],Uplugact=[],Upluglist=[],UconfigFile=[],Ulang='<?php echo $lang; ?>',UconfigNum=0,Ubusy='',Uch=0;
+function f_init(){
+	let x=new FormData();
+	x.set('action','init');
+	x.set('unox',Unox);
+	fetch('uno/central.php',{method:'post',body:x})
+	.then(r=>r.json())
+	.then(function(r){
+		let k,j;
+		Ubusy=r['nom'];
+		Usty=r['sty'];
+		Utem=r['tem'];
+		if(Usty==0||!Utem)CKEDITOR.replace('content');
+		else CKEDITOR.replace('content',{contentsCss:['uno/template/'+Utem+'/style.css','uno/template/'+Utem+'/styles.css','uno/template/'+Utem+'/css/style.css','uno/template/'+Utem+'/css/style.css']});
+	//	CKEDITOR.on('instanceReady',function(e){document.getElementById('wait').style.display='none';});
+		if(r['pl'])for(k in r['pl']){
+			Uplugact[k]=r['pl'][k];
+		}
+		if(r['ck'])for(k in r['ck']){
+			UconfigFile[k]=r['ck'][k];
+		}
+		if(r['plugins'])f_load_plugin_hook(r['plugins']);
+		else document.getElementById('actiBarPlugin').style.display=(Upluglist.length==0?'none':'block');
+		let b=document.createElement('ul');
+		b.id='menuSort';
+		b.className='ui-sortable';
+		for(k in r['chap']){
+			Upt[k]=r['chap'][k]['t'];
+			Upd[k]=r['chap'][k]['d'];
+			let c=document.createElement('li');
+			if(k==Up)c.className='bouton current off';
+			else{
+				c.className='bouton unsort';
+				function f_clic(k,c){
+					c.onclick=function(){
+						if(Uch==1){
+							f_alert("!<?php echo T_("do not save ?");?>");
+							Uch=0;
+						}
+						else{
+							Up=k;
+							f_get_site(1);
+						}
+					}
+				}
+				f_clic(k,c);
+			}
+			if(r['chap'][k]['od']==1)c.className+=' chapoff';
+			c.innerHTML=r['chap'][k]['t'].replace(/\\/,"");
+			b.appendChild(c);
+		}
+		let x=new FormData();
+		x.set('action','getChap');
+		x.set('unox',Unox);
+		x.set('data',Upd[Up]);
+		fetch('uno/central.php',{method:'post',body:x})
+		.then(r=>r.text())
+		.then(function(s){
+			if(s.length<3)s+='-';
+			let a=s.substr(0,1);
+		//	document.getElementById('wait').style.display='block';
+			CKEDITOR.instances['content'].setData(s.substr(1),function(){document.getElementById('wait').style.display='none';});
+			CKEDITOR.instances['content'].on('change',function(){
+				if(Udg==4){
+					document.getElementById('boutonSauv').className='bouton danger';
+					Udg=5;
+					Uch=1;
+				}
+				else if(Udg<4)Udg++;
+			});
+			document.getElementById('aplugin').style.display='inline';
+			document.getElementById('titreChap').onkeypress=function(){
+				document.getElementById('boutonSauv').className='bouton danger';
+				Udg=1;
+				Uch=1;
+			}
+			document.getElementById('aconfig').style.display='inline';
+			document.getElementById('menu').appendChild(b);
+			document.getElementById('optOnOff').className='onoff';
+			if(r.pub)document.getElementById('boutonPub').style.display='inline';
+			if(r.edw)document.getElementById('contentP').style.width=r.edw+'px';
+			document.getElementById('titreChap').value=Upt[Up].replace(/\\/,'');
+			document.getElementById('optTit').checked=((a==1||a==3||a==5||a==7)?true:false);
+			document.getElementById('optMenu').checked=((a==2||a==3||a==6||a==7)?true:false);
+			document.getElementById('optDisp').checked=((a==4||a==5||a==6||a==7)?true:false);
+			document.getElementById('chapOpt').style.display='none';
+			Uini=1;
+			Udg=0;
+			document.getElementById('boutonSauv').className='bouton';
+			f_menuSort()
+			if(r.nom)document.getElementById('avoir').href=r.nom+'.html';
+		});
+	});
+}
+function f_menuSort(){
+	let ul=document.getElementById('menuSort'),li=Array.from(ul.children),id,io,v;
+	const dragOn=(e)=>id=li.indexOf(e.target);
+	const dragEnd=(e)=>margin(-1);
+	const dragOver=(e)=>{
+		io=li.indexOf(e.target);
+		margin(io);
+		e.preventDefault();
+	}
+	const sauvePlace=(e)=>{
+		margin(-1);
+		let x=new FormData();
+		x.set('action','sauvePlace');
+		x.set('unox',Unox);
+		x.set('chap',Up);
+		x.set('place',io);
+		fetch('uno/central.php',{method:'post',body:x})
+		.then(r=>r.text())
+		.then(function(r){
+			f_alert(r);
+			Up=io;
+			f_get_site(0);
+		});
+	}
+	const margin=(i)=>{
+		for(v=0;v<li.length;v++){
+			if(v==i)li[v].style=(i>id?"margin-right":"margin-left")+":20px";
+			else li[v].removeAttribute('style');
+		}
+	}
+	for(v=0;v<li.length;v++){
+		c=li[v];
+		if(c.tagName!='LI')continue;
+		if(c.className.indexOf('bouton current off')!=-1){
+			c.draggable=true;
+			c.addEventListener('drag',dragOn);
+			c.addEventListener('dragend',dragEnd);
+		}
+		else{
+			c.addEventListener('dragover',dragOver)
+			c.addEventListener('drop',sauvePlace) 
+		}
+	}
+}
+function f_load_plugin_hook(f){
+	if(window.jQuery){
+		for(k in f){
+			Upluglist[k]=f[k];
+			if(f[k].substr(0,1)=='2'){
+				j=document.createElement('script');
+				j.type='text/javascript';
+				j.src='uno/plugins/'+f[k].substr(1)+'/'+f[k].substr(1)+'Hook.js';
+				document.body.appendChild(j);
+			}
+		}
+		document.getElementById('actiBarPlugin').style.display=(Upluglist.length==0?'none':'block');
+	}
+	else setTimeout(function(){f_load_plugin_hook(f)},50);
+}
 function f_get_site(f){
-	jQuery.ajax({type:'POST',url:'uno/central.php',data:{'action':'getSite','unox':Unox},dataType:'json',async:true,success:function(r){
+	let x=new FormData();
+	x.set('action','getSite');
+	x.set('unox',Unox);
+	fetch('uno/central.php',{method:'post',body:x})
+	.then(r=>r.json())
+	.then(function(r){
 		var a=document.getElementById('menu'),b;
 		Ubusy=r.nom;
 		Usty=r.sty;
 		Utem=r.tem;
 		if(Up!=-1){
-			jQuery('#menu').empty();
+			document.getElementById('menu').replaceChildren();
 			b=document.createElement('ul');
 			b.id='menuSort';
 			b.className='ui-sortable';
-			jQuery.each(r.chap,function(k,v){
+			for(let k in r.chap)if(r.chap.hasOwnProperty(k))(function(k){ 
+				let v=r.chap[k];
 				Upt[k]=v.t;
 				Upd[k]=v.d;
 				var c=document.createElement('li');
@@ -412,25 +429,10 @@ function f_get_site(f){
 				if(v.od==1)c.className+=' chapoff';
 				c.innerHTML=v.t.replace(/\\/,"");
 				b.appendChild(c);
-			});
+			})(k);
 			a.appendChild(b);
-			jQuery(function(){
-				jQuery('#menuSort').sortable({cancel:'.unsort',stop:function(){
-					b=document.getElementById('menuSort');
-					for(var v=0;v<b.children.length;v++){
-						if(b.children[v].className.indexOf('bouton current off')!=-1){
-							jQuery.post('uno/central.php',{'action':'sauvePlace','unox':Unox,'chap':Up,'place':v},function(r){
-								f_alert(r);
-								Up=v;
-								f_get_site(0);
-							});
-							break;
-						}
-					};
-				}});
-				jQuery('#menuSort').disableSelection();
-			});
-			jQuery('input[name="titre"]').val(Upt[Up].replace(/\\/,''));
+			f_menuSort();
+			document.getElementById('titreChap').value=Upt[Up].replace(/\\/,'');
 			document.getElementById('optOnOff').className='onoff';
 			if(r.pub)document.getElementById('boutonPub').style.display='inline';
 			if(r.edw)document.getElementById('contentP').style.width=r.edw+'px';
@@ -455,14 +457,20 @@ function f_get_site(f){
 			document.getElementById('mel').value=r.mel||'';
 		}
 		if(r.nom)document.getElementById('avoir').href=r.nom+'.html';
-	}});
+	});
 }
 function f_get_chap(f){
 	Up=f;
-	jQuery.post('uno/central.php',{'action':'getChap','unox':Unox,'data':Upd[Up]},function(r1){
-		if(r1.length<3)r1+='-';
-		CKEDITOR.instances['content'].setData(r1.substr(1));
-		var a=r1.substr(0,1);
+	let x=new FormData();
+	x.set('action','getChap');
+	x.set('unox',Unox);
+	x.set('data',Upd[Up]);
+	fetch('uno/central.php',{method:'post',body:x})
+	.then(r=>r.text())
+	.then(function(r){
+		if(r.length<3)r+='-';
+		CKEDITOR.instances['content'].setData(r.substr(1));
+		let a=r.substr(0,1);
 		document.getElementById('optTit').checked=((a==1||a==3||a==5||a==7)?true:false);
 		document.getElementById('optMenu').checked=((a==2||a==3||a==6||a==7)?true:false);
 		document.getElementById('optDisp').checked=((a==4||a==5||a==6||a==7)?true:false);
@@ -474,7 +482,19 @@ function f_get_chap(f){
 	});
 }
 function f_sauve_chap(){
-	jQuery.post('uno/central.php',{'action':'sauveChap','unox':Unox,'chap':Up,'data':Upd[Up],'content':CKEDITOR.instances['content'].getData(),'titre':document.getElementsByName('titre')[0].value,'otit':document.getElementById('optTit').checked,'omenu':document.getElementById('optMenu').checked,'odisp':document.getElementById('optDisp').checked,},function(r){
+	let x=new FormData();
+	x.set('action','sauveChap');
+	x.set('unox',Unox);
+	x.set('chap',Up);
+	x.set('data',Upd[Up]);
+	x.set('content',CKEDITOR.instances['content'].getData());
+	x.set('titre',document.getElementsByName('titre')[0].value);
+	x.set('otit',document.getElementById('optTit').checked);
+	x.set('omenu',document.getElementById('optMenu').checked);
+	x.set('odisp',document.getElementById('optDisp').checked);
+	fetch('uno/central.php',{method:'post',body:x})
+	.then(r=>r.text())
+	.then(function(r){
 		f_alert(r);
 		f_get_site(0);
 		Udg=0;
@@ -483,8 +503,24 @@ function f_sauve_chap(){
 	});
 }
 function f_sauve_config(){
-	var nom=document.getElementById('nom').value;
-	jQuery.post('uno/central.php',{'action':'sauveConfig','unox':Unox,'tit':document.getElementById('tit').value,'desc':document.getElementById('desc').value,'nom':nom,'mel':document.getElementById('mel').value,'tem':document.getElementById('tem').options[document.getElementById('tem').selectedIndex].value,'url':document.getElementById('url').value,'lazy':document.getElementById('lazy').checked,'jq':document.getElementById('jq').checked,'w3':document.getElementById('w3').checked,'sty':document.getElementById('sty').checked,'edw':document.getElementById('edw').value,'ofs':document.getElementById('ofs').value},function(r){
+	let nom=document.getElementById('nom').value,x=new FormData();
+	x.set('action','sauveConfig');
+	x.set('unox',Unox);
+	x.set('tit',document.getElementById('tit').value);
+	x.set('desc',document.getElementById('desc').value);
+	x.set('nom',nom);
+	x.set('mel',document.getElementById('mel').value);
+	x.set('tem',document.getElementById('tem').options[document.getElementById('tem').selectedIndex].value);
+	x.set('url',document.getElementById('url').value);
+	x.set('lazy',document.getElementById('lazy').checked);
+	x.set('jq',document.getElementById('jq').checked);
+	x.set('w3',document.getElementById('w3').checked);
+	x.set('sty',document.getElementById('sty').checked);
+	x.set('edw',document.getElementById('edw').value);
+	x.set('ofs',document.getElementById('ofs').value);
+	fetch('uno/central.php',{method:'post',body:x})
+	.then(r=>r.text())
+	.then(function(r){
 		f_alert(r);
 		if(nom.length>0)document.getElementById('avoir').href=nom+'.html';
 	});
@@ -508,7 +544,18 @@ function f_sauve_pass(){
 			return;
 		}
 	}
-	jQuery.post('uno/central.php',{'action':'sauvePass','unox':Unox,'user0':document.getElementById('user0').value,'pass0':document.getElementById('pass0').value,'user':document.getElementById('user').value,'pass':document.getElementById('pass').value,'lang':document.getElementById('lang').options[document.getElementById('lang').selectedIndex].value,'gt':document.getElementById('gt').checked},function(r){
+	let x=new FormData();
+	x.set('action','sauvePass');
+	x.set('unox',Unox);
+	x.set('user0',document.getElementById('user0').value);
+	x.set('pass0',document.getElementById('pass0').value);
+	x.set('user',document.getElementById('user').value);
+	x.set('pass',document.getElementById('pass').value);
+	x.set('lang',document.getElementById('lang').options[document.getElementById('lang').selectedIndex].value);
+	x.set('gt',document.getElementById('gt').checked);
+	fetch('uno/central.php',{method:'post',body:x})
+	.then(r=>r.text())
+	.then(function(r){
 		f_alert(r);
 		if(r.substr(0,1)!="!")setTimeout(function(){
 			location.reload();
@@ -516,7 +563,13 @@ function f_sauve_pass(){
 	});
 }
 function f_nouv_chap(){
-	jQuery.post('uno/central.php',{'action':'nouvChap','unox':Unox,'chap':Up,'data':Upd[Up]},function(r){
+	let x=new FormData();
+	x.set('action','nouvChap');
+	x.set('unox',Unox);
+	x.set('chap',Up);
+	fetch('uno/central.php',{method:'post',body:x})
+	.then(r=>r.text())
+	.then(function(r){
 		Up++;
 		f_alert(r);
 		f_get_site(1);
@@ -524,7 +577,13 @@ function f_nouv_chap(){
 }
 function f_supp_chap(){
 	if(confirm("<?php echo T_("Delete Chapter"); ?> ?")){
-		jQuery.post('uno/central.php',{'action':'suppChap','unox':Unox,'chap':Up,'data':Upd[Up]},function(r){
+		let x=new FormData();
+		x.set('action','suppChap');
+		x.set('unox',Unox);
+		x.set('chap',Up);
+		fetch('uno/central.php',{method:'post',body:x})
+		.then(r=>r.text())
+		.then(function(r){
 			if(Up>0)Up--;
 			else Up=0;
 			f_alert(r);
@@ -534,44 +593,73 @@ function f_supp_chap(){
 }
 function f_publier(){
 	document.getElementById('wait').style.display='block';
-	jQuery.post('uno/central.php',{'action':'publier','unox':Unox},function(r){
+	let x=new FormData();
+	x.set('action','publier');
+	x.set('unox',Unox);
+	fetch('uno/central.php',{method:'post',body:x})
+	.then(r=>r.text())
+	.then(function(r){
 		document.getElementById('boutonPub').style.display='none';
 		f_alert(r);
 	});
 }
 function f_suppPub(){
-	jQuery.post('uno/central.php',{'action':'suppPub','unox':Unox},function(r){
-		f_alert(r);
-	});
+	let x=new FormData();
+	x.set('action','suppPub');
+	x.set('unox',Unox);
+	fetch('uno/central.php',{method:'post',body:x})
+	.then(r=>r.text())
+	.then(r=>f_alert(r));
 }
 function f_archivage(){
 	document.getElementById('wait').style.display='block';
-	jQuery.post('uno/central.php',{'action':'archivage','unox':Unox},function(r){
+	let x=new FormData();
+	x.set('action','archivage');
+	x.set('unox',Unox);
+	fetch('uno/central.php',{method:'post',body:x})
+	.then(r=>r.text())
+	.then(function(r){
 		f_selectArchive();
 		f_alert(r);
 	});
 }
 function f_restaure(f){
 	document.getElementById('wait').style.display='block';
-	jQuery.post('uno/central.php',{'action':'restaure','unox':Unox,'zip':f},function(r){
-		f_alert(r);
-	});
+	let x=new FormData();
+	x.set('action','restaure');
+	x.set('unox',Unox);
+	x.set('zip',f);
+	fetch('uno/central.php',{method:'post',body:x})
+	.then(r=>r.text())
+	.then(r=>f_alert(r));
 }
 function f_archDel(f){
 	document.getElementById('wait').style.display='block';
-	jQuery.post('uno/central.php',{'action':'archDel','unox':Unox,'zip':f},function(r){
-		var t=document.getElementById('archive'),to=t.options,v;
+	let x=new FormData();
+	x.set('action','archDel');
+	x.set('unox',Unox);
+	x.set('zip',f);
+	fetch('uno/central.php',{method:'post',body:x})
+	.then(r=>r.text())
+	.then(function(r){
+		let t=document.getElementById('archive'),to=t.options,v;
 		for(v=0;v<to.length;v++){
 			if(to[v].value==f){
 				t.removeChild(to[v]);
 			}
-		};
+		}
 		f_alert(r);
 	});
 }
 function f_archDownload(f){
 	document.getElementById('wait').style.display='block';
-	jQuery.post('uno/central.php',{'action':'archDownload','unox':Unox,'zip':f},function(r){
+	let x=new FormData();
+	x.set('action','archDownload');
+	x.set('unox',Unox);
+	x.set('zip',f);
+	fetch('uno/central.php',{method:'post',body:x})
+	.then(r=>r.text())
+	.then(function(r){
 		document.getElementById('wait').style.display='none';
 		if(r.substr(0,1)=='!')f_alert(r);
 		else window.location=r;
@@ -579,14 +667,24 @@ function f_archDownload(f){
 }
 function f_fileDownload(){
 	document.getElementById('wait').style.display='block';
-	jQuery.post('uno/central.php',{'action':'filesDownload','unox':Unox},function(r){
+	let x=new FormData();
+	x.set('action','filesDownload');
+	x.set('unox',Unox);
+	fetch('uno/central.php',{method:'post',body:x})
+	.then(r=>r.text())
+	.then(function(r){
 		document.getElementById('wait').style.display='none';
 		if(r.substr(0,1)=='!')f_alert(r);
 		else window.location=r;
 	});
 }
 function f_selectArchive(){
-	jQuery.post('uno/central.php',{'action':'selectArchive','unox':Unox},function(r){
+	let x=new FormData();
+	x.set('action','selectArchive');
+	x.set('unox',Unox);
+	fetch('uno/central.php',{method:'post',body:x})
+	.then(r=>r.text())
+	.then(function(r){
 		if(r){
 			document.getElementById('boutonRestaure').style.display='inline';
 			document.getElementById('blocArchive').innerHTML=r;
@@ -611,10 +709,14 @@ function f_logout(){
 function f_alert(f){
 	if(f.search('<br />')!=-1){
 		alert(f);
-		jQuery.post('uno/central.php',{'action':'error','unox':Unox,'e':f});
+		let x=new FormData();
+		x.set('action','error');
+		x.set('unox',Unox);
+		x.set('e',f);
+		fetch('uno/central.php',{method:'post',body:x});
 	}
 	else{
-		var a=document.getElementById('info'),b=document.createElement('span');
+		let a=document.getElementById('info'),b=document.createElement('span'),t,i;
 		b.id='alert';
 		if(f.substr(0,1)=='!'){
 			b.style.color='red';
@@ -623,15 +725,13 @@ function f_alert(f){
 		b.innerHTML=f;
 		a.appendChild(b);
 		setTimeout(function(){
-			jQuery('#alert').fadeOut('slow',function(){
-				jQuery('#alert').remove();
-			});
-			jQuery('#info').empty();
+			document.getElementById('info').innerHTML='';
 		},2000);
 	}
 	document.getElementById('wait').style.display='none';
 }
 function f_config(){
+	document.getElementById('wait').style.display='block';
 	document.getElementById('plugins').style.display='none';
 	document.getElementById('apage').style.textDecoration='none';
 	document.getElementById('aplugin').style.textDecoration='none';
@@ -676,8 +776,9 @@ function f_plugins(){
 	document.getElementById('plugins').style.display='block';
 	document.getElementById('prePlugin').style.display='block';
 	f_managePlug(2);
-	jQuery(a).empty();
-	jQuery.each(Upluglist,function(k,v){
+	a.innerHTML='';
+	for(let k in Upluglist)if(Upluglist.hasOwnProperty(k))(function(k){
+		let v=Upluglist[k];
 		var b=document.createElement('span');
 		b.className='bouton';
 		b.id='p'+v.substr(1);
@@ -691,9 +792,10 @@ function f_plugins(){
 			Uplugon=v.substr(0,1);
 		}
 		a.appendChild(b);
-	});
+	})(k);
 }
 function f_plugin(f){
+	document.getElementById('wait').style.display='block';
 	var a=document.getElementById('listPlugins'),d,v,c;
 	if(f==0){
 		f_plugins();
@@ -729,15 +831,24 @@ function f_plugin(f){
 	}
 	document.getElementById('nomPlug').innerHTML=(c=='9'?'<?php echo T_("My theme");?> : '+Utem:'Plugin : '+f.substr(1));
 	document.getElementById('plugin').innerHTML='';
-	if(c!='9')jQuery.post('uno/plugins/'+f.substr(1)+'/'+f.substr(1)+'.php',{'action':'plugin','unox':Unox,'udep':Udep},function(r){
-		document.getElementById('plugin').innerHTML=r;
-		jQuery.getScript('uno/plugins/'+f.substr(1)+'/'+f.substr(1)+'.js');
-		document.getElementById('wait').style.display='none';
-	});
-	else jQuery.post('uno/template/'+Utem+'/'+Utem+'.php',{'action':'plugin','unox':Unox,'udep':Udep},function(r){
-		document.getElementById('plugin').innerHTML=r;
-		jQuery.getScript('uno/template/'+Utem+'/'+Utem+'.js');
-		document.getElementById('wait').style.display='none';
+	let x=new FormData(),urp='uno/plugins/'+f.substr(1)+'/'+f.substr(1)+'.php',urj='uno/plugins/'+f.substr(1)+'/'+f.substr(1)+'.js';
+	if(c==9){
+		urp='uno/template/'+Utem+'/'+Utem+'.php';
+		urj='uno/template/'+Utem+'/'+Utem+'.js';
+	}
+	x.set('action','plugin');
+	x.set('unox',Unox);
+	x.set('udep',Udep);
+	x.set('ubusy',Ubusy);
+	fetch(urp,{method:'post',body:x,headers:{'X-Requested-With':'XMLHttpRequest'}})
+	.then(r=>r.text())
+	.then(function(r){
+		document.getElementById('plugin').innerHTML='';
+		document.getElementById('plugin').insertAdjacentHTML('beforeend',r);
+		fetch(urj)
+		.then(r=>r.text())
+		.then(t=>{let js=document.createElement('script');js.textContent=t;document.head.appendChild(js);})
+		.then(document.getElementById('wait').style.display='none');
 	});
 }
 function f_onPlug(f){
@@ -749,7 +860,13 @@ function f_onPlug(f){
 		f.nextSibling.innerHTML="<?php echo T_("Disable");?>";
 		f.nextSibling.style.color='#f79f81';
 	}
-	jQuery.post('uno/central.php',{'action':'onPlug','unox':Unox,'n':f.name,'c':f.checked},function(){
+	let x=new FormData();
+	x.set('action','onPlug');
+	x.set('unox',Unox);
+	x.set('n',f.name);
+	x.set('c',f.checked);
+	fetch('uno/central.php',{method:'post',body:x})
+	.then(function(r){
 		f_plugin_hook();
 	});
 	var t=((f.checked)?'1':'0')+f.name;
@@ -759,20 +876,26 @@ function f_onPlug(f){
 	if(document.getElementById('plugOnOff').className.search('all')==-1)document.getElementById('p'+f.name).style.display=((f.checked)?'inline-block':'none');
 }
 function f_plugin_hook(){
-	jQuery.ajax({type:'POST',url:'uno/central.php',data:{'action':'pluginsActifs','unox':Unox},dataType:'json',async:true,success:function(r){
-		if(r.pl)jQuery.each(r.pl,function(k,v){
-			Uplugact[k]=v;
-		});
-		if(r.ck)jQuery.each(r.ck,function(k,v){
-			UconfigFile[k]=v;
-		});
-	}});
+	let x=new FormData();
+	x.set('action','pluginsActifs');
+	x.set('unox',Unox);
+	fetch('uno/central.php',{method:'post',body:x})
+	.then(r=>r.json())
+	.then(function(r){
+		if(r.pl)for(let k in r.pl)if(r.pl.hasOwnProperty(k)){
+			Uplugact[k]=r.pl[k];
+		}
+		if(r.ck)for(let k in r.ck)if(r.ck.hasOwnProperty(k)){
+			UconfigFile[k]=r.ck[k];
+		}
+	});
 }
 function f_plugAll(f,g){
-	var b=0,v;
+	let b=0,v,s;
 	if((f.className.search('all')!=-1)||g){
 		f.className='onoff';
-		jQuery('#listPlugins>span').hide();
+		s=document.querySelectorAll('#listPlugins>span');
+		for(v=0;v<s.length;v++)s[v].style.display='none';
 		for(v=0;v<Uplugact.length;v++){
 			if(Uplugact[v])document.getElementById('p'+Uplugact[v]).style.display='inline-block';
 			b=1;
@@ -780,7 +903,8 @@ function f_plugAll(f,g){
 	}
 	if(b==0){
 		f.className='onoff all';
-		jQuery('#listPlugins>span').show();
+		s=document.querySelectorAll('#listPlugins>span');
+		for(v=0;v<s.length;v++)s[v].style.display='inline-block';
 	}
 }
 function f_ctit(f){
@@ -821,7 +945,12 @@ function f_finder_select(f){
 function f_managePlug(f){
 	var a=document.getElementById('managePlug'),b=document.getElementById('prePlugin'),c=document.getElementById('plugin');
 	if(f!=2&&(a.style.display=='none'||f==1)){
-		jQuery.post('uno/central.php',{'action':'pluglist','unox':Unox},function(r){
+		let x=new FormData();
+		x.set('action','pluglist');
+		x.set('unox',Unox);
+		fetch('uno/central.php',{method:'post',body:x})
+		.then(r=>r.text())
+		.then(function(r){
 			if(r.substr(0,1)!='!')a.innerHTML=r;
 			else f_alert(r);
 		});
@@ -838,7 +967,13 @@ function f_managePlug(f){
 }
 function f_plugAdd(f){
 	document.getElementById('wait').style.display='block';
-	jQuery.post('uno/central.php',{'action':'plugadd','unox':Unox,'plug':f},function(r){
+	let x=new FormData();
+	x.set('action','plugadd');
+	x.set('unox',Unox);
+	x.set('plug',f);
+	fetch('uno/central.php',{method:'post',body:x})
+	.then(r=>r.text())
+	.then(function(r){
 		f_alert(r);
 		setTimeout(function(){
 			f_managePlug(1);
@@ -847,7 +982,13 @@ function f_plugAdd(f){
 }
 function f_plugDel(f){
 	if(confirm("<?php echo T_("Remove"); ?> "+f+" ?")){
-		jQuery.post('uno/central.php',{'action':'plugdel','unox':Unox,'plug':f},function(r){
+		let x=new FormData();
+		x.set('action','plugdel');
+		x.set('unox',Unox);
+		x.set('plug',f);
+		fetch('uno/central.php',{method:'post',body:x})
+		.then(r=>r.text())
+		.then(function(r){
 			f_alert(r);
 			setTimeout(function(){
 				f_managePlug(1);
@@ -861,66 +1002,131 @@ function f_nombre(e){
 	return true;
 }
 function f_checkUpdate(){
-	var a=document.getElementById('updateDiv'),b=0,c=document.createElement('table'),d='';
 	document.getElementById('wait').style.display='block';
-	jQuery('#checkUpdate').hide();
-	jQuery.post('uno/central.php',{'action':'checkUpdate','unox':Unox,'u':0},function(r){
+	document.getElementById('checkUpdate').style.display='none';
+	let a=document.getElementById('updateDiv'),b=0,c=document.createElement('table'),d='',x=new FormData();
+	x.set('action','checkUpdate');
+	x.set('unox',Unox);
+	x.set('u',0);
+	fetch('uno/central.php',{method:'post',body:x})
+	.then(r=>r.text())
+	.then(function(r){
 		r=r.split('|');
-		if(r[1]=='1')d='<div id="lighter" style="float:right"><?php echo T_("Remove what is available online ? (recommended)"); ?> <span class="bouton" onClick="f_lighter();"><?php echo T_("Lighten"); ?></span></div>';
+		if(r[1]=='1')d+='<div id="lighter" style="float:right"><?php echo T_("Remove what is available online ? (recommended)"); ?> <span class="bouton" onClick="f_lighter();"><?php echo T_("Lighten"); ?></span></div>';
 		d+='<table><tr><td>CMSUno</td>';
 		if(r[0]=='0')d+='<td><?php echo T_("Up to date"); ?></td>';
-		else d+='<td><span class="bouton danger" onClick="f_update(0);"><?php echo T_("Update"); ?> '+r[2]+'</span></td>';
-		d+='</tr></table>';
+		else d+='<td><span class="bouton danger" onClick="f_update(0);"><?php echo T_("Update"); ?> '+r[2]+'</span></td></tr>';
+		d+='<tr><td colspan="2"><div class="bouton" id="backUpdate" onClick="f_update(\'##<?php echo $previousVersion; ?>\');"><?php echo T_("Back to previous version"); ?></div></td></tr>';
+		d+='</table>';
 		d+='<hr />';
 		a.innerHTML=d;
 		a.appendChild(c);
 		window.scrollTo(0,document.body.scrollHeight);
-		jQuery.each(Upluglist,function(k,v){
+		for(let k in Upluglist)if(Upluglist.hasOwnProperty(k))(function(k){
+			let v=Upluglist[k];
 			if(v.substr(0,1)!='9'){
 				++b;
-				jQuery.post('uno/central.php',{'action':'checkUpdate','unox':Unox,'u':v.substr(1)},function(r){
+				let x=new FormData();
+				x.set('action','checkUpdate');
+				x.set('unox',Unox);
+				x.set('u',v.substr(1));
+				fetch('uno/central.php',{method:'post',body:x})
+				.then(r=>r.text())
+				.then(function(r){
 					if(r.search('|')!=-1){
 						r=r.split('|');
-						if(r[0]!='1')c.innerHTML+='<tr><td>'+v.substr(1)+' : '+r[1]+'</td><td><?php echo T_("Up to date"); ?></td></tr>';
-						else c.innerHTML+='<tr id="T'+v.substr(1)+'"><td>'+v.substr(1)+' : '+r[1]+'</td><td><span class="bouton danger" onClick="f_update(\''+v.substr(1)+'\');"><?php echo T_("Update"); ?> '+r[2]+'</span></td></tr>';
+					//	if(r[0]!='1')c.innerHTML+='<tr><td>'+v.substr(1)+' : '+r[1]+'</td><td><?php echo T_("Up to date"); ?></td></tr>';
+						if(r[0]!='1')c.insertAdjacentHTML('beforeend','<tr><td>'+v.substr(1)+' : '+r[1]+'</td><td><?php echo T_("Up to date"); ?></td></tr>');
+					//	else c.innerHTML+='<tr id="T'+v.substr(1)+'"><td>'+v.substr(1)+' : '+r[1]+'</td><td><span class="bouton danger" onClick="f_update(\''+v.substr(1)+'\');"><?php echo T_("Update"); ?> '+r[2]+'</span></td></tr>';
+						else c.insertAdjacentHTML('beforeend','<tr id="T'+v.substr(1)+'"><td>'+v.substr(1)+' : '+r[1]+'</td><td><span class="bouton danger" onClick="f_update(\''+v.substr(1)+'\');"><?php echo T_("Update"); ?> '+r[2]+'</span></td></tr>');
 						window.scrollTo(0,document.body.scrollHeight);
 					}
 					--b;
 					if(b==0)document.getElementById('wait').style.display='none';
 				});
 			}
-		});
+		})(k);
 		if(b==0)document.getElementById('wait').style.display='none';
 	});
 }
 function f_update(f){
 	document.getElementById('wait').style.display='block';
-	jQuery.post('uno/central.php',{'action':'update','unox':Unox,'u':f},function(r){
+	let x=new FormData();
+	x.set('action','update');
+	x.set('unox',Unox);
+	x.set('u',f);
+	fetch('uno/central.php',{method:'post',body:x})
+	.then(r=>r.text())
+	.then(function(r){
 		if(r.search('|')!=-1){
 			r=r.split('|');
 			f_alert(r[0]);
 			document.getElementById('wait').style.display='none';
-			if(f!=0)document.getElementById('T'+f).innerHTML='<td>'+f+' : '+r[1]+'</td><td><div><?php echo T_("Up to date"); ?></div></td>';
+			if(f!=0&&f.substr(0,2)!='##')document.getElementById('T'+f).innerHTML='<td>'+f+' : '+r[1]+'</td><td><div><?php echo T_("Up to date"); ?></div></td>';
 			else location.reload(true);
 		}
 	});
 }
 function f_lighter(){
-	jQuery.post('uno/central.php',{'action':'lighter','unox':Unox},function(r){
-		jQuery('#lighter').empty();
+	let x=new FormData();
+	x.set('action','lighter');
+	x.set('unox',Unox);
+	fetch('uno/central.php',{method:'post',body:x})
+	.then(r=>r.text())
+	.then(function(r){
+		document.getElementById('lighter').replaceChildren();
 		f_alert(r);
 	});
 }
-function f_extraJS(){
-	jQuery.getScript(Udep+'includes/js/jqColorPicker.min.js');
+function colorPick(f){ // Pure JS colorPicker
+	if(f.length>0){let a=document.querySelectorAll(f),i;
+		for(i=0;i<a.length;i++){
+			(function(i){
+				a[i].addEventListener('click',function(){
+					if(a[i].nextElementSibling.classList.contains('cp-small')==false){
+						let c=document.createElement('div');c.className='cp cp-small';a[i].insertAdjacentElement('afterend',c);
+						ColorPicker(a[i].nextElementSibling,function(hex,hsv,rgb){a[i].style.background=hex;a[i].value=hex;});
+					}else a[i].nextElementSibling.remove();
+				});
+				if(a[i].value.substr(0,1)=='#')a[i].style.background=a[i].value;
+			})(i);
+		}
+	} // emulate old jqColorPicker.min.js
+	else{(function(jQuery){jQuery.fn.colorPicker=function(){
+			jQuery(this).each(function(i){let b = jQuery(this)[0].value;if(b.substr(0,1)=='#'||b.substr(0,3)=='rgb')jQuery(this).css('background',b);});
+			jQuery(this).on('click',function(){
+				let a=jQuery(this)[0];
+				if(a.nextElementSibling.classList.contains('cp-small')==false){
+					let c=document.createElement('div');c.className='cp cp-small';a.insertAdjacentElement('afterend',c);
+					ColorPicker(a.nextElementSibling,function(hex,hsv,rgb){a.style.background=hex;a.value=hex;});
+				}else a.nextElementSibling.remove();
+			});
+		}})(jQuery);
+	}
 }
 //
+f_init();
+</script>
+<style>.picker-wrapper,.slide-wrapper{position:relative;float:left;}.picker-indicator,.slide-indicator{position:absolute;left:0;top:0;pointer-events:none;}.picker,.slide{cursor:crosshair;float:left;}.cp-small{padding:5px;background-color:white;float:left;border-radius:5px;}.cp-small .picker{width:100px;height:100px;}.cp-small .slide{width:15px;height:100px;}.cp-small .slide-wrapper{margin-left:5px;}.cp-small .picker-indicator{width:1px;height:1px;border:1px solid black;background-color:white;}.cp-small .slide-indicator{width:100%;height:2px;left:0px;background-color:black;}</style>
+<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $Udep; ?>includes/css/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="uno/includes/elfinder/css/elfinder.min.css" />
+<script type="text/javascript" src="<?php echo ($Udep=='uno/'?'uno/includes/js/jquery.min.js':'//ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo ($Udep=='uno/'?'uno/includes/js/jquery-ui.min.js':'//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'); ?>"></script>
+<script type="text/javascript" src="uno/includes/elfinder/js/elfinder.min.js"></script>
+<?php if($lang!='en' && $lang!='') echo '<script type="text/javascript" src="uno/includes/elfinder/js/i18n/elfinder.'.$lang.'.js"></script>'; ?>
+<script type="text/javascript" src="<?php echo $Udep; ?>includes/js/colorpicker.min.js"></script>
+<script type="text/javascript">
 window.scrollTo(0,0);
-window.onload=function(){
-	jQuery('#finderDiv').elfinder({lang:'<?php echo $lang;?>',url:'uno/includes/elfinder/php/connector.php',useBrowserHistory:false}).elfinder('instance');
+jQuery(document).ready(function(){
+	colorPick('');
+	jQuery('#finderDiv').elfinder({
+		lang:'<?php echo $lang;?>',
+		url:'uno/includes/elfinder/php/connector.php',
+		useBrowserHistory:false,
+		cssAutoLoad:false
+	}).elfinder('instance');
 	jQuery('#finderDiv').elfinder('close').css('zIndex',99);
-	f_extraJS();
-}
+});
 </script>
 </body>
 </html>

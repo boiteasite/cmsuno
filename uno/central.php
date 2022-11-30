@@ -1,6 +1,5 @@
 <?php
 session_start(); 
-if(!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH'])!='xmlhttprequest') {sleep(2);exit;} // ajax request
 if(!isset($_POST['unox']) || $_POST['unox']!=$_SESSION['unox']) {sleep(2);exit;} // appel depuis uno.php
 //
 $lazy = 1;
@@ -561,7 +560,7 @@ if(isset($_POST['action'])) {
 		// ********************************************************************************************
 		case 'selectArchive':
 		$d = 'data/_sdata-'.$sdata.'/_unosave/';
-		$g=array();
+		$g = array();
 		if($h=opendir($d)) {
 			while(($file=readdir($h))!==false) {
 				$ext=explode('.',$file);
@@ -570,7 +569,7 @@ if(isset($_POST['action'])) {
 			}
 			closedir($h);
 		}
-		usort($g,create_function('$a,$b','return filemtime($b)-filemtime($a);'));
+		usort($g,function($a,$b){return filemtime($b)-filemtime($a);});
 		if($g) {
 			echo '<select id="archive">';
 			foreach($g as $r) {$r1=explode("/",$r);	echo '<option value="'.$r.'">'.$r1[count($r1)-1].'</option>'; }
@@ -793,7 +792,7 @@ if(isset($_POST['action'])) {
 			$u = $_POST['u']; $r = 0;
 			$q = file_get_contents('data/update.json');
 			$a = json_decode($q,true);
-			if($u) { // plugin
+			if($u && substr($u,0,2)!='##') { // plugin
 				if(isset($a['plug'][$u]['ext']) && isset($a['plug'][$u]['host']) && strpos($a['plug'][$u]['host'],'github.com')!==false) {
 					if(strpos($a['plug'][$u]['host'],'https://github.com/cmsunoPlugins/')!==false) {
 						$z = 'https://codeload.github.com/cmsunoPlugins/'.substr($a['plug'][$u]['host'],33).'zip/'.$a['plug'][$u]['ext'];
@@ -831,7 +830,9 @@ if(isset($_POST['action'])) {
 				$q1 = file_get_contents('data/'.$Ubusy.'/site.json');
 				$a1 = json_decode($q,true);
 				// 1. Get new version
-				$z = 'https://codeload.github.com/boiteasite/cmsuno/zip/'.$a['uno']['ext'];
+				if(substr($u,0,2)=='##') $ver = substr($u,2);
+				else $ver = $a['uno']['ext'];
+				$z = 'https://codeload.github.com/boiteasite/cmsuno/zip/'.$ver;
 				$b = 0;
 				if(function_exists('curl_version')) {
 					$ch = curl_init();

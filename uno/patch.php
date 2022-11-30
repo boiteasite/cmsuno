@@ -19,8 +19,8 @@ if(file_exists('uno/data/busy.json')) {
 }
 // V1.7.2 JQuery previous files when update and old publish
 if(file_exists('uno/includes/js/jquery.min.js')) {
-	if(!file_exists('uno/includes/js/jquery-3.5.1.min.js')) link('uno/includes/js/jquery-3.5.1.min.js', 'uno/includes/js/jquery.min.js');
-	if(!file_exists('uno/includes/js/jquery-3.6.0.min.js')) link('uno/includes/js/jquery-3.6.0.min.js', 'uno/includes/js/jquery.min.js');
+	if(!file_exists('uno/includes/js/jquery-3.5.1.min.js')) link('uno/includes/js/jquery.min.js', 'uno/includes/js/jquery-3.5.1.min.js');
+	if(!file_exists('uno/includes/js/jquery-3.6.0.min.js')) link('uno/includes/js/jquery.min.js', 'uno/includes/js/jquery-3.6.0.min.js');
 }
 //
 // END PATCH - ONLY ONCE

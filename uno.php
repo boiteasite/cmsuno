@@ -1,10 +1,11 @@
 <?php
 // **********************************
 // CMSUno
-$version = '1.8.1';
+$version = '1.9';
+$previousVersion = '1.8.1';
 // **********************************
 // *** DEBUG MODE ***
-	// error_reporting(E_ALL); ini_set('display_errors',1);
+	//error_reporting(E_ALL); ini_set('display_errors',1);
 // ******************
 $lang = 'en';
 $Urawgit = 'https://cdn.jsdelivr.net/gh/boiteasite/cmsuno@';
@@ -145,7 +146,6 @@ else {
 	<title>CMSUno - <?php echo T_("Login");?></title>
 	<link rel="icon" type="image/png" href="<?php echo $Udep; ?>includes/img/favicon.png" />
 	<link rel="stylesheet" href="<?php echo $Udep; ?>includes/css/uno.css" />
-	<script src="<?php if($Udep!='uno/') echo '//ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js'; else echo 'uno/includes/js/jquery.min.js'; ?>"></script>
 </head>
 <body>
 	<div class="blocTop bgNoir">
