@@ -847,7 +847,14 @@ function f_plugin(f){
 		document.getElementById('plugin').insertAdjacentHTML('beforeend',r);
 		fetch(urj)
 		.then(r=>r.text())
-		.then(t=>{let js=document.createElement('script');js.textContent=t;document.head.appendChild(js);})
+		.then(t=>{
+			let i='sc'+(c==9?Utem:f.substr(1)),js;
+			if(document.getElementById(i)!=null)document.getElementById(i).remove();
+			js=document.createElement('script');
+			js.id=i;
+			js.textContent=t;
+			document.head.appendChild(js);
+		})
 		.then(document.getElementById('wait').style.display='none');
 	});
 }
@@ -1016,7 +1023,7 @@ function f_checkUpdate(){
 		d+='<table><tr><td>CMSUno</td>';
 		if(r[0]=='0')d+='<td><?php echo T_("Up to date"); ?></td>';
 		else d+='<td><span class="bouton danger" onClick="f_update(0);"><?php echo T_("Update"); ?> '+r[2]+'</span></td></tr>';
-		d+='<tr><td colspan="2"><div class="bouton" id="backUpdate" onClick="f_update(\'##<?php echo $previousVersion; ?>\');"><?php echo T_("Back to previous version"); ?></div></td></tr>';
+		d+='<tr><td colspan="2"><div class="bouton" style="text-transform:none" id="backUpdate" onClick="f_update(\'##<?php echo $previousVersion; ?>\');"><?php echo T_("Back to previous version"); ?></div></td></tr>';
 		d+='</table>';
 		d+='<hr />';
 		a.innerHTML=d;

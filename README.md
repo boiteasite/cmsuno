@@ -275,6 +275,7 @@ This file is __not required__.
 This is the complement of _foo.php_.
 
 If it exists, this file is loaded at the same time as _foo.php_.
+The script is added to the head of the page. CMSUno JS Variables are therefore available (Udep, Ubusy, Utem, Unox, Ulang...).
 It is useful for example to load or save JSON data in AJAX :
 
 ```
