@@ -292,7 +292,7 @@ function save_foo(){
 	.then(r=>f_alert(r));
 }
 function load_foo(){
-	fetch("uno/data/"+Ubusy+"/foo.json?r="+Math.random())
+	fetch("uno/data/foo.json?r="+Math.random())
 	.then(r=>r.json())
 	.then(function(data){
 		if(data.lol!=undefined)document.getElementById('fooLol').value=data.lol;
