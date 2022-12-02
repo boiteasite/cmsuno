@@ -502,7 +502,7 @@ Versions
 	* CKEditor 4.16.2.
 	* Remove "version number" in local JQuery file name :  jquery-3.6.0.min.js => jquery.min.js
 * V1.7.1 - 27/07/2021 :
-	* Fix XSS vulnerability in uno1 template.
+	* Fix CVE-2021-36654 XSS vulnerability in uno1 template.
 	* Add "confirm ?" to Delete Chapter button.
 * V1.7 - 21/06/2021 :
 	* ELFinder 2.1.59, CKEditor 4.16.1, jQuery 3.6.0
