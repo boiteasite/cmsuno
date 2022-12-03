@@ -14,7 +14,6 @@ ini_set('session.use_trans_sid', 0);
 session_start();
 if(is_writable(dirname(__FILE__).'/uno')) {
 	if(file_exists('uno/config.php')) include('uno/config.php');
-	if(file_exists('uno/patch.php')) include('uno/patch.php');
 	if(empty($Uversion) || $Uversion!=$version || empty($sdata) || empty($Ukey)) {
 		if(empty($sdata)) $sdata = f_setKey('Sdata');
 		if(empty($Ukey)) $Ukey = f_setKey('Ukey');
@@ -22,6 +21,7 @@ if(is_writable(dirname(__FILE__).'/uno')) {
 		file_put_contents('uno/config.php', $out);
 		$Uversion = (isset($version)?$version:'1.0');
 	}
+	if(file_exists('uno/patch.php')) include('uno/patch.php');
 }
 include('uno/includes/lang/lang.php');
 if(!is_dir('uno/includes/js/ckeditor/')) $Udep = $Urawgit.$Uversion."/uno/"; // LIGHT HOSTED VERSION
@@ -161,7 +161,8 @@ else {
 			</ul>
 		</div>
 	</div><!-- .blocTop-->
-
+	<?php $init = (!file_exists('uno/data/busy.json')?1:0); ?>
+	
 	<div class="container">
 		<form name="login" class="blocLogin" method="POST" action="<?php if(empty($restore)) echo $home; ?>">
 			<input type="hidden" name="unox" value="<?php echo $unox; ?>" />
@@ -170,7 +171,7 @@ else {
 			<div class="clearfix">
 				<label><?php echo T_("Administrator");?></label>
 				<div>
-					<input type="text" class="input" name="user" id="username" />
+					<input type="text" class="input" name="user" id="username"<?php if(!empty($init)) echo ' placeholder="cmsuno"'; ?> />
 				</div>
 			</div>
 			<?php if(empty($restore)) { ?>
@@ -178,7 +179,7 @@ else {
 			<div class="clearfix">
 				<label><?php echo T_("Password");?></label>
 				<div>
-					<input type="password" class="input" name="pass" id="password" />
+					<input type="password" class="input" name="pass" id="password"<?php if(!empty($init)) echo ' placeholder="654321"'; ?> />
 				</div>
 			</div>
 			<div>

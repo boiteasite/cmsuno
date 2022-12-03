@@ -441,8 +441,10 @@ function f_get_site(f){
 			document.getElementById('tit').value=r.tit.replace(/\\/, '')||'';
 			document.getElementById('desc').value=r.desc.replace(/\\/, '')||'';
 			document.getElementById('nom').value=r.nom||'';
-			document.getElementById('url').value=r.url||'<?php echo (((!empty($_SERVER['HTTPS'])&&$_SERVER['HTTPS']!=='off')||$_SERVER['SERVER_PORT']==443)?'https':'http').'://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']); ?>';
-			var t=document.getElementById('tem'),to=t.options,v;
+			let h=window.location.href,i=h.indexOf('/uno.php');
+			h=(i!=-1?h.substr(0,i):'');
+			document.getElementById('url').value=r.url||h;
+			let t=document.getElementById('tem'),to=t.options,v;
 			for(v=0;v<to.length;v++){
 				if(to[v].value==r.tem){
 					to[v].selected=true;v=to.length;
