@@ -223,10 +223,8 @@ if(!isset($_POST['unox']) || $_POST['unox']!=$_SESSION['unox']) {sleep(2);exit;}
 include('../../config.php'); // Lang
 include('lang/lang.php');
 $Ubusy = (isset($_POST['ubusy'])?preg_replace("/[^A-Za-z0-9-_]/",'',$_POST['ubusy']):'');
-if (isset($_POST['action']))
-	{
-	switch ($_POST['action'])
-		{
+if (isset($_POST['action'])) {
+	switch ($_POST['action']) {
 		// ***********************
 		//"plugin" case is AJAX Call from CMSUno Core.
 		// ***********************
@@ -259,10 +257,10 @@ if (isset($_POST['action']))
 		else echo '!'.T_('Impossible backup');
 		break;
 		// ***********************
-		}
+	}
 	clearstatcache();
 	exit;
-	}
+}
 ?>
 ```
 
