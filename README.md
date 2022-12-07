@@ -421,6 +421,9 @@ Example of content :
 {"version":"1.0","host":"https://github.com/cmsunoPlugins/foo/"}
 ```
 
+You can host your plugin on your own GitHub account. Be sure to specify the address of your repository on this file.
+By adding a version number 'TAG' when publishing, the update will be directly available from CMSUno.
+
 ### Data ###
 
 CMSUno don't use MySQL but flat files in json. These files are stored in uno/data/. You can have different files for the same plugin.

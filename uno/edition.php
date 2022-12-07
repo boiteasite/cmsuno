@@ -407,7 +407,7 @@ function f_get_site(f){
 			b=document.createElement('ul');
 			b.id='menuSort';
 			b.className='ui-sortable';
-			for(let k in r.chap)if(r.chap.hasOwnProperty(k))(function(k){ 
+			for(let k in r.chap)(function(k){ 
 				let v=r.chap[k];
 				Upt[k]=v.t;
 				Upd[k]=v.d;
@@ -779,7 +779,7 @@ function f_plugins(){
 	document.getElementById('prePlugin').style.display='block';
 	f_managePlug(2);
 	a.innerHTML='';
-	for(let k in Upluglist)if(Upluglist.hasOwnProperty(k))(function(k){
+	for(let k in Upluglist)(function(k){
 		let v=Upluglist[k];
 		var b=document.createElement('span');
 		b.className='bouton';
@@ -891,12 +891,8 @@ function f_plugin_hook(){
 	fetch('uno/central.php',{method:'post',body:x})
 	.then(r=>r.json())
 	.then(function(r){
-		if(r.pl)for(let k in r.pl)if(r.pl.hasOwnProperty(k)){
-			Uplugact[k]=r.pl[k];
-		}
-		if(r.ck)for(let k in r.ck)if(r.ck.hasOwnProperty(k)){
-			UconfigFile[k]=r.ck[k];
-		}
+		if(r.pl)for(let k in r.pl)Uplugact[k]=r.pl[k];
+		if(r.ck)for(let k in r.ck)UconfigFile[k]=r.ck[k];
 	});
 }
 function f_plugAll(f,g){
@@ -1031,7 +1027,7 @@ function f_checkUpdate(){
 		a.innerHTML=d;
 		a.appendChild(c);
 		window.scrollTo(0,document.body.scrollHeight);
-		for(let k in Upluglist)if(Upluglist.hasOwnProperty(k))(function(k){
+		for(let k in Upluglist)(function(k){
 			let v=Upluglist[k];
 			if(v.substr(0,1)!='9'){
 				++b;
