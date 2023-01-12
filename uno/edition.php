@@ -1115,7 +1115,7 @@ f_init();
 <style>.picker-wrapper,.slide-wrapper{position:relative;float:left;}.picker-indicator,.slide-indicator{position:absolute;left:0;top:0;pointer-events:none;}.picker,.slide{cursor:crosshair;float:left;}.cp-small{padding:5px;background-color:white;float:left;border-radius:5px;}.cp-small .picker{width:100px;height:100px;}.cp-small .slide{width:15px;height:100px;}.cp-small .slide-wrapper{margin-left:5px;}.cp-small .picker-indicator{width:1px;height:1px;border:1px solid black;background-color:white;}.cp-small .slide-indicator{width:100%;height:2px;left:0px;background-color:black;}</style>
 <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $Udep; ?>includes/css/jquery-ui.css" />
 <link rel="stylesheet" type="text/css" media="screen" href="uno/includes/elfinder/css/elfinder.min.css" />
-<script type="text/javascript" src="<?php echo ($Udep=='uno/'?'uno/includes/js/jquery.min.js':'//ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo ($Udep=='uno/'?'uno/includes/js/jquery.min.js':'//ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo ($Udep=='uno/'?'uno/includes/js/jquery-ui.min.js':'//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'); ?>"></script>
 <script type="text/javascript" src="uno/includes/elfinder/js/elfinder.min.js"></script>
 <?php if($lang!='en' && $lang!='') echo '<script type="text/javascript" src="uno/includes/elfinder/js/i18n/elfinder.'.$lang.'.js"></script>'; ?>

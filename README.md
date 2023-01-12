@@ -445,7 +445,7 @@ License
 CMSUno is under MIT license.
 
 <pre>
-Copyright (c) 2014-2022 Jacques Malgrange
+Copyright (c) 2014-2023 Jacques Malgrange
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -470,155 +470,159 @@ THE SOFTWARE.
 Versions
 --------
 
-* V1.9 - 30/11/2022 :
+* 1.9.1 - 12/01/2023 :
+	* CKEditor 4.20.1
+	* jQuery 3.6.3
+	* Fix first login issue.
+* 1.9 - 30/11/2022 :
 	* Replacement of jQuery code with Vanilla JavaScript in the back-office. JQuery still available for finder and plugins. ES6 Browser (Update post 2016) is now needed in back-office. No change for the visitors of your site.
 	* Replace jQuery colorPicker with pure JavaScript colorPicker. Now, use  ```colorPick(".MySelector");```  in place of   ```jQuery('.MySelector').colorPicker();```
 	* Button to go back to the previous version of CMSUno (Previous Update).
 	* Displays the hourglass during the loading of the plugin display.
-* V1.8.1 - 13/10/2022 :
+* 1.8.1 - 13/10/2022 :
 	* CKEditor 4.20.0.
 	* Fix hidden activation checkbox.
 	* Remove password hashing script. PHP >= 5.5 is now require.
-* V1.8 - 26/09/2022 :
+* 1.8 - 26/09/2022 :
 	* Improved responsive display.
 	* Admin Password can be restored.
 	* Update HTML title and description size recommendations.
 	* Remove CSS prefixed properties (webkit...) no longer used.
 	* Fix some issues in cmsuno and uno1 theme.
 	* jQuery 3.6.1
-* V1.7.7 - 05/08/2022 :
+* 1.7.7 - 05/08/2022 :
 	* CKEditor 4.19.1
-* V1.7.6 - 28/04/2022 :
+* 1.7.6 - 28/04/2022 :
 	* ELFinder 2.1.61, CKEditor 4.18.0
-* V1.7.5 - 03/12/2021 :
+* 1.7.5 - 03/12/2021 :
 	* ELFinder 2.1.60, CKEditor 4.17.1
-* V1.7.4 - 11/10/2021 :
+* 1.7.4 - 11/10/2021 :
 	* Change update an resources URL : cdn.rawgit.com => cdn.jsdelivr.net.
 	* Add option to force embedded Gettext script.
 	* Fix issues.
-* V1.7.3 - 10/09/2021 :
+* 1.7.3 - 10/09/2021 :
 	* End support IE8.
 	* Fix vulnerability in user name change form.
-* V1.7.2 - 31/08/2021 :
+* 1.7.2 - 31/08/2021 :
 	* CKEditor 4.16.2.
 	* Remove "version number" in local JQuery file name :  jquery-3.6.0.min.js => jquery.min.js
-* V1.7.1 - 27/07/2021 :
+* 1.7.1 - 27/07/2021 :
 	* Fix XSS vulnerability in uno1 template.
 	* Add "confirm ?" to Delete Chapter button.
-* V1.7 - 21/06/2021 :
+* 1.7 - 21/06/2021 :
 	* ELFinder 2.1.59, CKEditor 4.16.1, jQuery 3.6.0
-* V1.6.3 - 29/09/2020 :
+* 1.6.3 - 29/09/2020 :
 	* Fix XSS vulnerability when user change password.
 	* ELFinder 2.1.57, CKEditor 4.15, jQuery 3.5.1
-* V1.6.2 - 21/06/2020 :
+* 1.6.2 - 21/06/2020 :
 	* Fix update issue when SSL certificate has expired.
-* V1.6.1 - 31/05/2020 :
+* 1.6.1 - 31/05/2020 :
 	* ELFinder 2.1.56
 	* Add CSRF Token on login form.
 	* Fix HTTPS issue.
-* V1.6 - 22/03/2020 :
+* 1.6 - 22/03/2020 :
 	* ELFinder 2.1.55, CKEditor 4.14, jQuery 3.4.1
 	* Add Umaster : Master page (not like Ubusy wich is active page). Used in multipage to get global plugin config.
-* V1.5.7 - 16/12/2019 :
+* 1.5.7 - 16/12/2019 :
 	* ELFinder 2.1.51, CKEditor 4.13.1
 	* Fix jumping up and down menu issue
-* V1.5.6 - 17/04/2019 :
+* 1.5.6 - 17/04/2019 :
 	* ELFinder 2.1.49, CKEditor 4.11.4
 	* Fix plugin buttons issue
-* V1.5.5 - 18/03/2019 :
+* 1.5.5 - 18/03/2019 :
 	* ELFinder 2.1.48, CKEditor 4.11.3
-* V1.5.4 - 21/11/2018 :
+* 1.5.4 - 21/11/2018 :
 	* ELFinder 2.1.42, CKEditor 4.11.1
-* V1.5.3 - 11/08/2018 :
+* 1.5.3 - 11/08/2018 :
 	* Fix persistent XSS vulnerability in title
 	* ELFinder 2.1.40, CKEditor 4.10.0, jQuery 3.3.1
-* V1.5.2 - 01/06/2018 :
+* 1.5.2 - 01/06/2018 :
 	* ID and CLASS allowed for all tags in CKEditor
 	* ELFinder 2.1.38
-* V1.5.1 - 28/04/2018 :
+* 1.5.1 - 28/04/2018 :
 	* Fix responsive issue in email template
 	* Add remove accents function
 	* ELFinder 2.1.37, CKEditor 4.9.2
-* V1.5 - 26/12/2017 :
+* 1.5 - 26/12/2017 :
 	* Add W3.CSS Fully Responsive Framework
 	* ELFinder 2.1.30, CKEditor 4.8
-* V1.4.6 - 08/10/2017 :
+* 1.4.6 - 08/10/2017 :
 	* Preloading (browser cache) ckeditor.js during login page
 	* Add password.php to use with 5.3 <= php < 5.5
 	* ELFinder 2.1.29, CKEditor 4.7.3
-* V1.4.5 - 03/09/2017 :
+* 1.4.5 - 03/09/2017 :
 	* jQuery 3.2.1, ELFinder 2.1.28, CKEditor 4.7.2
 	* improve uno_menu.js
-* V1.4.4 - 19/05/2017 :
+* 1.4.4 - 19/05/2017 :
 	* ELFinder 2.1.24 - echo.js 1.7.3
 	* Add mypluginCkeditor.js.php plugin file
-* V1.4.3 - 24/04/2017 :
+* 1.4.3 - 24/04/2017 :
 	* Fix issue in chapter menu : sortable not working
 	* Fix error on install
-* V1.4.2 - 07/03/2017 :
+* 1.4.2 - 07/03/2017 :
 	* ELFinder 2.1.22
 	* Add $Ukey in config.php
-* V1.4.1 - 18/02/2017 :
+* 1.4.1 - 18/02/2017 :
 	* ELFinder 2.1.21, CKEditor 4.6.2
 	* Fix PHP-gettext Warning
-* V1.4 - 02/01/2017 :
+* 1.4 - 02/01/2017 :
 	* jQuery 3.1.1, ELFinder 2.1.19, CKEditor 4.6.1
 	* Online install / remove plugins
-* V1.3.2 - 26/11/2016 :
+* 1.3.2 - 26/11/2016 :
 	* CKEditor 4.6
 	* Password hashed with BCRYPT (thanks to Christian Fiedler)
-* V1.3.1 - 14/10/2016 : Change GitHub download URL (update) for plugins
-* V1.3 - 27/09/2016 :
+* 1.3.1 - 14/10/2016 : Change GitHub download URL (update) for plugins
+* 1.3 - 27/09/2016 :
 	* CKEditor 4.5.11
 	* Use PHP-Gettext in place of gettext
 	* Fix ajax issue with some server
-* V1.2 - 27/05/2016 :
+* 1.2 - 27/05/2016 :
 	* CKEditor 4.5.9
 	* Add Uno hook in JS for the plugins
 	* Change GitHub download URL (update CMSUno) and use Curl if exists
-* V1.1.9 - 18/04/2016 :
+* 1.1.9 - 18/04/2016 :
 	* Cache in htaccess
 	* Fix bugs
-* V1.1.8 - 12/03/2016 :
+* 1.1.8 - 12/03/2016 :
 	* CKEditor 4.5.7
 	* ELFinder 2.0.6
 	* Fix bugs
-* V1.1.7 - 08/01/2016 :
+* 1.1.7 - 08/01/2016 :
 	* CKEditor 4.5.6
 	* Default theme uno1 customizable
 	* Fix bugs
-* V1.1.6 - 17/12/2015 :
+* 1.1.6 - 17/12/2015 :
 	* Inline CSS in mail template
 	* Add JS var $UstyleSm for small screens like smartphone (max-device-width: 480px)
 	* Fix bug in menu with IE8
 	* Add BR Clear button in CKEditor
-* V1.1.5 - 29/11/2015 :
+* 1.1.5 - 29/11/2015 :
 	* CKEditor 4.5.5
 	* Add submenu
 	* Fix bug with hourglass
 	* Update in light version if already lightened
-* V1.1.4 - 12/11/2015 :
+* 1.1.4 - 12/11/2015 :
 	* Offset menu setting
 	* Add theme customizing
 	* Add tinyColorPicker
-* V1.1.3 - 05/11/2015 :
+* 1.1.3 - 05/11/2015 :
 	* Loading speed improvement
 	* Add an icon on finder button
 	* Warning when change chapter without saving
-* V1.1.2 - 21/10/2015 : Offset in uno_menu : JS var Umenuoffset
-* V1.1.1 - 13/10/2015 : Chmod secure recursively sdata on login
-* V1.1 - 05/10/2015 :
+* 1.1.2 - 21/10/2015 : Offset in uno_menu : JS var Umenuoffset
+* 1.1.1 - 13/10/2015 : Chmod secure recursively sdata on login
+* 1.1 - 05/10/2015 :
       * CKEditor 4.5.3, ELFinder 2.0, JQuery 2.1.4, JQuery-UI 1.9.2.
       * Add Inline Update button for CMS and Plugins
-* V1.0 - 11/08/2015 : First stable version. CKEditor 4.5.2.
-* V0.9.27 beta - 09/08/2015 : Add Spanish.
-* V0.9.26 beta - 25/06/2015 : Safety improvement - phase two.
-* V0.9.25 beta - 23/06/2015 : Safety improvement - phase one. Add error registration system.
-* V0.9.24 beta - 19/06/2015 : Improved speed of 40%.
-* V0.9.23 beta - 15/06/2015 : Everywhere asynchronous ajax.
-* V0.9.22 beta - 13/06/2015 : Add U in make variables. Add makefile for template.
-* V0.9.21 beta - 12/06/2015 : Add a gif hourglass.
-* V0.9.20 beta - 31/05/2015 : Fix some bugs.
-* V0.9.19 beta - 22/05/2015 : CKEditor 4.4.7 with widget.
-* V0.9.18 beta - 19/05/2015 : Responsive menu.
+* 1.0 - 11/08/2015 : First stable version. CKEditor 4.5.2.
+* 0.9.27 beta - 09/08/2015 : Add Spanish.
+* 0.9.26 beta - 25/06/2015 : Safety improvement - phase two.
+* 0.9.25 beta - 23/06/2015 : Safety improvement - phase one. Add error registration system.
+* 0.9.24 beta - 19/06/2015 : Improved speed of 40%.
+* 0.9.23 beta - 15/06/2015 : Everywhere asynchronous ajax.
+* 0.9.22 beta - 13/06/2015 : Add U in make variables. Add makefile for template.
+* 0.9.21 beta - 12/06/2015 : Add a gif hourglass.
+* 0.9.20 beta - 31/05/2015 : Fix some bugs.
+* 0.9.19 beta - 22/05/2015 : CKEditor 4.4.7 with widget.
+* 0.9.18 beta - 19/05/2015 : Responsive menu.
 * CMSUno Version 0.9 beta - 26/10/2014
