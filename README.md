@@ -136,8 +136,8 @@ It adds a "add to cart" button to the editor.
 It adds a complete cart system with order registration, email sending, invoice in PDF, multi-tax, shipping cost, payment by cheque and by bank transfer.
 It can work with other payment plugin (Paypal, Payplug).
 Very usefull and powerfull.
-* [__Paypal__](https://github.com/cmsunoPlugins/paypal) : Very powerful. Adds a button in CKEditor to create  as many Paypal buttons as you need. Pay, Add to Cart, View Cart, Donate and Subscribe are available. Sales are checked and recorded with IPN return. Works also with digital goods and cart plugin.
-* [__Payplug__](https://github.com/cmsunoPlugins/payplug) : Like Paypal. Adds a button in CKEditor to create  as many Payplug buttons. More efficient and economical for sale by CB or Mastercard. Sales are checked and recorded with IPN return. Works also with digital goods and cart plugin.
+* [__Paypal__](https://github.com/cmsunoPlugins/paypal) : Paypal gateway in addition to the Payment plugin. Efficient, practical and economical. IPN return. Works also with digital goods.
+* [__Payplug__](https://github.com/cmsunoPlugins/payplug) : Payplug gateway in addition to the Payment plugin. Efficient and economical for sale by CB or Mastercard. IPN return. Works also with digital goods.
 * [__Pdf Creator__](https://github.com/cmsunoPlugins/pdf_creator) : Create PDF from CKEditor content. Custom Shortcode (name, phone...) to save time. Numerous options (page format, font, margin...). Very Usefull. Use [Mpdf](http://www.mpdf1.com/mpdf/index.php)
 * [__Scrollnav__](https://github.com/cmsunoPlugins/scrollnav) : Replaces the menu with a drop down menu which scrolled with the page. Use [Scrollnav](http://scrollnav.com/)
 * [__Sound player__](https://github.com/cmsunoPlugins/sound_player) : Adds a button in CKEditor to listen Self-Hosted musique on the site. Compatible with every browsers and supports.
