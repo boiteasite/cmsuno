@@ -3,7 +3,11 @@
  * PHP-Gettext
  * Version 1.0.12 - 2015-11-11
 */
-/*
+/* *****************************************
+ * MOD CMSUNO jan 2023 : PHP 8.2
+ *  - ${lang} => {$lang} lines 95 to 106
+ * *****************************************
+
    Copyright (c) 2005 Steven Armstrong <sa at c-area dot ch>
    Copyright (c) 2009 Danilo Segan <danilo@kvota.net>
 
@@ -92,18 +96,18 @@ function get_list_of_locales($locale) {
       if ($modifier) {
         if ($country) {
           if ($charset)
-            array_push($locale_names, "${lang}_$country.$charset@$modifier");
-          array_push($locale_names, "${lang}_$country@$modifier");
+            array_push($locale_names, "{$lang}_$country.$charset@$modifier");
+          array_push($locale_names, "{$lang}_$country@$modifier");
         } elseif ($charset)
-            array_push($locale_names, "${lang}.$charset@$modifier");
+            array_push($locale_names, "{$lang}.$charset@$modifier");
         array_push($locale_names, "$lang@$modifier");
       }
       if ($country) {
         if ($charset)
-          array_push($locale_names, "${lang}_$country.$charset");
-        array_push($locale_names, "${lang}_$country");
+          array_push($locale_names, "{$lang}_$country.$charset");
+        array_push($locale_names, "{$lang}_$country");
       } elseif ($charset)
-          array_push($locale_names, "${lang}.$charset");
+          array_push($locale_names, "{$lang}.$charset");
       array_push($locale_names, $lang);
     }
 
