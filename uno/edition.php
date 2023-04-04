@@ -13,7 +13,6 @@ function f_theme() {
 	closedir($d);
 }
 ?>
-
 <html lang="<?php echo $lang; ?>">
 <head>
 <meta charset="utf-8" />

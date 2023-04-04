@@ -1,11 +1,11 @@
 <?php
 // **********************************
 // CMSUno
-$version = '1.9.1';
-$previousVersion = '1.9';
+$version = '1.9.2';
+$previousVersion = '1.9.1';
 // **********************************
 // *** DEBUG MODE ***
-	//error_reporting(E_ALL); ini_set('display_errors',1);
+//	error_reporting(E_ALL); ini_set('display_errors',1);
 // ******************
 $lang = 'en';
 $Urawgit = 'https://cdn.jsdelivr.net/gh/boiteasite/cmsuno@';

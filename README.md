@@ -470,6 +470,8 @@ THE SOFTWARE.
 Versions
 --------
 
+* 1.9.2 - 04/04/2023 :
+	* CKEditor 4.21.0
 * 1.9.1 - 12/01/2023 :
 	* CKEditor 4.20.1
 	* jQuery 3.6.3
