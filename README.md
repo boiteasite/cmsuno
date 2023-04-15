@@ -222,7 +222,7 @@ session_start();
 if(!isset($_POST['unox']) || $_POST['unox']!=$_SESSION['unox']) {sleep(2);exit;} // appel depuis uno.php
 include('../../config.php'); // Lang
 include('lang/lang.php');
-$Ubusy = (isset($_POST['ubusy'])?preg_replace("/[^A-Za-z0-9-_]/",'',$_POST['ubusy']):'');
+$busy = (isset($_POST['ubusy'])?preg_replace("/[^A-Za-z0-9-_]/",'',$_POST['ubusy']):'index');
 if (isset($_POST['action'])) {
 	switch ($_POST['action']) {
 		// ***********************
@@ -247,13 +247,13 @@ if (isset($_POST['action'])) {
 		// Others cases are AJAX self-call via foo.js (see below).
 		// ***********************
 		case 'save': // IF NEEDED FOR SAVING CONFIG IN JSON FILE
-		$q = @file_get_contents('../../data/foo.json');
+		$q = @file_get_contents('../../data/'.$busy.'/foo.json'); // or '../../data/foo.json'
 		if($q) $a = json_decode($q,true);
 		else $a = Array();
 		$a['lol'] = $_POST['lol'];
 		$a['yeswecan'] = $_POST['yeswecan'];
 		$out = json_encode($a);
-		if (file_put_contents('../../data/foo.json', $out)) echo T_('Backup performed');
+		if (file_put_contents('../../data/'.$busy.'/foo.json', $out)) echo T_('Backup performed');
 		else echo '!'.T_('Impossible backup');
 		break;
 		// ***********************
@@ -283,6 +283,7 @@ function save_foo(){
 	let x=new FormData();
 	x.set('action','save');
 	x.set('unox',Unox);
+	x.set('ubusy',Ubusy);
 	x.set('lol',lol);
 	x.set('yeswecan',yeswecan);
 	fetch('uno/plugins/foo/foo.php',{method:'post',body:x})
@@ -290,7 +291,7 @@ function save_foo(){
 	.then(r=>f_alert(r));
 }
 function load_foo(){
-	fetch("uno/data/foo.json?r="+Math.random())
+	fetch("uno/data/"+Ubusy+"/foo.json?r="+Math.random()) // or "uno/data/foo.json?...
 	.then(r=>r.json())
 	.then(function(data){
 		if(data.lol!=undefined)document.getElementById('fooLol').value=data.lol;
@@ -470,6 +471,8 @@ THE SOFTWARE.
 Versions
 --------
 
+* 1.9.3 - 15/04/2023 :
+	* Fix Upluglist loading issue without JQuery
 * 1.9.2 - 04/04/2023 :
 	* CKEditor 4.21.0
 * 1.9.1 - 12/01/2023 :

@@ -710,13 +710,32 @@ if(isset($_POST['action'])) {
 		break;
 		// ********************************************************************************************
 		case 'onPlug':
+		// 1. Activate/unactivate
 		$q = file_get_contents('data/'.$Ubusy.'/site.json');
 		$a = json_decode($q,true);
-		if($_POST['c']=="true") $a['plug'][$_POST['n']]=1;
+		if($_POST['c']=="true") $a['plug'][$_POST['n']] = 1;
 		else if(isset($a['plug'][$_POST['n']])) unset($a['plug'][$_POST['n']]);
-		$b=$a['plug']; ksort($b); $a['plug']=$b;
+		$b = $a['plug']; ksort($b); $a['plug'] = $b;
 		$out = json_encode($a);
 		file_put_contents('data/'.$Ubusy.'/site.json', $out);
+		// 2. return new plugins list
+		$d = array();
+		if(is_dir('plugins') && $h=opendir('plugins')) {
+			while(false!==($f=readdir($h))) {
+				if($f!='.' && $f!='..' && is_dir('plugins/'.$f)) $d[] = $f;
+			}
+			closedir($h);
+		}		
+		sort($d);
+		$plugins = array();
+		foreach($d as $r) {
+			if(isset($a['plug'][basename($r)])) {
+				if(file_exists('plugins/'.basename($r).'/'.basename($r).'Hook.js')) $plugins[] = '2'.basename($r); // Hook JS
+				else $plugins[] = '1'.basename($r);
+			}
+			else $plugins[] = '0'.basename($r);
+		}
+		echo json_encode($plugins);
 		break;
 		// ********************************************************************************************
 		case 'checkUpdate':

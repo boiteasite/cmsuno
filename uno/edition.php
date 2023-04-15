@@ -258,7 +258,10 @@ function f_init(){
 		if(r['ck'])for(k in r['ck']){
 			UconfigFile[k]=r['ck'][k];
 		}
-		if(r['plugins'])f_load_plugin_hook(r['plugins']);
+		if(r['plugins']){
+			for(k in r['plugins'])Upluglist[k]=r['plugins'][k];
+			f_load_plugin_hook(r['plugins']);
+		}
 		else document.getElementById('actiBarPlugin').style.display=(Upluglist.length==0?'none':'block');
 		let b=document.createElement('ul');
 		b.id='menuSort';
@@ -378,7 +381,6 @@ function f_menuSort(){
 function f_load_plugin_hook(f){
 	if(window.jQuery){
 		for(k in f){
-			Upluglist[k]=f[k];
 			if(f[k].substr(0,1)=='2'){
 				j=document.createElement('script');
 				j.type='text/javascript';
@@ -874,7 +876,9 @@ function f_onPlug(f){
 	x.set('n',f.name);
 	x.set('c',f.checked);
 	fetch('uno/central.php',{method:'post',body:x})
+	.then(r=>r.json())
 	.then(function(r){
+		if(r.length)for(k in r)Upluglist[k]=r[k];
 		f_plugin_hook();
 	});
 	var t=((f.checked)?'1':'0')+f.name;
