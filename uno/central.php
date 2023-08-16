@@ -2,7 +2,7 @@
 session_start(); 
 if(!isset($_POST['unox']) || $_POST['unox']!=$_SESSION['unox']) {sleep(2);exit;} // appel depuis uno.php
 //
-$lazy = 1;
+$lazy = 0;
 include('config.php');
 include('includes/lang/lang.php');
 // $Urawgit = "https://cdn.rawgit.com/boiteasite/cmsuno/";
@@ -215,7 +215,7 @@ if(isset($_POST['action'])) {
 		echo strval($b).stripslashes($q); exit;
 		break;
 		// ********************************************************************************************
-		case 'sauveChap':
+		case 'saveChap':
 		$q = file_get_contents('data/'.$Ubusy.'/site.json');
 		$a = json_decode($q,true);
 		if(!empty($a['chap'])) {
@@ -232,7 +232,7 @@ if(isset($_POST['action'])) {
 		}
 		else $a['chap'] = array("d"=>"0","t"=>T_("Welcome"));
 		$a['pub'] = 1;
-		if(!isset($a['lazy'])) $a['lazy'] = 1; // default
+		if(!isset($a['lazy'])) $a['lazy'] = 0; // default
 		if(!isset($a['sty'])) $a['sty'] = 0; // default
 		if(!isset($a['edw'])) $a['edw'] = 960; // default
 		if(!isset($a['jq'])) $a['jq'] = 0; // default
@@ -243,7 +243,7 @@ if(isset($_POST['action'])) {
 		else echo '!'.T_('Impossible backup');
 		break;
 		// ********************************************************************************************
-		case 'sauvePlace':
+		case 'savePlace':
 		if(isset($_POST['chap']) && isset($_POST['place']) && $_POST['chap']!=$_POST['place']) {
 			$q = file_get_contents('data/'.$Ubusy.'/site.json');
 			$a = json_decode($q,true);
@@ -273,7 +273,16 @@ if(isset($_POST['action'])) {
 		else echo T_('No change');
 		break;
 		// ********************************************************************************************
-		case 'sauvePass':
+		case 'saveLang':
+		define('CMSUNO', 'cmsuno');
+		$l = preg_replace("/[^a-z]+/","",$_POST['lang']);
+		if(!empty($_POST['gt']) && $_POST['gt']=="true") $gt = 1; else $gt = 0;
+		$config = '<?php $lang = "'.$l.'"; $sdata = "'.$sdata.'"; $Ukey = "'.$Ukey.'"; $Uversion = "'.(isset($Uversion)?$Uversion:'1.0').'"; $forceGettext = '.$gt.'; ?>';
+		if(file_put_contents('config.php', $config)) echo T_('The language was changed');
+		else echo '!'.T_('Impossible backup');
+		break;
+		// ********************************************************************************************
+		case 'savePass':
 		define('CMSUNO', 'cmsuno');
 		include('password.php');
 		$a = filter_var(strip_tags($_POST['user']),FILTER_SANITIZE_EMAIL);
@@ -281,21 +290,13 @@ if(isset($_POST['action'])) {
 		$b = filter_var(strip_tags($_POST['pass']),FILTER_SANITIZE_URL);
 		$a0 = filter_var(strip_tags($_POST['user0']),FILTER_SANITIZE_URL);
 		$b0 = filter_var(strip_tags($_POST['pass0']),FILTER_SANITIZE_URL);
-		$l = preg_replace("/[^a-z]+/","",$_POST['lang']);
-		if(!empty($_POST['gt']) && $_POST['gt']=="true") $gt = 1; else $gt = 0;
 		if($a!=$_POST['user'] || $b!=$_POST['pass'] || $a0!=$_POST['user0'] || $b0!=$_POST['pass0']) {
 			echo '!'.T_('Wrong current elements'); exit;
 		}
 		else {
-			if($a0=='' || $b0=='') { // only lang
-				$config = '<?php $lang = "'.$l.'"; $sdata = "'.$sdata.'"; $Ukey = "'.$Ukey.'"; $Uversion = "'.(isset($Uversion)?$Uversion:'1.0').'"; $forceGettext = '.$gt.'; ?>';
-				if(file_put_contents('config.php', $config)) echo T_('The language was changed');
-				else echo '!'.T_('Impossible backup');
-			}
-			else if($a0===$user && password_verify($b0,$pass)) {
+			if($a0===$user && password_verify($b0,$pass)) {
 				$password = '<?php if(!defined(\'CMSUNO\')) exit(); $user = "'.$a.'"; $pass = \''.password_hash($b, PASSWORD_BCRYPT).'\'; ?>';
-				$config = '<?php $lang = "'.$l.'"; $sdata = "'.$sdata.'"; $Ukey = "'.$Ukey.'"; $Uversion = "'.(isset($Uversion)?$Uversion:'1.0').'"; $forceGettext = '.$gt.'; ?>';
-				if(file_put_contents('password.php', $password) && file_put_contents('config.php', $config)) echo T_('The login / password were changed');
+				if(file_put_contents('password.php', $password)) echo T_('The login / password were changed');
 				else echo '!'.T_('Impossible backup');
 			}
 			else {
@@ -304,7 +305,7 @@ if(isset($_POST['action'])) {
 		}
 		break;
 		// ********************************************************************************************
-		case 'sauveConfig':
+		case 'saveConfig':
 		$n = (($_POST['nom']!="")?preg_replace("/[^A-Za-z0-9-_]/",'',$_POST['nom']):'index');
 		while(substr($n,0,1)=="_") $n = substr($n,1);
 		if($Ubusy!=$n && $n!="") {
@@ -344,7 +345,7 @@ if(isset($_POST['action'])) {
 		else echo '!'.T_('Impossible backup');
 		break;
 		// ********************************************************************************************
-		case 'nouvChap':
+		case 'newChap':
 		$q = file_get_contents('data/'.$Ubusy.'/site.json');
 		$a= json_decode($q,true);
 		$d = 0;
@@ -362,7 +363,7 @@ if(isset($_POST['action'])) {
 		else echo '!'.T_('Failure');
 		break;
 		// ********************************************************************************************
-		case 'suppChap':
+		case 'delChap':
 		$q = file_get_contents('data/'.$Ubusy.'/site.json');
 		$a = json_decode($q,true);
 		foreach($a['chap'] as $k=>$v) {
@@ -380,7 +381,7 @@ if(isset($_POST['action'])) {
 		break;
 		// ********************************************************************************************
 		// SHORTCODE [[foo]] : title, description, template, head, foot, menu, jsmenu, content
-		case 'publier':
+		case 'publish':
 		$Uhead = ''; $Ufoot = ''; $Uonload = ''; $Ucontent = ''; $Ustyle = '.blocChap{clear:both}'."\r\n"; $UstyleSm = ''; $Uw3 = array();
 		$Uscript = ''; $Umenu = ''; $Ujsmenu = '<script type="text/javascript" src="'.$Udep.'includes/js/uno_menu.js"></script>'."\r\n";
 		$unoPop=0; // Include JS files
@@ -408,6 +409,9 @@ if(isset($_POST['action'])) {
 		foreach($Ua['chap'] as $k=>$v) {
 			if(empty($Ua['chap'][$k]['od'])) {
 				$c = file_get_contents('data/'.$Ubusy.'/chap'.$v['d'].'.txt');
+				if(empty($Ua['lazy']) && stripos($c,'loading="lazy"')===false && stripos($c,"loading='lazy'")===false) {
+					$c = str_replace('<img', '<img loading="lazy"', $c);
+				}
 				$w = remove_accents($v['t']);
 				$w = preg_replace('/[^a-zA-Z0-9%]/s','',$w);
 				$Ucontent .= '<div id="'.$w.'BlocChap" class="blocChap '.(isset($Uw3['Uno']['w3-section'])?$Uw3['Uno']['w3-section']:'w3-section').'">'."\r\n";
@@ -457,7 +461,7 @@ if(isset($_POST['action'])) {
 		$u = dirname($_SERVER['PHP_SELF']).'/../';
 		$Ucontent = str_replace($u,'',$Ucontent);
 		if(!empty($Ua['jq'])) {
-			$Uhead .= '<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>'."\r\n";
+			$Uhead .= '<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>'."\r\n";
 			if($Udep=='uno/') $Uhead .= '<script type="text/javascript">window.jQuery || document.write(\'<script src="uno/includes/js/jquery.min.js">\x3C/script>\')</script>'."\r\n";
 			$Uhead .= '<script type="text/javascript" src="'.$Udep.'includes/js/jquery-migrate-1.4.1.min.js"></script>'."\r\n";
 		}
@@ -540,7 +544,7 @@ if(isset($_POST['action'])) {
 		file_put_contents('data/error.json', $out);
 		break;
 		// ********************************************************************************************
-		case 'suppPub':
+		case 'delPub':
 		$q = file_get_contents('data/'.$Ubusy.'/site.json');
 		$Ua = json_decode($q,true);
 		if(file_exists('../'.$Ua['nom'].'.html')) {

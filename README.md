@@ -471,6 +471,12 @@ THE SOFTWARE.
 Versions
 --------
 
+* 1.9.4 - 16/08/2023 :
+	* CKEditor 4.22.1
+	* ELFinder 2.1.62
+	* jQuery 3.7.0
+	* Fix lang setting issue
+	* Add Loading attribute "lazy" by default to all images from ckeditor content.
 * 1.9.3 - 15/04/2023 :
 	* Fix Upluglist loading issue without JQuery
 * 1.9.2 - 04/04/2023 :

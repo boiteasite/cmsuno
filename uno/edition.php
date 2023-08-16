@@ -8,8 +8,9 @@ if(file_exists(dirname(__FILE__).'/../files/archive.zip')) unlink(dirname(__FILE
 function f_theme() {
 	// liste des themes dans un select
 	$t = "uno/template/";
+	if(file_exists($t.'uno1/template.html')) echo '<option value="uno1">uno1</option>';
 	$d = opendir($t);
-	while(($f = readdir($d))!==false) { if(is_dir($t.$f) && file_exists($t.$f.'/template.html') && $f!="." && $f!="..") echo '<option value="'.$f.'">'.$f.'</option>'; }
+	while(($f = readdir($d))!==false) { if(is_dir($t.$f) && file_exists($t.$f.'/template.html') && $f!="." && $f!=".." && $f!='uno1') echo '<option value="'.$f.'">'.$f.'</option>'; }
 	closedir($d);
 }
 ?>
@@ -47,7 +48,7 @@ function f_theme() {
 	<div id="chaps" class="container">
 		<div class="blocBouton">
 			<div class="bouton finder fr" id="boutonFinder0" onClick="f_elfinder(0)" title="<?php echo T_("File manager");?>"><img src="<?php echo $Udep; ?>includes/img/finder.png" /></div>
-			<div class="bouton fr" onClick="f_publier();" title="<?php echo T_("Publish on the web all saved chapters");?>"><?php echo T_("Publish");?></div>
+			<div class="bouton fr" onClick="f_publish();" title="<?php echo T_("Publish on the web all saved chapters");?>"><?php echo T_("Publish");?></div>
 			<div id="menu"></div>
 		</div>
 		<div id="finderDiv"></div>
@@ -58,16 +59,16 @@ function f_theme() {
 		</div>
 		<div class="blocBouton" style="text-align:right;">
 			<div id="optOnOff" class="onoff" onClick="f_chapOption(this);"></div>
-			<div class="bouton fl" onClick="f_supp_chap();" title="<?php echo T_("Remove this chapter and title");?>"><?php echo T_("Delete Chapter");?></div>
+			<div class="bouton fl" onClick="f_del_chap();" title="<?php echo T_("Remove this chapter and title");?>"><?php echo T_("Delete Chapter");?></div>
 			<span class="blocInput fl">
 				<label class="label"><?php echo T_("Chapter title");?>&nbsp;:</label>
 				<input type="text" id="titreChap" name="titre" class="input" style="" />
 			</span>
-			<div class="bouton" onClick="f_nouv_chap();" title="<?php echo T_("Inserts a chapter after this one. Have you saved ?");?>"><?php echo T_("New chapter");?></div>
-			<div class="bouton" id="boutonSauv" onClick="f_sauve_chap();" title="<?php echo T_("Save this chapter and title");?>"><?php echo T_("Save Chapter");?></div>
-			<div class="bouton" id="boutonPub" onClick="f_publier();" title="<?php echo T_("Publish on the web all saved chapters");?>"><?php echo T_("Publish");?></div>
+			<div class="bouton" onClick="f_new_chap();" title="<?php echo T_("Inserts a chapter after this one. Have you saved ?");?>"><?php echo T_("New chapter");?></div>
+			<div class="bouton" id="boutonSauv" onClick="f_save_chap();" title="<?php echo T_("Save this chapter and title");?>"><?php echo T_("Save Chapter");?></div>
+			<div class="bouton" id="boutonPub" onClick="f_publish();" title="<?php echo T_("Publish on the web all saved chapters");?>"><?php echo T_("Publish");?></div>
 			<div id="chapOpt" class="chapOpt" style="position:relative;display:none;text-align:left;clear:both;">
-				<div class="bouton fr" onClick="f_suppPub();" title="<?php echo T_("Destroy the HTML file of this page (not the data)");?>"><?php echo T_("Delete Publication");?></div>
+				<div class="bouton fr" onClick="f_delPub();" title="<?php echo T_("Destroy the HTML file of this page (not the data)");?>"><?php echo T_("Delete Publication");?></div>
 				<div style="padding-top:12px;">
 					<label><?php echo T_("No Title");?></label><input type="checkbox" class="input" name="optTit" id="optTit" />
 					<label><?php echo T_("Not in menu");?></label><input type="checkbox" class="input" name="optMenu" id="optMenu" />
@@ -79,7 +80,7 @@ function f_theme() {
 	</div><!-- .container -->
 	<div id="config" class="container" style="display:none;">
 		<div class="blocForm">
-			<div class="bouton fr" onClick="f_publier();" title="<?php echo T_("Publish on the web all saved chapters");?>"><?php echo T_("Publish");?></div>
+			<div class="bouton fr" onClick="f_publish();" title="<?php echo T_("Publish on the web all saved chapters");?>"><?php echo T_("Publish");?></div>
 			<h2><?php 
 			echo T_("My Card"); ?></h2>
 			<table class="hForm">
@@ -117,9 +118,9 @@ function f_theme() {
 			<h2><?php echo T_("Options");?></h2>
 			<table class="hForm">
 				<tr>
-					<td><label><?php echo T_("LazyLoad");?></label></td>
+					<td><label>JS <?php echo T_("LazyLoad");?></label></td>
 					<td><input type="checkbox" class="input" name="lazy" id="lazy" /></td>
-					<td><em><?php echo T_("Dynamic images loading. (recommended)");?></em></td>
+					<td><em><?php echo T_("Dynamic images loading via JS. (Lazyload is already activated via HTML. Recommended for old browsers)");?></em></td>
 				</tr><tr>
 					<td><label><?php echo T_("Load w3.css");?></label></td>
 					<td><input type="checkbox" class="input" name="w3" id="w3" /></td>
@@ -134,15 +135,15 @@ function f_theme() {
 					<td><em><?php echo T_("Same styles in the editor and page. Ref");?> : <span style='font-weight:700'>style.css</span> <?php echo T_("or");?> <span style='font-weight:700'>styles.css</span> <?php echo T_("in");?> <span style='font-weight:700'>template/</span> <?php echo T_("or");?> <span style='font-weight:700'>template/css/</span>.</em></td>
 				</tr><tr>
 					<td><label><?php echo T_("Width page");?> (px)</label></td>
-					<td><input type="text" class="input" name="edw" id="edw" style="width:50px;" maxlength="4" onkeypress="return f_nombre(event)"/></td>
+					<td><input type="text" class="input" name="edw" id="edw" style="width:50px;" maxlength="4" onkeypress="return f_number(event)"/></td>
 					<td><em><?php echo T_("Adapt the editor width with the observed width of the HTML page. (960 by default)");?></em></td>
 				</tr><tr>
 					<td><label><?php echo T_("Menu offset");?> (px)</label></td>
-					<td><input type="text" class="input" name="ofs" id="ofs" style="width:50px;" maxlength="4" onkeypress="return f_nombre(event)"/></td>
+					<td><input type="text" class="input" name="ofs" id="ofs" style="width:50px;" maxlength="4" onkeypress="return f_number(event)"/></td>
 					<td><em><?php echo T_("Margin height upon arrival on a chapter after clicking on the menu (0 by default)");?></em></td>
 				</tr>
 			</table>
-			<div class="bouton fr" id="boutonConfig" onClick="f_sauve_config();" title="<?php echo T_("Saves settings");?>"><?php echo T_("Save");?></div>
+			<div class="bouton fr" id="boutonConfig" onClick="f_save_config();" title="<?php echo T_("Saves settings");?>"><?php echo T_("Save");?></div>
 			<div class="clear"></div>
 		</div>
 		<div class="blocBouton">
@@ -176,7 +177,7 @@ function f_theme() {
 					<td><em><?php echo T_("Force the use of the GETTEXT module of CMSUNO (not recommended if PHP-Gettext works)");?></em></td>
 				</tr>
 			</table>
-			<div class="bouton fr" id="boutonPass" onClick="f_sauve_pass();" title="<?php echo T_("Save");?>"><?php echo T_("Save");?></div>
+			<div class="bouton fr" id="boutonPass" onClick="f_save_lang();" title="<?php echo T_("Save");?>"><?php echo T_("Save");?></div>
 			<div class="clear"></div>
 			<h2><?php echo T_("Change User / Password");?></h2>
 			<table class="hForm">
@@ -206,7 +207,7 @@ function f_theme() {
 					<td><em><?php echo T_("Check. Re-enter the password.");?></em></td>
 				</tr>
 			</table>
-			<div class="bouton fr" id="boutonPass" onClick="f_sauve_pass();" title="<?php echo T_("Save password");?>"><?php echo T_("Save");?></div>
+			<div class="bouton fr" id="boutonPass" onClick="f_save_pass();" title="<?php echo T_("Save password");?>"><?php echo T_("Save");?></div>
 			<div class="clear"></div>
 		</div>
 		<div class="blocForm">
@@ -220,7 +221,7 @@ function f_theme() {
 			<div id="plugOnOff" class="onoff" onClick="f_plugAll(this);"></div>
 			<div class="bouton finder fr" id="boutonFinder1" onClick="f_elfinder(1)" title="<?php echo T_("File manager");?>"><img src="<?php echo $Udep; ?>includes/img/finder.png" /></div>
 			<div class="bouton managePlug fr" id="boutonManagePlug" onClick="f_managePlug(0)" title="<?php echo T_("Add or remove plugins");?>"><img src="<?php echo $Udep; ?>includes/img/plugin.png" /></div>
-			<div class="bouton fr" onClick="f_publier();" title="<?php echo T_("Publish on the web all saved chapters");?>"><?php echo T_("Publish");?></div>
+			<div class="bouton fr" onClick="f_publish();" title="<?php echo T_("Publish on the web all saved chapters");?>"><?php echo T_("Publish");?></div>
 			<div id="listPlugins"></div>
 		</div>
 		<div id="finder1"></div>
@@ -251,7 +252,6 @@ function f_init(){
 		Utem=r['tem'];
 		if(Usty==0||!Utem)CKEDITOR.replace('content');
 		else CKEDITOR.replace('content',{contentsCss:['uno/template/'+Utem+'/style.css','uno/template/'+Utem+'/styles.css','uno/template/'+Utem+'/css/style.css','uno/template/'+Utem+'/css/style.css']});
-	//	CKEDITOR.on('instanceReady',function(e){document.getElementById('wait').style.display='none';});
 		if(r['pl'])for(k in r['pl']){
 			Uplugact[k]=r['pl'][k];
 		}
@@ -300,7 +300,6 @@ function f_init(){
 		.then(function(s){
 			if(s.length<3)s+='-';
 			let a=s.substr(0,1);
-		//	document.getElementById('wait').style.display='block';
 			CKEDITOR.instances['content'].setData(s.substr(1),function(){document.getElementById('wait').style.display='none';});
 			CKEDITOR.instances['content'].on('change',function(){
 				if(Udg==4){
@@ -343,10 +342,10 @@ function f_menuSort(){
 		margin(io);
 		e.preventDefault();
 	}
-	const sauvePlace=(e)=>{
+	const savePlace=(e)=>{
 		margin(-1);
 		let x=new FormData();
-		x.set('action','sauvePlace');
+		x.set('action','savePlace');
 		x.set('unox',Unox);
 		x.set('chap',Up);
 		x.set('place',io);
@@ -374,7 +373,7 @@ function f_menuSort(){
 		}
 		else{
 			c.addEventListener('dragover',dragOver)
-			c.addEventListener('drop',sauvePlace) 
+			c.addEventListener('drop',savePlace) 
 		}
 	}
 }
@@ -484,9 +483,9 @@ function f_get_chap(f){
 		document.getElementById('boutonSauv').className='bouton';
 	});
 }
-function f_sauve_chap(){
+function f_save_chap(){
 	let x=new FormData();
-	x.set('action','sauveChap');
+	x.set('action','saveChap');
 	x.set('unox',Unox);
 	x.set('chap',Up);
 	x.set('data',Upd[Up]);
@@ -505,9 +504,9 @@ function f_sauve_chap(){
 		Uch=0;
 	});
 }
-function f_sauve_config(){
+function f_save_config(){
 	let nom=document.getElementById('nom').value,x=new FormData();
-	x.set('action','sauveConfig');
+	x.set('action','saveConfig');
 	x.set('unox',Unox);
 	x.set('tit',document.getElementById('tit').value);
 	x.set('desc',document.getElementById('desc').value);
@@ -528,14 +527,29 @@ function f_sauve_config(){
 		if(nom.length>0)document.getElementById('avoir').href=nom+'.html';
 	});
 }
-function f_sauve_pass(){
+function f_save_lang(){
+	let x=new FormData();
+	x.set('action','saveLang');
+	x.set('unox',Unox);
+	x.set('lang',document.getElementById('lang').options[document.getElementById('lang').selectedIndex].value);
+	x.set('gt',document.getElementById('gt').checked);
+	fetch('uno/central.php',{method:'post',body:x})
+	.then(r=>r.text())
+	.then(function(r){
+		f_alert(r);
+		if(r.substr(0,1)!="!")setTimeout(function(){
+			location.reload();
+		},1000);
+	});
+}
+function f_save_pass(){
 	if(document.getElementById('user0').value.length>0||document.getElementById('pass0').value.length>0||document.getElementById('user').value.length>0||document.getElementById('pass').value.length>0){
 		if(document.getElementById('user0').value.length<1||document.getElementById('pass0').value.length<1){
 			f_alert('!<?php echo T_("Current elements are missing");?>');
 			return;
 		}
 		if(document.getElementById('user').value.length<4){
-			f_alert('!<?php echo T_("Too short name");?>');
+			f_alert('!<?php echo T_("Too short name");?>'+document.getElementById('user').value.length);
 			return;
 		}
 		if(document.getElementById('pass').value!=document.getElementById('pass1').value){
@@ -548,14 +562,12 @@ function f_sauve_pass(){
 		}
 	}
 	let x=new FormData();
-	x.set('action','sauvePass');
+	x.set('action','savePass');
 	x.set('unox',Unox);
 	x.set('user0',document.getElementById('user0').value);
 	x.set('pass0',document.getElementById('pass0').value);
 	x.set('user',document.getElementById('user').value);
 	x.set('pass',document.getElementById('pass').value);
-	x.set('lang',document.getElementById('lang').options[document.getElementById('lang').selectedIndex].value);
-	x.set('gt',document.getElementById('gt').checked);
 	fetch('uno/central.php',{method:'post',body:x})
 	.then(r=>r.text())
 	.then(function(r){
@@ -565,9 +577,9 @@ function f_sauve_pass(){
 		},1000);
 	});
 }
-function f_nouv_chap(){
+function f_new_chap(){
 	let x=new FormData();
-	x.set('action','nouvChap');
+	x.set('action','newChap');
 	x.set('unox',Unox);
 	x.set('chap',Up);
 	fetch('uno/central.php',{method:'post',body:x})
@@ -578,10 +590,10 @@ function f_nouv_chap(){
 		f_get_site(1);
 	});
 }
-function f_supp_chap(){
+function f_del_chap(){
 	if(confirm("<?php echo T_("Delete Chapter"); ?> ?")){
 		let x=new FormData();
-		x.set('action','suppChap');
+		x.set('action','delChap');
 		x.set('unox',Unox);
 		x.set('chap',Up);
 		fetch('uno/central.php',{method:'post',body:x})
@@ -594,10 +606,10 @@ function f_supp_chap(){
 		});
 	}
 }
-function f_publier(){
+function f_publish(){
 	document.getElementById('wait').style.display='block';
 	let x=new FormData();
-	x.set('action','publier');
+	x.set('action','publish');
 	x.set('unox',Unox);
 	fetch('uno/central.php',{method:'post',body:x})
 	.then(r=>r.text())
@@ -606,9 +618,9 @@ function f_publier(){
 		f_alert(r);
 	});
 }
-function f_suppPub(){
+function f_delPub(){
 	let x=new FormData();
-	x.set('action','suppPub');
+	x.set('action','delPub');
 	x.set('unox',Unox);
 	fetch('uno/central.php',{method:'post',body:x})
 	.then(r=>r.text())
@@ -1004,7 +1016,7 @@ function f_plugDel(f){
 		});
 	}
 }
-function f_nombre(e){
+function f_number(e){
 	var c=(e.which)?e.which:event.keyCode;
 	if(c>31&&(c<48||c>57))return false;
 	return true;
@@ -1118,7 +1130,7 @@ f_init();
 <style>.picker-wrapper,.slide-wrapper{position:relative;float:left;}.picker-indicator,.slide-indicator{position:absolute;left:0;top:0;pointer-events:none;}.picker,.slide{cursor:crosshair;float:left;}.cp-small{padding:5px;background-color:white;float:left;border-radius:5px;}.cp-small .picker{width:100px;height:100px;}.cp-small .slide{width:15px;height:100px;}.cp-small .slide-wrapper{margin-left:5px;}.cp-small .picker-indicator{width:1px;height:1px;border:1px solid black;background-color:white;}.cp-small .slide-indicator{width:100%;height:2px;left:0px;background-color:black;}</style>
 <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $Udep; ?>includes/css/jquery-ui.css" />
 <link rel="stylesheet" type="text/css" media="screen" href="uno/includes/elfinder/css/elfinder.min.css" />
-<script type="text/javascript" src="<?php echo ($Udep=='uno/'?'uno/includes/js/jquery.min.js':'//ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo ($Udep=='uno/'?'uno/includes/js/jquery.min.js':'//ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo ($Udep=='uno/'?'uno/includes/js/jquery-ui.min.js':'//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'); ?>"></script>
 <script type="text/javascript" src="uno/includes/elfinder/js/elfinder.min.js"></script>
 <?php if($lang!='en' && $lang!='') echo '<script type="text/javascript" src="uno/includes/elfinder/js/i18n/elfinder.'.$lang.'.js"></script>'; ?>

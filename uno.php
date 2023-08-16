@@ -1,8 +1,8 @@
 <?php
 // **********************************
 // CMSUno
-$version = '1.9.3';
-$previousVersion = '1.9.2';
+$version = '1.9.4';
+$previousVersion = '1.9.3';
 // **********************************
 // *** DEBUG MODE ***
 //	error_reporting(E_ALL); ini_set('display_errors',1);
