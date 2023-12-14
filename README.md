@@ -125,6 +125,7 @@ Use [NivoSlider](https://github.com/gilbitron/Nivo-Slider),
 * [__Fixed layout__](https://github.com/cmsunoPlugins/fixed_layout) : This plugin allows to create a page with a fixed background that changes with scrolling. Inspired by [Jquery Fixed Scroll Background](https://github.com/ebaumstarck/JqueryFixedScrollBackground).
 * [__Googlemap__](https://github.com/cmsunoPlugins/googlemap) : Adds a button in CKEditor to insert one or more Google-Map in your page.
 * [__Image size__](https://github.com/cmsunoPlugins/image_size) : Automatic resizing of images added to your page to fit the display, optimize loading and improve SEO.
+* [__Invoice__](https://github.com/cmsunoPlugins/invoice) : Allows you to create an invoice with one or more predefined formats. PDF output. Can be used from another plugin for automatic emailing.
 * [__LeafletMap__](https://github.com/cmsunoPlugins/leafletmap) : Add OpenStreetMap maps to your site to view a location or a GPX track.
 * [__Markdown__](https://github.com/cmsunoPlugins/markdown) : Allows you to display the formatted content of one or more MarkDown files in your page. It works with a shortcode and uses Parsedown.php to parse the markdown. Different CSS formats are availables. The wordpress format is also parsed. Allows to create a comprehensive system of paying plugin download with the appearance of wordpress.org.
 * [__Multipage__](https://github.com/cmsunoPlugins/multipage) :  This plugin allows you to create and manage multiple pages in CMSUno. Drag and Drop Menu Manager. Simple and practical for a complete website.
