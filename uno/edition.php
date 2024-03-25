@@ -20,7 +20,7 @@ function f_theme() {
 <meta name="robots" content="noindex" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
 <title>CMSUno</title>
-<script type="text/javascript" src="<?php echo $Udep; ?>includes/js/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="<?php echo $Udep; ?>includes/js/ckeditor/ckeditor.js" id="ckloadscr"></script>
 <link rel="icon" type="image/png" href="<?php echo $Udep; ?>includes/img/favicon.png" />
 <link rel="stylesheet" href="<?php echo $Udep; ?>includes/css/uno.css" />
 <style type="text/css">
@@ -238,7 +238,7 @@ function f_theme() {
 	</div><!-- .container -->
 	
 <script type="text/javascript">
-var Up=0,Udg=0,Usty=0,Uini=0,Utem=false,Uplug='',Uplugon=0,Unox='<?php echo $unox; ?>',Udep='<?php echo $Udep; ?>',Upt=[],Upd=[],Uplugact=[],Upluglist=[],UconfigFile=[],Ulang='<?php echo $lang; ?>',UconfigNum=0,Ubusy='',Uch=0;
+let Up=0,Udg=0,Usty=0,Uini=0,Utem=false,Uplug='',Uplugon=0,Unox='<?php echo $unox; ?>',Udep='<?php echo $Udep; ?>',Upt=[],Upd=[],Uplugact=[],Upluglist=[],UconfigFile=[],Ulang='<?php echo $lang; ?>',UconfigNum=0,Ubusy='',Uch=0;
 function f_init(){
 	let x=new FormData();
 	x.set('action','init');
@@ -398,7 +398,7 @@ function f_get_site(f){
 	fetch('uno/central.php',{method:'post',body:x})
 	.then(r=>r.json())
 	.then(function(r){
-		var a=document.getElementById('menu'),b;
+		let a=document.getElementById('menu'),b,k;
 		Ubusy=r.nom;
 		Usty=r.sty;
 		Utem=r.tem;
@@ -407,11 +407,11 @@ function f_get_site(f){
 			b=document.createElement('ul');
 			b.id='menuSort';
 			b.className='ui-sortable';
-			for(let k in r.chap)(function(k){ 
+			for(k in r.chap)(function(k){ 
 				let v=r.chap[k];
 				Upt[k]=v.t;
 				Upd[k]=v.d;
-				var c=document.createElement('li');
+				let c=document.createElement('li');
 				if(k==Up)c.className='bouton current off';
 				else{
 					c.className='bouton unsort';
@@ -711,7 +711,7 @@ function f_selectArchive(){
 	});
 }
 function f_logout(){
-	var a=document.getElementById('info'),b=document.createElement('form'),c=document.createElement('input');
+	let a=document.getElementById('info'),b=document.createElement('form'),c=document.createElement('input');
 	b.method='POST';
 	b.action='';
 	c.name='logout';
@@ -759,7 +759,7 @@ function f_config(){
 	document.getElementById('wait').style.display='none';
 }
 function f_chapOption(f){
-	var a=document.getElementById('chapOpt'),b;
+	let a=document.getElementById('chapOpt'),b;
 	if(a.style.display=='none'){
 		b='block';
 		f.className='onoff all';
@@ -772,7 +772,7 @@ function f_chapOption(f){
 	window.scrollTo(0,document.body.scrollHeight);
 }
 function f_archOption(f){
-	var a=document.getElementById('archOpt'),b;
+	let a=document.getElementById('archOpt'),b;
 	if(a.style.display=='none'){
 		b='block';
 		f.className='onoff all';
@@ -785,16 +785,15 @@ function f_archOption(f){
 }
 function f_plugins(){
 	Up=-1;
-	var a=document.getElementById('listPlugins');
+	let a=document.getElementById('listPlugins'),k;
 	document.getElementById('config').style.display='none';
 	document.getElementById('chaps').style.display='none';
 	document.getElementById('plugins').style.display='block';
 	document.getElementById('prePlugin').style.display='block';
 	f_managePlug(2);
 	a.innerHTML='';
-	for(let k in Upluglist)(function(k){
-		let v=Upluglist[k];
-		var b=document.createElement('span');
+	for(k in Upluglist)(function(k){
+		let v=Upluglist[k],b=document.createElement('span');
 		b.className='bouton';
 		b.id='p'+v.substr(1);
 		b.onclick=function(){
@@ -811,7 +810,7 @@ function f_plugins(){
 }
 function f_plugin(f){
 	document.getElementById('wait').style.display='block';
-	var a=document.getElementById('listPlugins'),d,v,c;
+	let a=document.getElementById('listPlugins'),d,v,c;
 	if(f==0){
 		f_plugins();
 		document.getElementById('apage').style.textDecoration='none';
@@ -893,21 +892,21 @@ function f_onPlug(f){
 		if(r.length)for(k in r)Upluglist[k]=r[k];
 		f_plugin_hook();
 	});
-	var t=((f.checked)?'1':'0')+f.name;
+	let t=((f.checked)?'1':'0')+f.name;
 	document.getElementById('p'+f.name).onclick=function(){
 		f_plugin(t);
 	};
 	if(document.getElementById('plugOnOff').className.search('all')==-1)document.getElementById('p'+f.name).style.display=((f.checked)?'inline-block':'none');
 }
 function f_plugin_hook(){
-	let x=new FormData();
+	let x=new FormData(),k;
 	x.set('action','pluginsActifs');
 	x.set('unox',Unox);
 	fetch('uno/central.php',{method:'post',body:x})
 	.then(r=>r.json())
 	.then(function(r){
-		if(r.pl)for(let k in r.pl)Uplugact[k]=r.pl[k];
-		if(r.ck)for(let k in r.ck)UconfigFile[k]=r.ck[k];
+		if(r.pl)for(k in r.pl)Uplugact[k]=r.pl[k];
+		if(r.ck)for(k in r.ck)UconfigFile[k]=r.ck[k];
 	});
 }
 function f_plugAll(f,g){
@@ -928,17 +927,17 @@ function f_plugAll(f,g){
 	}
 }
 function f_ctit(f){
-	var a=document.getElementById('ctit');
+	let a=document.getElementById('ctit');
 	a.style.color=(f.value.length>60?'red':'green');
 	a.innerHTML=f.value.length;
 }
 function f_cdesc(f){
-	var a=document.getElementById('cdesc');
+	let a=document.getElementById('cdesc');
 	a.style.color=(f.value.length>160?'red':'green');
 	a.innerHTML=f.value.length;
 }
 function f_elfinder(f){
-	var a=document.getElementById('finderDiv');
+	let a=document.getElementById('finderDiv');
 	if(f==1)jQuery('#finderDiv').appendTo(jQuery('#finder1'));
 	if(a.style.display=='none'){
 		jQuery('#finderDiv').elfinder('open');
@@ -963,7 +962,7 @@ function f_finder_select(f){
 	}});
 }
 function f_managePlug(f){
-	var a=document.getElementById('managePlug'),b=document.getElementById('prePlugin'),c=document.getElementById('plugin');
+	let a=document.getElementById('managePlug'),b=document.getElementById('prePlugin'),c=document.getElementById('plugin');
 	if(f!=2&&(a.style.display=='none'||f==1)){
 		let x=new FormData();
 		x.set('action','pluglist');
@@ -1017,7 +1016,7 @@ function f_plugDel(f){
 	}
 }
 function f_number(e){
-	var c=(e.which)?e.which:event.keyCode;
+	let c=(e.which)?e.which:event.keyCode;
 	if(c>31&&(c<48||c>57))return false;
 	return true;
 }
@@ -1031,6 +1030,7 @@ function f_checkUpdate(){
 	fetch('uno/central.php',{method:'post',body:x})
 	.then(r=>r.text())
 	.then(function(r){
+		let k;
 		r=r.split('|');
 		if(r[1]=='1')d+='<div id="lighter" style="float:right"><?php echo T_("Remove what is available online ? (recommended)"); ?> <span class="bouton" onClick="f_lighter();"><?php echo T_("Lighten"); ?></span></div>';
 		d+='<table><tr><td>CMSUno</td>';
@@ -1042,7 +1042,7 @@ function f_checkUpdate(){
 		a.innerHTML=d;
 		a.appendChild(c);
 		window.scrollTo(0,document.body.scrollHeight);
-		for(let k in Upluglist)(function(k){
+		for(k in Upluglist)(function(k){
 			let v=Upluglist[k];
 			if(v.substr(0,1)!='9'){
 				++b;
@@ -1130,8 +1130,8 @@ f_init();
 <style>.picker-wrapper,.slide-wrapper{position:relative;float:left;}.picker-indicator,.slide-indicator{position:absolute;left:0;top:0;pointer-events:none;}.picker,.slide{cursor:crosshair;float:left;}.cp-small{padding:5px;background-color:white;float:left;border-radius:5px;}.cp-small .picker{width:100px;height:100px;}.cp-small .slide{width:15px;height:100px;}.cp-small .slide-wrapper{margin-left:5px;}.cp-small .picker-indicator{width:1px;height:1px;border:1px solid black;background-color:white;}.cp-small .slide-indicator{width:100%;height:2px;left:0px;background-color:black;}</style>
 <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $Udep; ?>includes/css/jquery-ui.css" />
 <link rel="stylesheet" type="text/css" media="screen" href="uno/includes/elfinder/css/elfinder.min.css" />
-<script type="text/javascript" src="<?php echo ($Udep=='uno/'?'uno/includes/js/jquery.min.js':'//ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo ($Udep=='uno/'?'uno/includes/js/jquery-ui.min.js':'//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo ($Udep=='uno/'?'uno/includes/js/jquery.min.js':'//ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo ($Udep=='uno/'?'uno/includes/js/jquery-ui.min.js':'//ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js'); ?>"></script>
 <script type="text/javascript" src="uno/includes/elfinder/js/elfinder.min.js"></script>
 <?php if($lang!='en' && $lang!='') echo '<script type="text/javascript" src="uno/includes/elfinder/js/i18n/elfinder.'.$lang.'.js"></script>'; ?>
 <script type="text/javascript" src="<?php echo $Udep; ?>includes/js/colorpicker.min.js"></script>

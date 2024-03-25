@@ -1,4 +1,5 @@
 <?php
+session_set_cookie_params(['path'=>'/;SameSite=Strict', 'samesite'=>'Strict']);
 session_start(); 
 if(!isset($_SESSION['unox'])) {sleep(2);exit;} // appel depuis uno.php
 ?>

@@ -1,8 +1,9 @@
+<!DOCTYPE html>
 <?php
 // **********************************
 // CMSUno
-$version = '1.9.4';
-$previousVersion = '1.9.3';
+$version = '1.9.5';
+$previousVersion = '1.9.4';
 // **********************************
 // *** DEBUG MODE ***
 //	error_reporting(E_ALL); ini_set('display_errors',1);
@@ -10,6 +11,7 @@ $previousVersion = '1.9.3';
 $lang = 'en';
 $Urawgit = 'https://cdn.jsdelivr.net/gh/boiteasite/cmsuno@';
 $Udep = 'uno/';
+session_set_cookie_params(['path'=>'/;SameSite=Strict', 'samesite'=>'Strict']);
 ini_set('session.use_trans_sid', 0);
 session_start();
 if(is_writable(dirname(__FILE__).'/uno')) {
@@ -124,7 +126,7 @@ else {
 					}
 					else $errpass = T_('Impossible backup');
 				}
-				if(empty($errpass)) echo '<script type="text/javascript">var u=document.URL.split("?")[0];window.location=u;</script>';
+				if(empty($errpass)) echo '<script type="text/javascript">let u=document.URL.split("?")[0];window.location=u;</script>';
 				else {
 					echo '<script type="text/javascript">alert("'.$errpass.'");</script>';
 					$restore = 1;
@@ -137,7 +139,6 @@ else {
 	$_SESSION['unox'] = $unox; // secure connection (CSRF)
 ?>
 
-<!DOCTYPE html>
 <html lang="<?php echo $lang; ?>">
 <head>
 	<meta charset="utf-8" />
