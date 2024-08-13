@@ -137,6 +137,8 @@ label.label{float:left;margin:4px 6px 0 0;}
 	padding:1px;z-index:-1;}
 .elfinder-workzone{height:511px!important;}
 .elfinder-workzone .elfinder-cwd-filename.ui-state-hover,#finderDiv .elfinder-cwd-filename.ui-state-hover{color:#000;background-color:#3875d7;}
+/* *** CKEDITOR - Hide LTS Warning *** */
+.cke_notifications_area{display:none!important}
 
 /* *** MEDIA *** */
 @media screen and (max-width:980px){

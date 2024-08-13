@@ -471,6 +471,8 @@ THE SOFTWARE.
 
 Versions
 --------
+* 1.9.6 - 13/08/2024 :
+	* Hide Ckeditor warning for the LTS paid version
 * 1.9.5 - 25/03/2024
 	* JQuery 3.7.1 - JQueryUI 1.13.2
 	* ELFinder 2.1.65
