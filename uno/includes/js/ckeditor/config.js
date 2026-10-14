@@ -29,4 +29,5 @@ CKEDITOR.editorConfig = function( config ) {
 	];
 	config.extraAllowedContent = '*[id](*)'; // id & class allowed
 	config.customConfig = "../../js/uno_ckeditor.js"; // CMSUNO
+	config.versionCheck = false; // Avoid unsecure warning version
 };

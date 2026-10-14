@@ -447,7 +447,7 @@ License
 CMSUno is under MIT license.
 
 <pre>
-Copyright (c) 2014-2024 Jacques Malgrange
+Copyright (c) 2014-2026 Jacques Malgrange
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -471,6 +471,9 @@ THE SOFTWARE.
 
 Versions
 --------
+* 1.10 - 14/10/2026 :
+	* jQuery 4.0 - jQuery migrate 4.0.2
+	* ELFinder 2.1.70
 * 1.9.6 - 13/08/2024 :
 	* Hide Ckeditor warning for the LTS paid version
 * 1.9.5 - 25/03/2024
