@@ -461,7 +461,7 @@ if(isset($_POST['action'])) {
 		$u = dirname($_SERVER['PHP_SELF']).'/../';
 		$Ucontent = str_replace($u,'',$Ucontent);
 		if(!empty($Ua['jq'])) {
-			$Uhead .= '<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/4.0/jquery.min.js"></script>'."\r\n";
+			$Uhead .= '<script type="text/javascript" src="https://code.jquery.com/jquery-4.0.0.min.js"></script>'."\r\n";
 			if($Udep=='uno/') $Uhead .= '<script type="text/javascript">window.jQuery || document.write(\'<script src="uno/includes/js/jquery.min.js">\x3C/script>\')</script>'."\r\n";
 			$Uhead .= '<script type="text/javascript" src="'.$Udep.'includes/js/jquery-migrate-4.0.2.min.js"></script>'."\r\n";
 		}
