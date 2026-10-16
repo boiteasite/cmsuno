@@ -471,6 +471,9 @@ THE SOFTWARE.
 
 Versions
 --------
+* 1.10.1 - 16/10/2026 :
+	* Fix jQuery 4.0 Url
+	* Fix incorrect sequence when loading JS code
 * 1.10 - 14/10/2026 :
 	* jQuery 4.0 - jQuery migrate 4.0.2
 	* ELFinder 2.1.70

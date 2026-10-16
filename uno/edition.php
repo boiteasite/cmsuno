@@ -246,12 +246,12 @@ function f_init(){
 	fetch('uno/central.php',{method:'post',body:x})
 	.then(r=>r.json())
 	.then(function(r){
-		let k,j;
+		let k,j,ed;
 		Ubusy=r['nom'];
 		Usty=r['sty'];
 		Utem=r['tem'];
-		if(Usty==0||!Utem)CKEDITOR.replace('content');
-		else CKEDITOR.replace('content',{contentsCss:['uno/template/'+Utem+'/style.css','uno/template/'+Utem+'/styles.css','uno/template/'+Utem+'/css/style.css','uno/template/'+Utem+'/css/style.css']});
+		if(Usty==0||!Utem)ed=CKEDITOR.replace('content');
+		else ed=CKEDITOR.replace('content',{contentsCss:['uno/template/'+Utem+'/style.css','uno/template/'+Utem+'/styles.css','uno/template/'+Utem+'/css/style.css','uno/template/'+Utem+'/css/style.css']});
 		if(r['pl'])for(k in r['pl']){
 			Uplugact[k]=r['pl'][k];
 		}
@@ -291,45 +291,47 @@ function f_init(){
 			c.innerHTML=r['chap'][k]['t'].replace(/\\/,"");
 			b.appendChild(c);
 		}
-		let x=new FormData();
-		x.set('action','getChap');
-		x.set('unox',Unox);
-		x.set('data',Upd[Up]);
-		fetch('uno/central.php',{method:'post',body:x})
-		.then(r=>r.text())
-		.then(function(s){
-			if(s.length<3)s+='-';
-			let a=s.substr(0,1);
-			CKEDITOR.instances['content'].setData(s.substr(1),function(){document.getElementById('wait').style.display='none';});
-			CKEDITOR.instances['content'].on('change',function(){
-				if(Udg==4){
+		ed.on('instanceReady',function(){
+			let x=new FormData();
+			x.set('action','getChap');
+			x.set('unox',Unox);
+			x.set('data',Upd[Up]);
+			fetch('uno/central.php',{method:'post',body:x})
+			.then(r=>r.text())
+			.then(function(s){
+				if(s.length<3)s+='-';
+				let a=s.substr(0,1);
+				CKEDITOR.instances['content'].setData(s.substr(1),function(){document.getElementById('wait').style.display='none';});
+				CKEDITOR.instances['content'].on('change',function(){
+					if(Udg==4){
+						document.getElementById('boutonSauv').className='bouton danger';
+						Udg=5;
+						Uch=1;
+					}
+					else if(Udg<4)Udg++;
+				});
+				document.getElementById('aplugin').style.display='inline';
+				document.getElementById('titreChap').onkeypress=function(){
 					document.getElementById('boutonSauv').className='bouton danger';
-					Udg=5;
+					Udg=1;
 					Uch=1;
 				}
-				else if(Udg<4)Udg++;
+				document.getElementById('aconfig').style.display='inline';
+				document.getElementById('menu').appendChild(b);
+				document.getElementById('optOnOff').className='onoff';
+				if(r.pub)document.getElementById('boutonPub').style.display='inline';
+				if(r.edw)document.getElementById('contentP').style.width=r.edw+'px';
+				document.getElementById('titreChap').value=Upt[Up].replace(/\\/,'');
+				document.getElementById('optTit').checked=((a==1||a==3||a==5||a==7)?true:false);
+				document.getElementById('optMenu').checked=((a==2||a==3||a==6||a==7)?true:false);
+				document.getElementById('optDisp').checked=((a==4||a==5||a==6||a==7)?true:false);
+				document.getElementById('chapOpt').style.display='none';
+				Uini=1;
+				Udg=0;
+				document.getElementById('boutonSauv').className='bouton';
+				f_menuSort()
+				if(r.nom)document.getElementById('avoir').href=r.nom+'.html';
 			});
-			document.getElementById('aplugin').style.display='inline';
-			document.getElementById('titreChap').onkeypress=function(){
-				document.getElementById('boutonSauv').className='bouton danger';
-				Udg=1;
-				Uch=1;
-			}
-			document.getElementById('aconfig').style.display='inline';
-			document.getElementById('menu').appendChild(b);
-			document.getElementById('optOnOff').className='onoff';
-			if(r.pub)document.getElementById('boutonPub').style.display='inline';
-			if(r.edw)document.getElementById('contentP').style.width=r.edw+'px';
-			document.getElementById('titreChap').value=Upt[Up].replace(/\\/,'');
-			document.getElementById('optTit').checked=((a==1||a==3||a==5||a==7)?true:false);
-			document.getElementById('optMenu').checked=((a==2||a==3||a==6||a==7)?true:false);
-			document.getElementById('optDisp').checked=((a==4||a==5||a==6||a==7)?true:false);
-			document.getElementById('chapOpt').style.display='none';
-			Uini=1;
-			Udg=0;
-			document.getElementById('boutonSauv').className='bouton';
-			f_menuSort()
-			if(r.nom)document.getElementById('avoir').href=r.nom+'.html';
 		});
 	});
 }
@@ -471,16 +473,21 @@ function f_get_chap(f){
 	.then(r=>r.text())
 	.then(function(r){
 		if(r.length<3)r+='-';
-		CKEDITOR.instances['content'].setData(r.substr(1));
-		let a=r.substr(0,1);
-		document.getElementById('optTit').checked=((a==1||a==3||a==5||a==7)?true:false);
-		document.getElementById('optMenu').checked=((a==2||a==3||a==6||a==7)?true:false);
-		document.getElementById('optDisp').checked=((a==4||a==5||a==6||a==7)?true:false);
-		document.getElementById('chapOpt').style.display='none';
-		Uini=1;
-		Udg=0;
-		document.getElementById('wait').style.display='none';
-		document.getElementById('boutonSauv').className='bouton';
+		function injectData(){
+			CKEDITOR.instances['content'].setData(r.substr(1));
+			let a=r.substr(0,1);
+			document.getElementById('optTit').checked=((a==1||a==3||a==5||a==7)?true:false);
+			document.getElementById('optMenu').checked=((a==2||a==3||a==6||a==7)?true:false);
+			document.getElementById('optDisp').checked=((a==4||a==5||a==6||a==7)?true:false);
+			document.getElementById('chapOpt').style.display='none';
+			Uini=1;
+			Udg=0;
+			document.getElementById('wait').style.display='none';
+			document.getElementById('boutonSauv').className='bouton';
+		}
+		if(CKEDITOR.instances['content']&&CKEDITOR.instances['content'].status==='ready')injectData();
+		else if(CKEDITOR.instances['content'])CKEDITOR.instances['content'].once('instanceReady',injectData);
+		else setTimeout(function(){f_get_chap(f);}, 50);
 	});
 }
 function f_save_chap(){
@@ -869,7 +876,10 @@ function f_plugin(f){
 			js.textContent=t;
 			document.head.appendChild(js);
 		})
-		.then(document.getElementById('wait').style.display='none');
+		.then(function(){
+			if(window.colorPick)colorPick('');
+			document.getElementById('wait').style.display='none';
+		});
 	});
 }
 function f_onPlug(f){
@@ -1055,9 +1065,7 @@ function f_checkUpdate(){
 				.then(function(r){
 					if(r.search('|')!=-1){
 						r=r.split('|');
-					//	if(r[0]!='1')c.innerHTML+='<tr><td>'+v.substr(1)+' : '+r[1]+'</td><td><?php echo T_("Up to date"); ?></td></tr>';
 						if(r[0]!='1')c.insertAdjacentHTML('beforeend','<tr><td>'+v.substr(1)+' : '+r[1]+'</td><td><?php echo T_("Up to date"); ?></td></tr>');
-					//	else c.innerHTML+='<tr id="T'+v.substr(1)+'"><td>'+v.substr(1)+' : '+r[1]+'</td><td><span class="bouton danger" onClick="f_update(\''+v.substr(1)+'\');"><?php echo T_("Update"); ?> '+r[2]+'</span></td></tr>';
 						else c.insertAdjacentHTML('beforeend','<tr id="T'+v.substr(1)+'"><td>'+v.substr(1)+' : '+r[1]+'</td><td><span class="bouton danger" onClick="f_update(\''+v.substr(1)+'\');"><?php echo T_("Update"); ?> '+r[2]+'</span></td></tr>');
 						window.scrollTo(0,document.body.scrollHeight);
 					}
